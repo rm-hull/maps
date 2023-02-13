@@ -1,13 +1,7 @@
 {
   "short_name": "OS Maps",
   "name": "OS Maps",
-  "icons": [
-    {
-      "src": "images/logo.svg",
-      "type": "image/svg+xml",
-      "sizes": "512x512"
-    }
-  ],
+  "icons": [],
   "start_url": ".",
   "display": "standalone",
   "theme_color": "#000000",
