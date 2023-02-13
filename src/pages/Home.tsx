@@ -1,7 +1,7 @@
 import * as L from "leaflet";
 import proj4 from "proj4";
 import "proj4leaflet";
-import { useGeolocated } from "react-geolocated";
+// import { useGeolocated } from "react-geolocated";
 import { MapContainer, TileLayer } from "react-leaflet";
 
 // Setup the EPSG:27700 (British National Grid) projection.
@@ -20,10 +20,10 @@ function transformCoords(arr: [number, number]): [number, number] {
 }
 
 export default function Home(): JSX.Element {
-  const { coords } = useGeolocated({
-    positionOptions: { enableHighAccuracy: true },
-    userDecisionTimeout: 5000,
-  });
+  // const { coords } = useGeolocated({
+  //   positionOptions: { enableHighAccuracy: true },
+  //   userDecisionTimeout: 5000,
+  // });
 
   return (
     <MapContainer
