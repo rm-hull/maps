@@ -2461,7 +2461,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@chakra-ui/styled-system@npm:2.5.2, @chakra-ui/styled-system@npm:^2.5.2":
+"@chakra-ui/styled-system@npm:2.5.2":
   version: 2.5.2
   resolution: "@chakra-ui/styled-system@npm:2.5.2"
   dependencies:
@@ -2469,6 +2469,17 @@ __metadata:
     csstype: ^3.0.11
     lodash.mergewith: 4.6.2
   checksum: 4036fa8b44e7d69deca2fe025d5ecdeac1fb2384c248a4ed42a6343cd5c71378da99c258d9288550d8f6459659470d75791a27632d271a4994ba36f59100f6c8
+  languageName: node
+  linkType: hard
+
+"@chakra-ui/styled-system@npm:^2.6.0":
+  version: 2.6.0
+  resolution: "@chakra-ui/styled-system@npm:2.6.0"
+  dependencies:
+    "@chakra-ui/shared-utils": 2.0.5
+    csstype: ^3.0.11
+    lodash.mergewith: 4.6.2
+  checksum: 5bf2ff2bf14277b09b58b345eed016b9bb20bbf1c9cb4ef5507764d57f72b0a1e3f4f8a200e03f080b15bbccff10bb929e83a3de4855908a6e13ed5712342de0
   languageName: node
   linkType: hard
 
@@ -15353,7 +15364,7 @@ __metadata:
   resolution: "zaup2@workspace:."
   dependencies:
     "@chakra-ui/react": ^2.4.9
-    "@chakra-ui/styled-system": ^2.5.2
+    "@chakra-ui/styled-system": ^2.6.0
     "@emotion/react": ^11.10.5
     "@emotion/styled": ^11.10.5
     "@testing-library/jest-dom": ^5.16.5
