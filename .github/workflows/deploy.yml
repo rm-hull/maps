@@ -18,6 +18,8 @@ jobs:
           cache: "yarn"
 
       - name: Install and Build 🔧
+        env:
+          REACT_APP_API_KEY: ${{ secrets.REACT_APP_API_KEY }}
         run: |
           yarn install
           yarn build
