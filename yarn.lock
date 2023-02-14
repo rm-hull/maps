@@ -12530,15 +12530,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-geolocated@npm:^4.0.3":
-  version: 4.0.3
-  resolution: "react-geolocated@npm:4.0.3"
-  peerDependencies:
-    react: ">= 16.8.0 < 19.0.0"
-  checksum: 51cba93ea6f07ecc63107596f14f940e539a7ee017420a49fd8bf8a5c8d26c6f15503b7b743281184e465573993b18e2eddedcaa39eb53c95b88fb70cda54a03
-  languageName: node
-  linkType: hard
-
 "react-icons@npm:^4.7.1":
   version: 4.7.1
   resolution: "react-icons@npm:4.7.1"
@@ -12566,6 +12557,17 @@ __metadata:
   version: 18.2.0
   resolution: "react-is@npm:18.2.0"
   checksum: e72d0ba81b5922759e4aff17e0252bd29988f9642ed817f56b25a3e217e13eea8a7f2322af99a06edb779da12d5d636e9fda473d620df9a3da0df2a74141d53e
+  languageName: node
+  linkType: hard
+
+"react-leaflet-custom-control@npm:^1.3.3":
+  version: 1.3.3
+  resolution: "react-leaflet-custom-control@npm:1.3.3"
+  peerDependencies:
+    leaflet: ^1.7.1
+    react: ^17.0.2 || ^18.0.0
+    react-dom: ^17.0.2 || ^18.0.0
+  checksum: 96bdda58cf45a207825bc3b88ec17b223113e9deadf5cfbcfe1fb7a535e8b7950d3f97bf34e709ae4ec18e2a24cd8bcf4b5ac7b62e8cf204bf007fbd7bb37862
   languageName: node
   linkType: hard
 
@@ -15431,9 +15433,9 @@ __metadata:
     react: ^18.2.0
     react-dom: ^18.2.0
     react-error-boundary: ^3.1.4
-    react-geolocated: ^4.0.3
     react-icons: ^4.7.1
     react-leaflet: ^4.2.0
+    react-leaflet-custom-control: ^1.3.3
     react-router-dom: ^6.8.1
     react-scripts: 5.0.1
     react-use: ^17.4.0
