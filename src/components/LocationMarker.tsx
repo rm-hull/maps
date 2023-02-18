@@ -40,12 +40,17 @@ export default function LocationMarker({ onChange }: LocationMarkerProps) {
       )}
       <Control prepend position="topright">
         <Button
-          color="inherit"
           background="white"
           variant="outline"
           onClick={handleLocate}
           disabled={!position}
           padding={0}
+          borderWidth={2}
+          borderColor="rgba(0,0,0,0.25)"
+          fontSize="1.5rem"
+          color="rgba(0,0,0,0.5)"
+          borderRadius={5}
+          size="lg"
         >
           <IoMdLocate />
         </Button>
