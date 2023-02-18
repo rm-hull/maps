@@ -1,7 +1,7 @@
 import * as L from "leaflet";
 import proj4 from "proj4";
 import "proj4leaflet";
-import { MapContainer, TileLayer } from "react-leaflet";
+import { LayerGroup, LayersControl, MapContainer, TileLayer } from "react-leaflet";
 import LocationMarker from "./LocationMarker";
 
 const apiKey = process.env.REACT_APP_API_KEY;
@@ -34,12 +34,34 @@ export default function OSMap({ center }: OSMapProps) {
       maxZoom={13}
       center={center ?? transformCoords([337297, 503695])}
       maxBounds={[transformCoords([-238375.0, 0.0]), transformCoords([900000.0, 1376256.0])]}
-      scrollWheelZoom={false}
+      scrollWheelZoom={true}
       style={{ width: "100vw", height: "100vh" }}
       attributionControl={false}
     >
-      <TileLayer url={`https://api.os.uk/maps/raster/v1/zxy/Leisure_27700/{z}/{x}/{y}.png?key=${apiKey}`} maxZoom={9} />
-      <TileLayer url={`https://api.os.uk/maps/raster/v1/zxy/Road_27700/{z}/{x}/{y}.png?key=${apiKey}`} minZoom={10} />
+      <LayersControl position="topright">
+        <LayersControl.BaseLayer name="Leisure">
+          <LayerGroup>
+            <TileLayer
+              url={`https://api.os.uk/maps/raster/v1/zxy/Leisure_27700/{z}/{x}/{y}.png?key=${apiKey}`}
+              maxZoom={9}
+            />
+            <TileLayer
+              url={`https://api.os.uk/maps/raster/v1/zxy/Road_27700/{z}/{x}/{y}.png?key=${apiKey}`}
+              minZoom={10}
+            />
+          </LayerGroup>
+        </LayersControl.BaseLayer>
+        <LayersControl.BaseLayer name="Roads" checked>
+          <TileLayer url={`https://api.os.uk/maps/raster/v1/zxy/Road_27700/{z}/{x}/{y}.png?key=${apiKey}`} />
+        </LayersControl.BaseLayer>
+        <LayersControl.BaseLayer name="Outdoor">
+          <TileLayer url={`https://api.os.uk/maps/raster/v1/zxy/Outdoor_27700/{z}/{x}/{y}.png?key=${apiKey}`} />
+        </LayersControl.BaseLayer>
+        <LayersControl.BaseLayer name="Light">
+          <TileLayer url={`https://api.os.uk/maps/raster/v1/zxy/Light_27700/{z}/{x}/{y}.png?key=${apiKey}`} />
+        </LayersControl.BaseLayer>
+      </LayersControl>
+
       <LocationMarker />
     </MapContainer>
   );
