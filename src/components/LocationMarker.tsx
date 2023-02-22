@@ -22,7 +22,7 @@ export default function LocationMarker() {
   });
   const map = useMapEvents({
     locationfound(e) {
-      if (!locationDetails.pending) {
+      if (locationDetails.pending) {
         map.flyTo(e.latlng, map.getZoom());
       }
 
