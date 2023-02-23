@@ -2,6 +2,8 @@ import { ChakraProvider, ColorModeScript, createLocalStorageManager, theme } fro
 import React from "react";
 import { createRoot } from "react-dom/client";
 import { ErrorBoundary } from "react-error-boundary";
+import { QueryClient, QueryClientProvider } from "react-query";
+import { ReactQueryDevtools } from "react-query/devtools";
 import { BrowserRouter as Router } from "react-router-dom";
 import { App } from "./App";
 import ErrorFallback from "./components/ErrorFallback";
@@ -15,17 +17,21 @@ if (!container) {
 
 const root = createRoot(container);
 const manager = createLocalStorageManager("maps.color-mode");
+const queryClient = new QueryClient();
 
 root.render(
   <React.StrictMode>
     <ColorModeScript storageKey="maps.color-mode" />
-    <ChakraProvider theme={theme} colorModeManager={manager}>
-      <Router basename="/maps">
-        <ErrorBoundary FallbackComponent={ErrorFallback}>
-          <App />
-        </ErrorBoundary>
-      </Router>
-    </ChakraProvider>
+    <QueryClientProvider client={queryClient}>
+      <ReactQueryDevtools initialIsOpen={false} />
+      <ChakraProvider theme={theme} colorModeManager={manager}>
+        <Router basename="/maps">
+          <ErrorBoundary FallbackComponent={ErrorFallback}>
+            <App />
+          </ErrorBoundary>
+        </Router>
+      </ChakraProvider>
+    </QueryClientProvider>
   </React.StrictMode>
 );
 

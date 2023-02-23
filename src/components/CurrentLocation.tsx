@@ -5,6 +5,7 @@ import { IoMdLocate } from "react-icons/io";
 import { Marker, Popup, useMapEvents } from "react-leaflet";
 import Control from "react-leaflet-custom-control";
 import { useInterval } from "react-use";
+import NearestInfo from "./NearestInfo";
 
 type LocationDetails = {
   position?: LatLng;
@@ -14,22 +15,22 @@ type LocationDetails = {
   cancelTimerId?: NodeJS.Timeout;
 };
 
-export default function LocationMarker() {
+export default function CurrentLocation() {
   const [locationDetails, setLocationDetails] = useState<LocationDetails>({
     active: false,
     pending: true,
     lastUpdated: Date.now(),
   });
   const map = useMapEvents({
-    locationfound(e) {
+    locationfound(event) {
       if (locationDetails.pending) {
-        map.flyTo(e.latlng, map.getZoom());
+        map.flyTo(event.latlng, map.getZoom());
       }
 
       setLocationDetails((prev) => ({
         ...prev,
         pending: false,
-        position: e.latlng,
+        position: event.latlng,
         lastUpdated: Date.now(),
       }));
     },
@@ -41,7 +42,10 @@ export default function LocationMarker() {
     }
   }, 10_000);
 
-  const activate = () => {
+  const activate = (event: React.MouseEvent<HTMLButtonElement>) => {
+    event.stopPropagation();
+    event.preventDefault();
+
     map.locate();
 
     clearTimeout(locationDetails.cancelTimerId);
@@ -64,9 +68,7 @@ export default function LocationMarker() {
           position={locationDetails.position}
           opacity={locationDetails.active && !locationDetails.pending ? 1 : 0.6}
         >
-          <Popup>
-            <p>You are here: {locationDetails.position.toString()}</p>
-          </Popup>
+          <NearestInfo latLng={locationDetails.position} render={(children) => <Popup>{children}</Popup>} />
         </Marker>
       )}
       <Control prepend position="topright">

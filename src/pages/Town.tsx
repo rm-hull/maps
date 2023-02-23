@@ -1,3 +1,4 @@
+import { LatLngTuple } from "leaflet";
 import { useParams } from "react-router-dom";
 import NotFound from "../components/NotFound";
 import OSMap from "../components/OSMap";
@@ -8,7 +9,7 @@ export default function Town() {
   const { town } = useParams<{ town: string }>();
 
   const key = town?.toLowerCase() ?? "";
-  const coords = data[key] as [number, number] | undefined;
+  const coords = data[key] as LatLngTuple | undefined;
   if (!coords) {
     return <NotFound town={key} />;
   }

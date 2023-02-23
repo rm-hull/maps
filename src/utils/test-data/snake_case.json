@@ -1,0 +1,41 @@
+{
+  "header": {
+    "format": "JSON",
+    "maxresults": 1,
+    "offset": 0,
+    "query": "point=440200,449300 radius=100",
+    "totalresults": 1,
+    "uri": "https://api.os.uk/search/names/v1/nearest?point=440200%2C449300"
+  },
+  "results": [
+    {
+      "GAZETTEER_ENTRY": {
+        "COUNTRY": "England",
+        "COUNTRY_URI": "http://data.ordnancesurvey.co.uk/id/country/england",
+        "DISTRICT_BOROUGH": "Leeds",
+        "DISTRICT_BOROUGH_TYPE": "http://data.ordnancesurvey.co.uk/ontology/admingeo/MetropolitanDistrict",
+        "DISTRICT_BOROUGH_URI": "http://data.ordnancesurvey.co.uk/id/7000000000016675",
+        "GEOMETRY_X": 440177.0,
+        "GEOMETRY_Y": 449340.0,
+        "ID": "osgb4000000010950754",
+        "LEAST_DETAIL_VIEW_RES": 20000,
+        "LOCAL_TYPE": "Named Road",
+        "MBR_XMAX": 440209.0,
+        "MBR_XMIN": 440126.0,
+        "MBR_YMAX": 449443.0,
+        "MBR_YMIN": 449279.0,
+        "MOST_DETAIL_VIEW_RES": 1000,
+        "NAME1": "Ainsty Crescent",
+        "NAMES_URI": "http://data.ordnancesurvey.co.uk/id/4000000010950754",
+        "POPULATED_PLACE": "Wetherby",
+        "POPULATED_PLACE_TYPE": "http://www.ordnancesurvey.co.uk/xml/codelists/localtype.xml#town",
+        "POPULATED_PLACE_URI": "http://data.ordnancesurvey.co.uk/id/4000000074560559",
+        "POSTCODE_DISTRICT": "LS22",
+        "POSTCODE_DISTRICT_URI": "http://data.ordnancesurvey.co.uk/id/postcodedistrict/LS22",
+        "REGION": "Yorkshire and the Humber",
+        "REGION_URI": "http://data.ordnancesurvey.co.uk/id/7000000000041430",
+        "TYPE": "transportNetwork"
+      }
+    }
+  ]
+}
