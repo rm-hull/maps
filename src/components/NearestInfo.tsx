@@ -7,9 +7,11 @@ type GPSProps = {
   latLng: LatLng;
   accuracy?: number;
   timestamp?: number;
+  altitude?: number;
+  heading?: number;
 };
 
-function GPS({ latLng, accuracy, timestamp }: GPSProps) {
+function GPS({ latLng, altitude, heading, accuracy, timestamp }: GPSProps) {
   const [easting, northing] = toBNG(latLng);
 
   return (
@@ -24,13 +26,24 @@ function GPS({ latLng, accuracy, timestamp }: GPSProps) {
       </Tr>
       <Tr>
         <Th>Latitude</Th>
-        <Td>{latLng.lat.toFixed(7)}</Td>
+        <Td>{latLng.lat.toFixed(7)} N</Td>
       </Tr>
       <Tr>
         <Th>Longitude</Th>
-        <Td>{latLng.lng.toFixed(7)}</Td>
+        <Td>{latLng.lng.toFixed(7)} E</Td>
       </Tr>
-
+      {altitude && (
+        <Tr>
+          <Th>Altitude</Th>
+          <Td>{altitude} m</Td>
+        </Tr>
+      )}
+      {heading && (
+        <Tr>
+          <Th>Heading</Th>
+          <Td>{heading}°</Td>
+        </Tr>
+      )}
       {accuracy && (
         <Tr>
           <Th>GPS Accuracy</Th>
@@ -51,7 +64,7 @@ type NearestInfoProps = GPSProps & {
   render(children: JSX.Element): JSX.Element;
 };
 
-export default function NearestInfo({ latLng, accuracy, timestamp, render }: NearestInfoProps) {
+export default function NearestInfo({ latLng, altitude, heading, accuracy, timestamp, render }: NearestInfoProps) {
   const bng = toBNG(latLng);
   const { data, status } = useNearest(bng);
 
@@ -64,7 +77,7 @@ export default function NearestInfo({ latLng, accuracy, timestamp, render }: Nea
       <TableContainer>
         <Table size="sm">
           <Tbody>
-            <GPS latLng={latLng} accuracy={accuracy} timestamp={timestamp} />
+            <GPS latLng={latLng} altitude={altitude} heading={heading} accuracy={accuracy} timestamp={timestamp} />
           </Tbody>
         </Table>
       </TableContainer>
@@ -91,7 +104,7 @@ export default function NearestInfo({ latLng, accuracy, timestamp, render }: Nea
             <Th>Region</Th>
             <Td>{countyUnitary ?? region}</Td>
           </Tr>
-          <GPS latLng={latLng} accuracy={accuracy} timestamp={timestamp} />
+          <GPS latLng={latLng} altitude={altitude} heading={heading} accuracy={accuracy} timestamp={timestamp} />
         </Tbody>
       </Table>
     </TableContainer>
