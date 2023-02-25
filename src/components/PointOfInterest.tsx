@@ -13,5 +13,14 @@ export default function PointOfInterest() {
     return null;
   }
 
-  return <NearestInfo latLng={position} render={(children) => <Popup position={position}>{children}</Popup>} />;
+  return (
+    <NearestInfo
+      latLng={position}
+      render={(children) => (
+        <Popup position={position} autoClose={false}>
+          {children}
+        </Popup>
+      )}
+    />
+  );
 }

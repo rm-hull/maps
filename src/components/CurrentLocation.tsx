@@ -74,7 +74,7 @@ export default function CurrentLocation() {
               latLng={locationDetails.position}
               accuracy={locationDetails.accuracy}
               timestamp={locationDetails.timestamp}
-              render={(children) => <Popup>{children}</Popup>}
+              render={(children) => <Popup autoClose={false}>{children}</Popup>}
             />
           </Marker>
         </>
