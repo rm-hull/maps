@@ -2,14 +2,14 @@ import { Button } from "@chakra-ui/react";
 import { LatLng } from "leaflet";
 import { useState } from "react";
 import { IoMdLocate } from "react-icons/io";
-import { Marker, Popup, useMapEvents } from "react-leaflet";
+import { Circle, Marker, Popup, useMapEvents } from "react-leaflet";
 import Control from "react-leaflet-custom-control";
-import { useInterval } from "react-use";
 import NearestInfo from "./NearestInfo";
 
 type LocationDetails = {
   position?: LatLng;
-  lastUpdated: number;
+  accuracy?: number;
+  timestamp?: number;
   active: boolean;
   pending: boolean;
   cancelTimerId?: NodeJS.Timeout;
@@ -19,7 +19,6 @@ export default function CurrentLocation() {
   const [locationDetails, setLocationDetails] = useState<LocationDetails>({
     active: false,
     pending: true,
-    lastUpdated: Date.now(),
   });
   const map = useMapEvents({
     locationfound(event) {
@@ -31,27 +30,23 @@ export default function CurrentLocation() {
         ...prev,
         pending: false,
         position: event.latlng,
-        lastUpdated: Date.now(),
+        accuracy: event.accuracy,
+        timestamp: event.timestamp,
       }));
     },
   });
-
-  useInterval(() => {
-    if (locationDetails.active) {
-      map.locate();
-    }
-  }, 10_000);
 
   const activate = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.stopPropagation();
     event.preventDefault();
 
-    map.locate();
+    map.locate({ enableHighAccuracy: true, watch: true });
 
     clearTimeout(locationDetails.cancelTimerId);
     const timerId = setTimeout(() => {
+      map.stopLocate();
       setLocationDetails((prev) => ({ ...prev, active: false }));
-    }, 120_000);
+    }, 180_000);
 
     setLocationDetails((prev) => ({
       ...prev,
@@ -64,12 +59,25 @@ export default function CurrentLocation() {
   return (
     <>
       {locationDetails.position && (
-        <Marker
-          position={locationDetails.position}
-          opacity={locationDetails.active && !locationDetails.pending ? 1 : 0.6}
-        >
-          <NearestInfo latLng={locationDetails.position} render={(children) => <Popup>{children}</Popup>} />
-        </Marker>
+        <>
+          <Circle
+            center={locationDetails.position}
+            pathOptions={{ fillColor: "lightblue" }}
+            radius={locationDetails.accuracy}
+            stroke={false}
+          />
+          <Marker
+            position={locationDetails.position}
+            opacity={locationDetails.active && !locationDetails.pending ? 1 : 0.6}
+          >
+            <NearestInfo
+              latLng={locationDetails.position}
+              accuracy={locationDetails.accuracy}
+              timestamp={locationDetails.timestamp}
+              render={(children) => <Popup>{children}</Popup>}
+            />
+          </Marker>
+        </>
       )}
       <Control prepend position="topright">
         <Button
