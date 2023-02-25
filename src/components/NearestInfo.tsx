@@ -35,7 +35,7 @@ function GPS({ latLng, altitude, heading, accuracy, timestamp }: GPSProps) {
       {altitude && (
         <Tr>
           <Th>Altitude</Th>
-          <Td>{altitude} m</Td>
+          <Td>{altitude.toFixed(1)} m</Td>
         </Tr>
       )}
       {heading && (
@@ -47,7 +47,7 @@ function GPS({ latLng, altitude, heading, accuracy, timestamp }: GPSProps) {
       {accuracy && (
         <Tr>
           <Th>GPS Accuracy</Th>
-          <Td>{accuracy} m</Td>
+          <Td>{accuracy.toFixed(0)} m</Td>
         </Tr>
       )}
       {timestamp && (
