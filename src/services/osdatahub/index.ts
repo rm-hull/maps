@@ -11,8 +11,14 @@ const client = axios.create({
 });
 client.interceptors.response.use(convertKeys, Promise.reject);
 
-export const fetchNearest = async ([easting, northing]: BritishNationalGrid): Promise<Response> => {
+export const nearest = async ([easting, northing]: BritishNationalGrid): Promise<Response> => {
   const params = { point: `${easting},${northing}` };
   const response = await client.get<Response>("/search/names/v1/nearest", { params });
+  return response.data;
+};
+
+export const find = async (query: string, maxResults: number): Promise<Response> => {
+  const params = { query, maxResults };
+  const response = await client.get<Response>("/search/names/v1/find", { params });
   return response.data;
 };
