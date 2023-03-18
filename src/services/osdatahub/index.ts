@@ -5,7 +5,7 @@ import { BritishNationalGrid, Response } from "./types";
 export const API_KEY = process.env.REACT_APP_OS_DATAHUB_API_KEY;
 
 const client = axios.create({
-  baseURL: `https://api.os.uk`,
+  baseURL: "https://api.os.uk",
   timeout: 10000,
   params: { key: API_KEY },
 });
