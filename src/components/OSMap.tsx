@@ -4,6 +4,7 @@ import { LayerGroup, LayersControl, MapContainer, ScaleControl, TileLayer } from
 import { API_KEY } from "../services/osdatahub";
 import { toLatLng } from "../services/osdatahub/helpers";
 import CurrentLocation from "./CurrentLocation";
+import ImagesLayer from "./ImagesLayer";
 import PointOfInterest from "./PointOfInterest";
 
 // Setup the EPSG:27700 (British National Grid) projection.
@@ -34,6 +35,7 @@ export default function OSMap({ center }: OSMapProps) {
       attributionControl={false}
     >
       <PointOfInterest />
+
       <LayersControl position="topright">
         <LayersControl.BaseLayer name="Leisure">
           <LayerGroup>
@@ -56,6 +58,10 @@ export default function OSMap({ center }: OSMapProps) {
         <LayersControl.BaseLayer name="Light">
           <TileLayer url={`https://api.os.uk/maps/raster/v1/zxy/Light_27700/{z}/{x}/{y}.png?key=${API_KEY}`} />
         </LayersControl.BaseLayer>
+
+        <LayersControl.Overlay name="Geograph">
+          <ImagesLayer minZoom={10} />
+        </LayersControl.Overlay>
       </LayersControl>
       <CurrentLocation />
       <ScaleControl position="bottomright" />
