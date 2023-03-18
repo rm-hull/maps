@@ -2,7 +2,7 @@ import { Button } from "@chakra-ui/react";
 import { LatLng } from "leaflet";
 import { useState } from "react";
 import { IoMdLocate } from "react-icons/io";
-import { Circle, Marker, Popup, useMapEvents } from "react-leaflet";
+import { Circle, Marker, Popup, useMapEvent } from "react-leaflet";
 import Control from "react-leaflet-custom-control";
 import NearestInfo from "./NearestInfo";
 
@@ -20,20 +20,18 @@ export default function CurrentLocation() {
     active: false,
     pending: true,
   });
-  const map = useMapEvents({
-    locationfound(event) {
-      if (locationDetails.pending) {
-        map.flyTo(event.latlng, map.getZoom());
-      }
+  const map = useMapEvent("locationfound", (event) => {
+    if (locationDetails.pending) {
+      map.flyTo(event.latlng, map.getZoom());
+    }
 
-      setLocationDetails((prev) => ({
-        ...prev,
-        pending: false,
-        position: event.latlng,
-        accuracy: event.accuracy,
-        timestamp: event.timestamp,
-      }));
-    },
+    setLocationDetails((prev) => ({
+      ...prev,
+      pending: false,
+      position: event.latlng,
+      accuracy: event.accuracy,
+      timestamp: event.timestamp,
+    }));
   });
 
   const activate = (event: React.MouseEvent<HTMLButtonElement>) => {
