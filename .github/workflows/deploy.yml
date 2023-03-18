@@ -19,7 +19,8 @@ jobs:
 
       - name: Install and Build 🔧
         env:
-          REACT_APP_API_KEY: ${{ secrets.REACT_APP_API_KEY }}
+          REACT_APP_OS_DATAHUB_API_KEY: ${{ secrets.REACT_APP_OS_DATAHUB_API_KEY }}
+          REACT_APP_GEOGRAPH_API_KEY: ${{ secrets.REACT_APP_GEOGRAPH_API_KEY }}
         run: |
           yarn install
           yarn build
