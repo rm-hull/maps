@@ -8082,9 +8082,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"framer-motion@npm:^9.1.7":
-  version: 9.1.7
-  resolution: "framer-motion@npm:9.1.7"
+"framer-motion@npm:^10.12.8":
+  version: 10.12.8
+  resolution: "framer-motion@npm:10.12.8"
   dependencies:
     "@emotion/is-prop-valid": ^0.8.2
     tslib: ^2.4.0
@@ -8094,7 +8094,12 @@ __metadata:
   dependenciesMeta:
     "@emotion/is-prop-valid":
       optional: true
-  checksum: 8ab21a2c15eb2494644b09c91c91aec3c01575e2148ff17621df4fca44bc64a8c03bc1cf6a5261ec0cebb7504fea8d75480e93b1799e8842337f8b1863af8c14
+  peerDependenciesMeta:
+    react:
+      optional: true
+    react-dom:
+      optional: true
+  checksum: 2e21e06eed99967e816c27101cc4d438048d9c7c36d318acfdb4f3d14eee593b022696303a9416032caf735f6817cdc6b287a7ed004b21d07f67c7cbe534edfe
   languageName: node
   linkType: hard
 
@@ -15619,7 +15624,7 @@ __metadata:
     eslint-plugin-react: ^7.32.2
     eslint-plugin-react-hooks: ^4.6.0
     eslint-plugin-testing-library: ^5.10.2
-    framer-motion: ^9.1.7
+    framer-motion: ^10.12.8
     leaflet: ^1.9.3
     prettier: ^2.8.4
     proj4leaflet: ^1.0.2
