@@ -18,8 +18,8 @@ REACT_APP_GEOGRAPH_API_KEY=<your Geograph API key here>
 You will need to sign up for accounts on the [OS DataHub](https://osdatahub.os.uk/)
 and [Geograph UK](https://www.geograph.org.uk/) and obtain API keys. 
 
-Then `yarn install` and `yarn start` will runs the app in the development mode. Open
-[http://localhost:3000](http://localhost:3000) to view it in the browser.
+Then `yarn install` to pull in all the dependencies, while `yarn start` will run the app
+in development mode. Open http://localhost:3000 to view it in the browser.
 
 The page will reload if you make edits. You will also see any lint errors
 in the console.
