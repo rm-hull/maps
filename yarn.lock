@@ -4479,14 +4479,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/react@npm:17.0.30":
-  version: 17.0.30
-  resolution: "@types/react@npm:17.0.30"
+"@types/react@npm:18.2.36":
+  version: 18.2.36
+  resolution: "@types/react@npm:18.2.36"
   dependencies:
     "@types/prop-types": "npm:*"
     "@types/scheduler": "npm:*"
     csstype: "npm:^3.0.2"
-  checksum: 888a928621fcb44507fbd7a56c6cb56f501b38024d25f6b04a4e87b84309ea9090d1e18e0b8d3d04ef72be8278edf470b31620fcd52fb98056b6e4ad5f0dfe82
+  checksum: 4dac0a9f808b0da01029146efe7eeed454da68d01f0f73d417c95d691460f210b9baeb5fa756015f5a048825a1145a7dcb6c6d9c3e4e7876c683edf9892c383b
   languageName: node
   linkType: hard
 
@@ -16547,7 +16547,7 @@ __metadata:
     "@types/leaflet": "npm:^1.9.7"
     "@types/node": "npm:^20.8.9"
     "@types/proj4leaflet": "npm:^1.0.9"
-    "@types/react": "npm:^18.2.32"
+    "@types/react": "npm:^18.2.36"
     "@types/react-dom": "npm:^18.2.14"
     "@typescript-eslint/eslint-plugin": "npm:^6.9.0"
     "@typescript-eslint/parser": "npm:^6.9.0"
