@@ -4,7 +4,7 @@
   "license": "MIT",
   "homepage": "https://destructuring-bind.org/maps",
   "resolutions": {
-    "@types/react": "17.0.30"
+    "@types/react": "18.2.37"
   },
   "dependencies": {
     "@chakra-ui/react": "^2.8.1",
@@ -36,7 +36,7 @@
     "@types/leaflet": "^1.9.7",
     "@types/node": "^20.8.9",
     "@types/proj4leaflet": "^1.0.9",
-    "@types/react": "^18.2.32",
+    "@types/react": "^18.2.37",
     "@types/react-dom": "^18.2.14",
     "@typescript-eslint/eslint-plugin": "^6.9.0",
     "@typescript-eslint/parser": "^6.9.0",
