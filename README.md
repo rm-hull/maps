@@ -2,9 +2,9 @@
 
 UK Ordance Survey maps, supporting multiple styles and points of interest. By default, visiting https://www.destructuring-bind.org/maps/ will center on Ambleside (for no particular reason). If you want to start (or sniff around) at a particular town or postcode, add it to the URL, e.g. https://www.destructuring-bind.org/maps/Nottingham or https://www.destructuring-bind.org/maps/PH1+1BD
 
-![maps-leisure](./doc/screenshots/maps_leisure.png)
+![maps-leisure](./doc/screenshots/maps_leisure.webp)
 
-![maps-roads](./doc/screenshots/maps_roads.png)
+![maps-roads](./doc/screenshots/maps_roads.webp)
 
 ## Runing it locally
 
@@ -29,11 +29,11 @@ in the console.
 Fork the repo, and Github actions will/should deploy the app to Github pages. You will almost
 certainly have to manually edit your settings to deploy from the `gh-pages` branch:
 
-![github-pages](./doc/screenshots/github_pages.png)
+![github-pages](./doc/screenshots/github_pages.webp)
 
 And then, create secrets from the API keys:
 
-![github-secrets](./doc/screenshots/github_secrets.png)
+![github-secrets](./doc/screenshots/github_secrets.webp)
 
 ## MIT License
 
