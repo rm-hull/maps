@@ -6,6 +6,7 @@ import { toLatLng } from "../services/osdatahub/helpers";
 import CurrentLocation from "./CurrentLocation";
 import ImagesLayer from "./ImagesLayer";
 import PointOfInterest from "./PointOfInterest";
+import SearchBox from "./SearchBox";
 
 // Setup the EPSG:27700 (British National Grid) projection.
 const crs = new L.Proj.CRS(
@@ -35,6 +36,7 @@ export default function OSMap({ center }: OSMapProps) {
       attributionControl={false}
     >
       <PointOfInterest />
+      <SearchBox />
 
       <LayersControl position="topright">
         <LayersControl.BaseLayer name="Leisure">
