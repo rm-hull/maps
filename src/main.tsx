@@ -1,4 +1,5 @@
 import { ChakraProvider, ColorModeScript, createLocalStorageManager, theme } from "@chakra-ui/react";
+import "leaflet/dist/leaflet.css";
 import React from "react";
 import { createRoot } from "react-dom/client";
 import { ErrorBoundary } from "react-error-boundary";
@@ -7,8 +8,8 @@ import { ReactQueryDevtools } from "react-query/devtools";
 import { BrowserRouter as Router } from "react-router-dom";
 import { App } from "./App";
 import ErrorFallback from "./components/ErrorFallback";
+import { SettingsProvider } from "./components/settings/SettingsProvider";
 import reportWebVitals from "./reportWebVitals";
-import "leaflet/dist/leaflet.css";
 
 const container = document.getElementById("root");
 if (container === null) {
@@ -25,11 +26,13 @@ root.render(
     <QueryClientProvider client={queryClient}>
       <ReactQueryDevtools initialIsOpen={false} />
       <ChakraProvider theme={theme} colorModeManager={manager}>
-        <Router basename="/maps">
-          <ErrorBoundary FallbackComponent={ErrorFallback}>
-            <App />
-          </ErrorBoundary>
-        </Router>
+        <SettingsProvider>
+          <Router basename="/maps">
+            <ErrorBoundary FallbackComponent={ErrorFallback}>
+              <App />
+            </ErrorBoundary>
+          </Router>
+        </SettingsProvider>
       </ChakraProvider>
     </QueryClientProvider>
   </React.StrictMode>

@@ -3,7 +3,7 @@ import { type LatLng } from "leaflet";
 import { useState, type JSX } from "react";
 import { Circle, FeatureGroup, LayerGroup, Popup, useMap, useMapEvent } from "react-leaflet";
 import { Link as BrowserLink } from "react-router-dom";
-import useImages from "../hooks/useImages";
+import useImages from "../../hooks/useImages";
 
 interface ImagesProps {
   latLng: LatLng;

@@ -1,8 +1,8 @@
 import { Table, TableContainer, Tbody, Td, Th, Tr } from "@chakra-ui/react";
 import { type LatLng } from "leaflet";
 import { type JSX } from "react";
-import useNearest from "../hooks/useNearest";
-import { toBNG } from "../services/osdatahub/helpers";
+import useNearest from "../../hooks/useNearest";
+import { toBNG } from "../../services/osdatahub/helpers";
 
 interface GPSProps {
   latLng: LatLng;

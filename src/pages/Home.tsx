@@ -1,6 +1,14 @@
 import { type JSX } from "react";
-import OSMap from "../components/OSMap";
+import OSMap from "../components/map/OSMap";
+import SettingsModal from "../components/settings/SettingsModal";
+import useSettings from "../hooks/useSettings";
 
 export default function Home(): JSX.Element {
-  return <OSMap />;
+  const { isOpen, onClose } = useSettings();
+  return (
+    <>
+      <OSMap />
+      <SettingsModal isOpen={isOpen} onCancel={onClose} />
+    </>
+  );
 }

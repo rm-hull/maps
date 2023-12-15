@@ -2,7 +2,7 @@ import { Spinner } from "@chakra-ui/react";
 import { type JSX } from "react";
 import { useParams } from "react-router-dom";
 import Notice from "../components/Notice";
-import OSMap from "../components/OSMap";
+import OSMap from "../components/map/OSMap";
 import useFind from "../hooks/useFind";
 import { toLatLng } from "../services/osdatahub/helpers";
 

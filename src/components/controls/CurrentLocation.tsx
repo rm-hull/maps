@@ -4,7 +4,7 @@ import { useState, type JSX, type MouseEvent } from "react";
 import { IoMdLocate } from "react-icons/io";
 import { Circle, Marker, Popup, useMapEvent } from "react-leaflet";
 import Control from "react-leaflet-custom-control";
-import NearestInfo from "./NearestInfo";
+import NearestInfo from "../map/NearestInfo";
 
 interface LocationDetails {
   position?: LatLng;

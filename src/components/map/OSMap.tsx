@@ -2,9 +2,10 @@ import * as L from "leaflet";
 import "proj4leaflet";
 import { type JSX } from "react";
 import { LayerGroup, LayersControl, MapContainer, ScaleControl, TileLayer } from "react-leaflet";
-import { API_KEY } from "../services/osdatahub";
-import { toLatLng } from "../services/osdatahub/helpers";
-import CurrentLocation from "./CurrentLocation";
+import { API_KEY } from "../../services/osdatahub";
+import { toLatLng } from "../../services/osdatahub/helpers";
+import CurrentLocation from "../controls/CurrentLocation";
+import Settings from "../controls/Settings";
 import ImagesLayer from "./ImagesLayer";
 import PointOfInterest from "./PointOfInterest";
 
@@ -65,6 +66,7 @@ export default function OSMap({ center }: OSMapProps): JSX.Element {
         </LayersControl.Overlay>
       </LayersControl>
       <CurrentLocation />
+      <Settings />
       <ScaleControl position="bottomright" />
     </MapContainer>
   );
