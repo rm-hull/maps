@@ -3672,7 +3672,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/proj4@npm:*":
+"@types/proj4@npm:*, @types/proj4@npm:^2":
   version: 2.5.5
   resolution: "@types/proj4@npm:2.5.5"
   checksum: 06a1898ffff6d7b4a0da04249b431b129ae31c1a75decfdcbdde6b6d7a7cf9560f8506e89f441b6ebe287e66ef5d0fd3e7ca33f9eb30c1427f8b9989bd3dc578
@@ -7288,6 +7288,7 @@ __metadata:
     "@testing-library/user-event": "npm:^14.5.1"
     "@types/leaflet": "npm:^1.9.8"
     "@types/node": "npm:^20.10.4"
+    "@types/proj4": "npm:^2"
     "@types/proj4leaflet": "npm:^1.0.10"
     "@types/react": "npm:^18.2.45"
     "@types/react-dom": "npm:^18.2.17"
@@ -7314,6 +7315,7 @@ __metadata:
     framer-motion: "npm:^10.16.16"
     leaflet: "npm:^1.9.4"
     prettier: "npm:^3.1.1"
+    proj4: "npm:^2.9.2"
     proj4leaflet: "npm:^1.0.2"
     react: "npm:^18.2.0"
     react-dom: "npm:^18.2.0"
@@ -8045,7 +8047,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"proj4@npm:^2.3.14":
+"proj4@npm:^2.3.14, proj4@npm:^2.9.2":
   version: 2.9.2
   resolution: "proj4@npm:2.9.2"
   dependencies:
