@@ -1,3 +1,5 @@
+import { it, expect } from "vitest";
+
 import camelCaseData from "./test-data/camel_case.json";
 import snakeCaseData from "./test-data/snake_case.json";
 

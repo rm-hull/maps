@@ -1,11 +1,12 @@
 import { Spinner } from "@chakra-ui/react";
+import { type JSX } from "react";
 import { useParams } from "react-router-dom";
 import Notice from "../components/Notice";
 import OSMap from "../components/OSMap";
 import useFind from "../hooks/useFind";
 import { toLatLng } from "../services/osdatahub/helpers";
 
-export default function Search() {
+export default function Search(): JSX.Element {
   const { query } = useParams<{ query: string }>();
   const { data, isLoading, error } = useFind(query ?? "bloerew");
 

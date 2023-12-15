@@ -1,8 +1,8 @@
 {
-  "name": "zaup2",
-  "version": "2.0.0",
+  "name": "maps",
+  "version": "1.0.0",
   "license": "MIT",
-  "homepage": "https://destructuring-bind.org/maps",
+  "type": "module",
   "dependencies": {
     "@chakra-ui/react": "^2.8.2",
     "@chakra-ui/styled-system": "^2.9.2",
@@ -25,11 +25,10 @@
     "web-vitals": "^3.5.0"
   },
   "devDependencies": {
-    "@testing-library/jest-dom": "^6.1.5",
+    "@stylistic/eslint-plugin-ts": "^1.5.1",
+    "@testing-library/dom": "^9.3.3",
     "@testing-library/react": "^14.1.2",
     "@testing-library/user-event": "^14.5.1",
-    "@types/google-protobuf": "^3.15.12",
-    "@types/jest": "^29.5.11",
     "@types/leaflet": "^1.9.8",
     "@types/node": "^20.10.4",
     "@types/proj4leaflet": "^1.0.10",
@@ -37,29 +36,34 @@
     "@types/react-dom": "^18.2.17",
     "@typescript-eslint/eslint-plugin": "^6.14.0",
     "@typescript-eslint/parser": "^6.14.0",
+    "@vitejs/plugin-react": "^4.2.1",
+    "@vitest/coverage-v8": "^1.0.4",
     "eslint": "8.55.0",
     "eslint-config-prettier": "^9.1.0",
     "eslint-config-react-app": "^7.0.1",
-    "eslint-plugin-cypress": "^2.15.1",
-    "eslint-plugin-import": "^2.29.1",
-    "eslint-plugin-jest": "^27.6.0",
+    "eslint-config-standard-with-typescript": "^42.0.0",
+    "eslint-plugin-import": "^2.29.0",
     "eslint-plugin-jsx-a11y": "^6.8.0",
+    "eslint-plugin-n": "^16.3.1",
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-prettier": "^5.0.1",
     "eslint-plugin-promise": "^6.1.1",
     "eslint-plugin-react": "^7.33.2",
     "eslint-plugin-react-hooks": "^4.6.0",
+    "eslint-plugin-react-refresh": "^0.4.5",
     "eslint-plugin-testing-library": "^6.2.0",
     "prettier": "^3.1.1",
-    "react-scripts": "5.0.1",
-    "ts-node": "^10.9.2",
-    "typescript": "^5.3.3"
+    "typescript": "^5.3.3",
+    "vite": "^5.0.10",
+    "vitest": "^1.0.4"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
+    "test": "vitest",
+    "test:ci": "vitest run --coverage",
+    "preview": "vite preview"
   },
   "browserslist": {
     "production": [

@@ -1,21 +1,21 @@
 import { Button } from "@chakra-ui/react";
-import { LatLng } from "leaflet";
-import { useState } from "react";
+import { type LatLng } from "leaflet";
+import { useState, type JSX, type MouseEvent } from "react";
 import { IoMdLocate } from "react-icons/io";
 import { Circle, Marker, Popup, useMapEvent } from "react-leaflet";
 import Control from "react-leaflet-custom-control";
 import NearestInfo from "./NearestInfo";
 
-type LocationDetails = {
+interface LocationDetails {
   position?: LatLng;
   accuracy?: number;
   timestamp?: number;
   active: boolean;
   pending: boolean;
   cancelTimerId?: NodeJS.Timeout;
-};
+}
 
-export default function CurrentLocation() {
+export default function CurrentLocation(): JSX.Element {
   const [locationDetails, setLocationDetails] = useState<LocationDetails>({
     active: false,
     pending: true,
@@ -34,7 +34,7 @@ export default function CurrentLocation() {
     }));
   });
 
-  const activate = (event: React.MouseEvent<HTMLButtonElement>) => {
+  const activate = (event: MouseEvent<HTMLButtonElement>): void => {
     event.stopPropagation();
     event.preventDefault();
 
