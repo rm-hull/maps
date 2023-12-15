@@ -1,17 +1,18 @@
 import { Table, TableContainer, Tbody, Td, Th, Tr } from "@chakra-ui/react";
-import { LatLng } from "leaflet";
+import { type LatLng } from "leaflet";
+import { type JSX } from "react";
 import useNearest from "../hooks/useNearest";
 import { toBNG } from "../services/osdatahub/helpers";
 
-type GPSProps = {
+interface GPSProps {
   latLng: LatLng;
   accuracy?: number;
   timestamp?: number;
   altitude?: number;
   heading?: number;
-};
+}
 
-function GPS({ latLng, altitude, heading, accuracy, timestamp }: GPSProps) {
+function GPS({ latLng, altitude, heading, accuracy, timestamp }: GPSProps): JSX.Element {
   const [easting, northing] = toBNG(latLng);
 
   return (
@@ -61,10 +62,17 @@ function GPS({ latLng, altitude, heading, accuracy, timestamp }: GPSProps) {
 }
 
 type NearestInfoProps = GPSProps & {
-  render(children: JSX.Element): JSX.Element;
+  render: (children: JSX.Element) => JSX.Element;
 };
 
-export default function NearestInfo({ latLng, altitude, heading, accuracy, timestamp, render }: NearestInfoProps) {
+export default function NearestInfo({
+  latLng,
+  altitude,
+  heading,
+  accuracy,
+  timestamp,
+  render,
+}: NearestInfoProps): JSX.Element | null {
   const bng = toBNG(latLng);
   const { data, status } = useNearest(bng);
 

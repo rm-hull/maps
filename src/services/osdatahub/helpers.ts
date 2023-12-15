@@ -1,11 +1,13 @@
-import { AxiosResponse } from "axios";
-import { LatLng, LatLngTuple } from "leaflet";
+import { type AxiosResponse } from "axios";
+import { type LatLng, type LatLngTuple } from "leaflet";
 import proj4 from "proj4";
 import camelCaseKeys from "../../utils/camelCaseKeys";
-import { BritishNationalGrid } from "./types";
+import { type BritishNationalGrid } from "./types";
 
 export function convertKeys<T>(response: AxiosResponse<T>): AxiosResponse<T> {
-  if (response.data) response.data = camelCaseKeys(response.data);
+  if (response.data !== undefined && response.data !== null) {
+    response.data = camelCaseKeys(response.data) as T;
+  }
   return response;
 }
 

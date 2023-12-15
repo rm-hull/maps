@@ -1,7 +1,10 @@
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+/* eslint-disable @typescript-eslint/no-unsafe-return */
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { camelCase } from "change-case";
 
-const camelCaseKeys = (object: any) => {
+const camelCaseKeys = (object: any): any => {
   let newO: any, origKey, newKey, value;
   if (object instanceof Array) {
     return object.map((value) => {

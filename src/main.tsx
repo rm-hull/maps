@@ -11,7 +11,7 @@ import reportWebVitals from "./reportWebVitals";
 import "leaflet/dist/leaflet.css";
 
 const container = document.getElementById("root");
-if (!container) {
+if (container === null) {
   throw new Error("The #root element wasn't found");
 }
 

@@ -37,13 +37,13 @@ jobs:
       # - name: Lint
       #   run: yarn lint
 
-      # - name: Test
-      #   run: yarn test
+      - name: Test
+        run: yarn test
 
-      # - name: Coveralls
-      #   uses: coverallsapp/github-action@v2
-      #   with:
-      #     file: coverage/clover.xml
+      - name: Coveralls
+        uses: coverallsapp/github-action@v2
+        with:
+          file: coverage/clover.xml
 
       - name: Build
         env:
