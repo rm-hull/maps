@@ -2,7 +2,7 @@ import axios from "axios";
 import { LatLng } from "leaflet";
 import { Response } from "./types";
 
-export const API_KEY = process.env.REACT_APP_GEOGRAPH_API_KEY;
+export const API_KEY = import.meta.env.VITE_GEOGRAPH_API_KEY;
 
 const client = axios.create({
   baseURL: "https://api.geograph.org.uk",

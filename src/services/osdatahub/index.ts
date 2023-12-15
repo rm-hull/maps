@@ -2,7 +2,7 @@ import axios from "axios";
 import { convertKeys } from "./helpers";
 import { BritishNationalGrid, Response } from "./types";
 
-export const API_KEY = process.env.REACT_APP_OS_DATAHUB_API_KEY;
+export const API_KEY = import.meta.env.VITE_OS_DATAHUB_API_KEY;
 
 const client = axios.create({
   baseURL: "https://api.os.uk",

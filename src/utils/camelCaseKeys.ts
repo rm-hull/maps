@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { camelCase } from "camel-case";
+import { camelCase } from "change-case";
 
 const camelCaseKeys = (object: any) => {
   let newO: any, origKey, newKey, value;

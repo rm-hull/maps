@@ -47,9 +47,9 @@ jobs:
 
       - name: Build
         env:
-          REACT_APP_OS_DATAHUB_API_KEY: ${{ secrets.REACT_APP_OS_DATAHUB_API_KEY }}
-          REACT_APP_GEOGRAPH_API_KEY: ${{ secrets.REACT_APP_GEOGRAPH_API_KEY }}
-        run: yarn build
+          VITE_OS_DATAHUB_API_KEY: ${{ secrets.REACT_APP_OS_DATAHUB_API_KEY }}
+          VITE_GEOGRAPH_API_KEY: ${{ secrets.REACT_APP_GEOGRAPH_API_KEY }}
+        run: yarn build && cp ./dist/index.html ./dist/404.html
 
       - name: Setup Pages
         uses: actions/configure-pages@v3
