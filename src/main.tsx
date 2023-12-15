@@ -8,6 +8,7 @@ import { BrowserRouter as Router } from "react-router-dom";
 import { App } from "./App";
 import ErrorFallback from "./components/ErrorFallback";
 import reportWebVitals from "./reportWebVitals";
+import "leaflet/dist/leaflet.css";
 
 const container = document.getElementById("root");
 if (!container) {
