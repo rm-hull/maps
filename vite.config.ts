@@ -7,7 +7,7 @@ import { execSync } from "child_process";
 export default defineConfig(() => {
   process.env.VITE_GIT_COMMIT_DATE = execSync("git log -1 --format=%cI").toString().trimEnd();
   process.env.VITE_GIT_COMMIT_HASH = execSync("git describe --always --dirty").toString().trimEnd();
-  
+
   return {
     plugins: [react()],
     base: "/maps",
