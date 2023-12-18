@@ -8,7 +8,7 @@ export default function Home(): JSX.Element {
   return (
     <>
       <OSMap />
-      <SettingsModal isOpen={isOpen} onCancel={onClose} />
+      <SettingsModal isOpen={isOpen} onClose={onClose} />
     </>
   );
 }

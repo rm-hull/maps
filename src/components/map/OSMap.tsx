@@ -8,6 +8,7 @@ import CurrentLocation from "../controls/CurrentLocation";
 import Settings from "../controls/Settings";
 import ImagesLayer from "./ImagesLayer";
 import PointOfInterest from "./PointOfInterest";
+import useGeneralSettings from "../../hooks/useGeneralSettings";
 
 // Setup the EPSG:27700 (British National Grid) projection.
 const crs = new L.Proj.CRS(
@@ -24,6 +25,8 @@ interface OSMapProps {
 }
 
 export default function OSMap({ center }: OSMapProps): JSX.Element {
+  const [settings] = useGeneralSettings();
+
   return (
     <MapContainer
       crs={crs}
@@ -39,7 +42,7 @@ export default function OSMap({ center }: OSMapProps): JSX.Element {
       <PointOfInterest />
 
       <LayersControl position="topright">
-        <LayersControl.BaseLayer name="Leisure">
+        <LayersControl.BaseLayer name="Leisure" checked={settings?.mapStyle === "leisure"}>
           <LayerGroup>
             <TileLayer
               url={`https://api.os.uk/maps/raster/v1/zxy/Leisure_27700/{z}/{x}/{y}.png?key=${API_KEY}`}
@@ -51,13 +54,13 @@ export default function OSMap({ center }: OSMapProps): JSX.Element {
             />
           </LayerGroup>
         </LayersControl.BaseLayer>
-        <LayersControl.BaseLayer name="Roads" checked>
+        <LayersControl.BaseLayer name="Roads" checked={settings?.mapStyle === "roads"}>
           <TileLayer url={`https://api.os.uk/maps/raster/v1/zxy/Road_27700/{z}/{x}/{y}.png?key=${API_KEY}`} />
         </LayersControl.BaseLayer>
-        <LayersControl.BaseLayer name="Outdoor">
+        <LayersControl.BaseLayer name="Outdoor" checked={settings?.mapStyle === "outdoor"}>
           <TileLayer url={`https://api.os.uk/maps/raster/v1/zxy/Outdoor_27700/{z}/{x}/{y}.png?key=${API_KEY}`} />
         </LayersControl.BaseLayer>
-        <LayersControl.BaseLayer name="Light">
+        <LayersControl.BaseLayer name="Light" checked={settings?.mapStyle === "light"}>
           <TileLayer url={`https://api.os.uk/maps/raster/v1/zxy/Light_27700/{z}/{x}/{y}.png?key=${API_KEY}`} />
         </LayersControl.BaseLayer>
 

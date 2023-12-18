@@ -16,15 +16,16 @@ import {
 import { type JSX } from "react";
 import About from "./About";
 import License from "./License";
+import SettingsForm from "./SettingsForm";
 
 interface SettingsModalProps {
   isOpen: boolean;
-  onCancel: () => void;
+  onClose: () => void;
 }
 
-export default function SettingsModal({ isOpen, onCancel }: SettingsModalProps): JSX.Element {
+export default function SettingsModal({ isOpen, onClose }: SettingsModalProps): JSX.Element {
   return (
-    <Modal isOpen={isOpen} onClose={onCancel} size="xl" scrollBehavior="inside">
+    <Modal isOpen={isOpen} onClose={onClose} size="xl" scrollBehavior="inside">
       <ModalOverlay />
       <ModalContent>
         <Tabs>
@@ -38,7 +39,9 @@ export default function SettingsModal({ isOpen, onCancel }: SettingsModalProps):
           <ModalCloseButton />
           <ModalBody>
             <TabPanels>
-              <TabPanel>TODO</TabPanel>
+              <TabPanel>
+                <SettingsForm />
+              </TabPanel>
               <TabPanel>
                 <About />
               </TabPanel>
@@ -52,8 +55,8 @@ export default function SettingsModal({ isOpen, onCancel }: SettingsModalProps):
             {/* <Button colorScheme="blue" mr={3} onClick={handleUpdate}>
             Close
           </Button> */}
-            <Button variant="ghost" onClick={onCancel}>
-              Cancel
+            <Button variant="ghost" onClick={onClose}>
+              Close
             </Button>
           </ModalFooter>
         </Tabs>
