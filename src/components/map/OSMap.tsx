@@ -54,7 +54,10 @@ export default function OSMap({ center }: OSMapProps): JSX.Element {
             />
           </LayerGroup>
         </LayersControl.BaseLayer>
-        <LayersControl.BaseLayer name="Roads" checked={settings?.mapStyle === "roads"}>
+        <LayersControl.BaseLayer
+          name="Roads"
+          checked={settings?.mapStyle === undefined || settings?.mapStyle === "roads"}
+        >
           <TileLayer url={`https://api.os.uk/maps/raster/v1/zxy/Road_27700/{z}/{x}/{y}.png?key=${API_KEY}`} />
         </LayersControl.BaseLayer>
         <LayersControl.BaseLayer name="Outdoor" checked={settings?.mapStyle === "outdoor"}>
