@@ -9,6 +9,7 @@ import Settings from "../controls/Settings";
 import ImagesLayer from "./ImagesLayer";
 import PointOfInterest from "./PointOfInterest";
 import useGeneralSettings from "../../hooks/useGeneralSettings";
+import FlyToLocation from "./FlyToLocation";
 
 // Setup the EPSG:27700 (British National Grid) projection.
 const crs = new L.Proj.CRS(
@@ -27,25 +28,13 @@ interface OSMapProps {
 export default function OSMap({ center }: OSMapProps): JSX.Element | null {
   const [settings] = useGeneralSettings();
 
-  if (settings === undefined) {
-    return null;
-  }
-
-  if (center === undefined) {
-    if (settings?.initialLocation === "custom") {
-      center = settings?.customLocation?.latLng;
-    } else {
-      center = toLatLng([337297, 503695]); // Ambleside
-    }
-  }
-
   return (
     <MapContainer
       crs={crs}
       zoom={7}
       minZoom={0}
       maxZoom={13}
-      center={center}
+      center={center ?? toLatLng([337297, 503695])}
       maxBounds={[toLatLng([-238375.0, 0.0]), toLatLng([900000.0, 1376256.0])]}
       scrollWheelZoom={true}
       style={{ width: "100vw", height: "100vh" }}
@@ -83,7 +72,12 @@ export default function OSMap({ center }: OSMapProps): JSX.Element | null {
           <ImagesLayer minZoom={10} />
         </LayersControl.Overlay>
       </LayersControl>
-      <CurrentLocation active={settings?.initialLocation === "current"} />
+      <CurrentLocation active={settings?.initialLocation === "current" && center === undefined} />
+      <FlyToLocation
+        latLng={
+          settings?.initialLocation === "custom" && center === undefined ? settings.customLocation?.latLng : undefined
+        }
+      />
       <Settings />
       <ScaleControl position="bottomright" />
     </MapContainer>
