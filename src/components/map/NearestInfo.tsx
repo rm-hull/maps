@@ -33,25 +33,25 @@ function GPS({ latLng, altitude, heading, accuracy, timestamp }: GPSProps): JSX.
         <Th>Longitude</Th>
         <Td>{latLng.lng.toFixed(7)} E</Td>
       </Tr>
-      {altitude && (
+      {altitude !== undefined && (
         <Tr>
           <Th>Altitude</Th>
           <Td>{altitude.toFixed(1)} m</Td>
         </Tr>
       )}
-      {heading && (
+      {heading !== undefined && (
         <Tr>
           <Th>Heading</Th>
           <Td>{heading}°</Td>
         </Tr>
       )}
-      {accuracy && (
+      {accuracy !== undefined && (
         <Tr>
           <Th>GPS Accuracy</Th>
           <Td>{accuracy.toFixed(0)} m</Td>
         </Tr>
       )}
-      {timestamp && (
+      {timestamp !== undefined && (
         <Tr>
           <Th>Last updated</Th>
           <Td>{new Date(timestamp).toISOString().substring(11, 19)}</Td>
@@ -76,7 +76,7 @@ export default function NearestInfo({
   const bng = toBNG(latLng);
   const { data, status } = useNearest(bng);
 
-  if (status === "loading" || !data) {
+  if (status === "loading" || data === undefined) {
     return null;
   }
 
@@ -102,7 +102,7 @@ export default function NearestInfo({
             <Th>{localType}</Th>
             <Td>{name1}</Td>
           </Tr>
-          {districtBorough && (
+          {districtBorough !== undefined && (
             <Tr>
               <Th>District</Th>
               <Td>{districtBorough}</Td>

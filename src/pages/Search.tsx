@@ -10,11 +10,11 @@ export default function Search(): JSX.Element {
   const { query } = useParams<{ query: string }>();
   const { data, isLoading, error } = useFind(query ?? "bloerew");
 
-  if (error) {
+  if (error !== null) {
     return <Notice>Error: {error.message}</Notice>;
   }
 
-  if (isLoading || !data) {
+  if (isLoading || data === undefined) {
     return (
       <Notice>
         Please wait... <Spinner size="sm" />

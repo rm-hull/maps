@@ -24,8 +24,20 @@ interface OSMapProps {
   center?: L.LatLngTuple;
 }
 
-export default function OSMap({ center }: OSMapProps): JSX.Element {
+export default function OSMap({ center }: OSMapProps): JSX.Element | null {
   const [settings] = useGeneralSettings();
+
+  if (settings === undefined) {
+    return null;
+  }
+
+  if (center === undefined) {
+    if (settings?.initialLocation === "custom") {
+      center = settings?.customLocation?.latLng;
+    } else {
+      center = toLatLng([337297, 503695]); // Ambleside
+    }
+  }
 
   return (
     <MapContainer
@@ -33,7 +45,7 @@ export default function OSMap({ center }: OSMapProps): JSX.Element {
       zoom={7}
       minZoom={0}
       maxZoom={13}
-      center={center ?? toLatLng([337297, 503695])}
+      center={center}
       maxBounds={[toLatLng([-238375.0, 0.0]), toLatLng([900000.0, 1376256.0])]}
       scrollWheelZoom={true}
       style={{ width: "100vw", height: "100vh" }}
@@ -71,7 +83,7 @@ export default function OSMap({ center }: OSMapProps): JSX.Element {
           <ImagesLayer minZoom={10} />
         </LayersControl.Overlay>
       </LayersControl>
-      <CurrentLocation />
+      <CurrentLocation active={settings?.initialLocation === "current"} />
       <Settings />
       <ScaleControl position="bottomright" />
     </MapContainer>

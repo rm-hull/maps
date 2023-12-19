@@ -15,7 +15,7 @@ export interface GazetteerEntry {
   countyUnitary?: string;
   countyUnitaryUri?: string;
   countyUnitaryType?: string;
-  districtBorough: string;
+  districtBorough?: string;
   districtBoroughType: string;
   districtBoroughUri: string;
   geometryX: number;

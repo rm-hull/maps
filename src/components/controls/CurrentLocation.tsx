@@ -1,77 +1,42 @@
 import { Button } from "@chakra-ui/react";
-import { type LatLng } from "leaflet";
-import { useState, type JSX, type MouseEvent } from "react";
+import { useEffect, type JSX } from "react";
 import { IoMdLocate } from "react-icons/io";
-import { Circle, Marker, Popup, useMapEvent } from "react-leaflet";
+import { Circle, Marker, Popup } from "react-leaflet";
 import Control from "react-leaflet-custom-control";
 import NearestInfo from "../map/NearestInfo";
+import useCurrentLocation from "../../hooks/useCurrentLocation";
 
-interface LocationDetails {
-  position?: LatLng;
-  accuracy?: number;
-  timestamp?: number;
-  active: boolean;
-  pending: boolean;
-  cancelTimerId?: NodeJS.Timeout;
+interface CurrentLocationProps {
+  active?: boolean;
 }
 
-export default function CurrentLocation(): JSX.Element {
-  const [locationDetails, setLocationDetails] = useState<LocationDetails>({
-    active: false,
-    pending: true,
-  });
-  const map = useMapEvent("locationfound", (event) => {
-    if (locationDetails.pending) {
-      map.flyTo(event.latlng, map.getZoom());
-    }
-
-    setLocationDetails((prev) => ({
-      ...prev,
-      pending: false,
-      position: event.latlng,
-      accuracy: event.accuracy,
-      timestamp: event.timestamp,
-    }));
-  });
-
-  const activate = (event: MouseEvent<HTMLButtonElement>): void => {
-    event.stopPropagation();
-    event.preventDefault();
-
-    map.locate({ enableHighAccuracy: true, watch: true });
-
-    clearTimeout(locationDetails.cancelTimerId);
-    const timerId = setTimeout(() => {
-      map.stopLocate();
-      setLocationDetails((prev) => ({ ...prev, active: false }));
-    }, 180_000);
-
-    setLocationDetails((prev) => ({
-      ...prev,
-      pending: true,
-      active: true,
-      cancelTimerId: timerId,
-    }));
-  };
+export default function CurrentLocation({ active }: CurrentLocationProps): JSX.Element {
+  const { activate, location } = useCurrentLocation();
+  useEffect(
+    () => {
+      if (active === true) {
+        activate();
+      }
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    []
+  );
 
   return (
     <>
-      {locationDetails.position && (
+      {location.position !== undefined && (
         <>
           <Circle
-            center={locationDetails.position}
+            center={location.position}
             pathOptions={{ fillColor: "lightblue" }}
-            radius={locationDetails.accuracy}
+            radius={location.accuracy}
             stroke={false}
           />
-          <Marker
-            position={locationDetails.position}
-            opacity={locationDetails.active && !locationDetails.pending ? 1 : 0.6}
-          >
+          <Marker position={location.position} opacity={location.active && !location.pending ? 1 : 0.6}>
             <NearestInfo
-              latLng={locationDetails.position}
-              accuracy={locationDetails.accuracy}
-              timestamp={locationDetails.timestamp}
+              latLng={location.position}
+              accuracy={location.accuracy}
+              timestamp={location.timestamp}
               render={(children) => <Popup autoClose={false}>{children}</Popup>}
             />
           </Marker>
@@ -86,7 +51,7 @@ export default function CurrentLocation(): JSX.Element {
           borderWidth={2}
           borderColor="rgba(0,0,0,0.25)"
           fontSize="1.5rem"
-          color={locationDetails.active ? "rgba(240,0,0,0.5)" : "rgba(0,0,0,0.5)"}
+          color={location.active ? "rgba(240,0,0,0.5)" : "rgba(0,0,0,0.5)"}
           borderRadius={5}
           size="lg"
         >

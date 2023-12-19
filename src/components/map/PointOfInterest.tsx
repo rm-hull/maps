@@ -9,7 +9,7 @@ export default function PointOfInterest(): JSX.Element | null {
     setPosition(event.latlng);
   });
 
-  if (!position) {
+  if (position === undefined) {
     return null;
   }
 
