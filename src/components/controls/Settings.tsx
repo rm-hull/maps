@@ -15,7 +15,7 @@ export default function CurrentLocation(): JSX.Element {
         onClick={onOpen}
         padding={0}
         borderWidth={2}
-        borderColor="rgba(0,0,0,0.25)"
+        borderColor="rgba(0,0,0,0.2)"
         color="rgba(0,0,0,0.5)"
         fontSize="1.5rem"
         borderRadius={5}

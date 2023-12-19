@@ -49,7 +49,7 @@ export default function CurrentLocation({ active }: CurrentLocationProps): JSX.E
           onClick={activate}
           padding={0}
           borderWidth={2}
-          borderColor="rgba(0,0,0,0.25)"
+          borderColor="rgba(0,0,0,0.2)"
           fontSize="1.5rem"
           color={location.active ? "rgba(240,0,0,0.5)" : "rgba(0,0,0,0.5)"}
           borderRadius={5}
