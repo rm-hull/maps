@@ -22,7 +22,7 @@
     "react-leaflet": "^4.2.1",
     "react-leaflet-custom-control": "^1.4.0",
     "react-query": "^3.39.3",
-    "react-router-dom": "^6.21.0",
+    "react-router-dom": "^6.21.1",
     "react-use": "^17.4.2",
     "web-vitals": "^3.5.0"
   },
