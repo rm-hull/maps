@@ -47,8 +47,9 @@ jobs:
 
       - name: Build
         env:
-          VITE_OS_DATAHUB_API_KEY: ${{ secrets.REACT_APP_OS_DATAHUB_API_KEY }}
-          VITE_GEOGRAPH_API_KEY: ${{ secrets.REACT_APP_GEOGRAPH_API_KEY }}
+          VITE_OS_DATAHUB_API_KEY: ${{ secrets.VITE_OS_DATAHUB_API_KEY }}
+          VITE_GEOGRAPH_API_KEY: ${{ secrets.VITE_GEOGRAPH_API_KEY }}
+          VITE_GOOGLE_ANALYTICS_MEASUREMENT_ID: ${{ secrets.VITE_GOOGLE_ANALYTICS_MEASUREMENT_ID }}
         run: yarn build && cp ./dist/index.html ./dist/404.html
 
       - name: Setup Pages
