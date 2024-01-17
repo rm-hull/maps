@@ -12,7 +12,9 @@ import ErrorFallback from "./components/ErrorFallback";
 import { SettingsProvider } from "./components/settings/SettingsProvider";
 import reportWebVitals from "./reportWebVitals";
 
-ReactGA.initialize(import.meta.env.VITE_GOOGLE_ANALYTICS_MEASUREMENT_ID as string);
+if (import.meta.env.VITE_GOOGLE_ANALYTICS_MEASUREMENT_ID !== undefined) {
+  ReactGA.initialize(import.meta.env.VITE_GOOGLE_ANALYTICS_MEASUREMENT_ID as string);
+}
 
 const container = document.getElementById("root");
 if (container === null) {
