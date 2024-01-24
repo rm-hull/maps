@@ -11,7 +11,7 @@
     "axios": "^1.6.5",
     "change-case": "^5.4.2",
     "framer-motion": "^10.18.0",
-    "jotai": "^2.6.2",
+    "jotai": "^2.6.3",
     "leaflet": "^1.9.4",
     "proj4": "^2.9.2",
     "proj4leaflet": "^1.0.2",
