@@ -37,7 +37,7 @@
     "@types/proj4": "^2.5.5",
     "@types/proj4leaflet": "^1.0.10",
     "@types/react": "^18.2.60",
-    "@types/react-dom": "^18.2.18",
+    "@types/react-dom": "^18.2.20",
     "@typescript-eslint/eslint-plugin": "^6.20.0",
     "@typescript-eslint/parser": "^6.20.0",
     "@vitejs/plugin-react": "^4.2.1",
