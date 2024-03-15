@@ -10,7 +10,7 @@
     "@emotion/styled": "^11.11.0",
     "axios": "^1.6.7",
     "change-case": "^5.4.3",
-    "framer-motion": "^11.0.8",
+    "framer-motion": "^11.0.14",
     "jotai": "^2.7.0",
     "leaflet": "^1.9.4",
     "proj4": "^2.10.0",
