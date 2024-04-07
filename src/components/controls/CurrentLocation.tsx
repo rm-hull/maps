@@ -29,7 +29,7 @@ export default function CurrentLocation({ active }: CurrentLocationProps): JSX.E
           <Circle
             center={location.position}
             pathOptions={{ fillColor: "lightblue" }}
-            radius={location.accuracy}
+            radius={location.accuracy ?? 10}
             stroke={false}
           />
           <Marker position={location.position} opacity={location.active && !location.pending ? 1 : 0.6}>
