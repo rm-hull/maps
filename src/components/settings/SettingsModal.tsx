@@ -52,9 +52,6 @@ export default function SettingsModal({ isOpen, onClose }: SettingsModalProps): 
           </ModalBody>
 
           <ModalFooter>
-            {/* <Button colorScheme="blue" mr={3} onClick={handleUpdate}>
-            Close
-          </Button> */}
             <Button variant="ghost" onClick={onClose}>
               Close
             </Button>
