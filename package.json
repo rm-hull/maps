@@ -32,7 +32,7 @@
     "@testing-library/dom": "^10.0.0",
     "@testing-library/react": "^15.0.2",
     "@testing-library/user-event": "^14.5.2",
-    "@types/leaflet": "^1.9.9",
+    "@types/leaflet": "^1.9.11",
     "@types/node": "^20.12.7",
     "@types/proj4": "^2.5.5",
     "@types/proj4leaflet": "^1.0.10",
