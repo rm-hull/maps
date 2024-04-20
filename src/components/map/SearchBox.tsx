@@ -15,7 +15,7 @@ import { useKeyPressEvent } from "react-use";
 import { find } from "../../services/osdatahub";
 import { toLatLng } from "../../services/osdatahub/helpers";
 import { useMapEvent } from "react-leaflet";
-import StateIcon, { type SearchState } from "../Stateicon";
+import StateIcon, { type SearchState } from "../StateIcon";
 
 export default function SearchBox(): JSX.Element {
   const { isOpen, onOpen, onClose } = useDisclosure();

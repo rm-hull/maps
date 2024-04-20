@@ -3,7 +3,7 @@ import { type LatLngTuple } from "leaflet";
 import { useState, type ChangeEvent, type JSX } from "react";
 import { find } from "../../services/osdatahub";
 import { toLatLng } from "../../services/osdatahub/helpers";
-import StateIcon, { type SearchState } from "../Stateicon";
+import StateIcon, { type SearchState } from "../StateIcon";
 
 interface CustomSearchProps {
   disabled?: boolean;
