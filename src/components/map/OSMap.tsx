@@ -10,6 +10,7 @@ import ImagesLayer from "./ImagesLayer";
 import PointOfInterest from "./PointOfInterest";
 import useGeneralSettings from "../../hooks/useGeneralSettings";
 import FlyToLocation from "./FlyToLocation";
+import SearchBox from "./SearchBox";
 
 // Setup the EPSG:27700 (British National Grid) projection.
 const crs = new L.Proj.CRS(
@@ -41,6 +42,7 @@ export default function OSMap({ center }: OSMapProps): JSX.Element | null {
       attributionControl={false}
     >
       <PointOfInterest />
+      <SearchBox />
 
       <LayersControl position="topright">
         <LayersControl.BaseLayer name="Leisure" checked={settings?.mapStyle === "leisure"}>
