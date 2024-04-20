@@ -1,7 +1,7 @@
 import { AlertDialog, AlertDialogContent, AlertDialogHeader, AlertDialogOverlay } from "@chakra-ui/react";
-import { PropsWithChildren, useRef } from "react";
+import { useRef, type JSX, type PropsWithChildren } from "react";
 
-export default function Notice({ children }: PropsWithChildren<unknown>) {
+export default function Notice({ children }: PropsWithChildren<unknown>): JSX.Element {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const cancelRef = useRef<any>();
 

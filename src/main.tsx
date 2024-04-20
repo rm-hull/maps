@@ -1,17 +1,23 @@
 import { ChakraProvider, ColorModeScript, createLocalStorageManager, theme } from "@chakra-ui/react";
+import "leaflet/dist/leaflet.css";
 import React from "react";
 import { createRoot } from "react-dom/client";
 import { ErrorBoundary } from "react-error-boundary";
+import ReactGA from "react-ga4";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { ReactQueryDevtools } from "react-query/devtools";
 import { BrowserRouter as Router } from "react-router-dom";
 import { App } from "./App";
 import ErrorFallback from "./components/ErrorFallback";
+import { SettingsProvider } from "./components/settings/SettingsProvider";
 import reportWebVitals from "./reportWebVitals";
-import * as serviceWorker from "./serviceWorker";
+
+if (import.meta.env.VITE_GOOGLE_ANALYTICS_MEASUREMENT_ID !== undefined) {
+  ReactGA.initialize(import.meta.env.VITE_GOOGLE_ANALYTICS_MEASUREMENT_ID as string);
+}
 
 const container = document.getElementById("root");
-if (!container) {
+if (container === null) {
   throw new Error("The #root element wasn't found");
 }
 
@@ -25,20 +31,17 @@ root.render(
     <QueryClientProvider client={queryClient}>
       <ReactQueryDevtools initialIsOpen={false} />
       <ChakraProvider theme={theme} colorModeManager={manager}>
-        <Router basename="/maps">
-          <ErrorBoundary FallbackComponent={ErrorFallback}>
-            <App />
-          </ErrorBoundary>
-        </Router>
+        <SettingsProvider>
+          <Router basename="/maps">
+            <ErrorBoundary FallbackComponent={ErrorFallback}>
+              <App />
+            </ErrorBoundary>
+          </Router>
+        </SettingsProvider>
       </ChakraProvider>
     </QueryClientProvider>
   </React.StrictMode>
 );
-
-// If you want your app to work offline and load faster, you can change
-// unregister() to register() below. Note this comes with some pitfalls.
-// Learn more about service workers: https://cra.link/PWA
-serviceWorker.unregister();
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))

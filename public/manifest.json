@@ -1,9 +1,0 @@
-{
-  "short_name": "OS Maps",
-  "name": "OS Maps",
-  "icons": [],
-  "start_url": ".",
-  "display": "standalone",
-  "theme_color": "#000000",
-  "background_color": "#ffffff"
-}

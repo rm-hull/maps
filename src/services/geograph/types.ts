@@ -1,4 +1,4 @@
-export type Response = {
+export interface Response {
   generator: string;
   title: string;
   description: string;
@@ -8,9 +8,9 @@ export type Response = {
   link: string;
   nextURL: string;
   syndicationURL: string;
-};
+}
 
-type Item = {
+interface Item {
   title: string;
   description: string;
   link: string;
@@ -27,4 +27,4 @@ type Item = {
   thumb: string;
   thumbTag: string;
   licence: string;
-};
+}

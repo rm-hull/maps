@@ -1,21 +1,21 @@
-import { Range } from "../../types";
+import { type Range } from "../../types";
 
-type Header = {
+interface Header {
   format: "JSON" | "XML";
   maxResults: Range<1, 101>;
   offset: number;
   query: string;
   totalresults: number;
   uri: string;
-};
+}
 
-export type GazetteerEntry = {
+export interface GazetteerEntry {
   country: string;
   countryUri: string;
   countyUnitary?: string;
   countyUnitaryUri?: string;
   countyUnitaryType?: string;
-  districtBorough: string;
+  districtBorough?: string;
   districtBoroughType: string;
   districtBoroughUri: string;
   geometryX: number;
@@ -38,15 +38,15 @@ export type GazetteerEntry = {
   region: string;
   regionUri: string;
   type: string;
-};
+}
 
-type Result = {
+interface Result {
   gazetteerEntry: GazetteerEntry;
-};
+}
 
-export type Response = {
+export interface Response {
   header: Header;
   results: Result[];
-};
+}
 
 export type BritishNationalGrid = [number, number];

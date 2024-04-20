@@ -1,34 +1,65 @@
 name: Build and Deploy
 on:
   push:
-    branches: [main]
+    branches: ["main"]
+
+  workflow_dispatch:
+
 permissions:
-  contents: write
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: true
+
 jobs:
   build-and-deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout 🛎️
-        uses: actions/checkout@v3
+      - name: Checkout
+        uses: actions/checkout@v4
 
-      - name: Setup Yarn 🧶
-        uses: actions/setup-node@v3
+      - name: Setup Yarn
+        uses: actions/setup-node@v4
         with:
           node-version: "20"
           cache: "yarn"
 
-      - name: Install and Build 🔧
-        env:
-          REACT_APP_OS_DATAHUB_API_KEY: ${{ secrets.REACT_APP_OS_DATAHUB_API_KEY }}
-          REACT_APP_GEOGRAPH_API_KEY: ${{ secrets.REACT_APP_GEOGRAPH_API_KEY }}
+      - name: Install dependencies
         run: |
           yarn install
-          yarn build
-      - name: Test 🧪
-        run: |
-          yarn test
-      - name: Deploy 🚀
-        uses: JamesIves/github-pages-deploy-action@v4
+
+      # - name: Lint
+      #   run: yarn lint
+
+      - name: Test
+        run: yarn test:ci
+
+      - name: Coveralls
+        uses: coverallsapp/github-action@v2
         with:
-          branch: gh-pages
-          folder: build
+          file: coverage/clover.xml
+
+      - name: Build
+        env:
+          VITE_OS_DATAHUB_API_KEY: ${{ secrets.VITE_OS_DATAHUB_API_KEY }}
+          VITE_GEOGRAPH_API_KEY: ${{ secrets.VITE_GEOGRAPH_API_KEY }}
+          VITE_GOOGLE_ANALYTICS_MEASUREMENT_ID: ${{ secrets.VITE_GOOGLE_ANALYTICS_MEASUREMENT_ID }}
+        run: yarn build && cp ./dist/index.html ./dist/404.html
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v4
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: "./dist"
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

@@ -1,16 +1,16 @@
 import { Image, Link } from "@chakra-ui/react";
-import { LatLng } from "leaflet";
-import { useState } from "react";
+import { type LatLng } from "leaflet";
+import { useState, type JSX } from "react";
 import { Circle, FeatureGroup, LayerGroup, Popup, useMap, useMapEvent } from "react-leaflet";
 import { Link as BrowserLink } from "react-router-dom";
-import useImages from "../hooks/useImages";
+import useImages from "../../hooks/useImages";
 
-type ImagesProps = {
+interface ImagesProps {
   latLng: LatLng;
   distance: number;
-};
+}
 
-function Images({ latLng, distance }: ImagesProps) {
+function Images({ latLng, distance }: ImagesProps): JSX.Element {
   const { data, status } = useImages(latLng, distance / 1000.0);
 
   return (
@@ -32,11 +32,11 @@ function Images({ latLng, distance }: ImagesProps) {
   );
 }
 
-type ImagesLayerProps = {
+interface ImagesLayerProps {
   minZoom: number;
-};
+}
 
-export default function ImagesLayer({ minZoom }: ImagesLayerProps) {
+export default function ImagesLayer({ minZoom }: ImagesLayerProps): JSX.Element | null {
   const map = useMap();
   const [latLng, setLatLng] = useState<LatLng>(map.getCenter());
 

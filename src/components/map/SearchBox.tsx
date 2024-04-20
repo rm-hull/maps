@@ -11,8 +11,8 @@ import {
 // import { useMapEvent } from "react-leaflet";
 import Control from "react-leaflet-custom-control";
 import { FiSearch } from "react-icons/fi";
-import { ChangeEvent, useEffect } from "react";
-import useFocus from "../hooks/useFocus";
+import { type ChangeEvent, type JSX, useEffect } from "react";
+import useFocus from "../../hooks/useFocus";
 import { useKeyPressEvent } from "react-use";
 
 export default function SearchBox(): JSX.Element {
@@ -39,17 +39,17 @@ export default function SearchBox(): JSX.Element {
   //   // event.originalEvent.preventDefault();
   // });
 
-  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (e: ChangeEvent<HTMLInputElement>): void => {
     setValue(e.target.value);
   };
 
-  const handleCancel = (e: { preventDefault(): void }) => {
+  const handleCancel = (e: { preventDefault: () => void }): void => {
     e.preventDefault();
     setValue("");
     onClose();
   };
 
-  const handleSearch = () => {
+  const handleSearch = (): void => {
     alert("Searching for: " + value);
     onClose();
   };

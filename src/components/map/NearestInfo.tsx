@@ -1,17 +1,18 @@
 import { Table, TableContainer, Tbody, Td, Th, Tr } from "@chakra-ui/react";
-import { LatLng } from "leaflet";
-import useNearest from "../hooks/useNearest";
-import { toBNG } from "../services/osdatahub/helpers";
+import { type LatLng } from "leaflet";
+import { type JSX } from "react";
+import useNearest from "../../hooks/useNearest";
+import { toBNG } from "../../services/osdatahub/helpers";
 
-type GPSProps = {
+interface GPSProps {
   latLng: LatLng;
   accuracy?: number;
   timestamp?: number;
   altitude?: number;
   heading?: number;
-};
+}
 
-function GPS({ latLng, altitude, heading, accuracy, timestamp }: GPSProps) {
+function GPS({ latLng, altitude, heading, accuracy, timestamp }: GPSProps): JSX.Element {
   const [easting, northing] = toBNG(latLng);
 
   return (
@@ -32,25 +33,25 @@ function GPS({ latLng, altitude, heading, accuracy, timestamp }: GPSProps) {
         <Th>Longitude</Th>
         <Td>{latLng.lng.toFixed(7)} E</Td>
       </Tr>
-      {altitude && (
+      {altitude !== undefined && (
         <Tr>
           <Th>Altitude</Th>
           <Td>{altitude.toFixed(1)} m</Td>
         </Tr>
       )}
-      {heading && (
+      {heading !== undefined && (
         <Tr>
           <Th>Heading</Th>
           <Td>{heading}°</Td>
         </Tr>
       )}
-      {accuracy && (
+      {accuracy !== undefined && (
         <Tr>
           <Th>GPS Accuracy</Th>
           <Td>{accuracy.toFixed(0)} m</Td>
         </Tr>
       )}
-      {timestamp && (
+      {timestamp !== undefined && (
         <Tr>
           <Th>Last updated</Th>
           <Td>{new Date(timestamp).toISOString().substring(11, 19)}</Td>
@@ -61,14 +62,21 @@ function GPS({ latLng, altitude, heading, accuracy, timestamp }: GPSProps) {
 }
 
 type NearestInfoProps = GPSProps & {
-  render(children: JSX.Element): JSX.Element;
+  render: (children: JSX.Element) => JSX.Element;
 };
 
-export default function NearestInfo({ latLng, altitude, heading, accuracy, timestamp, render }: NearestInfoProps) {
+export default function NearestInfo({
+  latLng,
+  altitude,
+  heading,
+  accuracy,
+  timestamp,
+  render,
+}: NearestInfoProps): JSX.Element | null {
   const bng = toBNG(latLng);
   const { data, status } = useNearest(bng);
 
-  if (status === "loading" || !data) {
+  if (status === "loading" || data === undefined) {
     return null;
   }
 
@@ -94,7 +102,7 @@ export default function NearestInfo({ latLng, altitude, heading, accuracy, times
             <Th>{localType}</Th>
             <Td>{name1}</Td>
           </Tr>
-          {districtBorough && (
+          {districtBorough !== undefined && (
             <Tr>
               <Th>District</Th>
               <Td>{districtBorough}</Td>
