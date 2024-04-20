@@ -8,54 +8,67 @@ import {
   useControllableState,
   useDisclosure,
 } from "@chakra-ui/react";
-// import { useMapEvent } from "react-leaflet";
 import Control from "react-leaflet-custom-control";
-import { FiSearch } from "react-icons/fi";
-import { type ChangeEvent, type JSX, useEffect } from "react";
+import { type ChangeEvent, type JSX, useEffect, useState } from "react";
 import useFocus from "../../hooks/useFocus";
 import { useKeyPressEvent } from "react-use";
+import { find } from "../../services/osdatahub";
+import { toLatLng } from "../../services/osdatahub/helpers";
+import { useMapEvent } from "react-leaflet";
+import StateIcon, { type SearchState } from "../Stateicon";
 
 export default function SearchBox(): JSX.Element {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [inputRef, setInputFocus] = useFocus();
   const bg = useColorModeValue("white", "var(--chakra-colors-gray-900)");
   const [value, setValue] = useControllableState({ defaultValue: "" });
+  const [searching, setSearching] = useState<SearchState>(undefined);
+  const map = useMapEvent("moveend", () => {
+    if (searching === "busy") {
+      setSearching("ok");
+    }
+  });
 
   useEffect(() => {
     if (isOpen) {
       setInputFocus();
     }
   }, [isOpen, setInputFocus]);
-  // useMapEvent("keydown", (event) => event.originalEvent.preventDefault());
-
-  // useMapEvent("keydown", (event) => {
-  //   console.log({ event: event.originalEvent });
-  //   if (event.originalEvent.key == "/") {
-  //     onOpen();
-  //   // } else if (event.originalEvent.key === "Escape") {
-
-  //   }
-  //   event.originalEvent.
-  //   // event.originalEvent.preventDefault();
-  // });
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>): void => {
+    setSearching(undefined);
     setValue(e.target.value);
   };
 
   const handleCancel = (e: { preventDefault: () => void }): void => {
     e.preventDefault();
     setValue("");
+    setSearching(undefined);
     onClose();
   };
 
-  const handleSearch = (): void => {
-    alert("Searching for: " + value);
-    onClose();
+  const handleSearch = async (): Promise<void> => {
+    try {
+      setSearching("busy");
+      const data = await find(value, 1);
+      if (data.header.totalresults === 0) {
+        setSearching("not-found");
+        return;
+      }
+
+      const { geometryX, geometryY } = data.results[0].gazetteerEntry;
+      const latlng = toLatLng([geometryX, geometryY]);
+      map.flyTo(latlng, map.getZoom());
+    } catch (e) {
+      setSearching("error");
+      console.error(e);
+    }
   };
 
   useKeyPressEvent("/", onOpen);
-  useKeyPressEvent("Enter", handleSearch);
+  useKeyPressEvent("Enter", () => {
+    handleSearch().catch(console.error);
+  });
   useKeyPressEvent("Escape", handleCancel);
 
   return (
@@ -63,15 +76,18 @@ export default function SearchBox(): JSX.Element {
       <Collapse in={isOpen} animate dir="left">
         <Box p="4px">
           <InputGroup>
-            <InputLeftElement pointerEvents="none">
-              <FiSearch />
+            <InputLeftElement>
+              <StateIcon state={searching} />
             </InputLeftElement>
             <Input
+              borderWidth={2}
+              borderColor="rgba(0,0,0,0.2)"
+              focusBorderColor="rgba(0,0,0,0.2)"
+              readOnly={searching === "busy"}
               width={500}
               ref={inputRef}
-              placeholder="Input place to search for, then press <enter>"
+              placeholder="Input place to search for, then press ‹enter›"
               bgColor={bg}
-              // onBlur={onClose}
               value={value}
               onChange={handleChange}
             />
