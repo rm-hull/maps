@@ -7130,6 +7130,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"leaflet.markercluster@npm:^1.5.3":
+  version: 1.5.3
+  resolution: "leaflet.markercluster@npm:1.5.3"
+  peerDependencies:
+    leaflet: ^1.3.1
+  checksum: 10/28dc441de7012b19628144407bde89576f758dbea31ecb86e3412d1fb3a46723fb47d2ba45d9b858c2e65592479a127474fb1cbf7ff33b3023c4d14f851e5fe4
+  languageName: node
+  linkType: hard
+
 "leaflet@npm:^1.9.4":
   version: 1.9.4
   resolution: "leaflet@npm:1.9.4"
@@ -7311,6 +7320,7 @@ __metadata:
     "@chakra-ui/styled-system": "npm:^2.9.2"
     "@emotion/react": "npm:^11.11.4"
     "@emotion/styled": "npm:^11.11.5"
+    "@react-leaflet/core": "npm:^2.1.0"
     "@stylistic/eslint-plugin-ts": "npm:^1.7.2"
     "@testing-library/dom": "npm:^10.0.0"
     "@testing-library/react": "npm:^15.0.2"
@@ -7353,6 +7363,7 @@ __metadata:
     react-ga4: "npm:^2.1.0"
     react-icons: "npm:^5.1.0"
     react-leaflet: "npm:^4.2.1"
+    react-leaflet-cluster: "npm:^2.1.0"
     react-leaflet-custom-control: "npm:^1.4.0"
     react-query: "npm:^3.39.3"
     react-router-dom: "npm:^6.22.3"
@@ -8204,6 +8215,20 @@ __metadata:
   version: 18.2.0
   resolution: "react-is@npm:18.2.0"
   checksum: 10/200cd65bf2e0be7ba6055f647091b725a45dd2a6abef03bf2380ce701fd5edccee40b49b9d15edab7ac08a762bf83cb4081e31ec2673a5bfb549a36ba21570df
+  languageName: node
+  linkType: hard
+
+"react-leaflet-cluster@npm:^2.1.0":
+  version: 2.1.0
+  resolution: "react-leaflet-cluster@npm:2.1.0"
+  dependencies:
+    leaflet.markercluster: "npm:^1.5.3"
+  peerDependencies:
+    leaflet: ^1.8.0
+    react: ^18.0.0
+    react-dom: ^18.0.0
+    react-leaflet: ^4.0.0
+  checksum: 10/14e802fba65c29ab7607466178f4948a27d515ddcbfd48d54cb2c37051772fa71ab0f1d3da55862c345ccae86eae040333eb4f392c60405d1a1c3d83f1368501
   languageName: node
   linkType: hard
 

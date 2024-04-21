@@ -1,9 +1,10 @@
 import { Image, Link } from "@chakra-ui/react";
 import { type LatLng } from "leaflet";
 import { useState, type JSX } from "react";
-import { Circle, FeatureGroup, LayerGroup, Popup, useMap, useMapEvent } from "react-leaflet";
+import { LayerGroup, Marker, Popup, useMap, useMapEvent } from "react-leaflet";
 import { Link as BrowserLink } from "react-router-dom";
 import useImages from "../../hooks/useImages";
+import MarkerClusterGroup from "react-leaflet-cluster";
 
 interface ImagesProps {
   latLng: LatLng;
@@ -14,21 +15,20 @@ function Images({ latLng, distance }: ImagesProps): JSX.Element {
   const { data, status } = useImages(latLng, distance / 1000.0);
 
   return (
-    <>
+    <MarkerClusterGroup chunkedLoading showCoverageOnHover={false}>
       {status === "success" &&
-        data.items.map((item) => (
-          <FeatureGroup key={item.guid}>
-            <Popup>
+        data.map((item) => (
+          <Marker key={item.guid} position={[parseFloat(item.lat), parseFloat(item.long)]}>
+            <Popup maxWidth={400}>
               <Link as={BrowserLink} to={item.link} target="_blank" rel="noreferrer">
                 {item.title}
               </Link>
               <div dangerouslySetInnerHTML={{ __html: item.description?.replace(/Dist:.+?km<br\/>/, "") }} />
               <Image src={item.thumb.replace("_120x120", "")} />[{item.author}, {item.imageTaken}]
             </Popup>
-            <Circle center={[parseFloat(item.lat), parseFloat(item.long)]} radius={10} pathOptions={{ color: "red" }} />
-          </FeatureGroup>
+          </Marker>
         ))}
-    </>
+    </MarkerClusterGroup>
   );
 }
 

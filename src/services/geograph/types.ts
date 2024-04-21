@@ -10,7 +10,7 @@ export interface Response {
   syndicationURL: string;
 }
 
-interface Item {
+export interface Item {
   title: string;
   description: string;
   link: string;
