@@ -5,6 +5,7 @@ import { LayerGroup, LayersControl, MapContainer, ScaleControl, TileLayer } from
 import { API_KEY } from "../../services/osdatahub";
 import { toLatLng } from "../../services/osdatahub/helpers";
 import CurrentLocation from "../controls/CurrentLocation";
+import Ruler from "../controls/Ruler";
 import Settings from "../controls/Settings";
 import ImagesLayer from "./ImagesLayer";
 import PointOfInterest from "./PointOfInterest";
@@ -82,6 +83,7 @@ export default function OSMap({ center }: OSMapProps): JSX.Element | null {
       />
       <Settings />
       <ScaleControl position="bottomright" />
+      <Ruler />
     </MapContainer>
   );
 }
