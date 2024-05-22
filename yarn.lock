@@ -7065,9 +7065,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"jotai@npm:^2.8.0":
-  version: 2.8.0
-  resolution: "jotai@npm:2.8.0"
+"jotai@npm:^2.8.1":
+  version: 2.8.1
+  resolution: "jotai@npm:2.8.1"
   peerDependencies:
     "@types/react": ">=17.0.0"
     react: ">=17.0.0"
@@ -7076,7 +7076,7 @@ __metadata:
       optional: true
     react:
       optional: true
-  checksum: 10/6500e36c1d8edf1305e9a403e92764d4b3d4290e471a9a890efb7644a6b79312f0e5cfc420cec48812adf3a967caf18f53c01fa92a187e3628b7d8b145fec1d7
+  checksum: 10/74d3b4976136c3578eb2d8966fc23f47f0ca009ce316c6416290af329d4088c326dd187bf9eed6cafa66ff507fd259ba16841184450878a41d2b03b4489e122b
   languageName: node
   linkType: hard
 
@@ -7464,7 +7464,7 @@ __metadata:
     eslint-plugin-react-refresh: "npm:^0.4.7"
     eslint-plugin-testing-library: "npm:^6.2.2"
     framer-motion: "npm:^11.2.5"
-    jotai: "npm:^2.8.0"
+    jotai: "npm:^2.8.1"
     leaflet: "npm:^1.9.4"
     leaflet-measure: "npm:^3.1.0"
     prettier: "npm:^3.2.5"
