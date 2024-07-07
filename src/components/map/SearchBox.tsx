@@ -86,7 +86,7 @@ export default function SearchBox(): JSX.Element {
               readOnly={searching === "busy"}
               width={500}
               ref={inputRef}
-              placeholder="Input place to search for, then press ‹enter›"
+              placeholder="Input place (town, postcode, …) to search, then press ‹enter›"
               bgColor={bg}
               value={value}
               onChange={handleChange}
