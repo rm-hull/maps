@@ -8165,6 +8165,7 @@ __metadata:
     react-error-boundary: "npm:^4.0.13"
     react-ga4: "npm:^2.1.0"
     react-icons: "npm:^5.2.1"
+    react-lazily: "npm:^0.9.2"
     react-leaflet: "npm:^4.2.1"
     react-leaflet-cluster: "npm:^2.1.0"
     react-leaflet-custom-control: "npm:^1.4.0"
@@ -9046,6 +9047,22 @@ __metadata:
   version: 18.2.0
   resolution: "react-is@npm:18.2.0"
   checksum: 10/200cd65bf2e0be7ba6055f647091b725a45dd2a6abef03bf2380ce701fd5edccee40b49b9d15edab7ac08a762bf83cb4081e31ec2673a5bfb549a36ba21570df
+  languageName: node
+  linkType: hard
+
+"react-lazily@npm:^0.9.2":
+  version: 0.9.2
+  resolution: "react-lazily@npm:0.9.2"
+  peerDependencies:
+    react: ">=16.8"
+    react-dom: "*"
+    react-native: "*"
+  peerDependenciesMeta:
+    react-dom:
+      optional: true
+    react-native:
+      optional: true
+  checksum: 10/1d6e4e14c0373fd1998fca2fa25f05b4c07010b19d499e71280c68836519aa053d6a9b3bcfde6ebfad5fdde0b5b431fd1afb95e670ce5b1d4a1e87e7017d6297
   languageName: node
   linkType: hard
 

@@ -1,7 +1,17 @@
-import { AlertDialog, AlertDialogContent, AlertDialogHeader, AlertDialogOverlay } from "@chakra-ui/react";
+import {
+  AlertDialog,
+  AlertDialogBody,
+  AlertDialogContent,
+  AlertDialogHeader,
+  AlertDialogOverlay,
+} from "@chakra-ui/react";
 import { useRef, type JSX, type PropsWithChildren } from "react";
 
-export default function Notice({ children }: PropsWithChildren<unknown>): JSX.Element {
+type NoticeProps = {
+  header: JSX.Element | string;
+};
+
+export default function Notice({ header, children }: PropsWithChildren<NoticeProps>): JSX.Element {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const cancelRef = useRef<any>();
 
@@ -16,8 +26,9 @@ export default function Notice({ children }: PropsWithChildren<unknown>): JSX.El
       <AlertDialogOverlay>
         <AlertDialogContent>
           <AlertDialogHeader fontSize="xl" fontWeight="bold">
-            {children}
+            {header}
           </AlertDialogHeader>
+          {children && <AlertDialogBody>{children}</AlertDialogBody>}
         </AlertDialogContent>
       </AlertDialogOverlay>
     </AlertDialog>
