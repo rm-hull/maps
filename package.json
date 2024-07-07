@@ -60,7 +60,7 @@
     "eslint-plugin-react-refresh": "^0.4.7",
     "eslint-plugin-testing-library": "^6.2.2",
     "prettier": "^3.3.2",
-    "typescript": "^5.4.5",
+    "typescript": "^5.5.3",
     "vite": "^5.3.3",
     "vitest": "^1.6.0"
   },
@@ -84,5 +84,5 @@
       "last 1 safari version"
     ]
   },
-  "packageManager": "yarn@4.1.1"
+  "packageManager": "yarn@4.3.1"
 }
