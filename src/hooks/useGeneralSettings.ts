@@ -1,5 +1,5 @@
 import { type LatLngTuple } from "leaflet";
-import useLocalStorage from "./useLocalStorage";
+import { useLocalStorage } from "./useLocalStorage";
 
 export type InitialLocation = "default" | "current" | "custom";
 

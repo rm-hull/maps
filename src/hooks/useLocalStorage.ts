@@ -5,7 +5,7 @@ const localStorage = atom<Record<string, unknown> | undefined>(undefined);
 
 type UseLocalStorageReturnType<T> = [T | undefined, (value: T | undefined) => void];
 
-const useLocalStorage = <T>(key: string): UseLocalStorageReturnType<T> => {
+export const useLocalStorage = <T>(key: string): UseLocalStorageReturnType<T> => {
   const readValue = (): T | undefined => {
     if (typeof window === "undefined") {
       return undefined;
@@ -51,5 +51,3 @@ const useLocalStorage = <T>(key: string): UseLocalStorageReturnType<T> => {
 
   return [storedValue?.[key] as T, setValue];
 };
-
-export default useLocalStorage;

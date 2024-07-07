@@ -4,7 +4,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { camelCase } from "change-case";
 
-const camelCaseKeys = (object: any): any => {
+export const camelCaseKeys = (object: any): any => {
   let newO: any, origKey, newKey, value;
   if (object instanceof Array) {
     return object.map((value) => {
@@ -28,5 +28,3 @@ const camelCaseKeys = (object: any): any => {
   }
   return newO;
 };
-
-export default camelCaseKeys;
