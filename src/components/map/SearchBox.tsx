@@ -80,6 +80,7 @@ export function SearchBox(): JSX.Element {
               <StateIcon state={searching} />
             </InputLeftElement>
             <Input
+              name="search"
               borderWidth={2}
               borderColor="rgba(0,0,0,0.2)"
               focusBorderColor="rgba(0,0,0,0.2)"
