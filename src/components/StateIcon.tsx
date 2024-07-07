@@ -8,7 +8,7 @@ interface StateIconProps {
   state: SearchState;
 }
 
-export default function StateIcon({ state }: StateIconProps): JSX.Element {
+export function StateIcon({ state }: StateIconProps): JSX.Element {
   switch (state) {
     case "error":
       return <FiXCircle color="red" />;

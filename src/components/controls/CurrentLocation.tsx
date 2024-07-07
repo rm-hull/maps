@@ -1,11 +1,11 @@
 import { Button } from "@chakra-ui/react";
+import * as L from "leaflet";
 import { useEffect, type JSX } from "react";
 import { IoMdLocate } from "react-icons/io";
 import { Circle, Marker, Popup } from "react-leaflet";
 import Control from "react-leaflet-custom-control";
-import NearestInfo from "../map/NearestInfo";
-import useCurrentLocation from "../../hooks/useCurrentLocation";
-import * as L from "leaflet";
+import { useCurrentLocation } from "../../hooks/useCurrentLocation";
+import { NearestInfo } from "../map/NearestInfo";
 import redIconUrl from "./marker-icon-2x-red.png";
 import shadowIconUrl from "./marker-shadow.png";
 
@@ -21,7 +21,7 @@ const redIcon = new L.Icon({
   shadowSize: [41, 41],
 });
 
-export default function CurrentLocation({ active }: CurrentLocationProps): JSX.Element {
+export function CurrentLocation({ active }: CurrentLocationProps): JSX.Element {
   const { activate, location } = useCurrentLocation();
   useEffect(
     () => {

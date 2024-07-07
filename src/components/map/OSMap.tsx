@@ -2,16 +2,16 @@ import * as L from "leaflet";
 import "proj4leaflet";
 import { type JSX } from "react";
 import { LayerGroup, LayersControl, MapContainer, ScaleControl, TileLayer } from "react-leaflet";
+import { useGeneralSettings } from "../../hooks/useGeneralSettings";
 import { API_KEY } from "../../services/osdatahub";
 import { toLatLng } from "../../services/osdatahub/helpers";
-import CurrentLocation from "../controls/CurrentLocation";
-import Ruler from "../controls/Ruler";
-import Settings from "../controls/Settings";
-import ImagesLayer from "./ImagesLayer";
-import PointOfInterest from "./PointOfInterest";
-import useGeneralSettings from "../../hooks/useGeneralSettings";
-import FlyToLocation from "./FlyToLocation";
-import SearchBox from "./SearchBox";
+import { CurrentLocation } from "../controls/CurrentLocation";
+import { Ruler } from "../controls/Ruler";
+import { Settings } from "../controls/Settings";
+import { FlyToLocation } from "./FlyToLocation";
+import { ImagesLayer } from "./ImagesLayer";
+import { PointOfInterest } from "./PointOfInterest";
+import { SearchBox } from "./SearchBox";
 
 // Setup the EPSG:27700 (British National Grid) projection.
 const crs = new L.Proj.CRS(
@@ -27,7 +27,7 @@ interface OSMapProps {
   center?: L.LatLngTuple;
 }
 
-export default function OSMap({ center }: OSMapProps): JSX.Element | null {
+export function OSMap({ center }: OSMapProps): JSX.Element | null {
   const [settings] = useGeneralSettings();
 
   return (

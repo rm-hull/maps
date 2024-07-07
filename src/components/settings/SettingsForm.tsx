@@ -1,10 +1,10 @@
-import { FormControl, FormLabel, Radio, RadioGroup, VStack, HStack } from "@chakra-ui/react";
-import { type JSX } from "react";
-import useGeneralSettings, { type InitialLocation, type MapStyle } from "../../hooks/useGeneralSettings";
-import CustomSearch from "./CustomSearch";
+import { FormControl, FormLabel, HStack, Radio, RadioGroup, VStack } from "@chakra-ui/react";
 import { type LatLngTuple } from "leaflet";
+import { type JSX } from "react";
+import { useGeneralSettings, type InitialLocation, type MapStyle } from "../../hooks/useGeneralSettings";
+import { CustomSearch } from "./CustomSearch";
 
-export default function SettingsForm(): JSX.Element {
+export function SettingsForm(): JSX.Element {
   const [settings, updateSettings] = useGeneralSettings();
 
   const handleUpdateInitialLocation = (initialLocation: InitialLocation): void => {

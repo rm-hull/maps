@@ -8,16 +8,16 @@ import {
   useControllableState,
   useDisclosure,
 } from "@chakra-ui/react";
+import { useEffect, useState, type ChangeEvent, type JSX } from "react";
+import { useMapEvent } from "react-leaflet";
 import Control from "react-leaflet-custom-control";
-import { type ChangeEvent, type JSX, useEffect, useState } from "react";
-import useFocus from "../../hooks/useFocus";
 import { useKeyPressEvent } from "react-use";
+import { useFocus } from "../../hooks/useFocus";
 import { find } from "../../services/osdatahub";
 import { toLatLng } from "../../services/osdatahub/helpers";
-import { useMapEvent } from "react-leaflet";
-import StateIcon, { type SearchState } from "../StateIcon";
+import { StateIcon, type SearchState } from "../StateIcon";
 
-export default function SearchBox(): JSX.Element {
+export function SearchBox(): JSX.Element {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [inputRef, setInputFocus] = useFocus();
   const bg = useColorModeValue("white", "var(--chakra-colors-gray-900)");

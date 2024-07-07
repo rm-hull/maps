@@ -4,11 +4,11 @@
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
-import { useMap } from "react-leaflet";
 import * as L from "leaflet";
 import "leaflet-measure";
 import "leaflet-measure/dist/leaflet-measure.css";
 import { useEffect } from "react";
+import { useMap } from "react-leaflet";
 
 // @ts-expect-error
 const measureControl = new L.Control.Measure({
@@ -27,7 +27,7 @@ L.Control.Measure.include({
   },
 });
 
-export default function Ruler() {
+export function Ruler() {
   const map = useMap();
 
   useEffect(() => {

@@ -11,7 +11,7 @@ type NoticeProps = {
   header: JSX.Element | string;
 };
 
-export default function Notice({ header, children }: PropsWithChildren<NoticeProps>): JSX.Element {
+export function Notice({ header, children }: PropsWithChildren<NoticeProps>): JSX.Element {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const cancelRef = useRef<any>();
 

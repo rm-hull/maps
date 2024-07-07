@@ -3,7 +3,7 @@ import { type LatLngTuple } from "leaflet";
 import { useState, type ChangeEvent, type JSX } from "react";
 import { find } from "../../services/osdatahub";
 import { toLatLng } from "../../services/osdatahub/helpers";
-import StateIcon, { type SearchState } from "../StateIcon";
+import { StateIcon, type SearchState } from "../StateIcon";
 
 interface CustomSearchProps {
   disabled?: boolean;
@@ -11,7 +11,7 @@ interface CustomSearchProps {
   onUpdate: (latLng: LatLngTuple, searchTerm: string) => void;
 }
 
-export default function CustomSearch({ disabled = false, searchTerm = "", onUpdate }: CustomSearchProps): JSX.Element {
+export function CustomSearch({ disabled = false, searchTerm = "", onUpdate }: CustomSearchProps): JSX.Element {
   const [value, setValue] = useState(searchTerm);
   const [searching, setSearching] = useState<SearchState>();
 

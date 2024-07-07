@@ -16,7 +16,7 @@ interface UseCurrentLocationReturnType {
   location: LocationDetails;
 }
 
-export default function useCurrentLocation(duration: number = 180_000): UseCurrentLocationReturnType {
+export function useCurrentLocation(duration: number = 180_000): UseCurrentLocationReturnType {
   const [locationDetails, setLocationDetails] = useState<LocationDetails>({
     active: false,
     pending: true,

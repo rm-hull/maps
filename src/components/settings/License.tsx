@@ -1,7 +1,7 @@
 import { Heading, Text, VStack } from "@chakra-ui/react";
 import { type JSX } from "react";
 
-export default function License(): JSX.Element {
+export function License(): JSX.Element {
   return (
     <VStack spacing={4} align="left">
       <Heading size="md">MIT License</Heading>

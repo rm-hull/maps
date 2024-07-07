@@ -9,7 +9,7 @@ interface UseFindReturnType {
   isLoading: boolean;
 }
 
-export default function useFind(query: string, maxResults = 1): UseFindReturnType {
+export function useFind(query: string, maxResults = 1): UseFindReturnType {
   return useQuery<Response, AxiosError>(["find", query, maxResults], async () => await find(query, maxResults), {
     staleTime: Infinity,
   });

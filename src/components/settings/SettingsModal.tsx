@@ -14,9 +14,9 @@ import {
   Tabs,
 } from "@chakra-ui/react";
 import { type JSX } from "react";
-import About from "./About";
-import License from "./License";
-import SettingsForm from "./SettingsForm";
+import { About } from "./About";
+import { License } from "./License";
+import { SettingsForm } from "./SettingsForm";
 
 interface SettingsModalProps {
   isOpen: boolean;

@@ -2,9 +2,9 @@ import { Image, Link } from "@chakra-ui/react";
 import { type LatLng } from "leaflet";
 import { useState, type JSX } from "react";
 import { LayerGroup, Marker, Popup, useMap, useMapEvent } from "react-leaflet";
-import { Link as BrowserLink } from "react-router-dom";
-import useImages from "../../hooks/useImages";
 import MarkerClusterGroup from "react-leaflet-cluster";
+import { Link as ReactRouterLink } from "react-router-dom";
+import { useImages } from "../../hooks/useImages";
 
 interface ImagesProps {
   latLng: LatLng;
@@ -20,7 +20,7 @@ function Images({ latLng, distance }: ImagesProps): JSX.Element {
         data.map((item) => (
           <Marker key={item.guid} position={[parseFloat(item.lat), parseFloat(item.long)]}>
             <Popup maxWidth={400}>
-              <Link as={BrowserLink} to={item.link} target="_blank" rel="noreferrer">
+              <Link as={ReactRouterLink} to={item.link} target="_blank" rel="noreferrer">
                 {item.title}
               </Link>
               <div dangerouslySetInnerHTML={{ __html: item.description?.replace(/Dist:.+?km<br\/>/, "") }} />
@@ -36,7 +36,7 @@ interface ImagesLayerProps {
   minZoom: number;
 }
 
-export default function ImagesLayer({ minZoom }: ImagesLayerProps): JSX.Element | null {
+export function ImagesLayer({ minZoom }: ImagesLayerProps): JSX.Element | null {
   const map = useMap();
   const [latLng, setLatLng] = useState<LatLng>(map.getCenter());
 

@@ -6,7 +6,7 @@ interface FlyToLocationProps {
   latLng?: LatLngTuple;
 }
 
-export default function FlyToLocation({ latLng }: FlyToLocationProps): null {
+export function FlyToLocation({ latLng }: FlyToLocationProps): null {
   const map = useMap();
 
   useEffect(() => {

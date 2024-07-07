@@ -18,6 +18,6 @@ export interface GeneralSettings {
 
 type UseGeneralSettingsReturnType = [GeneralSettings | undefined, (value: GeneralSettings | undefined) => void];
 
-export default function useGeneralSettings(): UseGeneralSettingsReturnType {
+export function useGeneralSettings(): UseGeneralSettingsReturnType {
   return useLocalStorage<GeneralSettings>("maps.general-settings");
 }

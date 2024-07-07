@@ -1,10 +1,10 @@
 import { Link, Table, TableContainer, Tbody, Td, Th, Tr } from "@chakra-ui/react";
 import { type LatLng } from "leaflet";
 import { type JSX } from "react";
-import useNearest from "../../hooks/useNearest";
-import { toBNG } from "../../services/osdatahub/helpers";
-import useWhat3Words from "../../hooks/useWhat3Words";
 import { Link as ReactRouterLink } from "react-router-dom";
+import { useNearest } from "../../hooks/useNearest";
+import { useWhat3Words } from "../../hooks/useWhat3Words";
+import { toBNG } from "../../services/osdatahub/helpers";
 
 interface GPSProps {
   latLng: LatLng;
@@ -92,7 +92,7 @@ type NearestInfoProps = GPSProps & {
   render: (children: JSX.Element) => JSX.Element;
 };
 
-export default function NearestInfo({
+export function NearestInfo({
   latLng,
   altitude,
   heading,
