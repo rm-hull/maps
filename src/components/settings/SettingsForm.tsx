@@ -33,7 +33,7 @@ export function SettingsForm(): JSX.Element {
               <Radio value="custom">Custom</Radio>
               <CustomSearch
                 searchTerm={settings?.customLocation?.searchTerm}
-                disabled={settings?.initialLocation !== "custom"}
+                isDisabled={settings?.initialLocation !== "custom"}
                 onUpdate={handleUpdateCustomSearch}
               />
             </HStack>

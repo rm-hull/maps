@@ -6,12 +6,12 @@ import { toLatLng } from "../../services/osdatahub/helpers";
 import { StateIcon, type SearchState } from "../StateIcon";
 
 interface CustomSearchProps {
-  disabled?: boolean;
+  isDisabled?: boolean;
   searchTerm?: string;
   onUpdate: (latLng: LatLngTuple, searchTerm: string) => void;
 }
 
-export function CustomSearch({ disabled = false, searchTerm = "", onUpdate }: CustomSearchProps): JSX.Element {
+export function CustomSearch({ isDisabled = false, searchTerm = "", onUpdate }: CustomSearchProps): JSX.Element {
   const [value, setValue] = useState(searchTerm);
   const [searching, setSearching] = useState<SearchState>();
 
@@ -41,14 +41,14 @@ export function CustomSearch({ disabled = false, searchTerm = "", onUpdate }: Cu
 
   return (
     <InputGroup size="sm">
-      <Input value={value} onChange={handleChange} placeholder="search" disabled={disabled} />
+      <Input value={value} onChange={handleChange} placeholder="search" isDisabled={isDisabled} />
       <InputRightElement>
         <IconButton
           variant="none"
           size="sm"
           aria-label="Find location"
           icon={<StateIcon state={searching} />}
-          isDisabled={disabled || searching === "ok"}
+          isDisabled={isDisabled || searching === "ok"}
           onClick={() => {
             handleCustomSearch().catch(console.error);
           }}
