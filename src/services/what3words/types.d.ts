@@ -1,9 +1,9 @@
-type LatLng = {
+export interface LatLng {
   lat: number;
   lng: number;
-};
+}
 
-export type Response = {
+export interface Response {
   country: string;
   square: {
     northeast: LatLng;
@@ -14,4 +14,4 @@ export type Response = {
   words: string;
   language: string;
   map: string;
-};
+}

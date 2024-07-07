@@ -1,6 +1,6 @@
 import axios from "axios";
 import { type LatLng } from "leaflet";
-import { type Response } from "./types";
+import { type Response } from "./types.d";
 
 export const API_KEY = import.meta.env.VITE_WHAT3WORDS_API_KEY as string;
 if (API_KEY === undefined) {

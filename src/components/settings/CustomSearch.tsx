@@ -49,7 +49,9 @@ export function CustomSearch({ disabled = false, searchTerm = "", onUpdate }: Cu
           aria-label="Find location"
           icon={<StateIcon state={searching} />}
           isDisabled={disabled || searching === "ok"}
-          onClick={handleCustomSearch}
+          onClick={() => {
+            handleCustomSearch().catch(console.error);
+          }}
         />
       </InputRightElement>
     </InputGroup>

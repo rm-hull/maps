@@ -7,9 +7,9 @@ import { useSettings } from "../hooks/useSettings";
 
 const { SettingsModal } = lazily(async () => await import("../components/settings/SettingsModal"));
 
-type HomeProps = {
+interface HomeProps {
   latLng?: LatLngTuple;
-};
+}
 
 export function Home({ latLng }: HomeProps): JSX.Element {
   const { isOpen, onClose } = useSettings();
