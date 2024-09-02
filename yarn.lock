@@ -7644,7 +7644,7 @@ __metadata:
     leaflet: "npm:^1.9.4"
     leaflet-measure: "npm:^3.1.0"
     prettier: "npm:^3.3.3"
-    proj4: "npm:^2.12.0"
+    proj4: "npm:^2.11.0"
     proj4leaflet: "npm:^1.0.2"
     react: "npm:^18.3.1"
     react-dom: "npm:^18.3.1"
@@ -8348,17 +8348,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"proj4@npm:^2.12.0":
-  version: 2.12.0
-  resolution: "proj4@npm:2.12.0"
-  dependencies:
-    mgrs: "npm:1.0.0"
-    wkt-parser: "npm:^1.3.3"
-  checksum: 10/19d0552662322000fb489a39f46ed4e42cc31dd579e559922d6b8b95900f84e7a87fd53ad8ff931925feb195a653da94f7c334d33b8be1906460f4ed7c23f33b
-  languageName: node
-  linkType: hard
-
-"proj4@npm:^2.3.14":
+"proj4@npm:^2.11.0, proj4@npm:^2.3.14":
   version: 2.11.0
   resolution: "proj4@npm:2.11.0"
   dependencies:
