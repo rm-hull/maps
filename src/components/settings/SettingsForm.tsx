@@ -1,7 +1,24 @@
-import { FormControl, FormLabel, HStack, Radio, RadioGroup, VStack } from "@chakra-ui/react";
+import {
+  FormControl,
+  FormLabel,
+  HStack,
+  Radio,
+  RadioGroup,
+  Slider,
+  SliderFilledTrack,
+  SliderThumb,
+  SliderTrack,
+  Tooltip,
+  VStack,
+} from "@chakra-ui/react";
 import { type LatLngTuple } from "leaflet";
 import { type JSX } from "react";
-import { useGeneralSettings, type InitialLocation, type MapStyle } from "../../hooks/useGeneralSettings";
+import {
+  DEFAULT_ZOOM_LEVEL,
+  useGeneralSettings,
+  type InitialLocation,
+  type MapStyle,
+} from "../../hooks/useGeneralSettings";
 import { CustomSearch } from "./CustomSearch";
 
 export function SettingsForm(): JSX.Element {
@@ -18,6 +35,12 @@ export function SettingsForm(): JSX.Element {
   const handleUpdateCustomSearch = (latLng: LatLngTuple, searchTerm: string): void => {
     updateSettings({ ...settings, customLocation: { latLng, searchTerm } });
   };
+
+  const handleUpdateZoomLevel = (zoomLevel: number): void => {
+    updateSettings({ ...settings, initialZoomLevel: zoomLevel });
+  };
+
+  const zoomLevel = settings?.initialZoomLevel ?? DEFAULT_ZOOM_LEVEL;
 
   return (
     <VStack gap={6}>
@@ -39,6 +62,21 @@ export function SettingsForm(): JSX.Element {
             </HStack>
           </VStack>
         </RadioGroup>
+      </FormControl>
+
+      <FormControl display="flex" alignItems="flex-start">
+        <FormLabel htmlFor="zoom-level" mb={0} minW={110}>
+          Zoom level:
+        </FormLabel>
+        <Slider id="zoom-level" value={zoomLevel} mt={1} min={0} max={13} step={1} onChange={handleUpdateZoomLevel}>
+          <Tooltip hasArrow bg="blue.500" color="white" placement="bottom" isOpen label={zoomLevel}>
+            <SliderThumb />
+          </Tooltip>
+          <SliderTrack>
+            <SliderFilledTrack />
+          </SliderTrack>
+          <SliderThumb />
+        </Slider>
       </FormControl>
 
       <FormControl display="flex" alignItems="flex-start">

@@ -14,7 +14,10 @@ export interface GeneralSettings {
   initialLocation?: InitialLocation;
   mapStyle?: MapStyle;
   customLocation?: CustomLocation;
+  initialZoomLevel?: number;
 }
+
+export const DEFAULT_ZOOM_LEVEL = 7;
 
 type UseGeneralSettingsReturnType = [GeneralSettings | undefined, (value: GeneralSettings | undefined) => void];
 

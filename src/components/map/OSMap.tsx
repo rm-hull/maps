@@ -2,7 +2,7 @@ import * as L from "leaflet";
 import "proj4leaflet";
 import { type JSX } from "react";
 import { LayerGroup, LayersControl, MapContainer, ScaleControl, TileLayer } from "react-leaflet";
-import { useGeneralSettings } from "../../hooks/useGeneralSettings";
+import { DEFAULT_ZOOM_LEVEL, useGeneralSettings } from "../../hooks/useGeneralSettings";
 import { API_KEY } from "../../services/osdatahub";
 import { toLatLng } from "../../services/osdatahub/helpers";
 import { CurrentLocation } from "../controls/CurrentLocation";
@@ -30,10 +30,14 @@ interface OSMapProps {
 export function OSMap({ center }: OSMapProps): JSX.Element | null {
   const [settings] = useGeneralSettings();
 
+  if (settings === undefined) {
+    return null;
+  }
+
   return (
     <MapContainer
       crs={crs}
-      zoom={7}
+      zoom={settings?.initialZoomLevel ?? DEFAULT_ZOOM_LEVEL}
       minZoom={0}
       maxZoom={13}
       center={center ?? toLatLng([337297, 503695])}
