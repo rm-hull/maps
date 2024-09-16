@@ -1,7 +1,7 @@
 import { Image, Link } from "@chakra-ui/react";
 import { type LatLng } from "leaflet";
 import { useState, type JSX } from "react";
-import { LayerGroup, Marker, Popup, useMap, useMapEvent } from "react-leaflet";
+import { Marker, Popup, useMap, useMapEvents } from "react-leaflet";
 import MarkerClusterGroup from "react-leaflet-cluster";
 import { Link as ReactRouterLink } from "react-router-dom";
 import { useImages } from "../../hooks/useImages";
@@ -39,19 +39,30 @@ interface ImagesLayerProps {
 export function ImagesLayer({ minZoom }: ImagesLayerProps): JSX.Element | null {
   const map = useMap();
   const [latLng, setLatLng] = useState<LatLng>(map.getCenter());
+  const [overlayChecked, setOverlayChecked] = useState<Record<string, boolean>>({});
+  const handleOverlayChange = (layer: string, checked: boolean) => {
+    setOverlayChecked((prevState) => ({
+      ...prevState,
+      [layer]: checked,
+    }));
+  };
 
-  useMapEvent("moveend", () => {
-    setLatLng(map.getCenter());
+  useMapEvents({
+    moveend() {
+      setLatLng(map.getCenter());
+    },
+    overlayadd(event) {
+      handleOverlayChange(event.name, true);
+    },
+    overlayremove(event) {
+      handleOverlayChange(event.name, false);
+    },
   });
 
-  if (minZoom > map.getZoom()) {
+  if (map.getZoom() < minZoom || !overlayChecked.Geograph) {
     return null;
   }
 
   const distance = map.distance(map.getCenter(), map.getBounds().getNorthEast());
-  return (
-    <LayerGroup>
-      <Images latLng={latLng} distance={distance} />
-    </LayerGroup>
-  );
+  return <Images latLng={latLng} distance={distance} />;
 }
