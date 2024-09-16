@@ -76,9 +76,7 @@ export function OSMap({ center }: OSMapProps): JSX.Element | null {
         </LayersControl.BaseLayer>
 
         <LayersControl.Overlay name="Geograph">
-          <LayerGroup>
-            <ImagesLayer minZoom={10} />
-          </LayerGroup>
+          <ImagesLayer minZoom={10} />
         </LayersControl.Overlay>
       </LayersControl>
       <CurrentLocation active={settings?.initialLocation === "current" && center === undefined} />

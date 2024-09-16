@@ -13,19 +13,26 @@ const client = axios.create({
   params: { key: API_KEY, format: "JSON" },
 });
 
-export const images = async ({ lat, lng }: LatLng, distanceKm: number, maxResults = 1000): Promise<Item[]> => {
+export async function* images({ lat, lng }: LatLng, distanceKm: number, maxResults = 1000): AsyncGenerator<Item> {
+  let results = 0;
   const params = { q: `${lat},${lng}`, distance: distanceKm.toFixed(3), perpage: 100 };
   const response = await client.get<Response>("/syndicator.php", { params });
-  let items = response.data.items;
   let nextURL = response.data.nextURL;
 
-  while (items.length < maxResults) {
+  for (const item of response.data.items) {
+    yield item;
+    results++;
+  }
+
+  while (results < maxResults) {
     if (nextURL === undefined) break;
 
     const nextResponse = await client.get<Response>(nextURL);
-    items = items.concat(nextResponse.data.items);
     nextURL = nextResponse.data.nextURL;
-  }
 
-  return items;
-};
+    for (const item of nextResponse.data.items) {
+      yield item;
+      results++;
+    }
+  }
+}
