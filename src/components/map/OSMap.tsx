@@ -1,7 +1,7 @@
 import * as L from "leaflet";
 import "proj4leaflet";
-import { useState, type JSX } from "react";
-import { LayerGroup, LayersControl, MapContainer, ScaleControl, TileLayer, useMapEvents } from "react-leaflet";
+import { type JSX } from "react";
+import { LayerGroup, LayersControl, MapContainer, ScaleControl, TileLayer } from "react-leaflet";
 import { DEFAULT_ZOOM_LEVEL, useGeneralSettings } from "../../hooks/useGeneralSettings";
 import { API_KEY } from "../../services/osdatahub";
 import { toLatLng } from "../../services/osdatahub/helpers";
