@@ -45,7 +45,7 @@
     "@types/proj4leaflet": "^1.0.10",
     "@types/react": "^18.3.10",
     "@types/react-dom": "^18.3.0",
-    "@typescript-eslint/eslint-plugin": "^8.5.0",
+    "@typescript-eslint/eslint-plugin": "^8.8.0",
     "@typescript-eslint/parser": "^8.8.0",
     "@vitejs/plugin-react": "^4.3.1",
     "@vitest/coverage-v8": "^2.1.1",
