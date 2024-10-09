@@ -1879,13 +1879,23 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@chakra-ui/styled-system@npm:2.11.1, @chakra-ui/styled-system@npm:^2.11.1":
+"@chakra-ui/styled-system@npm:2.11.1":
   version: 2.11.1
   resolution: "@chakra-ui/styled-system@npm:2.11.1"
   dependencies:
     "@chakra-ui/utils": "npm:2.2.1"
     csstype: "npm:^3.1.2"
   checksum: 10/b24977d61e1f36886b86d9348e983bdf794919a0d5ec696e4730d00834b6905d3fa2452c5954906a4e7e3d0f691970afe21ec671dc59472d38d4eb0e67936ad2
+  languageName: node
+  linkType: hard
+
+"@chakra-ui/styled-system@npm:^2.11.2":
+  version: 2.11.2
+  resolution: "@chakra-ui/styled-system@npm:2.11.2"
+  dependencies:
+    "@chakra-ui/utils": "npm:2.2.2"
+    csstype: "npm:^3.1.2"
+  checksum: 10/5bfd03faf7bbcfa0d634dcbc953c1eaed02274cfb62163a607d458a35c2100bc6692b03deae11ffa58e117aa253cda0a5b1d933fa3e73adcc270e99aecd814f7
   languageName: node
   linkType: hard
 
@@ -1924,6 +1934,18 @@ __metadata:
   peerDependencies:
     react: ">=16.8.0"
   checksum: 10/6adf2e4dda713fc9a4f48a173e1e6008bf633db71124a27e00a4072c189bb465b8a28712157904e026342f429a3bacacd37dc7bca0e9a7820141e49995140653
+  languageName: node
+  linkType: hard
+
+"@chakra-ui/utils@npm:2.2.2":
+  version: 2.2.2
+  resolution: "@chakra-ui/utils@npm:2.2.2"
+  dependencies:
+    "@types/lodash.mergewith": "npm:4.6.9"
+    lodash.mergewith: "npm:4.6.2"
+  peerDependencies:
+    react: ">=16.8.0"
+  checksum: 10/e202f5a66cb5b3ef035d6e1e146bd685a3e1c28f7cf1568aaeb3dfc4fcdc3e86318021f5b83f56bfd1be3fcb8c9e35b54c1e36507051b470af1e094cf49f6ce4
   languageName: node
   linkType: hard
 
@@ -6747,7 +6769,7 @@ __metadata:
   resolution: "maps@workspace:."
   dependencies:
     "@chakra-ui/react": "npm:^2.10.1"
-    "@chakra-ui/styled-system": "npm:^2.11.1"
+    "@chakra-ui/styled-system": "npm:^2.11.2"
     "@emotion/react": "npm:^11.13.3"
     "@emotion/styled": "npm:^11.13.0"
     "@eslint/compat": "npm:^1.2.0"
