@@ -4,7 +4,7 @@
   "license": "MIT",
   "type": "module",
   "dependencies": {
-    "@chakra-ui/react": "^2.10.1",
+    "@chakra-ui/react": "^2.10.2",
     "@chakra-ui/styled-system": "^2.11.1",
     "@emotion/react": "^11.13.3",
     "@emotion/styled": "^11.13.0",
