@@ -15,7 +15,7 @@
     "jotai": "^2.10.3",
     "leaflet": "^1.9.4",
     "leaflet-measure": "^3.1.0",
-    "proj4": "^2.11.0",
+    "proj4": "^2.15.0",
     "proj4leaflet": "^1.0.2",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
