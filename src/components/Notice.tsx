@@ -13,7 +13,7 @@ interface NoticeProps {
 
 export function Notice({ header, children }: PropsWithChildren<NoticeProps>): JSX.Element {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const cancelRef = useRef<any>();
+  const cancelRef = useRef<any>(null);
 
   return (
     <AlertDialog

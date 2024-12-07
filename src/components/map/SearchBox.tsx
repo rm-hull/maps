@@ -73,7 +73,7 @@ export function SearchBox(): JSX.Element {
 
   return (
     <Control position="bottomright" prepend>
-      <Collapse in={isOpen} animate dir="left">
+      <Collapse in={isOpen} animate>
         <Box p="4px">
           <InputGroup>
             <InputLeftElement>
