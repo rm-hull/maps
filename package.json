@@ -7,7 +7,7 @@
     "@chakra-ui/react": "^2.10.4",
     "@chakra-ui/styled-system": "^2.12.1",
     "@emotion/react": "^11.13.5",
-    "@emotion/styled": "^11.13.5",
+    "@emotion/styled": "^11.14.0",
     "@react-leaflet/core": "^2.1.0",
     "axios": "^1.7.9",
     "change-case": "^5.4.4",
