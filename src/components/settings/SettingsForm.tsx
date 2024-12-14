@@ -9,6 +9,7 @@ import {
   SliderThumb,
   SliderTrack,
   Tooltip,
+  useDisclosure,
   VStack,
 } from "@chakra-ui/react";
 import { type LatLngTuple } from "leaflet";
@@ -23,6 +24,7 @@ import { CustomSearch } from "./CustomSearch";
 
 export function SettingsForm(): JSX.Element {
   const [settings, updateSettings] = useGeneralSettings();
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
   const handleUpdateInitialLocation = (initialLocation: InitialLocation): void => {
     updateSettings({ ...settings, initialLocation });
@@ -68,8 +70,18 @@ export function SettingsForm(): JSX.Element {
         <FormLabel htmlFor="zoom-level" mb={0} minW={110}>
           Zoom level:
         </FormLabel>
-        <Slider id="zoom-level" value={zoomLevel} mt={1} min={0} max={13} step={1} onChange={handleUpdateZoomLevel}>
-          <Tooltip hasArrow bg="blue.500" color="white" placement="bottom" isOpen label={zoomLevel}>
+        <Slider
+          id="zoom-level"
+          value={zoomLevel}
+          mt={1}
+          min={0}
+          max={13}
+          step={1}
+          onChange={handleUpdateZoomLevel}
+          onMouseOver={onOpen}
+          onMouseOut={onClose}
+        >
+          <Tooltip hasArrow bg="blue.500" color="white" placement="bottom" isOpen={isOpen} label={zoomLevel}>
             <SliderThumb />
           </Tooltip>
           <SliderTrack>
