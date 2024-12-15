@@ -1,9 +1,7 @@
-import { Link, Table, TableContainer, Tbody, Td, Th, Tr } from "@chakra-ui/react";
+import { Table, TableContainer, Tbody, Td, Th, Tr } from "@chakra-ui/react";
 import { type LatLng } from "leaflet";
 import { type JSX } from "react";
-import { Link as ReactRouterLink } from "react-router-dom";
 import { useNearest } from "../../hooks/useNearest";
-import { useWhat3Words } from "../../hooks/useWhat3Words";
 import { toBNG } from "../../services/osdatahub/helpers";
 
 interface GPSProps {
@@ -63,30 +61,6 @@ function GPS({ latLng, altitude, heading, accuracy, timestamp }: GPSProps): JSX.
   );
 }
 
-interface What3WordsProps {
-  words: string;
-  url: string;
-  nearestPlace: string;
-}
-
-function What3Words({ words, url, nearestPlace }: What3WordsProps): JSX.Element {
-  return (
-    <>
-      <Tr>
-        <Th>What 3 Words</Th>
-        <Td>{words}</Td>
-      </Tr>
-      <Tr>
-        <Th>Nearest place</Th>
-        <Td>
-          <Link isExternal as={ReactRouterLink} to={url}>
-            {nearestPlace}
-          </Link>
-        </Td>
-      </Tr>
-    </>
-  );
-}
 
 type NearestInfoProps = GPSProps & {
   render: (children: JSX.Element) => JSX.Element;
@@ -102,9 +76,8 @@ export function NearestInfo({
 }: NearestInfoProps): JSX.Element | null {
   const bng = toBNG(latLng);
   const { data: osData, status: osStatus } = useNearest(bng);
-  const { data: w3wData, status: w3wStatus } = useWhat3Words(latLng);
 
-  if (osData === undefined || osStatus !== "success" || w3wStatus !== "success") {
+  if (osData === undefined || osStatus !== "success") {
     return null;
   }
 
@@ -114,7 +87,6 @@ export function NearestInfo({
         <Table size="sm">
           <Tbody>
             <GPS latLng={latLng} altitude={altitude} heading={heading} accuracy={accuracy} timestamp={timestamp} />
-            <What3Words words={w3wData?.words} url={w3wData?.map} nearestPlace={w3wData.nearestPlace} />
           </Tbody>
         </Table>
       </TableContainer>
@@ -142,7 +114,6 @@ export function NearestInfo({
             <Td>{countyUnitary ?? region}</Td>
           </Tr>
           <GPS latLng={latLng} altitude={altitude} heading={heading} accuracy={accuracy} timestamp={timestamp} />
-          <What3Words words={w3wData?.words} url={w3wData?.map} nearestPlace={w3wData.nearestPlace} />
         </Tbody>
       </Table>
     </TableContainer>

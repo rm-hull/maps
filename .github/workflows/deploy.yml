@@ -46,7 +46,6 @@ jobs:
 
       - name: Build
         env:
-          VITE_WHAT3WORDS_API_KEY: ${{ secrets.VITE_WHAT3WORDS_API_KEY }}
           VITE_OS_DATAHUB_API_KEY: ${{ secrets.VITE_OS_DATAHUB_API_KEY }}
           VITE_GEOGRAPH_API_KEY: ${{ secrets.VITE_GEOGRAPH_API_KEY }}
           VITE_GOOGLE_ANALYTICS_MEASUREMENT_ID: ${{ secrets.VITE_GOOGLE_ANALYTICS_MEASUREMENT_ID }}
