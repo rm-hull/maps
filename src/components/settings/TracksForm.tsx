@@ -1,5 +1,7 @@
 import {
+  Checkbox,
   FormControl,
+  FormErrorMessage,
   FormLabel,
   HStack,
   IconButton,
@@ -8,19 +10,29 @@ import {
   InputRightElement,
   Radio,
   RadioGroup,
+  useBoolean,
   VStack,
 } from "@chakra-ui/react";
-import { ChangeEvent, useState, type JSX } from "react";
+import { ChangeEvent, useEffect, useState, type JSX } from "react";
 import { fromReactQuery, StateIcon } from "../StateIcon";
 import { useGeoJSON } from "../../hooks/useGeoJSON";
 import { SupportedMimeTypes } from "../../services/geojson";
 import { useQueryClient } from "react-query";
 
+const CORS_PROXY = import.meta.env.VITE_CORS_PROXY as string;
+
 export function TracksForm(): JSX.Element {
   const [type, setType] = useState<SupportedMimeTypes>(SupportedMimeTypes.GPX);
   const [url, setUrl] = useState<string>("");
+  const [useCorsProxy, { toggle: setUseCorsProxy }] = useBoolean();
   const queryClient = useQueryClient();
-  const { isLoading, status, refetch } = useGeoJSON(url, type);
+  const { isLoading, status, refetch, error } = useGeoJSON(useCorsProxy ? `${CORS_PROXY}${url}` : url, type);
+
+  console.log({ error });
+
+  useEffect(() => {
+    queryClient.removeQueries(["geojson"]);
+  }, []);
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>): void => {
     setUrl(event.target.value);
@@ -57,12 +69,14 @@ export function TracksForm(): JSX.Element {
         </RadioGroup>
       </FormControl>
 
-      <FormControl display="flex" alignItems="flex-start">
-        <FormLabel htmlFor="url" mt={1}>
-          URL:
-        </FormLabel>
+      <FormControl isInvalid={!!error}>
         <InputGroup size="sm">
-          <Input id="url" value={url} onChange={handleChange} isDisabled={isLoading} />
+          <Input
+            placeholder="Enter URL (either GPX or KML)"
+            value={url}
+            onChange={handleChange}
+            isDisabled={isLoading}
+          />
           <InputRightElement>
             <IconButton
               variant="none"
@@ -74,7 +88,18 @@ export function TracksForm(): JSX.Element {
             />
           </InputRightElement>
         </InputGroup>
+        <FormErrorMessage display="block">{error?.message}</FormErrorMessage>
       </FormControl>
+
+      <FormControl>
+        <InputGroup>
+          <Checkbox onChange={setUseCorsProxy} checked={useCorsProxy}>
+            Use CORS proxy
+          </Checkbox>
+        </InputGroup>
+      </FormControl>
+
+      {error && error.message}
     </VStack>
   );
 }
