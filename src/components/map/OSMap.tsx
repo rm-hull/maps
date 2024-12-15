@@ -12,6 +12,7 @@ import { FlyToLocation } from "./FlyToLocation";
 import { ImagesLayer } from "./ImagesLayer";
 import { PointOfInterest } from "./PointOfInterest";
 import { SearchBox } from "./SearchBox";
+import { Tracks } from "./Tracks";
 
 // Setup the EPSG:27700 (British National Grid) projection.
 const crs = new L.Proj.CRS(
@@ -85,6 +86,7 @@ export function OSMap({ center }: OSMapProps): JSX.Element | null {
           settings?.initialLocation === "custom" && center === undefined ? settings.customLocation?.latLng : undefined
         }
       />
+      <Tracks />
       <Settings />
       <ScaleControl position="bottomright" />
       <Ruler />

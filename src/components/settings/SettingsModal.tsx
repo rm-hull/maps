@@ -17,6 +17,7 @@ import { type JSX } from "react";
 import { About } from "./About";
 import { License } from "./License";
 import { SettingsForm } from "./SettingsForm";
+import { TracksForm } from "./TracksForm";
 
 interface SettingsModalProps {
   isOpen: boolean;
@@ -34,6 +35,7 @@ export function SettingsModal({ isOpen, onClose }: SettingsModalProps): JSX.Elem
               <Tab>Settings</Tab>
               <Tab>About</Tab>
               <Tab>License</Tab>
+              <Tab>Tracks</Tab>
             </TabList>
           </ModalHeader>
           <ModalCloseButton />
@@ -47,6 +49,9 @@ export function SettingsModal({ isOpen, onClose }: SettingsModalProps): JSX.Elem
               </TabPanel>
               <TabPanel>
                 <License />
+              </TabPanel>
+              <TabPanel>
+                <TracksForm />
               </TabPanel>
             </TabPanels>
           </ModalBody>
