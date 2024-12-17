@@ -31,10 +31,6 @@ interface OSMapProps {
 export function OSMap({ center }: OSMapProps): JSX.Element | null {
   const [settings] = useGeneralSettings();
 
-  if (settings === undefined) {
-    return null;
-  }
-
   return (
     <MapContainer
       crs={crs}
