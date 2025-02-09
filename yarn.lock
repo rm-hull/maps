@@ -2527,7 +2527,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/leaflet@npm:*, @types/leaflet@npm:^1.9.15":
+"@types/leaflet@npm:*, @types/leaflet@npm:^1.9.16":
   version: 1.9.16
   resolution: "@types/leaflet@npm:1.9.16"
   dependencies:
@@ -2568,7 +2568,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/proj4@npm:*, @types/proj4@npm:^2.5.5":
+"@types/proj4@npm:*, @types/proj4@npm:^2.5.6":
   version: 2.5.6
   resolution: "@types/proj4@npm:2.5.6"
   checksum: 10/753159770445b0e2dd4a21b8b9c0236515e2ff22243393e21bb6510d50261fae1a8e9efac0d7666bdd647fb0ec43499bd7ca29fae485ea252e232df21c0726d3
@@ -6131,9 +6131,9 @@ __metadata:
     "@testing-library/user-event": "npm:^14.6.1"
     "@tmcw/togeojson": "npm:^6.0.1"
     "@types/geojson": "npm:^7946.0.16"
-    "@types/leaflet": "npm:^1.9.15"
+    "@types/leaflet": "npm:^1.9.16"
     "@types/node": "npm:^22.13.1"
-    "@types/proj4": "npm:^2.5.5"
+    "@types/proj4": "npm:^2.5.6"
     "@types/proj4leaflet": "npm:^1.0.10"
     "@types/react": "npm:^19.0.8"
     "@types/react-dom": "npm:^19.0.3"
@@ -6165,7 +6165,7 @@ __metadata:
     leaflet: "npm:^1.9.4"
     leaflet-measure: "npm:^3.1.0"
     prettier: "npm:^3.5.0"
-    proj4: "npm:^2.11.0"
+    proj4: "npm:^2.15.0"
     proj4leaflet: "npm:^1.0.2"
     react: "npm:^19.0.0"
     react-dom: "npm:^19.0.0"
@@ -6813,7 +6813,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"proj4@npm:^2.11.0, proj4@npm:^2.3.14":
+"proj4@npm:^2.15.0, proj4@npm:^2.3.14":
   version: 2.15.0
   resolution: "proj4@npm:2.15.0"
   dependencies:
