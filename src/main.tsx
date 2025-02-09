@@ -26,7 +26,7 @@ const manager = createLocalStorageManager("maps.color-mode");
 const queryClient = new QueryClient();
 
 root.render(
-  <React.StrictMode>
+  <>
     <ColorModeScript storageKey="maps.color-mode" />
     <QueryClientProvider client={queryClient}>
       <ReactQueryDevtools initialIsOpen={false} />
@@ -40,7 +40,7 @@ root.render(
         </SettingsProvider>
       </ChakraProvider>
     </QueryClientProvider>
-  </React.StrictMode>
+  </>
 );
 
 // If you want to start measuring performance in your app, pass a function
