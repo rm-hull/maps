@@ -85,6 +85,8 @@ export function SearchBox(): JSX.Element {
               borderColor="rgba(0,0,0,0.2)"
               focusBorderColor="rgba(0,0,0,0.2)"
               readOnly={searching === "busy"}
+              autoComplete="off"
+              autoCapitalize="off"
               width={500}
               ref={inputRef}
               placeholder="Input place (town, postcode, …) to search, then press ‹enter›"

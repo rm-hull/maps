@@ -1,10 +1,10 @@
 import { type RefObject, useRef } from "react";
 
-export function useFocus(): [RefObject<HTMLInputElement>, () => void] {
+export function useFocus(): [RefObject<HTMLInputElement> | undefined, () => void] {
   const htmlElRef = useRef<HTMLInputElement>(null);
   const setFocus = () => {
-    htmlElRef.current && htmlElRef.current.focus();
+    htmlElRef.current?.focus();
   };
 
-  return [htmlElRef, setFocus];
+  return [htmlElRef as RefObject<HTMLInputElement>, setFocus];
 }
