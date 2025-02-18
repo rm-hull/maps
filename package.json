@@ -12,7 +12,7 @@
     "@tmcw/togeojson": "^6.0.1",
     "axios": "^1.7.9",
     "change-case": "^5.4.4",
-    "framer-motion": "^11.18.2",
+    "framer-motion": "^12.4.4",
     "jotai": "^2.11.3",
     "leaflet": "^1.9.4",
     "leaflet-measure": "^3.1.0",
