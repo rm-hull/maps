@@ -2157,6 +2157,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@react-leaflet/core@npm:^3.0.0":
+  version: 3.0.0
+  resolution: "@react-leaflet/core@npm:3.0.0"
+  peerDependencies:
+    leaflet: ^1.9.0
+    react: ^19.0.0
+    react-dom: ^19.0.0
+  checksum: 10/193f4928ff609a922493f05e2f301f53a3d9b8387e90fc6ab4bc4f78f97272cad000fbdf0f1d23069f67cb35d3d855734ce5a5feab98619aebfc3334be2967c7
+  languageName: node
+  linkType: hard
+
 "@rollup/rollup-android-arm-eabi@npm:4.34.6":
   version: 4.34.6
   resolution: "@rollup/rollup-android-arm-eabi@npm:4.34.6"
@@ -6244,7 +6255,7 @@ __metadata:
     "@eslint/compat": "npm:^1.2.7"
     "@eslint/eslintrc": "npm:^3.2.0"
     "@eslint/js": "npm:^9.20.0"
-    "@react-leaflet/core": "npm:^2.1.0"
+    "@react-leaflet/core": "npm:^3.0.0"
     "@stylistic/eslint-plugin": "npm:^4.1.0"
     "@testing-library/dom": "npm:^10.4.0"
     "@testing-library/react": "npm:^16.2.0"
