@@ -2364,13 +2364,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@tmcw/togeojson@npm:^6.0.1":
-  version: 6.0.1
-  resolution: "@tmcw/togeojson@npm:6.0.1"
-  peerDependencies:
-    "@types/geojson": "*"
-    "@xmldom/xmldom": ^0.9.5
-  checksum: 10/a4a6e80fbc37519eadaeb25ca04892e659518333be0fff507ddd74cbc9026095b8f0b52bb81a35c23ff531efb4fe04225415a045dff3f4f7e5189813519bb1a0
+"@tmcw/togeojson@npm:^7.0.0":
+  version: 7.0.0
+  resolution: "@tmcw/togeojson@npm:7.0.0"
+  checksum: 10/1676abb2de319f583615f4b53e617e62ff3a65743a9a0858379701ab4298253726a25b6456d592918318cbb256fa31eef160f3735fda84de9a96cc9c3a78ac18
   languageName: node
   linkType: hard
 
@@ -6294,7 +6291,7 @@ __metadata:
     "@testing-library/dom": "npm:^10.4.0"
     "@testing-library/react": "npm:^16.2.0"
     "@testing-library/user-event": "npm:^14.6.1"
-    "@tmcw/togeojson": "npm:^6.0.1"
+    "@tmcw/togeojson": "npm:^7.0.0"
     "@types/geojson": "npm:^7946.0.16"
     "@types/leaflet": "npm:^1.9.16"
     "@types/node": "npm:^22.13.1"
