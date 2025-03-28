@@ -6244,9 +6244,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"jotai@npm:^2.11.3":
-  version: 2.11.3
-  resolution: "jotai@npm:2.11.3"
+"jotai@npm:^2.12.2":
+  version: 2.12.2
+  resolution: "jotai@npm:2.12.2"
   peerDependencies:
     "@types/react": ">=17.0.0"
     react: ">=17.0.0"
@@ -6255,7 +6255,7 @@ __metadata:
       optional: true
     react:
       optional: true
-  checksum: 10/72c75a2768e072589b298b1726166cdad28e3f3bf0c47761d4576eaf6f3e88e4126ef3b1782530d536099a17c7b96e3aeee4b19e6fffb737c21aef71747ad998
+  checksum: 10/8ffe817ff2abc76f8902b8c9868759ee8435195efc8714cb90263983cdbc5e9ac414c59c081e12f12030ed4882a2b7b6cc7ba3e4ffe6eb8f766d61b94989a0fc
   languageName: node
   linkType: hard
 
@@ -6623,7 +6623,7 @@ __metadata:
     eslint-plugin-testing-library: "npm:^7.1.1"
     framer-motion: "npm:^12.4.7"
     globals: "npm:^15.14.0"
-    jotai: "npm:^2.11.3"
+    jotai: "npm:^2.12.2"
     leaflet: "npm:^1.9.4"
     leaflet-measure: "npm:^3.1.0"
     prettier: "npm:^3.5.3"
