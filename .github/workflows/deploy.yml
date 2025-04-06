@@ -35,10 +35,10 @@ jobs:
       - name: Test
         run: yarn test:ci
 
-      - name: Coveralls
-        uses: coverallsapp/github-action@v2
-        with:
-          file: coverage/clover.xml
+      # - name: Coveralls
+      #   uses: coverallsapp/github-action@v2
+      #   with:
+      #     file: coverage/clover.xml
 
       - name: Build
         env:
