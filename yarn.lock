@@ -3408,12 +3408,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"babel-plugin-react-compiler@npm:19.0.0-beta-e993439-20250328":
-  version: 19.0.0-beta-e993439-20250328
-  resolution: "babel-plugin-react-compiler@npm:19.0.0-beta-e993439-20250328"
+"babel-plugin-react-compiler@npm:19.0.0-beta-e993439-20250405":
+  version: 19.0.0-beta-e993439-20250405
+  resolution: "babel-plugin-react-compiler@npm:19.0.0-beta-e993439-20250405"
   dependencies:
     "@babel/types": "npm:^7.26.0"
-  checksum: 10/c30e49941bef53ac162ff6fd632f0db1d0aa61ecd41b2c9d094cb79ee425e22a3da276a051492662af1ff1f5cd9f13df07bba89bfddf5d5246fb1f0b19d7e2cc
+  checksum: 10/93cce943f33a9c10dd61fab63f24fe4bd7f547bd7a473bc8f9d16638caf6e5d3c0c948643f475297c64c1394a207d135eb4b266b13cf8d4add3b881c61b87d2b
   languageName: node
   linkType: hard
 
@@ -6156,7 +6156,7 @@ __metadata:
     "@vitejs/plugin-react": "npm:^4.3.4"
     "@vitest/coverage-v8": "npm:^3.1.1"
     axios: "npm:^1.8.4"
-    babel-plugin-react-compiler: "npm:19.0.0-beta-e993439-20250328"
+    babel-plugin-react-compiler: "npm:19.0.0-beta-e993439-20250405"
     change-case: "npm:^5.4.4"
     eslint: "npm:9.24.0"
     eslint-config-prettier: "npm:^10.1.1"
