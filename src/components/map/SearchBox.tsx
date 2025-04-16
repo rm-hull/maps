@@ -31,7 +31,7 @@ export function SearchBox(): JSX.Element {
 
   useEffect(() => {
     if (isOpen) {
-      setInputFocus();
+      setTimeout(setInputFocus, 20);
     }
   }, [isOpen, setInputFocus]);
 
