@@ -1425,7 +1425,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/types@npm:^7.0.0, @babel/types@npm:^7.20.7, @babel/types@npm:^7.25.4, @babel/types@npm:^7.25.9, @babel/types@npm:^7.26.0, @babel/types@npm:^7.26.10, @babel/types@npm:^7.27.0, @babel/types@npm:^7.4.4":
+"@babel/types@npm:^7.0.0, @babel/types@npm:^7.19.0, @babel/types@npm:^7.20.7, @babel/types@npm:^7.25.4, @babel/types@npm:^7.25.9, @babel/types@npm:^7.26.10, @babel/types@npm:^7.27.0, @babel/types@npm:^7.4.4":
   version: 7.27.0
   resolution: "@babel/types@npm:7.27.0"
   dependencies:
@@ -3601,12 +3601,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"babel-plugin-react-compiler@npm:19.0.0-beta-ebf51a3-20250411":
-  version: 19.0.0-beta-ebf51a3-20250411
-  resolution: "babel-plugin-react-compiler@npm:19.0.0-beta-ebf51a3-20250411"
+"babel-plugin-react-compiler@npm:19.0.0-beta-714736e-20250131":
+  version: 19.0.0-beta-714736e-20250131
+  resolution: "babel-plugin-react-compiler@npm:19.0.0-beta-714736e-20250131"
   dependencies:
-    "@babel/types": "npm:^7.26.0"
-  checksum: 10/aebbe6602a2284d799d54ad5ca4b1a889be5d490639db104b796530a92253e131df4a9e0658d29ef37e48f78e6d40e29403bf96dac43351fde5e538b53c1f5eb
+    "@babel/types": "npm:^7.19.0"
+  checksum: 10/1a91429393a196e3ece4ea657c8b4b0409c797ce27f5b2bcd7f7a869f5010a44094ab557be59bd3e52626b266fe727bd893c00820f6761b40df57b70ccdca812
   languageName: node
   linkType: hard
 
@@ -6349,7 +6349,7 @@ __metadata:
     "@vitejs/plugin-react": "npm:^4.4.0"
     "@vitest/coverage-v8": "npm:^3.1.1"
     axios: "npm:^1.8.4"
-    babel-plugin-react-compiler: "npm:19.0.0-beta-ebf51a3-20250411"
+    babel-plugin-react-compiler: "npm:19.0.0-beta-714736e-20250131"
     change-case: "npm:^5.4.4"
     eslint: "npm:9.24.0"
     eslint-config-prettier: "npm:^10.1.2"
