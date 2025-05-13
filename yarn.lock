@@ -5224,11 +5224,11 @@ __metadata:
   languageName: node
   linkType: hard
 
-"framer-motion@npm:^12.10.1":
-  version: 12.10.1
-  resolution: "framer-motion@npm:12.10.1"
+"framer-motion@npm:^12.11.0":
+  version: 12.11.0
+  resolution: "framer-motion@npm:12.11.0"
   dependencies:
-    motion-dom: "npm:^12.10.1"
+    motion-dom: "npm:^12.11.0"
     motion-utils: "npm:^12.9.4"
     tslib: "npm:^2.4.0"
   peerDependencies:
@@ -5242,7 +5242,7 @@ __metadata:
       optional: true
     react-dom:
       optional: true
-  checksum: 10/6e98389f9322833aba23f5130327fb50e69b03c7cac591dc0b1d9fc8e28ee661f28a34abef74e74d64d70d142a2702e2cd7ae14c2fbed0706d0fdde81607a13c
+  checksum: 10/47af466bfb3795c8bb33094e9a73e1931a9d3bf15c74ef50a5623b46f1411ebfed85453b9c4b91c7b2c16d992a97d0959f20d039f576cbe9e1caa277af4ef3d5
   languageName: node
   linkType: hard
 
@@ -6414,7 +6414,7 @@ __metadata:
     eslint-plugin-react-hooks: "npm:^5.2.0"
     eslint-plugin-react-refresh: "npm:^0.4.20"
     eslint-plugin-testing-library: "npm:^7.1.1"
-    framer-motion: "npm:^12.10.1"
+    framer-motion: "npm:^12.11.0"
     globals: "npm:^16.0.0"
     jotai: "npm:^2.12.3"
     leaflet: "npm:^1.9.4"
@@ -6632,12 +6632,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"motion-dom@npm:^12.10.1":
-  version: 12.10.1
-  resolution: "motion-dom@npm:12.10.1"
+"motion-dom@npm:^12.11.0":
+  version: 12.11.0
+  resolution: "motion-dom@npm:12.11.0"
   dependencies:
     motion-utils: "npm:^12.9.4"
-  checksum: 10/b40599d8bcbe8226f4b532718e089631ae5f15da9c4582291b17d51c1d1cd1cb40cfe93692e70454cb2f156e6424aa97af945b802abc1d2ef3deac3b75f526bb
+  checksum: 10/ed923399bb46a9bf828d72d54f520504bbd887417ca651cfccf99cfbf1445cc313facae96dc55a5bd8491b8de10a7c8216afd40737f4d1f6b62023ab7ade0af4
   languageName: node
   linkType: hard
 
