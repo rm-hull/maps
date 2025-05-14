@@ -6430,7 +6430,7 @@ __metadata:
     react-lazily: "npm:^0.9.2"
     react-leaflet: "npm:^4.2.1"
     react-leaflet-cluster: "npm:^2.1.0"
-    react-leaflet-custom-control: "npm:^1.4.0"
+    react-leaflet-custom-control: "npm:^1.4.1"
     react-query: "npm:^3.39.3"
     react-router-dom: "npm:^7.5.3"
     react-use: "npm:^17.6.0"
@@ -7249,16 +7249,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-leaflet-custom-control@npm:^1.4.0":
-  version: 1.4.0
-  resolution: "react-leaflet-custom-control@npm:1.4.0"
+"react-leaflet-custom-control@npm:^1.4.1":
+  version: 1.4.1
+  resolution: "react-leaflet-custom-control@npm:1.4.1"
   dependencies:
     react-leaflet: "npm:^4.2.1"
   peerDependencies:
     leaflet: ^1.7.1
     react: ^17.0.2 || ^18.0.0
     react-dom: ^17.0.2 || ^18.0.0
-  checksum: 10/047f4504bbadde6e76a19018b853d9835b15e44617fc67a5981ed86461f41e4f9703d7021692134b7bee963a98a2e41da33397307c136eaaa4f68410278c886d
+  checksum: 10/55bfc330c64c4bd2e9a8fb452cdbf76a5ed7e13dcd33e19a46556cee9d0f586ff36cdb4b85b2f5f7253a58f7685222a444c1a634ec0ea18096825e5c49ad8100
   languageName: node
   linkType: hard
 
