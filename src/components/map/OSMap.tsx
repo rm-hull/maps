@@ -4,7 +4,7 @@ import { type JSX } from "react";
 import { LayerGroup, LayersControl, MapContainer, ScaleControl, TileLayer } from "react-leaflet";
 import { DEFAULT_ZOOM_LEVEL, useGeneralSettings } from "../../hooks/useGeneralSettings";
 import { API_KEY } from "../../services/osdatahub";
-import { toLatLng } from "../../services/osdatahub/helpers";
+import { crs, toLatLng } from "../../services/osdatahub/helpers";
 import { CurrentLocation } from "../controls/CurrentLocation";
 import { Ruler } from "../controls/Ruler";
 import { Settings } from "../controls/Settings";
@@ -13,16 +13,6 @@ import { GeographLayer } from "./GeographLayer";
 import { PointOfInterest } from "./PointOfInterest";
 import { SearchBox } from "./SearchBox";
 import { Tracks } from "./Tracks";
-
-// Setup the EPSG:27700 (British National Grid) projection.
-const crs = new L.Proj.CRS(
-  "EPSG:27700",
-  "+proj=tmerc +lat_0=49 +lon_0=-2 +k=0.9996012717 +x_0=400000 +y_0=-100000 +ellps=airy +towgs84=446.448,-125.157,542.060,0.1502,0.2470,0.8421,-20.4894 +units=m +no_defs",
-  {
-    resolutions: [896.0, 448.0, 224.0, 112.0, 56.0, 28.0, 14.0, 7.0, 3.5, 1.75, 0.875, 0.4375, 0.21875, 0.109375],
-    origin: [-238375.0, 1376256.0],
-  }
-);
 
 interface OSMapProps {
   center?: L.LatLngTuple;
