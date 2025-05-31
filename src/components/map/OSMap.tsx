@@ -9,7 +9,7 @@ import { CurrentLocation } from "../controls/CurrentLocation";
 import { Ruler } from "../controls/Ruler";
 import { Settings } from "../controls/Settings";
 import { FlyToLocation } from "./FlyToLocation";
-import { ImagesLayer } from "./ImagesLayer";
+import { GeographLayer } from "./GeographLayer";
 import { PointOfInterest } from "./PointOfInterest";
 import { SearchBox } from "./SearchBox";
 import { Tracks } from "./Tracks";
@@ -72,8 +72,8 @@ export function OSMap({ center }: OSMapProps): JSX.Element | null {
           <TileLayer url={`https://api.os.uk/maps/raster/v1/zxy/Light_27700/{z}/{x}/{y}.png?key=${API_KEY}`} />
         </LayersControl.BaseLayer>
 
-        <LayersControl.Overlay name="Geograph">
-          <ImagesLayer minZoom={10} />
+        <LayersControl.Overlay name="Geograph" checked={settings?.autoSelect?.geograph}>
+          <GeographLayer minZoom={10} />
         </LayersControl.Overlay>
       </LayersControl>
       <CurrentLocation active={settings?.initialLocation === "current" && center === undefined} />

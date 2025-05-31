@@ -5,6 +5,7 @@ import { LayerGroup, Marker, Popup, useMap, useMapEvents } from "react-leaflet";
 import MarkerClusterGroup from "react-leaflet-cluster";
 import { Link as ReactRouterLink } from "react-router-dom";
 import { useImages } from "../../hooks/useImages";
+import { useGeneralSettings } from "../../hooks/useGeneralSettings";
 
 interface ImagesProps {
   latLng: LatLng;
@@ -31,14 +32,17 @@ function Images({ latLng, distance }: ImagesProps): JSX.Element {
   );
 }
 
-interface ImagesLayerProps {
+interface GeographLayerProps {
   minZoom: number;
 }
 
-export function ImagesLayer({ minZoom }: ImagesLayerProps): JSX.Element | null {
+export function GeographLayer({ minZoom }: GeographLayerProps): JSX.Element | null {
   const map = useMap();
+  const [settings] = useGeneralSettings();
   const [latLng, setLatLng] = useState<LatLng>(map.getCenter());
-  const [overlayChecked, setOverlayChecked] = useState<Record<string, boolean>>({});
+  const [overlayChecked, setOverlayChecked] = useState<Record<string, boolean>>({
+    Geograph: settings?.autoSelect?.geograph ?? false,
+  });
 
   const handleOverlayChange = (layer: string, checked: boolean) => {
     setOverlayChecked((prevState) => ({

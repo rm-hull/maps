@@ -8,13 +8,15 @@ import {
   SliderFilledTrack,
   SliderThumb,
   SliderTrack,
+  Switch,
   Tooltip,
   useDisclosure,
   VStack,
 } from "@chakra-ui/react";
 import { type LatLngTuple } from "leaflet";
-import { type JSX } from "react";
+import { ChangeEvent, type JSX } from "react";
 import {
+  AutoSelect,
   DEFAULT_ZOOM_LEVEL,
   useGeneralSettings,
   type InitialLocation,
@@ -40,6 +42,12 @@ export function SettingsForm(): JSX.Element {
 
   const handleUpdateZoomLevel = (zoomLevel: number): void => {
     updateSettings({ ...settings, initialZoomLevel: zoomLevel });
+  };
+
+  const handleUpdateAutoSelect = (autoSelectKey: keyof AutoSelect) => {
+    return (event: ChangeEvent<HTMLInputElement>) => {
+      updateSettings({ ...settings, autoSelect: { ...settings?.autoSelect, [autoSelectKey]: event.target.checked } });
+    };
   };
 
   const zoomLevel = settings?.initialZoomLevel ?? DEFAULT_ZOOM_LEVEL;
@@ -103,6 +111,21 @@ export function SettingsForm(): JSX.Element {
             <Radio value="light">Light</Radio>
           </VStack>
         </RadioGroup>
+      </FormControl>
+
+      <FormControl display="flex" alignItems="flex-start">
+        <FormLabel mb={0} minW={110}>
+          Auto-select:
+        </FormLabel>
+        <VStack align="left" mt={1}>
+          <Switch
+            size="sm"
+            isChecked={settings?.autoSelect?.geograph ?? false}
+            onChange={handleUpdateAutoSelect("geograph")}
+          >
+            Geograph API
+          </Switch>
+        </VStack>
       </FormControl>
     </VStack>
   );
