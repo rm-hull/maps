@@ -24,7 +24,7 @@ export function OSMap({ center }: OSMapProps): JSX.Element | null {
 
   return (
     <MapContainer
-      // crs={crs}
+      // crs={L.CRS.EPSG4326}
       zoom={settings?.initialZoomLevel ?? DEFAULT_ZOOM_LEVEL}
       minZoom={0}
       maxZoom={13}
@@ -43,7 +43,6 @@ export function OSMap({ center }: OSMapProps): JSX.Element | null {
             <BngTileLayer
               url={`https://api.os.uk/maps/raster/v1/zxy/Leisure_27700/{z}/{x}/{y}.png?key=${API_KEY}`}
               maxZoom={9}
-              
             />
             <TileLayer
               url={`https://api.os.uk/maps/raster/v1/zxy/Road_27700/{z}/{x}/{y}.png?key=${API_KEY}`}
