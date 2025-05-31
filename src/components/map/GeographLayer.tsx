@@ -4,7 +4,7 @@ import { useState, type JSX } from "react";
 import { LayerGroup, Marker, Popup, useMap, useMapEvents } from "react-leaflet";
 import MarkerClusterGroup from "react-leaflet-cluster";
 import { Link as ReactRouterLink } from "react-router-dom";
-import { useImages } from "../../hooks/useImages";
+import { useGeograph } from "../../hooks/useGeograph";
 import { useGeneralSettings } from "../../hooks/useGeneralSettings";
 
 interface ImagesProps {
@@ -13,7 +13,7 @@ interface ImagesProps {
 }
 
 function Images({ latLng, distance }: ImagesProps): JSX.Element {
-  const data = useImages(latLng, distance / 1000.0);
+  const data = useGeograph(latLng, distance / 1000.0);
 
   return (
     <MarkerClusterGroup chunkedLoading showCoverageOnHover={false} removeOutsideVisibleBounds>
