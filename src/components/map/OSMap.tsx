@@ -75,6 +75,19 @@ export function OSMap({ center }: OSMapProps): JSX.Element | null {
         <LayersControl.Overlay name="Geograph" checked={settings?.autoSelect?.geograph}>
           <GeographLayer minZoom={10} />
         </LayersControl.Overlay>
+        {/* <LayersControl.BaseLayer name="MTB Map">
+          <TileLayer url="http://tile.mtbmap.cz/mtbmap_tiles/{z}/{x}/{y}.png" />
+        </LayersControl.BaseLayer>
+
+        <LayersControl.Overlay name="Waymarked Hiking Trails">
+          <TileLayer url="https://tile.waymarkedtrails.org/hiking/{z}/{x}/{y}.png" />
+        </LayersControl.Overlay>
+        <LayersControl.Overlay name="Waymarked Cycling Trails">
+          <TileLayer url="https://tile.waymarkedtrails.org/cycling/{z}/{x}/{y}.png" />
+        </LayersControl.Overlay>
+        <LayersControl.Overlay name="Waymarked MTB Trails">
+          <TileLayer url="https://tile.waymarkedtrails.org/mtb/{z}/{x}/{y}.png" />
+        </LayersControl.Overlay> */}
       </LayersControl>
       <CurrentLocation active={settings?.initialLocation === "current" && center === undefined} />
       <FlyToLocation
