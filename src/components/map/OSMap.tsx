@@ -13,6 +13,7 @@ import { GeographLayer } from "./GeographLayer";
 import { PointOfInterest } from "./PointOfInterest";
 import { SearchBox } from "./SearchBox";
 import { Tracks } from "./Tracks";
+import { BngTileLayer } from "./BngTileLayer";
 
 interface OSMapProps {
   center?: L.LatLngTuple;
@@ -23,7 +24,7 @@ export function OSMap({ center }: OSMapProps): JSX.Element | null {
 
   return (
     <MapContainer
-      crs={crs}
+      // crs={crs}
       zoom={settings?.initialZoomLevel ?? DEFAULT_ZOOM_LEVEL}
       minZoom={0}
       maxZoom={13}
@@ -39,9 +40,10 @@ export function OSMap({ center }: OSMapProps): JSX.Element | null {
       <LayersControl position="topright">
         <LayersControl.BaseLayer name="Leisure" checked={settings?.mapStyle === "leisure"}>
           <LayerGroup>
-            <TileLayer
+            <BngTileLayer
               url={`https://api.os.uk/maps/raster/v1/zxy/Leisure_27700/{z}/{x}/{y}.png?key=${API_KEY}`}
               maxZoom={9}
+              
             />
             <TileLayer
               url={`https://api.os.uk/maps/raster/v1/zxy/Road_27700/{z}/{x}/{y}.png?key=${API_KEY}`}
