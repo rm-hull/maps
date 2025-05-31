@@ -1,9 +1,9 @@
 import { type LatLng } from "leaflet";
-import { images } from "../services/geograph";
-import { type Item } from "../services/geograph/types.d";
+import { fetchGeographSyndicatorEndpoint } from "../services/geograph";
+import { type Item } from "../services/geograph/types";
 import { useEffect, useState } from "react";
 
-export function useImages(latLng: LatLng, distanceKm: number): Item[] {
+export function useGeograph(latLng: LatLng, distanceKm: number): Item[] {
   const [streamedItems, setStreamedItems] = useState<Item[]>([]);
 
   useEffect(() => {
@@ -11,7 +11,7 @@ export function useImages(latLng: LatLng, distanceKm: number): Item[] {
 
     async function fetchStreamedData() {
       const results: any[] = [];
-      const generator = images(latLng, distanceKm);
+      const generator = fetchGeographSyndicatorEndpoint(latLng, distanceKm);
 
       for await (const item of generator) {
         if (!isMounted) break;

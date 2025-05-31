@@ -13,7 +13,11 @@ const client = axios.create({
   params: { key: API_KEY, format: "JSON" },
 });
 
-export async function* images({ lat, lng }: LatLng, distanceKm: number, maxResults = 1000): AsyncGenerator<Item> {
+export async function* fetchGeographSyndicatorEndpoint(
+  { lat, lng }: LatLng,
+  distanceKm: number,
+  maxResults = 1000
+): AsyncGenerator<Item> {
   let results = 0;
   const params = { q: `${lat},${lng}`, distance: distanceKm.toFixed(3), perpage: 100 };
   const response = await client.get<Response>("/syndicator.php", { params });
