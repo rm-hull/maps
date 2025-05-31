@@ -120,7 +120,7 @@ export function SettingsForm(): JSX.Element {
         <VStack align="left" mt={1}>
           <Switch
             size="sm"
-            defaultChecked={settings?.autoSelect?.geograph}
+            isChecked={settings?.autoSelect?.geograph ?? false}
             onChange={handleUpdateAutoSelect("geograph")}
           >
             Geograph API
