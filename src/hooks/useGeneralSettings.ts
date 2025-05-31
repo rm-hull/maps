@@ -10,11 +10,16 @@ export interface CustomLocation {
   latLng: LatLngTuple;
 }
 
+export interface AutoSelect {
+  geograph: boolean;
+}
+
 export interface GeneralSettings {
   initialLocation?: InitialLocation;
   mapStyle?: MapStyle;
   customLocation?: CustomLocation;
   initialZoomLevel?: number;
+  autoSelect?: AutoSelect;
 }
 
 export const DEFAULT_ZOOM_LEVEL = 7;
