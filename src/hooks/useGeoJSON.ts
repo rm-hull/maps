@@ -11,7 +11,7 @@ interface UseGeoJsonReturnType {
 }
 
 export function useGeoJSON(url: string, type: SupportedMimeTypes): UseGeoJsonReturnType {
-  return useQuery<GeoJSONCollection, AxiosError>(["geojson"], async () => await fetchGeoJSON(url, type), {
+  return useQuery<GeoJSONCollection, AxiosError>(["geojson"], () => fetchGeoJSON(url, type), {
     staleTime: Infinity,
     enabled: false,
   });

@@ -12,7 +12,7 @@ interface UseGpsRoutesReturnType {
 }
 
 export function useGpsRoutes(bounds: LatLngBounds, truncateText = false): UseGpsRoutesReturnType {
-  return useQuery<SearchResponse, AxiosError>(["gpsRoutes", bounds], async () => await fetchGpsRoutes(bounds, truncateText), {
+  return useQuery<SearchResponse, AxiosError>(["gpsRoutes", bounds], () => fetchGpsRoutes(bounds, truncateText), {
     staleTime: Infinity,
     cacheTime: 600_000, // 10 minutes
   });
