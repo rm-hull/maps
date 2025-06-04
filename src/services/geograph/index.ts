@@ -2,7 +2,7 @@ import axios from "axios";
 import { type LatLng } from "leaflet";
 import { type Item, type Response } from "./types.d";
 
-export const API_KEY = import.meta.env.VITE_GEOGRAPH_API_KEY as string;
+const API_KEY = import.meta.env.VITE_GEOGRAPH_API_KEY as string;
 if (API_KEY === undefined) {
   throw Error("No Geograph API key specified");
 }
