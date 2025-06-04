@@ -3,15 +3,13 @@ import { SearchRequest, SearchResponse } from "./types";
 import axios from "axios";
 
 const API_URL = import.meta.env.VITE_GPS_ROUTES_API_URL as string;
-const API_KEY = import.meta.env.VITE_GPS_ROUTES_API_KEY as string;
-// if (API_KEY === undefined) {
-//   throw Error("No GPS Routes API key specified");
-// }
+if (API_URL === undefined) {
+  throw Error("No GPS Routes API URL specified");
+}
 
 const client = axios.create({
   baseURL: API_URL,
   timeout: 10000,
-  params: { key: API_KEY },
 });
 
 export const fetchGpsRoutes = async (bounds: LatLngBounds, truncateText: boolean): Promise<SearchResponse> => {
@@ -25,6 +23,5 @@ export const fetchGpsRoutes = async (bounds: LatLngBounds, truncateText: boolean
   };
 
   const resp = await client.post<SearchResponse>("/v1/gps-routes/search", payload);
-
   return resp.data;
 };

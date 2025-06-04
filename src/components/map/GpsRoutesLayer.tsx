@@ -14,9 +14,9 @@ interface SearchHitsProps {
 function SearchHits({ bounds }: SearchHitsProps): JSX.Element | null {
   const { data, isLoading, error } = useGpsRoutes(bounds, true);
 
-  // if (isLoading || error) {
-  //   return null;
-  // }
+  if (isLoading || error) {
+    return null;
+  }
 
   return (
     <MarkerClusterGroup chunkedLoading showCoverageOnHover={false} removeOutsideVisibleBounds>
