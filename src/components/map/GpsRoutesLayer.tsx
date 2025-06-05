@@ -1,12 +1,11 @@
-import { Card, CardBody, CardHeader, Heading, Image, Link, Text } from "@chakra-ui/react";
 import { type LatLngBounds } from "leaflet";
 import { useState, type JSX } from "react";
-import { LayerGroup, Marker, Popup, useMap, useMapEvents } from "react-leaflet";
-import { Link as ReactRouterLink } from "react-router-dom";
+import { LayerGroup, Marker, useMap, useMapEvents } from "react-leaflet";
 import { useGeneralSettings } from "../../hooks/useGeneralSettings";
 import { useGpsRoutes } from "../../hooks/useGpsRoutes";
 import MarkerClusterGroup from "react-leaflet-cluster";
 import SearchHit from "./SearchHit";
+import { violetMarker } from "../../icons";
 
 interface SearchHitsProps {
   bounds: LatLngBounds;
@@ -22,7 +21,7 @@ function SearchHits({ bounds }: SearchHitsProps): JSX.Element | null {
   return (
     <MarkerClusterGroup chunkedLoading showCoverageOnHover={false} removeOutsideVisibleBounds>
       {data?.hits.map((result) => (
-        <Marker key={result.objectID} position={[result._geoloc.lat, result._geoloc.lng]}>
+        <Marker key={result.objectID} position={[result._geoloc.lat, result._geoloc.lng]} icon={violetMarker}>
           <SearchHit
             title={result.title}
             description={result.description}

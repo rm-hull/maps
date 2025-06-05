@@ -1,5 +1,4 @@
 import { Badge, Card, CardBody, CardHeader, Heading, Image, Link, Text } from "@chakra-ui/react";
-import { distance } from "framer-motion";
 import { type JSX } from "react";
 import { Popup } from "react-leaflet";
 import { Link as ReactRouterLink } from "react-router-dom";
@@ -33,7 +32,9 @@ export default function SearchHit({
             </Badge>
           )}
           <CardHeader p={1} pb={0}>
-            <Heading size="sm">{title}</Heading>
+            <Heading size="sm" noOfLines={1}>
+              {title}
+            </Heading>
           </CardHeader>
           <CardBody p={1} pt={0}>
             <Text fontSize="sm" noOfLines={3} color="gray.600">

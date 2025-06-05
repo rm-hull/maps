@@ -35,6 +35,10 @@ And then, create secrets from the API keys:
 
 ![github-secrets](./doc/screenshots/github_secrets.webp)
 
+## Attribution
+
+Leaflet markers sourced from https://github.com/pointhi/leaflet-color-markers.
+
 ## MIT License
 
 Copyright (c) 2021 Richard Hull

@@ -1,12 +1,9 @@
-import { Image, Link } from "@chakra-ui/react";
 import { type LatLng } from "leaflet";
 import { useState, type JSX } from "react";
-import { LayerGroup, Marker, Popup, useMap, useMapEvents } from "react-leaflet";
+import { LayerGroup, Marker, useMap, useMapEvents } from "react-leaflet";
 import MarkerClusterGroup from "react-leaflet-cluster";
-import { Link as ReactRouterLink } from "react-router-dom";
 import { useGeograph } from "../../hooks/useGeograph";
 import { useGeneralSettings } from "../../hooks/useGeneralSettings";
-import { Search } from "../../pages/Search";
 import SearchHit from "./SearchHit";
 
 interface ImagesProps {
@@ -22,7 +19,7 @@ function Images({ latLng, distance }: ImagesProps): JSX.Element {
       {data.map((item) => (
         <Marker key={item.guid} position={[parseFloat(item.lat), parseFloat(item.long)]}>
           <SearchHit
-            title={item.title}
+            title={item.title.replace(/.* : /, "")}
             description={item.description?.replace(/Dist:.+?km.*?<br\/>/, "")}
             imageUrl={item.thumb.replace("_120x120", "")}
             targetUrl={item.link}
