@@ -6,6 +6,8 @@ import MarkerClusterGroup from "react-leaflet-cluster";
 import { Link as ReactRouterLink } from "react-router-dom";
 import { useGeograph } from "../../hooks/useGeograph";
 import { useGeneralSettings } from "../../hooks/useGeneralSettings";
+import { Search } from "../../pages/Search";
+import SearchHit from "./SearchHit";
 
 interface ImagesProps {
   latLng: LatLng;
@@ -19,13 +21,13 @@ function Images({ latLng, distance }: ImagesProps): JSX.Element {
     <MarkerClusterGroup chunkedLoading showCoverageOnHover={false} removeOutsideVisibleBounds>
       {data.map((item) => (
         <Marker key={item.guid} position={[parseFloat(item.lat), parseFloat(item.long)]}>
-          <Popup maxWidth={400}>
-            <Link as={ReactRouterLink} to={item.link} target="_blank" rel="noreferrer">
-              {item.title}
-            </Link>
-            <div dangerouslySetInnerHTML={{ __html: item.description?.replace(/Dist:.+?km<br\/>/, "") }} />
-            <Image src={item.thumb.replace("_120x120", "")} />[{item.author}, {item.imageTaken}]
-          </Popup>
+          <SearchHit
+            title={item.title}
+            description={item.description?.replace(/Dist:.+?km.*?<br\/>/, "")}
+            imageUrl={item.thumb.replace("_120x120", "")}
+            targetUrl={item.link}
+            attribution={`[${item.author}, ${item.imageTaken}]`}
+          />
         </Marker>
       ))}
     </MarkerClusterGroup>

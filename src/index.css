@@ -1,0 +1,22 @@
+.leaflet-popup-content-wrapper,
+.leaflet-popup-tip {
+  background: var(--chakra-colors-bg-panel) !important;
+}
+
+.leaflet-popup-content-wrapper {
+  padding: unset !important;
+  padding-top: 1px !important;
+  padding-left: 1px !important;
+}
+
+.leaflet-popup-content {
+  margin: -2px -2px 0 -2px !important;
+}
+
+.leaflet-popup-content p {
+  margin: unset !important;
+}
+
+.leaflet-popup-content a:focus {
+  outline: 0;
+}

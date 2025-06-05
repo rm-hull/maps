@@ -1,5 +1,6 @@
-import { ChakraProvider, ColorModeScript, createLocalStorageManager, theme } from "@chakra-ui/react";
+import "./index.css";
 import "leaflet/dist/leaflet.css";
+import { ChakraProvider, ColorModeScript, createLocalStorageManager, theme } from "@chakra-ui/react";
 import { createRoot } from "react-dom/client";
 import { ErrorBoundary } from "react-error-boundary";
 import ReactGA from "react-ga4";
