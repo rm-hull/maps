@@ -1,32 +1,51 @@
 import { type LatLngBounds } from "leaflet";
-import { useState, type JSX } from "react";
+import { useEffect, useState, type JSX } from "react";
 import { LayerGroup, Marker, useMap, useMapEvents } from "react-leaflet";
 import { useGeneralSettings } from "../../hooks/useGeneralSettings";
 import { useGpsRoutes } from "../../hooks/useGpsRoutes";
 import MarkerClusterGroup from "react-leaflet-cluster";
 import SearchHit from "./SearchHit";
 import { violetMarker } from "../../icons";
+import { SearchResponse } from "../../services/gpsRoutes/types";
+import { useToast } from "@chakra-ui/react";
 
 interface SearchHitsProps {
   bounds: LatLngBounds;
 }
 
 function SearchHits({ bounds }: SearchHitsProps): JSX.Element | null {
-  const { data, isLoading, error } = useGpsRoutes(bounds, true);
+  const { data, error } = useGpsRoutes(bounds, true);
+  const [cache, setCache] = useState<SearchResponse>();
+  const toast = useToast();
 
-  if (isLoading || error) {
+  useEffect(() => {
+    if (data && data.hits.length > 0) {
+      setCache(data);
+    }
+  }, [data]);
+
+  if (error) {
+    toast({
+      id: "gps-routes-error",
+      title: "Error loading GPS routes",
+      description: error.message,
+      status: "error",
+      duration: 9000,
+      isClosable: true,
+    });
+
     return null;
   }
 
   return (
     <MarkerClusterGroup chunkedLoading showCoverageOnHover={false} removeOutsideVisibleBounds>
-      {data?.hits.map((result) => (
+      {cache?.hits.map((result) => (
         <Marker key={result.objectID} position={[result._geoloc.lat, result._geoloc.lng]} icon={violetMarker}>
           <SearchHit
             title={result.title}
             description={result.description}
             imageUrl={result.headline_image_url}
-            targetUrl={`/gps-routes/${result.ref}`}
+            targetUrl={`https://www.destructuring-bind.org/gps-routes/${result.ref}`}
             distanceKm={result.distance_km}
           />
         </Marker>
