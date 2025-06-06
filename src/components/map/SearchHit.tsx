@@ -1,4 +1,4 @@
-import { Badge, Card, CardBody, CardHeader, Heading, Image, Link, Text } from "@chakra-ui/react";
+import { Badge, Card, CardBody, CardHeader, Heading, Link, Text } from "@chakra-ui/react";
 import { type JSX } from "react";
 import { Popup } from "react-leaflet";
 import { Link as ReactRouterLink } from "react-router-dom";
