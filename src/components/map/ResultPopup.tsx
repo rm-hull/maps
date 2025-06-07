@@ -4,23 +4,23 @@ import { Popup } from "react-leaflet";
 import { Link as ReactRouterLink } from "react-router-dom";
 import { FadeInImage } from "./FadeInImage";
 
-interface SearchHitsProps {
+interface ResultPopupProps {
   title: string;
   description: string;
   imageUrl?: string;
-  targetUrl?: string;
+  targetUrl: string;
   attribution?: string;
   distanceKm?: number;
 }
 
-export default function SearchHit({
+export default function ResultPopup({
   title,
   description,
   imageUrl,
   targetUrl,
   distanceKm,
   attribution,
-}: SearchHitsProps): JSX.Element {
+}: ResultPopupProps): JSX.Element {
   return (
     <Popup maxWidth={400} closeButton={false}>
       <Link as={ReactRouterLink} to={targetUrl} target="_blank" rel="noreferrer" outlineOffset={0}>

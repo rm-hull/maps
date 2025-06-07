@@ -5,7 +5,7 @@ import { LayerGroup, Marker, useMap, useMapEvents } from "react-leaflet";
 import MarkerClusterGroup from "react-leaflet-cluster";
 import { useGeograph } from "../../hooks/useGeograph";
 import { useGeneralSettings } from "../../hooks/useGeneralSettings";
-import SearchHit from "./SearchHit";
+import ResultPopup from "./ResultPopup";
 
 interface ImagesProps {
   latLng: LatLng;
@@ -37,7 +37,7 @@ function Images({ latLng, distance }: ImagesProps) {
     <MarkerClusterGroup chunkedLoading showCoverageOnHover={false} removeOutsideVisibleBounds>
       {data.map((item) => (
         <Marker key={item.guid} position={[parseFloat(item.lat), parseFloat(item.long)]}>
-          <SearchHit
+          <ResultPopup
             title={item.title.replace(/.* : /, "")}
             description={item.description?.replace(/Dist:.+?km.*?<br\/>/, "")}
             imageUrl={item.thumb.replace("_120x120", "")}

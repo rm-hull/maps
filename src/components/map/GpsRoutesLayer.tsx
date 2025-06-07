@@ -4,7 +4,7 @@ import { LayerGroup, Marker, useMap, useMapEvents } from "react-leaflet";
 import { useGeneralSettings } from "../../hooks/useGeneralSettings";
 import { useGpsRoutes } from "../../hooks/useGpsRoutes";
 import MarkerClusterGroup from "react-leaflet-cluster";
-import SearchHit from "./SearchHit";
+import ResultPopup from "./ResultPopup";
 import { violetMarker } from "../../icons";
 import { SearchResponse } from "../../services/gpsRoutes/types";
 import { useToast } from "@chakra-ui/react";
@@ -19,7 +19,7 @@ function SearchHits({ bounds }: SearchHitsProps): JSX.Element | null {
   const toast = useToast();
 
   useEffect(() => {
-    if (data && data.hits.length > 0) {
+    if (data) {
       setCache(data);
     }
   }, [data]);
@@ -41,7 +41,7 @@ function SearchHits({ bounds }: SearchHitsProps): JSX.Element | null {
     <MarkerClusterGroup chunkedLoading showCoverageOnHover={false} removeOutsideVisibleBounds>
       {cache?.hits.map((result) => (
         <Marker key={result.objectID} position={[result._geoloc.lat, result._geoloc.lng]} icon={violetMarker}>
-          <SearchHit
+          <ResultPopup
             title={result.title}
             description={result.description}
             imageUrl={result.headline_image_url}
