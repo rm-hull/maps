@@ -22,7 +22,7 @@ export function SearchBox(): JSX.Element {
   const [inputRef, setInputFocus] = useFocus();
   const bg = useColorModeValue("white", "var(--chakra-colors-gray-900)");
   const [value, setValue] = useControllableState({ defaultValue: "" });
-  const [searching, setSearching] = useState<SearchState>(undefined);
+  const [searching, setSearching] = useState<SearchState>();
   const map = useMapEvent("moveend", () => {
     if (searching === "busy") {
       setSearching("ok");

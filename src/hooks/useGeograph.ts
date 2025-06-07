@@ -9,8 +9,8 @@ type UseGeographReturnType = {
 };
 
 export function useGeograph(latLng: LatLng, distanceKm: number): UseGeographReturnType {
-  const [streamedItems, setStreamedItems] = useState<Item[] | undefined>(undefined);
-  const [error, setError] = useState<Error | undefined>(undefined);
+  const [streamedItems, setStreamedItems] = useState<Item[]>();
+  const [error, setError] = useState<Error>();
 
   useEffect(() => {
     let isMounted = true; // To prevent state updates if component unmounts
