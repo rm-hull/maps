@@ -3,14 +3,7 @@ import { LatLngBounds } from "leaflet";
 import axios from "axios";
 
 const API_URL = import.meta.env.VITE_GPS_ROUTES_API_URL as string;
-if (API_URL === undefined) {
-  throw Error("No GPS Routes API URL specified");
-}
-
 const API_KEY = import.meta.env.VITE_GPS_ROUTES_API_KEY as string;
-if (API_KEY === undefined) {
-  throw Error("No GPS Routes API Key specified");
-}
 
 const client = axios.create({
   baseURL: API_URL,
@@ -21,6 +14,14 @@ const client = axios.create({
 });
 
 export const fetchGpsRoutes = async (bounds: LatLngBounds, truncateText: boolean): Promise<SearchResponse> => {
+  if (API_URL === undefined) {
+    throw Error("No GPS Routes API URL specified");
+  }
+
+  if (API_KEY === undefined) {
+    throw Error("No GPS Routes API Key specified");
+  }
+
   const payload: SearchRequest = {
     boundingBox: [bounds.getWest(), bounds.getSouth(), bounds.getEast(), bounds.getNorth()],
     query: "",

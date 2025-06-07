@@ -3,9 +3,6 @@ import { type LatLng } from "leaflet";
 import axios from "axios";
 
 const API_KEY = import.meta.env.VITE_GEOGRAPH_API_KEY as string;
-if (API_KEY === undefined) {
-  throw Error("No Geograph API key specified");
-}
 
 const client = axios.create({
   baseURL: "https://api.geograph.org.uk",
@@ -18,6 +15,10 @@ export async function* fetchGeographSyndicatorEndpoint(
   distanceKm: number,
   maxResults = 1000
 ): AsyncGenerator<Item> {
+  if (API_KEY === undefined) {
+    throw Error("No Geograph API key specified");
+  }
+
   let results = 0;
   const params = { q: `${lat},${lng}`, distance: distanceKm.toFixed(3), perpage: 100 };
   const response = await client.get<Response>("/syndicator.php", { params });
