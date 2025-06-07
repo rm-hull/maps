@@ -13,6 +13,7 @@ import { GeographLayer } from "./GeographLayer";
 import { PointOfInterest } from "./PointOfInterest";
 import { SearchBox } from "./SearchBox";
 import { Tracks } from "./Tracks";
+import { GpsRoutesLayer } from "./GpsRoutesLayer";
 
 interface OSMapProps {
   center?: L.LatLngTuple;
@@ -64,6 +65,10 @@ export function OSMap({ center }: OSMapProps): JSX.Element | null {
 
         <LayersControl.Overlay name="Geograph" checked={settings?.autoSelect?.geograph}>
           <GeographLayer minZoom={10} />
+        </LayersControl.Overlay>
+
+        <LayersControl.Overlay name="GPS Routes" checked={settings?.autoSelect?.gpsRoutes}>
+          <GpsRoutesLayer minZoom={5} />
         </LayersControl.Overlay>
       </LayersControl>
       <CurrentLocation active={settings?.initialLocation === "current" && center === undefined} />

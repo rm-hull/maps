@@ -5,7 +5,7 @@ import { Loader } from "../components/Loader";
 import { OSMap } from "../components/map/OSMap";
 import { useSettings } from "../hooks/useSettings";
 
-const { SettingsModal } = lazily(async () => await import("../components/settings/SettingsModal"));
+const { SettingsModal } = lazily(() => import("../components/settings/SettingsModal"));
 
 interface HomeProps {
   latLng?: LatLngTuple;

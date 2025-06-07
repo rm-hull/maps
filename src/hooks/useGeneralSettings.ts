@@ -11,7 +11,8 @@ export interface CustomLocation {
 }
 
 export interface AutoSelect {
-  geograph: boolean;
+  geograph?: boolean;
+  gpsRoutes?: boolean;
 }
 
 export interface GeneralSettings {

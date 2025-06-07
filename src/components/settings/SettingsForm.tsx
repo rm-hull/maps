@@ -125,6 +125,14 @@ export function SettingsForm(): JSX.Element {
           >
             Geograph API
           </Switch>
+
+          <Switch
+            size="sm"
+            isChecked={settings?.autoSelect?.gpsRoutes ?? false}
+            onChange={handleUpdateAutoSelect("gpsRoutes")}
+          >
+            GPS Routes
+          </Switch>
         </VStack>
       </FormControl>
     </VStack>
