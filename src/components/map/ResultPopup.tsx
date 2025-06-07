@@ -1,5 +1,4 @@
 import { Badge, Card, CardBody, CardHeader, Heading, Link, Text } from "@chakra-ui/react";
-import { type JSX } from "react";
 import { Popup } from "react-leaflet";
 import { Link as ReactRouterLink } from "react-router-dom";
 import { FadeInImage } from "./FadeInImage";
@@ -20,7 +19,7 @@ export default function ResultPopup({
   targetUrl,
   distanceKm,
   attribution,
-}: ResultPopupProps): JSX.Element {
+}: ResultPopupProps) {
   return (
     <Popup maxWidth={400} closeButton={false}>
       <Link as={ReactRouterLink} to={targetUrl} target="_blank" rel="noreferrer" outlineOffset={0}>

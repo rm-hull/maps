@@ -1,8 +1,8 @@
 import { ChakraProvider, theme } from "@chakra-ui/react";
 import { render, type RenderOptions, type RenderResult } from "@testing-library/react";
-import { type JSX, type ReactElement, type ReactNode } from "react";
+import { type ReactElement, type ReactNode } from "react";
 
-const AllProviders = ({ children }: { children?: ReactNode }): JSX.Element => (
+const AllProviders = ({ children }: { children?: ReactNode }) => (
   <ChakraProvider theme={theme}>{children}</ChakraProvider>
 );
 

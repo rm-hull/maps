@@ -1,6 +1,6 @@
 import { useToast } from "@chakra-ui/react";
 import { type LatLng } from "leaflet";
-import { useEffect, useState, type JSX } from "react";
+import { useEffect, useState } from "react";
 import { LayerGroup, Marker, useMap, useMapEvents } from "react-leaflet";
 import MarkerClusterGroup from "react-leaflet-cluster";
 import { useGeograph } from "../../hooks/useGeograph";
@@ -54,7 +54,7 @@ interface GeographLayerProps {
   minZoom: number;
 }
 
-export function GeographLayer({ minZoom }: GeographLayerProps): JSX.Element | null {
+export function GeographLayer({ minZoom }: GeographLayerProps) {
   const map = useMap();
   const [settings] = useGeneralSettings();
   const [latLng, setLatLng] = useState<LatLng>(map.getCenter());

@@ -8,7 +8,7 @@ import {
   useControllableState,
   useDisclosure,
 } from "@chakra-ui/react";
-import { useEffect, useState, type ChangeEvent, type JSX } from "react";
+import { useEffect, useState, type ChangeEvent} from "react";
 import { useMapEvent } from "react-leaflet";
 import Control from "react-leaflet-custom-control";
 import { useKeyPressEvent } from "react-use";
@@ -17,7 +17,7 @@ import { find } from "../../services/osdatahub";
 import { toLatLng } from "../../services/osdatahub/helpers";
 import { StateIcon, type SearchState } from "../StateIcon";
 
-export function SearchBox(): JSX.Element {
+export function SearchBox() {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [inputRef, setInputFocus] = useFocus();
   const bg = useColorModeValue("white", "var(--chakra-colors-gray-900)");

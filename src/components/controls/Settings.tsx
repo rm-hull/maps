@@ -1,10 +1,9 @@
 import { Button } from "@chakra-ui/react";
-import { type JSX } from "react";
 import { IoMdSettings } from "react-icons/io";
 import Control from "react-leaflet-custom-control";
 import { useSettings } from "../../hooks/useSettings";
 
-export function Settings(): JSX.Element {
+export function Settings() {
   const { onOpen } = useSettings();
 
   return (

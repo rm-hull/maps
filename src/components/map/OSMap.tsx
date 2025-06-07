@@ -1,6 +1,5 @@
 import * as L from "leaflet";
 import "proj4leaflet";
-import { type JSX } from "react";
 import { LayerGroup, LayersControl, MapContainer, ScaleControl, TileLayer } from "react-leaflet";
 import { DEFAULT_ZOOM_LEVEL, useGeneralSettings } from "../../hooks/useGeneralSettings";
 import { API_KEY } from "../../services/osdatahub";
@@ -19,7 +18,7 @@ interface OSMapProps {
   center?: L.LatLngTuple;
 }
 
-export function OSMap({ center }: OSMapProps): JSX.Element | null {
+export function OSMap({ center }: OSMapProps) {
   const [settings] = useGeneralSettings();
 
   return (

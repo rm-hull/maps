@@ -1,5 +1,5 @@
 import { Button } from "@chakra-ui/react";
-import { useEffect, type JSX } from "react";
+import { useEffect } from "react";
 import { IoMdLocate } from "react-icons/io";
 import { Circle, Marker, Popup } from "react-leaflet";
 import Control from "react-leaflet-custom-control";
@@ -11,7 +11,7 @@ interface CurrentLocationProps {
   active?: boolean;
 }
 
-export function CurrentLocation({ active }: CurrentLocationProps): JSX.Element {
+export function CurrentLocation({ active }: CurrentLocationProps) {
   const { activate, location } = useCurrentLocation();
   useEffect(
     () => {
