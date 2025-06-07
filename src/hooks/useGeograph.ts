@@ -17,7 +17,7 @@ export function useGeograph(latLng: LatLng, distanceKm: number): UseGeographRetu
 
     async function fetchStreamedData() {
       try {
-        const results: any[] = [];
+        const results: Item[] = [];
         const generator = fetchGeographSyndicatorEndpoint(latLng, distanceKm);
 
         for await (const item of generator) {
