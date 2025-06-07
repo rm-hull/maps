@@ -1,4 +1,4 @@
-import { Table, TableContainer, Tbody, Td, Th, Tr } from "@chakra-ui/react";
+import { Table, TableContainer, Tbody, Td, Th, Tr, useToast } from "@chakra-ui/react";
 import { type LatLng } from "leaflet";
 import { type JSX } from "react";
 import { useNearest } from "../../hooks/useNearest";
@@ -61,7 +61,6 @@ function GPS({ latLng, altitude, heading, accuracy, timestamp }: GPSProps): JSX.
   );
 }
 
-
 type NearestInfoProps = GPSProps & {
   render: (children: JSX.Element) => JSX.Element;
 };
@@ -75,7 +74,20 @@ export function NearestInfo({
   render,
 }: NearestInfoProps): JSX.Element | null {
   const bng = toBNG(latLng);
-  const { data: osData, status: osStatus } = useNearest(bng);
+  const { data: osData, status: osStatus, error } = useNearest(bng);
+  const toast = useToast();
+
+  if (error) {
+    toast({
+      id: "nearest-error",
+      title: "Error fetching nearest location",
+      description: error.message,
+      status: "error",
+      duration: 9000,
+      isClosable: true,
+    });
+    return null;
+  }
 
   if (osData === undefined || osStatus !== "success") {
     return null;

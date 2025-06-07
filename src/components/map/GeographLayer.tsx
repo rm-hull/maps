@@ -1,4 +1,4 @@
-import { Image, Link } from "@chakra-ui/react";
+import { Image, Link, useToast } from "@chakra-ui/react";
 import { type LatLng } from "leaflet";
 import { useState, type JSX } from "react";
 import { LayerGroup, Marker, Popup, useMap, useMapEvents } from "react-leaflet";
@@ -12,8 +12,21 @@ interface ImagesProps {
   distance: number;
 }
 
-function Images({ latLng, distance }: ImagesProps): JSX.Element {
-  const data = useGeograph(latLng, distance / 1000.0);
+function Images({ latLng, distance }: ImagesProps): JSX.Element | null {
+  const { data, error } = useGeograph(latLng, distance / 1000.0);
+  const toast = useToast();
+
+  if (error) {
+    toast({
+      id: "points-of-interest-error",
+      title: "Error fetching points of interest",
+      description: error.message,
+      status: "error",
+      duration: 9000,
+      isClosable: true,
+    });
+    return null;
+  }
 
   return (
     <MarkerClusterGroup chunkedLoading showCoverageOnHover={false} removeOutsideVisibleBounds>
