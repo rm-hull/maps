@@ -1,6 +1,6 @@
 import { Image, Link, useToast } from "@chakra-ui/react";
 import { type LatLng } from "leaflet";
-import { useState, type JSX } from "react";
+import { useEffect, useState, type JSX } from "react";
 import { LayerGroup, Marker, Popup, useMap, useMapEvents } from "react-leaflet";
 import MarkerClusterGroup from "react-leaflet-cluster";
 import { Link as ReactRouterLink } from "react-router-dom";
@@ -12,19 +12,24 @@ interface ImagesProps {
   distance: number;
 }
 
-function Images({ latLng, distance }: ImagesProps): JSX.Element | null {
+function Images({ latLng, distance }: ImagesProps) {
   const { data, error } = useGeograph(latLng, distance / 1000.0);
   const toast = useToast();
 
-  if (error) {
-    toast({
-      id: "points-of-interest-error",
-      title: "Error fetching points of interest",
-      description: error.message,
-      status: "error",
-      duration: 9000,
-      isClosable: true,
-    });
+  useEffect(() => {
+    if (error) {
+      toast({
+        id: "points-of-interest-error",
+        title: "Error fetching points of interest",
+        description: error.message,
+        status: "error",
+        duration: 9000,
+        isClosable: true,
+      });
+    }
+  }, [error, toast]);
+
+  if (data === undefined || error !== undefined) {
     return null;
   }
 

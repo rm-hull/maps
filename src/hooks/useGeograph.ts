@@ -4,12 +4,12 @@ import { type Item } from "../services/geograph/types";
 import { useEffect, useState } from "react";
 
 type UseGeographReturnType = {
-  data: Item[];
+  data?: Item[];
   error?: Error;
 };
 
 export function useGeograph(latLng: LatLng, distanceKm: number): UseGeographReturnType {
-  const [streamedItems, setStreamedItems] = useState<Item[]>([]);
+  const [streamedItems, setStreamedItems] = useState<Item[] | undefined>(undefined);
   const [error, setError] = useState<Error | undefined>(undefined);
 
   useEffect(() => {
@@ -27,12 +27,13 @@ export function useGeograph(latLng: LatLng, distanceKm: number): UseGeographRetu
         }
       } catch (err) {
         setError(err as Error);
+        setStreamedItems(undefined);
       }
     }
 
     fetchStreamedData();
 
-    () => {
+    return () => {
       isMounted = false;
     };
   }, [latLng, distanceKm, setError]);

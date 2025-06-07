@@ -1,6 +1,6 @@
 import { Table, TableContainer, Tbody, Td, Th, Tr, useToast } from "@chakra-ui/react";
 import { type LatLng } from "leaflet";
-import { type JSX } from "react";
+import { useEffect, type JSX } from "react";
 import { useNearest } from "../../hooks/useNearest";
 import { toBNG } from "../../services/osdatahub/helpers";
 
@@ -12,7 +12,7 @@ interface GPSProps {
   heading?: number;
 }
 
-function GPS({ latLng, altitude, heading, accuracy, timestamp }: GPSProps): JSX.Element {
+function GPS({ latLng, altitude, heading, accuracy, timestamp }: GPSProps) {
   const [easting, northing] = toBNG(latLng);
 
   return (
@@ -74,26 +74,27 @@ export function NearestInfo({
   render,
 }: NearestInfoProps): JSX.Element | null {
   const bng = toBNG(latLng);
-  const { data: osData, status: osStatus, error } = useNearest(bng);
+  const { data, status, error } = useNearest(bng);
   const toast = useToast();
 
-  if (error) {
-    toast({
-      id: "nearest-error",
-      title: "Error fetching nearest location",
-      description: error.message,
-      status: "error",
-      duration: 9000,
-      isClosable: true,
-    });
+  useEffect(() => {
+    if (error) {
+      toast({
+        id: "nearest-error",
+        title: "Error fetching nearest location",
+        description: error.message,
+        status: "error",
+        duration: 9000,
+        isClosable: true,
+      });
+    }
+  }, [error, toast]);
+
+  if (data === undefined || status !== "success") {
     return null;
   }
 
-  if (osData === undefined || osStatus !== "success") {
-    return null;
-  }
-
-  if ((osData.header.totalresults ?? 0) === 0) {
+  if ((data.header.totalresults ?? 0) === 0) {
     return render(
       <TableContainer>
         <Table size="sm">
@@ -105,7 +106,7 @@ export function NearestInfo({
     );
   }
 
-  const { localType, name1, countyUnitary, districtBorough, region } = osData?.results[0].gazetteerEntry;
+  const { localType, name1, countyUnitary, districtBorough, region } = data?.results[0].gazetteerEntry;
 
   return render(
     <TableContainer>
