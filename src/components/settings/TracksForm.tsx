@@ -13,11 +13,12 @@ import {
   useBoolean,
   VStack,
 } from "@chakra-ui/react";
-import { ChangeEvent, useEffect, useState} from "react";
-import { fromReactQuery, StateIcon } from "../StateIcon";
+import { ChangeEvent, useEffect, useState } from "react";
 import { useGeoJSON } from "../../hooks/useGeoJSON";
 import { SupportedMimeTypes } from "../../services/geojson";
 import { useQueryClient } from "react-query";
+import { fromReactQuery } from "../../utils/queryStatus";
+import { StateIcon } from "../StateIcon";
 
 const CORS_PROXY = import.meta.env.VITE_CORS_PROXY as string;
 
@@ -32,7 +33,7 @@ export function TracksForm() {
 
   useEffect(() => {
     queryClient.removeQueries(["geojson"]);
-  }, []);
+  }, [queryClient]);
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>): void => {
     setUrl(event.target.value);
