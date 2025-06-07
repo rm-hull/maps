@@ -1,6 +1,7 @@
+import { useToast } from "@chakra-ui/react";
 import { type LatLng } from "leaflet";
-import { useState, type JSX } from "react";
-import { LayerGroup, Marker, useMap, useMapEvents } from "react-leaflet";
+import { useEffect, useState, type JSX } from "react";
+import { LayerGroup, Marker, Popup, useMap, useMapEvents } from "react-leaflet";
 import MarkerClusterGroup from "react-leaflet-cluster";
 import { useGeograph } from "../../hooks/useGeograph";
 import { useGeneralSettings } from "../../hooks/useGeneralSettings";
@@ -11,8 +12,26 @@ interface ImagesProps {
   distance: number;
 }
 
-function Images({ latLng, distance }: ImagesProps): JSX.Element {
-  const data = useGeograph(latLng, distance / 1000.0);
+function Images({ latLng, distance }: ImagesProps) {
+  const { data, error } = useGeograph(latLng, distance / 1000.0);
+  const toast = useToast();
+
+  useEffect(() => {
+    if (error) {
+      toast({
+        id: "points-of-interest-error",
+        title: "Error fetching points of interest",
+        description: error.message,
+        status: "error",
+        duration: 9000,
+        isClosable: true,
+      });
+    }
+  }, [error, toast]);
+
+  if (data === undefined || error !== undefined) {
+    return null;
+  }
 
   return (
     <MarkerClusterGroup chunkedLoading showCoverageOnHover={false} removeOutsideVisibleBounds>

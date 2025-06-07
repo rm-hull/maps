@@ -21,19 +21,25 @@ export async function* fetchGeographSyndicatorEndpoint(
   let results = 0;
   const params = { q: `${lat},${lng}`, distance: distanceKm.toFixed(3), perpage: 100 };
   const response = await client.get<Response>("/syndicator.php", { params });
-  let nextURL = response.data.nextURL;
+  if (response.status !== 200) {
+    throw new Error(`Failed to fetch Geograph data: ${response.statusText}`);
+  }
 
   for (const item of response.data.items) {
     yield item;
     results++;
   }
 
-  while (results < maxResults) {
+  let nextURL = response.data.nextURL;
+  while (results < maxResults && !!nextURL) {
     if (nextURL === undefined) break;
 
     const nextResponse = await client.get<Response>(nextURL);
-    nextURL = nextResponse.data.nextURL;
+    if (nextResponse.status !== 200) {
+      throw new Error(`Failed to fetch Geograph data: ${nextResponse.statusText}`);
+    }
 
+    nextURL = nextResponse.data.nextURL;
     for (const item of nextResponse.data.items) {
       yield item;
       results++;
