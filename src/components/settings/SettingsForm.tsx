@@ -14,7 +14,7 @@ import {
   VStack,
 } from "@chakra-ui/react";
 import { type LatLngTuple } from "leaflet";
-import { ChangeEvent, type JSX } from "react";
+import { ChangeEvent} from "react";
 import {
   AutoSelect,
   DEFAULT_ZOOM_LEVEL,
@@ -24,7 +24,7 @@ import {
 } from "../../hooks/useGeneralSettings";
 import { CustomSearch } from "./CustomSearch";
 
-export function SettingsForm(): JSX.Element {
+export function SettingsForm() {
   const [settings, updateSettings] = useGeneralSettings();
   const { isOpen, onOpen, onClose } = useDisclosure();
 

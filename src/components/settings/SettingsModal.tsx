@@ -13,7 +13,6 @@ import {
   TabPanels,
   Tabs,
 } from "@chakra-ui/react";
-import { type JSX } from "react";
 import { About } from "./About";
 import { License } from "./License";
 import { SettingsForm } from "./SettingsForm";
@@ -24,7 +23,7 @@ interface SettingsModalProps {
   onClose: () => void;
 }
 
-export function SettingsModal({ isOpen, onClose }: SettingsModalProps): JSX.Element {
+export function SettingsModal({ isOpen, onClose }: SettingsModalProps) {
   return (
     <Modal isOpen={isOpen} onClose={onClose} size="xl" scrollBehavior="inside">
       <ModalOverlay />

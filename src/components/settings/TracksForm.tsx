@@ -13,7 +13,7 @@ import {
   useBoolean,
   VStack,
 } from "@chakra-ui/react";
-import { ChangeEvent, useEffect, useState, type JSX } from "react";
+import { ChangeEvent, useEffect, useState} from "react";
 import { fromReactQuery, StateIcon } from "../StateIcon";
 import { useGeoJSON } from "../../hooks/useGeoJSON";
 import { SupportedMimeTypes } from "../../services/geojson";
@@ -21,7 +21,7 @@ import { useQueryClient } from "react-query";
 
 const CORS_PROXY = import.meta.env.VITE_CORS_PROXY as string;
 
-export function TracksForm(): JSX.Element {
+export function TracksForm() {
   const [type, setType] = useState<SupportedMimeTypes>(SupportedMimeTypes.GPX);
   const [url, setUrl] = useState<string>("");
   const [useCorsProxy, { toggle: setUseCorsProxy }] = useBoolean();

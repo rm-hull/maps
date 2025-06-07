@@ -1,6 +1,6 @@
 import { IconButton, Input, InputGroup, InputRightElement } from "@chakra-ui/react";
 import { type LatLngTuple } from "leaflet";
-import { useState, type ChangeEvent, type JSX } from "react";
+import { useState, type ChangeEvent} from "react";
 import { find } from "../../services/osdatahub";
 import { toLatLng } from "../../services/osdatahub/helpers";
 import { StateIcon, type SearchState } from "../StateIcon";
@@ -11,7 +11,7 @@ interface CustomSearchProps {
   onUpdate: (latLng: LatLngTuple, searchTerm: string) => void;
 }
 
-export function CustomSearch({ isDisabled = false, searchTerm = "", onUpdate }: CustomSearchProps): JSX.Element {
+export function CustomSearch({ isDisabled = false, searchTerm = "", onUpdate }: CustomSearchProps) {
   const [value, setValue] = useState(searchTerm);
   const [searching, setSearching] = useState<SearchState>();
 

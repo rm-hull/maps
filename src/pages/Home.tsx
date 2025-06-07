@@ -1,5 +1,4 @@
 import { type LatLngTuple } from "leaflet";
-import { type JSX } from "react";
 import { lazily } from "react-lazily";
 import { Loader } from "../components/Loader";
 import { OSMap } from "../components/map/OSMap";
@@ -11,7 +10,7 @@ interface HomeProps {
   latLng?: LatLngTuple;
 }
 
-export function Home({ latLng }: HomeProps): JSX.Element {
+export function Home({ latLng }: HomeProps) {
   const { isOpen, onClose } = useSettings();
   return (
     <>

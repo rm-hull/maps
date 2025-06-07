@@ -1,5 +1,5 @@
 import { type LatLngBounds } from "leaflet";
-import { useEffect, useState, type JSX } from "react";
+import { useEffect, useState } from "react";
 import { LayerGroup, Marker, useMap, useMapEvents } from "react-leaflet";
 import { useGeneralSettings } from "../../hooks/useGeneralSettings";
 import { useGpsRoutes } from "../../hooks/useGpsRoutes";
@@ -13,7 +13,7 @@ interface SearchHitsProps {
   bounds: LatLngBounds;
 }
 
-function SearchHits({ bounds }: SearchHitsProps): JSX.Element | null {
+function SearchHits({ bounds }: SearchHitsProps) {
   const { data, error } = useGpsRoutes(bounds, true);
   const [cache, setCache] = useState<SearchResponse>();
   const toast = useToast();
@@ -58,7 +58,7 @@ interface GpsRoutesLayerProps {
   minZoom: number;
 }
 
-export function GpsRoutesLayer({ minZoom }: GpsRoutesLayerProps): JSX.Element | null {
+export function GpsRoutesLayer({ minZoom }: GpsRoutesLayerProps) {
   const map = useMap();
   const [settings] = useGeneralSettings();
   const [bounds, setBounds] = useState<LatLngBounds>(map.getBounds());
