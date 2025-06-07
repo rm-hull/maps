@@ -99,7 +99,8 @@ export function NearestInfo({ latLng, altitude, heading, accuracy, timestamp, re
     );
   }
 
-  const { localType, name1, countyUnitary, districtBorough, region } = data?.results[0].gazetteerEntry;
+  const gazetteerEntry = data.results[0]?.gazetteerEntry;
+  const { localType, name1, countyUnitary, districtBorough, region } = gazetteerEntry ?? {};
 
   return render(
     <TableContainer>

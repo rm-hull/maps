@@ -9,7 +9,7 @@ import { ReactQueryDevtools } from "react-query/devtools";
 import { BrowserRouter as Router } from "react-router-dom";
 import { App } from "./App";
 import { ErrorFallback } from "./components/ErrorFallback";
-import { SettingsProvider } from "./components/settings/SettingsProvider";
+import SettingsProvider from "./components/settings/SettingsProvider";
 import { reportWebVitals } from "./reportWebVitals";
 
 if (import.meta.env.VITE_GOOGLE_ANALYTICS_MEASUREMENT_ID !== undefined) {
