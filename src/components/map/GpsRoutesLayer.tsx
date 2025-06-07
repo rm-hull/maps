@@ -24,18 +24,18 @@ function SearchHits({ bounds }: SearchHitsProps): JSX.Element | null {
     }
   }, [data]);
 
-  if (error) {
-    toast({
-      id: "gps-routes-error",
-      title: "Error loading GPS routes",
-      description: error.message,
-      status: "error",
-      duration: 9000,
-      isClosable: true,
-    });
-
-    return null;
-  }
+  useEffect(() => {
+    if (error) {
+      toast({
+        id: "gps-routes-error",
+        title: "Error loading GPS routes",
+        description: error.message,
+        status: "error",
+        duration: 9000,
+        isClosable: true,
+      });
+    }
+  }, [error, toast]);
 
   return (
     <MarkerClusterGroup chunkedLoading showCoverageOnHover={false} removeOutsideVisibleBounds>
