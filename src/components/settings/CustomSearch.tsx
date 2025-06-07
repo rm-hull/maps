@@ -1,9 +1,9 @@
+import { type ChangeEvent, useState } from "react";
 import { IconButton, Input, InputGroup, InputRightElement } from "@chakra-ui/react";
+import { type SearchState, StateIcon } from "../StateIcon";
 import { type LatLngTuple } from "leaflet";
-import { useState, type ChangeEvent} from "react";
 import { find } from "../../services/osdatahub";
 import { toLatLng } from "../../services/osdatahub/helpers";
-import { StateIcon, type SearchState } from "../StateIcon";
 
 interface CustomSearchProps {
   isDisabled?: boolean;

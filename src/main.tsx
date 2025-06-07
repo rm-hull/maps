@@ -1,15 +1,15 @@
 import "./index.css";
 import "leaflet/dist/leaflet.css";
 import { ChakraProvider, ColorModeScript, createLocalStorageManager, theme } from "@chakra-ui/react";
-import { createRoot } from "react-dom/client";
-import { ErrorBoundary } from "react-error-boundary";
-import ReactGA from "react-ga4";
 import { QueryClient, QueryClientProvider } from "react-query";
+import { App } from "./App";
+import { ErrorBoundary } from "react-error-boundary";
+import { ErrorFallback } from "./components/ErrorFallback";
+import ReactGA from "react-ga4";
 import { ReactQueryDevtools } from "react-query/devtools";
 import { BrowserRouter as Router } from "react-router-dom";
-import { App } from "./App";
-import { ErrorFallback } from "./components/ErrorFallback";
 import SettingsProvider from "./components/settings/SettingsProvider";
+import { createRoot } from "react-dom/client";
 import { reportWebVitals } from "./reportWebVitals";
 
 if (import.meta.env.VITE_GOOGLE_ANALYTICS_MEASUREMENT_ID !== undefined) {

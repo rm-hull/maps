@@ -1,13 +1,13 @@
-import { type LatLngBounds } from "leaflet";
-import { useEffect, useState } from "react";
 import { LayerGroup, Marker, useMap, useMapEvents } from "react-leaflet";
-import { useGeneralSettings } from "../../hooks/useGeneralSettings";
-import { useGpsRoutes } from "../../hooks/useGpsRoutes";
+import { useEffect, useState } from "react";
+import { type LatLngBounds } from "leaflet";
 import MarkerClusterGroup from "react-leaflet-cluster";
 import ResultPopup from "./ResultPopup";
-import { violetMarker } from "../../icons";
 import { SearchResponse } from "../../services/gpsRoutes/types";
+import { useGeneralSettings } from "../../hooks/useGeneralSettings";
+import { useGpsRoutes } from "../../hooks/useGpsRoutes";
 import { useToast } from "@chakra-ui/react";
+import { violetMarker } from "../../icons";
 
 interface SearchHitsProps {
   bounds: LatLngBounds;

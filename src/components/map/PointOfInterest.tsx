@@ -1,7 +1,7 @@
-import { type LatLng } from "leaflet";
-import { useState } from "react";
 import { Popup, useMapEvent } from "react-leaflet";
+import { type LatLng } from "leaflet";
 import { NearestInfo } from "./NearestInfo";
+import { useState } from "react";
 
 export function PointOfInterest() {
   const [position, setPosition] = useState<LatLng>();

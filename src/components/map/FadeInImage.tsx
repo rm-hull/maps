@@ -1,6 +1,6 @@
-import { useCallback, useState } from "react";
 import { Box, Center, Image, Spinner } from "@chakra-ui/react";
 import { LuCircleX, LuSkull } from "react-icons/lu";
+import { useCallback, useState } from "react";
 
 type FadeInImageProps = {
   src?: string;

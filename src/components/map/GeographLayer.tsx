@@ -1,11 +1,11 @@
-import { useToast } from "@chakra-ui/react";
-import { type LatLng } from "leaflet";
-import { useEffect, useState } from "react";
 import { LayerGroup, Marker, useMap, useMapEvents } from "react-leaflet";
+import { useEffect, useState } from "react";
+import { type LatLng } from "leaflet";
 import MarkerClusterGroup from "react-leaflet-cluster";
-import { useGeograph } from "../../hooks/useGeograph";
-import { useGeneralSettings } from "../../hooks/useGeneralSettings";
 import ResultPopup from "./ResultPopup";
+import { useGeneralSettings } from "../../hooks/useGeneralSettings";
+import { useGeograph } from "../../hooks/useGeograph";
+import { useToast } from "@chakra-ui/react";
 
 interface ImagesProps {
   latLng: LatLng;

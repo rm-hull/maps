@@ -1,8 +1,8 @@
-import { type LatLngBounds } from "leaflet";
 import { type QueryStatus, useQuery } from "react-query";
 import { type AxiosError } from "axios";
-import { fetchGpsRoutes } from "../services/gpsRoutes";
+import { type LatLngBounds } from "leaflet";
 import { type SearchResponse } from "../services/gpsRoutes/types";
+import { fetchGpsRoutes } from "../services/gpsRoutes";
 
 interface UseGpsRoutesReturnType {
   data?: SearchResponse;

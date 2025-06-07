@@ -1,9 +1,9 @@
-import { Spinner } from "@chakra-ui/react";
-import { useParams } from "react-router-dom";
-import { Notice } from "../components/Notice";
-import { useFind } from "../hooks/useFind";
-import { toLatLng } from "../services/osdatahub/helpers";
 import { Home } from "./Home";
+import { Notice } from "../components/Notice";
+import { Spinner } from "@chakra-ui/react";
+import { toLatLng } from "../services/osdatahub/helpers";
+import { useFind } from "../hooks/useFind";
+import { useParams } from "react-router-dom";
 
 export function Search() {
   const { query } = useParams<{ query: string }>();

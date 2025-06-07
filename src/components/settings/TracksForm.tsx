@@ -1,3 +1,4 @@
+import { ChangeEvent, useEffect, useState } from "react";
 import {
   Checkbox,
   FormControl,
@@ -10,15 +11,14 @@ import {
   InputRightElement,
   Radio,
   RadioGroup,
-  useBoolean,
   VStack,
+  useBoolean,
 } from "@chakra-ui/react";
-import { ChangeEvent, useEffect, useState } from "react";
-import { useGeoJSON } from "../../hooks/useGeoJSON";
-import { SupportedMimeTypes } from "../../services/geojson";
-import { useQueryClient } from "react-query";
-import { fromReactQuery } from "../../utils/queryStatus";
 import { StateIcon } from "../StateIcon";
+import { SupportedMimeTypes } from "../../services/geojson";
+import { fromReactQuery } from "../../utils/queryStatus";
+import { useGeoJSON } from "../../hooks/useGeoJSON";
+import { useQueryClient } from "react-query";
 
 const CORS_PROXY = import.meta.env.VITE_CORS_PROXY as string;
 

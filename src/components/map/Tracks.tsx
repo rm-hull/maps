@@ -1,8 +1,8 @@
 import { Polyline, Popup, useMap } from "react-leaflet";
-import { useQueryClient } from "react-query";
+import { Feature } from "geojson";
 import { GeoJSONCollection } from "../../services/geojson";
 import { useEffect } from "react";
-import { Feature } from "geojson";
+import { useQueryClient } from "react-query";
 
 const lineString = (feat: Feature): boolean => feat.geometry.type === "LineString";
 

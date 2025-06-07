@@ -1,6 +1,6 @@
 import { Button } from "@chakra-ui/react";
-import { IoMdSettings } from "react-icons/io";
 import Control from "react-leaflet-custom-control";
+import { IoMdSettings } from "react-icons/io";
 import { useSettings } from "../../hooks/useSettings";
 
 export function Settings() {

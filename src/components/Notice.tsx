@@ -5,7 +5,7 @@ import {
   AlertDialogHeader,
   AlertDialogOverlay,
 } from "@chakra-ui/react";
-import { useRef, type JSX, type PropsWithChildren } from "react";
+import { type JSX, type PropsWithChildren, useRef } from "react";
 
 interface NoticeProps {
   header: JSX.Element | string;

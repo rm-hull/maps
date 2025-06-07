@@ -1,11 +1,11 @@
-import { Button } from "@chakra-ui/react";
-import { useEffect } from "react";
-import { IoMdLocate } from "react-icons/io";
 import { Circle, Marker, Popup } from "react-leaflet";
+import { Button } from "@chakra-ui/react";
 import Control from "react-leaflet-custom-control";
-import { useCurrentLocation } from "../../hooks/useCurrentLocation";
+import { IoMdLocate } from "react-icons/io";
 import { NearestInfo } from "../map/NearestInfo";
 import { redMarker } from "../../icons";
+import { useCurrentLocation } from "../../hooks/useCurrentLocation";
+import { useEffect } from "react";
 
 interface CurrentLocationProps {
   active?: boolean;

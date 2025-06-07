@@ -45,7 +45,7 @@ jobs:
           VITE_GEOGRAPH_API_KEY: ${{ secrets.VITE_GEOGRAPH_API_KEY }}
           VITE_OS_DATAHUB_API_KEY: ${{ secrets.VITE_OS_DATAHUB_API_KEY }}
           VITE_GPS_ROUTES_API_KEY: ${{ secrets.VITE_GPS_ROUTES_API_KEY }}
-          VITE_GPS_ROUTES_API_URL: ${{ secrets.VITE_GPS_ROUTES_API }}
+          VITE_GPS_ROUTES_API_URL: ${{ secrets.VITE_GPS_ROUTES_API_URL}}
           VITE_GOOGLE_ANALYTICS_MEASUREMENT_ID: ${{ secrets.VITE_GOOGLE_ANALYTICS_MEASUREMENT_ID }}
         run: yarn build && cp ./dist/index.html ./dist/404.html
 
