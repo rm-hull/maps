@@ -2180,14 +2180,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@react-leaflet/core@npm:^2.1.0":
-  version: 2.1.0
-  resolution: "@react-leaflet/core@npm:2.1.0"
+"@react-leaflet/core@npm:^3.0.0":
+  version: 3.0.0
+  resolution: "@react-leaflet/core@npm:3.0.0"
   peerDependencies:
     leaflet: ^1.9.0
-    react: ^18.0.0
-    react-dom: ^18.0.0
-  checksum: 10/12ce28b85cf6712a1a7b7c49466b941fc619bc7b1535308bc5711a35f7e89eb16298babfd62f6b3a92e64abf94dcf517b2bc460f59fcf20599821bc6ab3b3048
+    react: ^19.0.0
+    react-dom: ^19.0.0
+  checksum: 10/193f4928ff609a922493f05e2f301f53a3d9b8387e90fc6ab4bc4f78f97272cad000fbdf0f1d23069f67cb35d3d855734ce5a5feab98619aebfc3334be2967c7
   languageName: node
   linkType: hard
 
@@ -6481,7 +6481,7 @@ __metadata:
     "@eslint/compat": "npm:^1.2.9"
     "@eslint/eslintrc": "npm:^3.3.1"
     "@eslint/js": "npm:^9.28.0"
-    "@react-leaflet/core": "npm:^2.1.0"
+    "@react-leaflet/core": "npm:^3.0.0"
     "@stylistic/eslint-plugin": "npm:^4.4.1"
     "@testing-library/dom": "npm:^10.4.0"
     "@testing-library/react": "npm:^16.3.0"
@@ -6531,9 +6531,9 @@ __metadata:
     react-ga4: "npm:^2.1.0"
     react-icons: "npm:^5.5.0"
     react-lazily: "npm:^0.9.2"
-    react-leaflet: "npm:^4.2.1"
+    react-leaflet: "npm:^5.0.0"
     react-leaflet-cluster: "npm:^2.1.0"
-    react-leaflet-custom-control: "npm:^1.4.1"
+    react-leaflet-custom-control: "npm:^1.5.0"
     react-query: "npm:^3.39.3"
     react-router-dom: "npm:^7.6.2"
     react-use: "npm:^17.6.0"
@@ -7363,29 +7363,29 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-leaflet-custom-control@npm:^1.4.1":
-  version: 1.4.1
-  resolution: "react-leaflet-custom-control@npm:1.4.1"
+"react-leaflet-custom-control@npm:^1.5.0":
+  version: 1.5.0
+  resolution: "react-leaflet-custom-control@npm:1.5.0"
   dependencies:
-    react-leaflet: "npm:^4.2.1"
+    react-leaflet: "npm:^5.0.0"
   peerDependencies:
-    leaflet: ^1.7.1
-    react: ^17.0.2 || ^18.0.0
-    react-dom: ^17.0.2 || ^18.0.0
-  checksum: 10/55bfc330c64c4bd2e9a8fb452cdbf76a5ed7e13dcd33e19a46556cee9d0f586ff36cdb4b85b2f5f7253a58f7685222a444c1a634ec0ea18096825e5c49ad8100
+    leaflet: ^1.9.0
+    react: ^17.0.2 || ^18.0.0 || ^19.0.0
+    react-dom: ^17.0.2 || ^18.0.0 || ^19.0.0
+  checksum: 10/fcb607265f954861cafa69d86b58b9cc33ffbc5ae831056dfd54ec8d9b1f4729a629a44f7f9961409639bf57584080ab41a09d928dac09097c493faa9d4557b9
   languageName: node
   linkType: hard
 
-"react-leaflet@npm:^4.2.1":
-  version: 4.2.1
-  resolution: "react-leaflet@npm:4.2.1"
+"react-leaflet@npm:^5.0.0":
+  version: 5.0.0
+  resolution: "react-leaflet@npm:5.0.0"
   dependencies:
-    "@react-leaflet/core": "npm:^2.1.0"
+    "@react-leaflet/core": "npm:^3.0.0"
   peerDependencies:
     leaflet: ^1.9.0
-    react: ^18.0.0
-    react-dom: ^18.0.0
-  checksum: 10/01cee12dc32e86d0153c989894fdba1c5c50fa41ad8d712352fa616f7b0dd32844aa17bb06c66f7569133675e2946c669090b4c496610cce3fa37c22254ca89f
+    react: ^19.0.0
+    react-dom: ^19.0.0
+  checksum: 10/170bf8d83141c8406fddc8cab41608ec6938efaafa5ae08c2060f9c0739370b84ed61d809c092d9f9ea79461399519f18f1cdf06dcb0e26d61d89eda46fb30be
   languageName: node
   linkType: hard
 
