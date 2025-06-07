@@ -1,7 +1,7 @@
 import { useToast } from "@chakra-ui/react";
 import { type LatLng } from "leaflet";
 import { useEffect, useState, type JSX } from "react";
-import { LayerGroup, Marker, Popup, useMap, useMapEvents } from "react-leaflet";
+import { LayerGroup, Marker, useMap, useMapEvents } from "react-leaflet";
 import MarkerClusterGroup from "react-leaflet-cluster";
 import { useGeograph } from "../../hooks/useGeograph";
 import { useGeneralSettings } from "../../hooks/useGeneralSettings";
