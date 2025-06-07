@@ -8,14 +8,14 @@ import {
   useControllableState,
   useDisclosure,
 } from "@chakra-ui/react";
-import { useEffect, useState, type ChangeEvent} from "react";
-import { useMapEvent } from "react-leaflet";
+import { type ChangeEvent, useEffect, useState } from "react";
+import { type SearchState, StateIcon } from "../StateIcon";
 import Control from "react-leaflet-custom-control";
-import { useKeyPressEvent } from "react-use";
-import { useFocus } from "../../hooks/useFocus";
 import { find } from "../../services/osdatahub";
 import { toLatLng } from "../../services/osdatahub/helpers";
-import { StateIcon, type SearchState } from "../StateIcon";
+import { useFocus } from "../../hooks/useFocus";
+import { useKeyPressEvent } from "react-use";
+import { useMapEvent } from "react-leaflet";
 
 export function SearchBox() {
   const { isOpen, onOpen, onClose } = useDisclosure();

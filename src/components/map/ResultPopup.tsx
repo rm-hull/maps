@@ -1,7 +1,7 @@
 import { Badge, Card, CardBody, CardHeader, Heading, Link, Text } from "@chakra-ui/react";
+import { FadeInImage } from "./FadeInImage";
 import { Popup } from "react-leaflet";
 import { Link as ReactRouterLink } from "react-router-dom";
-import { FadeInImage } from "./FadeInImage";
 
 interface ResultPopupProps {
   title: string;

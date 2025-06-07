@@ -1,18 +1,18 @@
-import * as L from "leaflet";
 import "proj4leaflet";
-import { LayerGroup, LayersControl, MapContainer, ScaleControl, TileLayer } from "react-leaflet";
+import * as L from "leaflet";
 import { DEFAULT_ZOOM_LEVEL, useGeneralSettings } from "../../hooks/useGeneralSettings";
-import { API_KEY } from "../../services/osdatahub";
+import { LayerGroup, LayersControl, MapContainer, ScaleControl, TileLayer } from "react-leaflet";
 import { crs, toLatLng } from "../../services/osdatahub/helpers";
+import { API_KEY } from "../../services/osdatahub";
 import { CurrentLocation } from "../controls/CurrentLocation";
-import { Ruler } from "../controls/Ruler";
-import { Settings } from "../controls/Settings";
 import { FlyToLocation } from "./FlyToLocation";
 import { GeographLayer } from "./GeographLayer";
-import { PointOfInterest } from "./PointOfInterest";
-import { SearchBox } from "./SearchBox";
-import { Tracks } from "./Tracks";
 import { GpsRoutesLayer } from "./GpsRoutesLayer";
+import { PointOfInterest } from "./PointOfInterest";
+import { Ruler } from "../controls/Ruler";
+import { SearchBox } from "./SearchBox";
+import { Settings } from "../controls/Settings";
+import { Tracks } from "./Tracks";
 
 interface OSMapProps {
   center?: L.LatLngTuple;

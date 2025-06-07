@@ -1,3 +1,4 @@
+import { ChangeEvent, useEffect, useState } from "react";
 import {
   Checkbox,
   FormControl,
@@ -10,13 +11,13 @@ import {
   InputRightElement,
   Radio,
   RadioGroup,
-  useBoolean,
   VStack,
+  useBoolean,
 } from "@chakra-ui/react";
-import { ChangeEvent, useEffect, useState} from "react";
-import { fromReactQuery, StateIcon } from "../StateIcon";
-import { useGeoJSON } from "../../hooks/useGeoJSON";
+import { StateIcon } from "../StateIcon";
 import { SupportedMimeTypes } from "../../services/geojson";
+import { fromReactQuery } from "../../utils/queryStatus";
+import { useGeoJSON } from "../../hooks/useGeoJSON";
 import { useQueryClient } from "react-query";
 
 const CORS_PROXY = import.meta.env.VITE_CORS_PROXY as string;
@@ -32,7 +33,7 @@ export function TracksForm() {
 
   useEffect(() => {
     queryClient.removeQueries(["geojson"]);
-  }, []);
+  }, [queryClient]);
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>): void => {
     setUrl(event.target.value);

@@ -1,6 +1,6 @@
-import { type AxiosError } from "axios";
+import { GeoJSONCollection, SupportedMimeTypes, fetchGeoJSON } from "../services/geojson";
 import { QueryStatus, useQuery } from "react-query";
-import { fetchGeoJSON, GeoJSONCollection, SupportedMimeTypes } from "../services/geojson";
+import { type AxiosError } from "axios";
 
 interface UseGeoJsonReturnType {
   data?: GeoJSONCollection;

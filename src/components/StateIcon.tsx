@@ -1,24 +1,9 @@
-import { CircularProgress } from "@chakra-ui/react";
 import { FiAlertTriangle, FiCheck, FiSearch, FiXCircle } from "react-icons/fi";
-import { QueryStatus } from "react-query";
-
+import { CircularProgress } from "@chakra-ui/react";
 export type SearchState = "ok" | "error" | "busy" | "not-found" | undefined;
 
 interface StateIconProps {
   state: SearchState;
-}
-
-export function fromReactQuery(status: QueryStatus): SearchState {
-  switch (status) {
-    case "error":
-      return "error";
-    case "idle":
-      return undefined;
-    case "loading":
-      return "busy";
-    case "success":
-      return "ok";
-  }
 }
 
 export function StateIcon({ state }: StateIconProps) {
