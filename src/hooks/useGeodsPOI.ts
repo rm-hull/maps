@@ -13,7 +13,7 @@ interface UseGeodsPOIReturnType {
 
 export function useGeodsPOI(bounds: LatLngBounds): UseGeodsPOIReturnType {
   return useQuery<SearchResponse, AxiosError>(
-    ["gpsRoutes", bounds.getCenter().lat.toFixed(4), bounds.getCenter().lng.toFixed(4)],
+    ["geodsPOI", bounds.getCenter().lat.toFixed(4), bounds.getCenter().lng.toFixed(4)],
     () => fetchGeodsRoutes(bounds),
     {
       staleTime: Infinity,
