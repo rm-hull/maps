@@ -13,7 +13,7 @@ const client = axios.create({
   // },
 });
 
-export const fetchGeodsRoutes = async (bounds: LatLngBounds): Promise<SearchResponse> => {
+export const fetchGeodsPOI = async (bounds: LatLngBounds): Promise<SearchResponse> => {
   if (API_URL === undefined) {
     throw Error("No POI API URL specified");
   }

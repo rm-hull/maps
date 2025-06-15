@@ -13,10 +13,6 @@ interface ResultPopupProps {
   chips?: string[];
 }
 
-function CardDetails({ title, description, imageUrl, distanceKm, attribution, chips }: ResultPopupProps) {
-  return;
-}
-
 export default function ResultPopup({
   title,
   description,

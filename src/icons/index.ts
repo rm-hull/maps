@@ -23,9 +23,6 @@ export const violetMarker = new L.Icon({
 
 export function iconFromUrl(iconUrl: string): L.Icon {
   return new L.Icon({
-    // shadowUrl: markerShadowUrl,
-    // shadowSize: [41, 41],
-
     popupAnchor: [1, -34],
     iconSize: [32, 37],
     iconAnchor: [16, 37],
