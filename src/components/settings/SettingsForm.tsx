@@ -133,6 +133,14 @@ export function SettingsForm() {
           >
             GPS Routes
           </Switch>
+
+          <Switch
+            size="sm"
+            isChecked={settings?.autoSelect?.geodsPOI ?? false}
+            onChange={handleUpdateAutoSelect("geodsPOI")}
+          >
+            GeoDS Points of Interest
+          </Switch>
         </VStack>
       </FormControl>
     </VStack>
