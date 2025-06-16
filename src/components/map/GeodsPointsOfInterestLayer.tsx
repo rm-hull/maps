@@ -1,10 +1,10 @@
+import * as L from "leaflet";
 import { LayerGroup, Marker, useMap, useMapEvents } from "react-leaflet";
 import { useEffect, useState } from "react";
 import { type LatLngBounds } from "leaflet";
 import MarkerClusterGroup from "react-leaflet-cluster";
 import ResultPopup from "./ResultPopup";
 import { SearchResponse } from "../../services/geods/types";
-import { iconFromUrl } from "../../icons";
 import { useErrorToast } from "../../hooks/useErrorToast";
 import { useGeneralSettings } from "../../hooks/useGeneralSettings";
 import { useGeodsPOI } from "../../hooks/useGeodsPOI";
@@ -24,17 +24,10 @@ function PointsOfInterest({ bounds }: SearchHitsProps) {
     }
   }, [data]);
 
-
   return (
     <MarkerClusterGroup chunkedLoading showCoverageOnHover={false} removeOutsideVisibleBounds>
       {cache?.results?.map((result) => (
-        <Marker
-          key={result.id}
-          position={[result.lat, result.long]}
-          icon={iconFromUrl(
-            `${import.meta.env.VITE_GEODS_POI_API_URL}v1/poi/marker/${result.categories?.[0] || "unknown"}`
-          )}
-        >
+        <Marker key={result.id} position={[result.lat, result.long]} icon={categoryIcon(result.categories?.[0])}>
           <ResultPopup
             title={result.primary_name}
             description={[result.address, result.locality, result.postcode]
@@ -85,4 +78,19 @@ export function GeodsPointsOfInterestLayer({ minZoom }: GeodsPointsOfInterestLay
   }
 
   return <LayerGroup>{overlayChecked["GeoDS POI"] && <PointsOfInterest bounds={bounds} />}</LayerGroup>;
+}
+
+function categoryIcon(category?: string): L.Icon {
+  const url = `${import.meta.env.VITE_GEODS_POI_API_URL}v1/poi/marker/${category?.toLowerCase() || "unknown"}`;
+  const shadowUrl = `${import.meta.env.VITE_GEODS_POI_API_URL}v1/poi/marker/shadow`;
+  return new L.Icon({
+    popupAnchor: [1, -34],
+    iconSize: [32, 37],
+    iconAnchor: [16, 37],
+    iconUrl: url,
+    iconRetinaUrl: url,
+    shadowUrl: shadowUrl,
+    shadowSize: [51, 37],
+    shadowAnchor: [23, 35],
+  });
 }
