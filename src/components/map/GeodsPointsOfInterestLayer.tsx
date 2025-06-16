@@ -1,32 +1,25 @@
 import * as L from "leaflet";
 import { LayerGroup, Marker, useMap, useMapEvents } from "react-leaflet";
-import { useEffect, useState } from "react";
 import { type LatLngBounds } from "leaflet";
 import MarkerClusterGroup from "react-leaflet-cluster";
 import ResultPopup from "./ResultPopup";
-import { SearchResponse } from "../../services/geods/types";
+import { useCachedQuery } from "../../hooks/useCachedQuery";
 import { useErrorToast } from "../../hooks/useErrorToast";
 import { useGeneralSettings } from "../../hooks/useGeneralSettings";
 import { useGeodsPOI } from "../../hooks/useGeodsPOI";
+import { useState } from "react";
 
 interface SearchHitsProps {
   bounds: LatLngBounds;
 }
 
 function PointsOfInterest({ bounds }: SearchHitsProps) {
-  const { data, error } = useGeodsPOI(bounds);
-  const [cache, setCache] = useState<SearchResponse>();
+  const { data, error } = useCachedQuery(useGeodsPOI(bounds));
   useErrorToast("geods-poi-error", "Error loading GeoDS POI", error);
-
-  useEffect(() => {
-    if (data) {
-      setCache(data);
-    }
-  }, [data]);
 
   return (
     <MarkerClusterGroup chunkedLoading showCoverageOnHover={false} removeOutsideVisibleBounds>
-      {cache?.results?.map((result) => (
+      {data?.results?.map((result) => (
         <Marker key={result.id} position={[result.lat, result.long]} icon={categoryIcon(result.categories?.[0])}>
           <ResultPopup
             title={result.primary_name}

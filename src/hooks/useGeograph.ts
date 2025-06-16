@@ -3,12 +3,7 @@ import { type Item } from "../services/geograph/types";
 import { type LatLng } from "leaflet";
 import { fetchGeographSyndicatorEndpoint } from "../services/geograph";
 
-type UseGeographReturnType = {
-  data?: Item[];
-  error?: Error;
-};
-
-export function useGeograph(latLng: LatLng, distanceKm: number): UseGeographReturnType {
+export function useGeograph(latLng: LatLng, distanceKm: number) {
   const [streamedItems, setStreamedItems] = useState<Item[]>();
   const [error, setError] = useState<Error>();
 

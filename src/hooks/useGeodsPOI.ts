@@ -1,17 +1,10 @@
-import { type QueryStatus, useQuery } from "react-query";
 import { type AxiosError } from "axios";
 import { type LatLngBounds } from "leaflet";
 import { type SearchResponse } from "../services/geods/types";
 import { fetchGeodsPOI } from "../services/geods";
+import { useQuery } from "react-query";
 
-interface UseGeodsPOIReturnType {
-  data?: SearchResponse;
-  status: QueryStatus;
-  error: AxiosError | null;
-  isLoading: boolean;
-}
-
-export function useGeodsPOI(bounds: LatLngBounds): UseGeodsPOIReturnType {
+export function useGeodsPOI(bounds: LatLngBounds) {
   return useQuery<SearchResponse, AxiosError>(
     ["geodsPOI", bounds.getCenter().lat.toFixed(4), bounds.getCenter().lng.toFixed(4)],
     () => fetchGeodsPOI(bounds),

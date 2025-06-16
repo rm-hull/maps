@@ -1,12 +1,12 @@
 import { LayerGroup, Marker, useMap, useMapEvents } from "react-leaflet";
-import { useEffect, useState } from "react";
 import { type LatLngBounds } from "leaflet";
 import MarkerClusterGroup from "react-leaflet-cluster";
 import ResultPopup from "./ResultPopup";
-import { SearchResponse } from "../../services/gpsRoutes/types";
+import { useCachedQuery } from "../../hooks/useCachedQuery";
 import { useErrorToast } from "../../hooks/useErrorToast";
 import { useGeneralSettings } from "../../hooks/useGeneralSettings";
 import { useGpsRoutes } from "../../hooks/useGpsRoutes";
+import { useState } from "react";
 import { violetMarker } from "../../icons";
 
 interface SearchHitsProps {
@@ -14,19 +14,12 @@ interface SearchHitsProps {
 }
 
 function SearchHits({ bounds }: SearchHitsProps) {
-  const { data, error } = useGpsRoutes(bounds, true);
-  const [cache, setCache] = useState<SearchResponse>();
+  const { data, error } = useCachedQuery(useGpsRoutes(bounds, true));
   useErrorToast("gps-routes-error", "Error loading GPS routes", error);
-
-  useEffect(() => {
-    if (data) {
-      setCache(data);
-    }
-  }, [data]);
 
   return (
     <MarkerClusterGroup chunkedLoading showCoverageOnHover={false} removeOutsideVisibleBounds>
-      {cache?.hits.map((result) => (
+      {data?.hits.map((result) => (
         <Marker key={result.objectID} position={[result._geoloc.lat, result._geoloc.lng]} icon={violetMarker}>
           <ResultPopup
             title={result.title}
