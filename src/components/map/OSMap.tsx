@@ -6,6 +6,7 @@ import { crs, toLatLng } from "../../services/osdatahub/helpers";
 import { API_KEY } from "../../services/osdatahub";
 import { CurrentLocation } from "../controls/CurrentLocation";
 import { FlyToLocation } from "./FlyToLocation";
+import { GeodsPointsOfInterestLayer } from "./GeodsPointsOfInterestLayer";
 import { GeographLayer } from "./GeographLayer";
 import { GpsRoutesLayer } from "./GpsRoutesLayer";
 import { PointOfInterest } from "./PointOfInterest";
@@ -13,7 +14,6 @@ import { Ruler } from "../controls/Ruler";
 import { SearchBox } from "./SearchBox";
 import { Settings } from "../controls/Settings";
 import { Tracks } from "./Tracks";
-import { GeodsPointsOfInterestLayer } from "./GeodsPointsOfInterestLayer";
 
 interface OSMapProps {
   center?: L.LatLngTuple;
