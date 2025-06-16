@@ -23,7 +23,14 @@ export const fetchGeodsPOI = async (bounds: LatLngBounds): Promise<SearchRespons
   // }
 
   const resp = await client.get<SearchResponse>("/v1/poi/search", {
-    params: { bbox: [bounds.getWest(), bounds.getSouth(), bounds.getEast(), bounds.getNorth()].join(",") },
+    params: {
+      bbox: [
+        bounds.getWest().toFixed(4),
+        bounds.getSouth().toFixed(4),
+        bounds.getEast().toFixed(4),
+        bounds.getNorth().toFixed(4),
+      ].join(","),
+    },
   });
   return resp.data;
 };
