@@ -58,6 +58,9 @@ export function GeodsPointsOfInterestLayer({ minZoom }: GeodsPointsOfInterestLay
     moveend() {
       setBounds(map.getBounds());
     },
+    zoomend() {
+      setBounds(map.getBounds());
+    },
     overlayadd(event) {
       handleOverlayChange(event.name, true);
     },
