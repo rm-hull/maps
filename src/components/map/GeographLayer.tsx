@@ -1,11 +1,11 @@
 import { LayerGroup, Marker, useMap, useMapEvents } from "react-leaflet";
-import { useEffect, useState } from "react";
 import { type LatLng } from "leaflet";
 import MarkerClusterGroup from "react-leaflet-cluster";
 import ResultPopup from "./ResultPopup";
+import { useErrorToast } from "../../hooks/useErrorToast";
 import { useGeneralSettings } from "../../hooks/useGeneralSettings";
 import { useGeograph } from "../../hooks/useGeograph";
-import { useToast } from "@chakra-ui/react";
+import { useState } from "react";
 
 interface ImagesProps {
   latLng: LatLng;
@@ -14,20 +14,7 @@ interface ImagesProps {
 
 function Images({ latLng, distance }: ImagesProps) {
   const { data, error } = useGeograph(latLng, distance / 1000.0);
-  const toast = useToast();
-
-  useEffect(() => {
-    if (error) {
-      toast({
-        id: "points-of-interest-error",
-        title: "Error fetching points of interest",
-        description: error.message,
-        status: "error",
-        duration: 9000,
-        isClosable: true,
-      });
-    }
-  }, [error, toast]);
+  useErrorToast("geograph-error", "Error loading Geograph images", error);
 
   if (data === undefined || error !== undefined) {
     return null;

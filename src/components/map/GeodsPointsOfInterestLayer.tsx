@@ -5,9 +5,9 @@ import MarkerClusterGroup from "react-leaflet-cluster";
 import ResultPopup from "./ResultPopup";
 import { SearchResponse } from "../../services/geods/types";
 import { iconFromUrl } from "../../icons";
+import { useErrorToast } from "../../hooks/useErrorToast";
 import { useGeneralSettings } from "../../hooks/useGeneralSettings";
 import { useGeodsPOI } from "../../hooks/useGeodsPOI";
-import { useToast } from "@chakra-ui/react";
 
 interface SearchHitsProps {
   bounds: LatLngBounds;
@@ -16,7 +16,7 @@ interface SearchHitsProps {
 function PointsOfInterest({ bounds }: SearchHitsProps) {
   const { data, error } = useGeodsPOI(bounds);
   const [cache, setCache] = useState<SearchResponse>();
-  const toast = useToast();
+  useErrorToast("geods-poi-error", "Error loading GeoDS POI", error);
 
   useEffect(() => {
     if (data) {
@@ -24,18 +24,6 @@ function PointsOfInterest({ bounds }: SearchHitsProps) {
     }
   }, [data]);
 
-  useEffect(() => {
-    if (error) {
-      toast({
-        id: "geods-poi-error",
-        title: "Error loading GeoDS POI",
-        description: error.message,
-        status: "error",
-        duration: 9000,
-        isClosable: true,
-      });
-    }
-  }, [error, toast]);
 
   return (
     <MarkerClusterGroup chunkedLoading showCoverageOnHover={false} removeOutsideVisibleBounds>

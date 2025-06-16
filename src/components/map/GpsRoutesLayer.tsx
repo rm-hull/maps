@@ -4,9 +4,9 @@ import { type LatLngBounds } from "leaflet";
 import MarkerClusterGroup from "react-leaflet-cluster";
 import ResultPopup from "./ResultPopup";
 import { SearchResponse } from "../../services/gpsRoutes/types";
+import { useErrorToast } from "../../hooks/useErrorToast";
 import { useGeneralSettings } from "../../hooks/useGeneralSettings";
 import { useGpsRoutes } from "../../hooks/useGpsRoutes";
-import { useToast } from "@chakra-ui/react";
 import { violetMarker } from "../../icons";
 
 interface SearchHitsProps {
@@ -16,26 +16,13 @@ interface SearchHitsProps {
 function SearchHits({ bounds }: SearchHitsProps) {
   const { data, error } = useGpsRoutes(bounds, true);
   const [cache, setCache] = useState<SearchResponse>();
-  const toast = useToast();
+  useErrorToast("gps-routes-error", "Error loading GPS routes", error);
 
   useEffect(() => {
     if (data) {
       setCache(data);
     }
   }, [data]);
-
-  useEffect(() => {
-    if (error) {
-      toast({
-        id: "gps-routes-error",
-        title: "Error loading GPS routes",
-        description: error.message,
-        status: "error",
-        duration: 9000,
-        isClosable: true,
-      });
-    }
-  }, [error, toast]);
 
   return (
     <MarkerClusterGroup chunkedLoading showCoverageOnHover={false} removeOutsideVisibleBounds>
