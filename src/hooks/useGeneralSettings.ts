@@ -13,6 +13,7 @@ export interface CustomLocation {
 export interface AutoSelect {
   geograph?: boolean;
   gpsRoutes?: boolean;
+  geodsPOI?: boolean;
 }
 
 export interface GeneralSettings {

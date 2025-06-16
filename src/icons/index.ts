@@ -20,3 +20,4 @@ export const violetMarker = new L.Icon({
   ...commonProps,
   iconUrl: violetMarkerUrl,
 });
+
