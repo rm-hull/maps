@@ -14,6 +14,7 @@ import { Ruler } from "../controls/Ruler";
 import { SearchBox } from "./SearchBox";
 import { Settings } from "../controls/Settings";
 import { Tracks } from "./Tracks";
+import { CompanyDataLayer } from "./CompanyDataLayer";
 
 interface OSMapProps {
   center?: L.LatLngTuple;
@@ -74,7 +75,10 @@ export function OSMap({ center }: OSMapProps) {
         <LayersControl.Overlay name="GeoDS POI" checked={settings?.autoSelect?.geodsPOI}>
           <GeodsPointsOfInterestLayer minZoom={8} />
         </LayersControl.Overlay>
-        
+
+        <LayersControl.Overlay name="Company Data" checked={settings?.autoSelect?.companyData}>
+          <CompanyDataLayer minZoom={8} />
+        </LayersControl.Overlay>
       </LayersControl>
       <CurrentLocation active={settings?.initialLocation === "current" && center === undefined} />
       <FlyToLocation

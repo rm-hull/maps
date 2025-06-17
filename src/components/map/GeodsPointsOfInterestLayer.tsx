@@ -9,11 +9,11 @@ import { useGeneralSettings } from "../../hooks/useGeneralSettings";
 import { useGeodsPOI } from "../../hooks/useGeodsPOI";
 import { useState } from "react";
 
-interface SearchHitsProps {
+interface PointsOfInterestProps {
   bounds: LatLngBounds;
 }
 
-function PointsOfInterest({ bounds }: SearchHitsProps) {
+function PointsOfInterest({ bounds }: PointsOfInterestProps) {
   const { data, error } = useCachedQuery(useGeodsPOI(bounds));
   useErrorToast("geods-poi-error", "Error loading GeoDS POI", error);
 
