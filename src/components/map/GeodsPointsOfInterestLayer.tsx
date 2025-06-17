@@ -77,8 +77,8 @@ export function GeodsPointsOfInterestLayer({ minZoom }: GeodsPointsOfInterestLay
 }
 
 function categoryIcon(category?: string): L.Icon {
-  const url = `${import.meta.env.VITE_GEODS_POI_API_URL}v1/poi/marker/${category?.toLowerCase() || "unknown"}`;
-  const shadowUrl = `${import.meta.env.VITE_GEODS_POI_API_URL}v1/poi/marker/shadow`;
+  const url = `${import.meta.env.VITE_GEODS_POI_API_URL}v1/geods-poi/marker/${category?.toLowerCase() || "unknown"}`;
+  const shadowUrl = `${import.meta.env.VITE_GEODS_POI_API_URL}v1/geods-poi/marker/shadow`;
   return new L.Icon({
     popupAnchor: [1, -34],
     iconSize: [32, 37],

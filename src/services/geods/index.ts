@@ -22,7 +22,7 @@ export const fetchGeodsPOI = async (bounds: LatLngBounds): Promise<SearchRespons
   //   throw Error("No GeoDS POI API Key specified");
   // }
 
-  const resp = await client.get<SearchResponse>("/v1/poi/search", {
+  const resp = await client.get<SearchResponse>("/v1/geods-poi/search", {
     params: {
       bbox: [
         bounds.getWest().toFixed(4),
