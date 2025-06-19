@@ -18,30 +18,34 @@ function Companies({ bounds }: CompaniesProps) {
   useErrorToast("geods-poi-error", "Error loading GeoDS POI", error);
 
   return (
-    <MarkerClusterGroup chunkedLoading showCoverageOnHover={false} removeOutsideVisibleBounds>
-      {data?.results?.map((result) => (
-        <Marker key={result.company_number} position={toLatLng([result.easting, result.northing])}>
+    <>
+      {/* <MarkerClusterGroup chunkedLoading showCoverageOnHover={false} removeOutsideVisibleBounds> */}
+      {Object.entries(data?.results ?? {}).map(([key, results]) => (
+        <Marker key={key} position={toLatLng([results[0].easting, results[0].northing])}>
           <ResultPopup
-            title={result.company_name}
+            title={results[0].company_name}
             description={[
-              result.reg_address_care_of,
-              result.reg_address_po_box,
-              result.reg_address_address_line_1,
-              result.reg_address_address_line_2,
-              result.reg_address_post_town,
-              result.reg_address_county,
-              result.reg_address_country,
+              results[0].reg_address_care_of,
+              results[0].reg_address_po_box,
+              results[0].reg_address_address_line_1,
+              results[0].reg_address_address_line_2,
+              results[0].reg_address_post_town,
+              results[0].reg_address_county,
+              results[0].reg_address_country,
             ]
               .map((field) => field?.trim())
               .filter((field) => !!field)
               .join(", ")}
-            chips={[result.company_category, result.company_status, result.accounts_account_category].filter(
-              (value) => !!value
-            )}
+            chips={[
+              results[0].company_category,
+              results[0].company_status,
+              results[0].accounts_account_category,
+            ].filter((value) => !!value)}
           />
         </Marker>
       ))}
-    </MarkerClusterGroup>
+      {/* </MarkerClusterGroup> */}
+    </>
   );
 }
 

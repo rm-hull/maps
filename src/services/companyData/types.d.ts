@@ -1,8 +1,8 @@
 export type SearchResponse = {
-  results?: Result[];
+  results?: Record<string, CompanyData[]>;
 };
 
-type Result = {
+type CompanyData = {
   company_name: string;
   company_number: string;
   reg_address_care_of?: string;

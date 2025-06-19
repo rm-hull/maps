@@ -26,7 +26,7 @@ export const fetchCompanyData = async (bounds: LatLngBounds): Promise<SearchResp
   const [west, south] = toBNG(bounds.getSouthWest());
   const [east, north] = toBNG(bounds.getNorthEast());
 
-  const resp = await client.get<SearchResponse>("/v1/company-data/search", {
+  const resp = await client.get<SearchResponse>("/v1/company-data/search/by-postcode", {
     params: {
       bbox: [west.toFixed(0), south.toFixed(0), east.toFixed(0), north.toFixed(0)].join(","),
     },
