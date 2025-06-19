@@ -15,7 +15,7 @@ interface CompaniesProps {
 
 function Companies({ bounds }: CompaniesProps) {
   const { data, error } = useCachedQuery(useCompanyData(bounds));
-  useErrorToast("geods-poi-error", "Error loading GeoDS POI", error);
+  useErrorToast("company-data-error", "Error loading Company data", error);
 
   return (
     <>
