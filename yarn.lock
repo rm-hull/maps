@@ -2719,7 +2719,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/proj4@npm:*":
+"@types/proj4@npm:*, @types/proj4@npm:^2.5.6":
   version: 2.5.6
   resolution: "@types/proj4@npm:2.5.6"
   checksum: 10/753159770445b0e2dd4a21b8b9c0236515e2ff22243393e21bb6510d50261fae1a8e9efac0d7666bdd647fb0ec43499bd7ca29fae485ea252e232df21c0726d3
@@ -6704,6 +6704,7 @@ __metadata:
     "@types/geojson": "npm:^7946.0.16"
     "@types/leaflet": "npm:^1.9.18"
     "@types/node": "npm:^24.0.3"
+    "@types/proj4": "npm:^2.5.6"
     "@types/proj4leaflet": "npm:^1.0.10"
     "@types/react": "npm:^19.1.8"
     "@types/react-dom": "npm:^19.1.6"
@@ -6736,7 +6737,7 @@ __metadata:
     leaflet: "npm:^1.9.4"
     leaflet-measure: "npm:^3.1.0"
     prettier: "npm:^3.5.3"
-    proj4: "npm:^2.19.3"
+    proj4: "npm:^2.17.0"
     proj4leaflet: "npm:^1.0.2"
     react: "npm:^19.1.0"
     react-dom: "npm:^19.1.0"
@@ -7394,19 +7395,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"proj4@npm:^2.19.3":
-  version: 2.19.3
-  resolution: "proj4@npm:2.19.3"
-  dependencies:
-    mgrs: "npm:1.0.0"
-    wkt-parser: "npm:^1.5.1"
-  peerDependencies:
-    geotiff: "*"
-  checksum: 10/0aa5977e18ea7c25446f0cbbd4c9ca16c90c293bb4ad4de6bc3c1d51d42c84bce4ff83c066930473959cd4bc80d0cdf23acf2c7f347248ba762a5108573ee7fc
-  languageName: node
-  linkType: hard
-
-"proj4@npm:^2.3.14":
+"proj4@npm:^2.17.0, proj4@npm:^2.3.14":
   version: 2.17.0
   resolution: "proj4@npm:2.17.0"
   dependencies:
