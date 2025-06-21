@@ -4,6 +4,7 @@ import { DEFAULT_ZOOM_LEVEL, useGeneralSettings } from "../../hooks/useGeneralSe
 import { LayerGroup, LayersControl, MapContainer, ScaleControl, TileLayer } from "react-leaflet";
 import { crs, toLatLng } from "../../services/osdatahub/helpers";
 import { API_KEY } from "../../services/osdatahub";
+import { CompanyDataLayer } from "./CompanyDataLayer";
 import { CurrentLocation } from "../controls/CurrentLocation";
 import { FlyToLocation } from "./FlyToLocation";
 import { GeodsPointsOfInterestLayer } from "./GeodsPointsOfInterestLayer";
@@ -74,7 +75,10 @@ export function OSMap({ center }: OSMapProps) {
         <LayersControl.Overlay name="GeoDS POI" checked={settings?.autoSelect?.geodsPOI}>
           <GeodsPointsOfInterestLayer minZoom={8} />
         </LayersControl.Overlay>
-        
+
+        <LayersControl.Overlay name="Company Data" checked={settings?.autoSelect?.companyData}>
+          <CompanyDataLayer minZoom={10} />
+        </LayersControl.Overlay>
       </LayersControl>
       <CurrentLocation active={settings?.initialLocation === "current" && center === undefined} />
       <FlyToLocation

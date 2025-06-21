@@ -6,7 +6,7 @@ import { useQuery } from "react-query";
 
 export function useGeodsPOI(bounds: LatLngBounds) {
   return useQuery<SearchResponse, AxiosError>(
-    ["geodsPOI", bounds.getCenter().lat.toFixed(4), bounds.getCenter().lng.toFixed(4)],
+    ["geodsPOI", bounds],
     () => fetchGeodsPOI(bounds),
     {
       staleTime: Infinity,

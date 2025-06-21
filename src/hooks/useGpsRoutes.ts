@@ -5,12 +5,8 @@ import { fetchGpsRoutes } from "../services/gpsRoutes";
 import { useQuery } from "react-query";
 
 export function useGpsRoutes(bounds: LatLngBounds, truncateText = false) {
-  return useQuery<SearchResponse, AxiosError>(
-    ["gpsRoutes", bounds.getCenter().lat.toFixed(4), bounds.getCenter().lng.toFixed(4)],
-    () => fetchGpsRoutes(bounds, truncateText),
-    {
-      staleTime: Infinity,
-      cacheTime: 600_000, // 10 minutes
-    }
-  );
+  return useQuery<SearchResponse, AxiosError>(["gpsRoutes", bounds], () => fetchGpsRoutes(bounds, truncateText), {
+    staleTime: Infinity,
+    cacheTime: 600_000, // 10 minutes
+  });
 }

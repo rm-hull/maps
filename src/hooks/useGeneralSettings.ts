@@ -14,6 +14,7 @@ export interface AutoSelect {
   geograph?: boolean;
   gpsRoutes?: boolean;
   geodsPOI?: boolean;
+  companyData?: boolean;
 }
 
 export interface GeneralSettings {
