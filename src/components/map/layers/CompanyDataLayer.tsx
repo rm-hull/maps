@@ -11,14 +11,6 @@ import { useErrorToast } from "../../../hooks/useErrorToast";
 import { useGeneralSettings } from "../../../hooks/useGeneralSettings";
 import { useState } from "react";
 
-interface CompaniesProps {
-  bounds: LatLngBounds;
-}
-
-interface CompanyListPopupProps {
-  companies: CompanyData[];
-}
-
 function address(companyData: CompanyData): string {
   return [
     companyData.reg_address_care_of,
@@ -75,6 +67,10 @@ function companyStatusColorScheme(status: string) {
   return "gray";
 }
 
+interface CompanyListPopupProps {
+  companies: CompanyData[];
+}
+
 function CompanyListPopup({ companies }: CompanyListPopupProps) {
   return (
     <Popup maxWidth={400} closeButton={false}>
@@ -118,6 +114,10 @@ function CompanyListPopup({ companies }: CompanyListPopupProps) {
       </List>
     </Popup>
   );
+}
+
+interface CompaniesProps {
+  bounds: LatLngBounds;
 }
 
 function Companies({ bounds }: CompaniesProps) {
