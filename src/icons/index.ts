@@ -27,7 +27,7 @@ export function countIcon(color: string, count: number): L.DivIcon {
   const svg = `
     <svg xmlns="http://www.w3.org/2000/svg" width="${radius * 2}" height="${radius * 2}">
       <circle cx="${radius}" cy="${radius}" r="${radius - strokeWidth}" fill="${color}" fill-opacity="0.4" stroke="${color}" stroke-width="${strokeWidth}" />
-      <text x="50%" y="50%" alignment-baseline="middle" text-anchor="middle" fill="#555" font-size="16" font-family="sans-serif" dy=".15em">${count}</text>
+      <text x="50%" y="50%" alignment-baseline="middle" text-anchor="middle" fill="#555" font-size="16" font-family="sans-serif" dy=".12em">${count}</text>
     </svg>
   `;
   return new L.DivIcon({
