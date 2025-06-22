@@ -1,14 +1,14 @@
 import { Badge, HStack, Heading, Link, List, ListItem, Text, UnorderedList } from "@chakra-ui/react";
 import { LayerGroup, Marker, Popup, useMap, useMapEvents } from "react-leaflet";
-import { CompanyData } from "../../services/companyData/types";
+import { CompanyData } from "../../../services/companyData/types";
 import { type LatLngBounds } from "leaflet";
 import { Link as ReactRouterLink } from "react-router-dom";
-import { countIcon } from "../../icons";
-import { toLatLng } from "../../services/osdatahub/helpers";
-import { useCachedQuery } from "../../hooks/useCachedQuery";
-import { useCompanyData } from "../../hooks/useCompanyData";
-import { useErrorToast } from "../../hooks/useErrorToast";
-import { useGeneralSettings } from "../../hooks/useGeneralSettings";
+import { countIcon } from "../../../icons";
+import { toLatLng } from "../../../services/osdatahub/helpers";
+import { useCachedQuery } from "../../../hooks/useCachedQuery";
+import { useCompanyData } from "../../../hooks/useCompanyData";
+import { useErrorToast } from "../../../hooks/useErrorToast";
+import { useGeneralSettings } from "../../../hooks/useGeneralSettings";
 import { useState } from "react";
 
 interface CompaniesProps {

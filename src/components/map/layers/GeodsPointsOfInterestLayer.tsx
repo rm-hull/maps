@@ -2,11 +2,11 @@ import * as L from "leaflet";
 import { LayerGroup, Marker, useMap, useMapEvents } from "react-leaflet";
 import { type LatLngBounds } from "leaflet";
 import MarkerClusterGroup from "react-leaflet-cluster";
-import ResultPopup from "./ResultPopup";
-import { useCachedQuery } from "../../hooks/useCachedQuery";
-import { useErrorToast } from "../../hooks/useErrorToast";
-import { useGeneralSettings } from "../../hooks/useGeneralSettings";
-import { useGeodsPOI } from "../../hooks/useGeodsPOI";
+import ResultPopup from "../ResultPopup";
+import { useCachedQuery } from "../../../hooks/useCachedQuery";
+import { useErrorToast } from "../../../hooks/useErrorToast";
+import { useGeneralSettings } from "../../../hooks/useGeneralSettings";
+import { useGeodsPOI } from "../../../hooks/useGeodsPOI";
 import { useState } from "react";
 
 interface PointsOfInterestProps {

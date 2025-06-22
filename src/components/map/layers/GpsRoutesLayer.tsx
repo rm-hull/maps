@@ -1,13 +1,13 @@
 import { LayerGroup, Marker, useMap, useMapEvents } from "react-leaflet";
 import { type LatLngBounds } from "leaflet";
 import MarkerClusterGroup from "react-leaflet-cluster";
-import ResultPopup from "./ResultPopup";
-import { useCachedQuery } from "../../hooks/useCachedQuery";
-import { useErrorToast } from "../../hooks/useErrorToast";
-import { useGeneralSettings } from "../../hooks/useGeneralSettings";
-import { useGpsRoutes } from "../../hooks/useGpsRoutes";
+import ResultPopup from "../ResultPopup";
+import { useCachedQuery } from "../../../hooks/useCachedQuery";
+import { useErrorToast } from "../../../hooks/useErrorToast";
+import { useGeneralSettings } from "../../../hooks/useGeneralSettings";
+import { useGpsRoutes } from "../../../hooks/useGpsRoutes";
 import { useState } from "react";
-import { violetMarker } from "../../icons";
+import { violetMarker } from "../../../icons";
 
 interface SearchHitsProps {
   bounds: LatLngBounds;

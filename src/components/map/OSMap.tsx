@@ -4,12 +4,12 @@ import { DEFAULT_ZOOM_LEVEL, useGeneralSettings } from "../../hooks/useGeneralSe
 import { LayerGroup, LayersControl, MapContainer, ScaleControl, TileLayer } from "react-leaflet";
 import { crs, toLatLng } from "../../services/osdatahub/helpers";
 import { API_KEY } from "../../services/osdatahub";
-import { CompanyDataLayer } from "./CompanyDataLayer";
+import { CompanyDataLayer } from "./layers/CompanyDataLayer";
 import { CurrentLocation } from "../controls/CurrentLocation";
 import { FlyToLocation } from "./FlyToLocation";
-import { GeodsPointsOfInterestLayer } from "./GeodsPointsOfInterestLayer";
-import { GeographLayer } from "./GeographLayer";
-import { GpsRoutesLayer } from "./GpsRoutesLayer";
+import { GeodsPointsOfInterestLayer } from "./layers/GeodsPointsOfInterestLayer";
+import { GeographLayer } from "./layers/GeographLayer";
+import { GpsRoutesLayer } from "./layers/GpsRoutesLayer";
 import { PointOfInterest } from "./PointOfInterest";
 import { Ruler } from "../controls/Ruler";
 import { SearchBox } from "./SearchBox";

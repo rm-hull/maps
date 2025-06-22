@@ -1,10 +1,10 @@
 import { LayerGroup, Marker, useMap, useMapEvents } from "react-leaflet";
 import { type LatLng } from "leaflet";
 import MarkerClusterGroup from "react-leaflet-cluster";
-import ResultPopup from "./ResultPopup";
-import { useErrorToast } from "../../hooks/useErrorToast";
-import { useGeneralSettings } from "../../hooks/useGeneralSettings";
-import { useGeograph } from "../../hooks/useGeograph";
+import ResultPopup from "../ResultPopup";
+import { useErrorToast } from "../../../hooks/useErrorToast";
+import { useGeneralSettings } from "../../../hooks/useGeneralSettings";
+import { useGeograph } from "../../../hooks/useGeograph";
 import { useState } from "react";
 
 interface ImagesProps {
