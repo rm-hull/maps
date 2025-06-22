@@ -141,6 +141,14 @@ export function SettingsForm() {
           >
             GeoDS Points of Interest
           </Switch>
+
+          <Switch
+            size="sm"
+            isChecked={settings?.autoSelect?.companyData ?? false}
+            onChange={handleUpdateAutoSelect("companyData")}
+          >
+            Company Data
+          </Switch>
         </VStack>
       </FormControl>
     </VStack>

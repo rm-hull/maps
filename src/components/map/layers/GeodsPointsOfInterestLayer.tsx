@@ -2,18 +2,18 @@ import * as L from "leaflet";
 import { LayerGroup, Marker, useMap, useMapEvents } from "react-leaflet";
 import { type LatLngBounds } from "leaflet";
 import MarkerClusterGroup from "react-leaflet-cluster";
-import ResultPopup from "./ResultPopup";
-import { useCachedQuery } from "../../hooks/useCachedQuery";
-import { useErrorToast } from "../../hooks/useErrorToast";
-import { useGeneralSettings } from "../../hooks/useGeneralSettings";
-import { useGeodsPOI } from "../../hooks/useGeodsPOI";
+import ResultPopup from "../ResultPopup";
+import { useCachedQuery } from "../../../hooks/useCachedQuery";
+import { useErrorToast } from "../../../hooks/useErrorToast";
+import { useGeneralSettings } from "../../../hooks/useGeneralSettings";
+import { useGeodsPOI } from "../../../hooks/useGeodsPOI";
 import { useState } from "react";
 
-interface SearchHitsProps {
+interface PointsOfInterestProps {
   bounds: LatLngBounds;
 }
 
-function PointsOfInterest({ bounds }: SearchHitsProps) {
+function PointsOfInterest({ bounds }: PointsOfInterestProps) {
   const { data, error } = useCachedQuery(useGeodsPOI(bounds));
   useErrorToast("geods-poi-error", "Error loading GeoDS POI", error);
 
