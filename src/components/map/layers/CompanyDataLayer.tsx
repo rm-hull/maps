@@ -34,7 +34,7 @@ function address(companyData: CompanyData): string {
     .join(", ");
 }
 
-function compareCompanies(a: CompanyData, b: CompanyData): number {
+function byAddressLine1(a: CompanyData, b: CompanyData): number {
   const getAddressNumber = (address?: string) => {
     if (!address) return NaN;
     const match = address.match(/^\d+/);
@@ -56,21 +56,6 @@ function compareCompanies(a: CompanyData, b: CompanyData): number {
 
   return a.company_name.localeCompare(b.company_name, undefined, { sensitivity: "base" });
 }
-
-/*
-Active|5124789
-Active - Proposal to Strike off|412149
-In Administration|3504
-In Administration/Administrative Receiver|417
-In Administration/Receiver Manager|36
-Liquidation|112713
-Live but Receiver Manager on at least one charge|2013
-RECEIVER MANAGER / ADMINISTRATIVE RECEIVER|9
-RECEIVERSHIP|182
-VOLUNTARY ARRANGEMENT / ADMINISTRATIVE RECEIVER|1
-VOLUNTARY ARRANGEMENT / RECEIVER MANAGER|1
-Voluntary Arrangement|541
-*/
 
 function companyStatusColorScheme(status: string) {
   status = status.toUpperCase();
@@ -94,7 +79,7 @@ function CompanyListPopup({ companies }: CompanyListPopupProps) {
   return (
     <Popup maxWidth={400} closeButton={false}>
       <List spacing={1} maxHeight={300} overflowY="auto">
-        {companies.toSorted(compareCompanies).map((company) => (
+        {companies.toSorted(byAddressLine1).map((company) => (
           <ListItem key={company.company_number} p={2} borderBottom="1px solid" borderColor="gray.200">
             <HStack spacing={2} alignItems="start" justifyContent="space-between">
               <Heading size="sm" isTruncated>
@@ -194,18 +179,3 @@ export function CompanyDataLayer({ minZoom }: CompanyDataLayerProps) {
 
   return <LayerGroup>{overlayChecked["Company Data"] && <Companies bounds={bounds} />}</LayerGroup>;
 }
-
-// function categoryIcon(category?: string): L.Icon {
-//   const url = `${import.meta.env.VITE_GEODS_POI_API_URL}v1/geods-poi/marker/${category?.toLowerCase() || "unknown"}`;
-//   const shadowUrl = `${import.meta.env.VITE_GEODS_POI_API_URL}v1/geods-poi/marker/shadow`;
-//   return new L.Icon({
-//     popupAnchor: [1, -34],
-//     iconSize: [32, 37],
-//     iconAnchor: [16, 37],
-//     iconUrl: url,
-//     iconRetinaUrl: url,
-//     shadowUrl: shadowUrl,
-//     shadowSize: [51, 37],
-//     shadowAnchor: [23, 35],
-//   });
-// }
