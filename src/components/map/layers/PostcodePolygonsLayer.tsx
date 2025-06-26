@@ -1,13 +1,15 @@
-import { Feature, FeatureCollection } from "geojson";
-import { GeoJSON } from "react-leaflet";
-import { Layer } from "leaflet";
 import { useCallback, useMemo, useState } from "react";
-import data from "./hg2.json";
+import { Feature } from "geojson";
+import { GeoJSON, useMap, useMapEvents } from "react-leaflet";
+import { type LatLngBounds } from "leaflet";
+import { Layer } from "leaflet";
+// import { useCachedQuery } from "../../../hooks/useCachedQuery";
+import { useErrorToast } from "../../../hooks/useErrorToast";
+import { usePostcodePolygons } from "../../../hooks/usePostcodePolygons";
 
 const defaultStyle = {
-  color: "#0000FF77", // Default blue color
+  color: "#0000FF77",
   weight: 2,
-  // opacity: 0.4,
   fillColor: "#0000FF",
   fillOpacity: 0.1,
 };
@@ -15,36 +17,53 @@ const defaultStyle = {
 const hiddenStyle = {
   color: "#ff000055",
   weight: 1,
-  // opacity: 0.7,
-  // fillColor: "#ff0000",
   fillOpacity: 0.0,
 };
 
 export default function PostcodePolygonsLayer() {
-  const [hoveredFeatureId, setHoveredFeatureId] = useState<string | null>(null);
-  // const [featurePopupContent, setFeaturePopupContent] = useState<string | null>(null);
-  // const [popupLatLng, setPopupLatLng] = useState<LatLng | null>(null);
+  const map = useMap();
+  // const [settings] = useGeneralSettings();
+  const [bounds, setBounds] = useState<LatLngBounds>(map.getBounds());
 
-  const geoJsonData = useMemo(() => data as FeatureCollection, []);
+  const [hoveredFeatureId, setHoveredFeatureId] = useState<string>();
+  const { data, error } = usePostcodePolygons(bounds);
+  useErrorToast("postcode-polygons-error", "Error loading postcode polygons", error);
 
   const onEachFeature = useCallback((feature: Feature, layer: Layer) => {
     layer.on({
       mouseover: () => {
-        setHoveredFeatureId(feature.properties?.postcode);
+        setHoveredFeatureId(feature.id?.toString());
       },
+      // mouseout: (e: LeafletMouseEvent) => {
+      //   console.log(e);
+      //   debouncedSetHoveredFeatureId(undefined);
+      // },
     });
   }, []);
 
-  const hoveredFeature = useMemo(() => {
-    if (hoveredFeatureId !== null) {
-      return geoJsonData.features.find((f) => f.properties?.postcode === hoveredFeatureId);
-    }
-    return null;
-  }, [hoveredFeatureId, geoJsonData]);
+  useMapEvents({
+    moveend() {
+      setBounds(map.getBounds());
+    },
+    zoomend() {
+      setBounds(map.getBounds());
+    },
+    // overlayadd(event) {
+    //   handleOverlayChange(event.name, true);
+    // },
+    // overlayremove(event) {
+    //   handleOverlayChange(event.name, false);
+    // },
+  });
 
+  const hoveredFeature = useMemo(() => {
+    return data?.features.find((f) => f.id?.toString() === hoveredFeatureId);
+  }, [hoveredFeatureId, data]);
+
+  console.log({ hoveredFeatureId, hoveredFeature });
   return (
     <>
-      <GeoJSON data={geoJsonData} style={hiddenStyle} onEachFeature={onEachFeature} />
+      {data && <GeoJSON data={data} style={hiddenStyle} onEachFeature={onEachFeature} />}
       {hoveredFeature && (
         <GeoJSON
           key={hoveredFeatureId}
