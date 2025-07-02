@@ -2634,21 +2634,21 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/proj4@npm:*, @types/proj4@npm:^2.5.6":
+"@types/proj4@npm:^2.5.6":
   version: 2.5.6
   resolution: "@types/proj4@npm:2.5.6"
   checksum: 10/753159770445b0e2dd4a21b8b9c0236515e2ff22243393e21bb6510d50261fae1a8e9efac0d7666bdd647fb0ec43499bd7ca29fae485ea252e232df21c0726d3
   languageName: node
   linkType: hard
 
-"@types/proj4leaflet@npm:^1.0.10":
-  version: 1.0.10
-  resolution: "@types/proj4leaflet@npm:1.0.10"
+"@types/proj4leaflet@npm:^1.0.11":
+  version: 1.0.11
+  resolution: "@types/proj4leaflet@npm:1.0.11"
   dependencies:
     "@types/geojson": "npm:*"
     "@types/leaflet": "npm:*"
-    "@types/proj4": "npm:*"
-  checksum: 10/5aa92d82f5b143c3ad2d91a3d558a203f589cd404d1021b5616ae33dba8d55992de9418c40372613be127b6a3eb7dd9f84de9ff82e11c83f4ea1432f9550d69d
+    proj4: "npm:^2.19.0"
+  checksum: 10/a526b8d7ea1cc1178338fba98301d7aff5b613ffd34637348835e7cc6361845ba8257f393458b3d5955fb6c080611d91fadc91401852476671661dbc27c9b71b
   languageName: node
   linkType: hard
 
@@ -6598,7 +6598,7 @@ __metadata:
     "@types/leaflet": "npm:^1.9.19"
     "@types/node": "npm:^24.0.7"
     "@types/proj4": "npm:^2.5.6"
-    "@types/proj4leaflet": "npm:^1.0.10"
+    "@types/proj4leaflet": "npm:^1.0.11"
     "@types/react": "npm:^19.1.8"
     "@types/react-dom": "npm:^19.1.6"
     "@typescript-eslint/eslint-plugin": "npm:^8.35.1"
@@ -7297,6 +7297,16 @@ __metadata:
   peerDependencies:
     geotiff: "*"
   checksum: 10/0aa5977e18ea7c25446f0cbbd4c9ca16c90c293bb4ad4de6bc3c1d51d42c84bce4ff83c066930473959cd4bc80d0cdf23acf2c7f347248ba762a5108573ee7fc
+  languageName: node
+  linkType: hard
+
+"proj4@npm:^2.19.0":
+  version: 2.19.5
+  resolution: "proj4@npm:2.19.5"
+  dependencies:
+    mgrs: "npm:1.0.0"
+    wkt-parser: "npm:^1.5.1"
+  checksum: 10/2f884c4a5ca7f5acd0b0db64cb91d4b5c660419ac9e49aacf6a8747135500be7022aa6ab0560f11e69accf7ec71a58c84dd3048a0e285522e2467b9d0c8a385e
   languageName: node
   linkType: hard
 
