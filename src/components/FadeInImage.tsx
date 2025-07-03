@@ -35,6 +35,9 @@ export function FadeInImage({ loader, src, alt, height, attribution, ...rest }: 
             setError(true);
           }
         });
+    } else if (!src) {
+      // If there is no loader and no src, we can consider it "loaded" immediately.
+      setLoaded(true);
     }
 
     return () => {

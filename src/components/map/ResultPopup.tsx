@@ -52,11 +52,6 @@ export default function ResultPopup({
             ))}
           </Box>
         )}
-        {/* {attribution && (
-          <Text fontSize="10px" fontStyle="italic" color="gray.500" mt={1}>
-            {attribution}
-          </Text>
-        )} */}
       </CardBody>
     </Card>
   );
