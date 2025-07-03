@@ -1,16 +1,36 @@
-import { Box, Center, Image, Spinner } from "@chakra-ui/react";
+import { Box, Center, Image, Spinner, Tag } from "@chakra-ui/react";
 import { LuCircleX, LuSkull } from "react-icons/lu";
-import { useCallback, useState } from "react";
+import { ReactNode, useCallback, useEffect, useState } from "react";
+
+export type Fugazi = { src: string; alt?: string; attribution?: ReactNode };
+export type ImageLoader = string | (() => Promise<Fugazi>);
 
 type FadeInImageProps = {
-  src?: string;
+  src?: ImageLoader;
   alt: string;
+  attribution?: ReactNode;
   height?: number;
 };
 
-export function FadeInImage({ src, alt, height, ...rest }: FadeInImageProps) {
+export function FadeInImage({ src, alt, height, attribution, ...rest }: FadeInImageProps) {
+  const [fugazi, setFugazi] = useState<Fugazi | undefined>(
+    typeof src === "string" ? { src, alt, attribution } : undefined
+  );
   const [isLoaded, setLoaded] = useState(false);
   const [error, setError] = useState(false);
+
+  useEffect(() => {
+    if (typeof src === "function") {
+      src()
+        .then((resolvedUrl) => {
+          setFugazi(resolvedUrl);
+          setError(false);
+        })
+        .catch(() => {
+          setError(true);
+        });
+    }
+  }, [src]);
 
   const placeholder = useCallback(() => {
     if (error) {
@@ -29,8 +49,8 @@ export function FadeInImage({ src, alt, height, ...rest }: FadeInImageProps) {
         {placeholder()}
       </Center>
       <Image
-        src={src}
-        alt={alt}
+        src={fugazi?.src}
+        alt={fugazi?.alt}
         onLoad={() => setLoaded(true)}
         onError={() => setError(true)}
         width="full"
@@ -40,6 +60,22 @@ export function FadeInImage({ src, alt, height, ...rest }: FadeInImageProps) {
         opacity={isLoaded ? 1 : 0}
         loading="lazy"
       />
+      {fugazi?.attribution && (
+        <Tag
+          position="absolute"
+          bottom={0}
+          right={0}
+          m={1}
+          p={0.5}
+          variant="subtle"
+          size="xs"
+          fontSize="xs"
+          colorScheme="gray"
+          opacity={0.5}
+        >
+          {fugazi.attribution}
+        </Tag>
+      )}
     </Box>
   );
 }

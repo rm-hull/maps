@@ -1,12 +1,13 @@
 import { Badge, Box, Card, CardBody, CardHeader, Heading, Link, Text } from "@chakra-ui/react";
-import { FadeInImage } from "../FadeInImage";
+import { FadeInImage, ImageLoader } from "../FadeInImage";
 import { Popup } from "react-leaflet";
 import { Link as ReactRouterLink } from "react-router-dom";
 
 interface ResultPopupProps {
   title: string;
   description: string;
-  imageUrl?: string;
+  imageLoader?: () => Promise<string>;
+  imageUrl?: ImageLoader;
   targetUrl?: string;
   attribution?: string;
   distanceKm?: number;
@@ -24,9 +25,9 @@ export default function ResultPopup({
 }: ResultPopupProps) {
   const cardDetails = (
     <Card overflow="hidden" shadow="none" width="xs" border={0} outline={0}>
-      {imageUrl && <FadeInImage src={imageUrl} alt={title} height={60} />}
+      {imageUrl && <FadeInImage src={imageUrl} alt={title} height={60} attribution={attribution} />}
       {distanceKm && (
-        <Badge colorScheme="blue" position="absolute" top={1} right={1}>
+        <Badge colorScheme="blue" position="absolute" top={0} right={0} m={1}>
           {distanceKm} km
         </Badge>
       )}
@@ -48,11 +49,11 @@ export default function ResultPopup({
             ))}
           </Box>
         )}
-        {attribution && (
+        {/* {attribution && (
           <Text fontSize="10px" fontStyle="italic" color="gray.500" mt={1}>
             {attribution}
           </Text>
-        )}
+        )} */}
       </CardBody>
     </Card>
   );
