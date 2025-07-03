@@ -41,7 +41,14 @@ function PointsOfInterest({ bounds }: PointsOfInterestProps) {
                 attribution: (
                   <Text>
                     Photo by{" "}
-                    <Link as={ReactRouterLink} to={photo.user.links.html} isExternal>
+                    <Link
+                      as={ReactRouterLink}
+                      to={
+                        photo.user.links.html +
+                        `?utm_source=${encodeURIComponent("https://www.destructuring-bind.org/maps")}&utm_medium=referral`
+                      }
+                      isExternal
+                    >
                       {photo.user.name}
                     </Link>{" "}
                     (Unsplash)
