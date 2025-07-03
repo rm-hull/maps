@@ -2,46 +2,56 @@ import { Box, Center, Image, Spinner, Tag } from "@chakra-ui/react";
 import { LuCircleX, LuSkull } from "react-icons/lu";
 import { ReactNode, useCallback, useEffect, useState } from "react";
 
-export type Fugazi = { src: string; alt?: string; attribution?: ReactNode };
-export type ImageLoader = string | (() => Promise<Fugazi>);
+type ImageDetails = { src?: string; alt?: string; attribution?: ReactNode };
 
-type FadeInImageProps = {
-  src?: ImageLoader;
-  alt: string;
-  attribution?: ReactNode;
+export type ImageLoaderFn = () => Promise<ImageDetails>;
+
+interface FadeInImageProps extends ImageDetails {
+  loader?: ImageLoaderFn;
   height?: number;
-};
+}
 
-export function FadeInImage({ src, alt, height, attribution, ...rest }: FadeInImageProps) {
-  const [fugazi, setFugazi] = useState<Fugazi | undefined>(
-    typeof src === "string" ? { src, alt, attribution } : undefined
-  );
+export function FadeInImage({ loader, src, alt, height, attribution, ...rest }: FadeInImageProps) {
+  const [imageDetails, setImageDetails] = useState<ImageDetails>({ src, alt, attribution });
   const [isLoaded, setLoaded] = useState(false);
   const [error, setError] = useState(false);
 
   useEffect(() => {
-    if (typeof src === "function") {
-      src()
+    let isMounted = true;
+    setImageDetails({ src, alt, attribution });
+    setLoaded(false);
+    setError(false);
+    if (loader) {
+      loader()
         .then((resolvedUrl) => {
-          setFugazi(resolvedUrl);
-          setError(false);
+          if (isMounted) {
+            setImageDetails(resolvedUrl);
+            setLoaded(true);
+          }
+          return;
         })
         .catch(() => {
-          setError(true);
+          if (isMounted) {
+            setError(true);
+          }
         });
     }
-  }, [src]);
+
+    return () => {
+      isMounted = false;
+    };
+  }, [loader, src, alt, attribution]);
 
   const placeholder = useCallback(() => {
     if (error) {
       return <LuSkull color="tomato" size={72} />;
-    } else if (!src) {
-      return <LuCircleX color="gray" size={72} />;
     } else if (!isLoaded) {
       return <Spinner color="blue" size="lg" />;
+    } else if (!imageDetails.src) {
+      return <LuCircleX color="gray" size={72} />;
     }
     return null;
-  }, [src, isLoaded, error]);
+  }, [error, isLoaded, imageDetails.src]);
 
   return (
     <Box position="relative" w="full" h={height} {...rest}>
@@ -49,8 +59,8 @@ export function FadeInImage({ src, alt, height, attribution, ...rest }: FadeInIm
         {placeholder()}
       </Center>
       <Image
-        src={fugazi?.src}
-        alt={fugazi?.alt}
+        src={imageDetails?.src}
+        alt={imageDetails?.alt}
         onLoad={() => setLoaded(true)}
         onError={() => setError(true)}
         width="full"
@@ -60,7 +70,7 @@ export function FadeInImage({ src, alt, height, attribution, ...rest }: FadeInIm
         opacity={isLoaded ? 1 : 0}
         loading="lazy"
       />
-      {fugazi?.attribution && (
+      {imageDetails?.attribution && (
         <Tag
           position="absolute"
           bottom={0}
@@ -73,7 +83,7 @@ export function FadeInImage({ src, alt, height, attribution, ...rest }: FadeInIm
           colorScheme="gray"
           opacity={0.5}
         >
-          {fugazi.attribution}
+          {imageDetails.attribution}
         </Tag>
       )}
     </Box>
