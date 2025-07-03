@@ -5,12 +5,12 @@ import { type LatLngBounds } from "leaflet";
 import MarkerClusterGroup from "react-leaflet-cluster";
 import { Link as ReactRouterLink } from "react-router-dom";
 import ResultPopup from "../ResultPopup";
-import { unsplashImageSearch } from "../../../services/unsplash";
 import { useCachedQuery } from "../../../hooks/useCachedQuery";
 import { useErrorToast } from "../../../hooks/useErrorToast";
 import { useGeneralSettings } from "../../../hooks/useGeneralSettings";
 import { useGeodsPOI } from "../../../hooks/useGeodsPOI";
 import { useState } from "react";
+import { fetchUnsplashImage } from "../../../services/geods";
 
 interface PointsOfInterestProps {
   bounds: LatLngBounds;
@@ -33,23 +33,23 @@ function PointsOfInterest({ bounds }: PointsOfInterestProps) {
             chips={result.categories}
             imageLoader={async () => {
               const category = result.categories?.[0] || "unknown";
-              const photo = await unsplashImageSearch(category);
+              const photo = await fetchUnsplashImage(category);
 
               return {
-                src: photo.urls.small,
-                alt: photo.alt_description,
+                src: photo.src,
+                alt: photo.alt,
                 attribution: (
                   <Text>
                     Photo by{" "}
                     <Link
                       as={ReactRouterLink}
                       to={
-                        photo.user.links.html +
+                        photo.attribution.link +
                         `?utm_source=${encodeURIComponent("https://www.destructuring-bind.org/maps")}&utm_medium=referral`
                       }
                       isExternal
                     >
-                      {photo.user.name}
+                      {photo.attribution.name}
                     </Link>{" "}
                     (Unsplash)
                   </Text>
