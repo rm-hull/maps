@@ -1,5 +1,5 @@
-import { LatLngBounds } from "leaflet";
 import { SearchResponse, UnsplashProxyResponse } from "./types";
+import { LatLngBounds } from "leaflet";
 import axios from "axios";
 
 const API_URL = import.meta.env.VITE_GEODS_POI_API_URL as string;

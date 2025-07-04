@@ -1,16 +1,16 @@
 import * as L from "leaflet";
 import { LayerGroup, Marker, useMap, useMapEvents } from "react-leaflet";
 import { Link, Text } from "@chakra-ui/react";
+import { useCallback, useState } from "react";
 import { type LatLngBounds } from "leaflet";
 import MarkerClusterGroup from "react-leaflet-cluster";
 import { Link as ReactRouterLink } from "react-router-dom";
 import ResultPopup from "../ResultPopup";
+import { fetchUnsplashImage } from "../../../services/geods";
 import { useCachedQuery } from "../../../hooks/useCachedQuery";
 import { useErrorToast } from "../../../hooks/useErrorToast";
 import { useGeneralSettings } from "../../../hooks/useGeneralSettings";
 import { useGeodsPOI } from "../../../hooks/useGeodsPOI";
-import { useState } from "react";
-import { fetchUnsplashImage } from "../../../services/geods";
 
 interface PointsOfInterestProps {
   bounds: LatLngBounds;
@@ -19,6 +19,32 @@ interface PointsOfInterestProps {
 function PointsOfInterest({ bounds }: PointsOfInterestProps) {
   const { data, error } = useCachedQuery(useGeodsPOI(bounds));
   useErrorToast("geods-poi-error", "Error loading GeoDS POI", error);
+
+  const imageLoader = useCallback((categories?: string[]) => {
+    return async () => {
+      const photo = await fetchUnsplashImage(categories?.[0] || "unknown");
+      return {
+        src: photo.src,
+        alt: photo.alt,
+        attribution: (
+          <Text>
+            Photo by{" "}
+            <Link
+              as={ReactRouterLink}
+              to={
+                photo.attribution.link +
+                `?utm_source=${encodeURIComponent("https://www.destructuring-bind.org/maps")}&utm_medium=referral`
+              }
+              isExternal
+            >
+              {photo.attribution.name}
+            </Link>{" "}
+            (Unsplash)
+          </Text>
+        ),
+      };
+    };
+  }, []);
 
   return (
     <MarkerClusterGroup chunkedLoading showCoverageOnHover={false} removeOutsideVisibleBounds>
@@ -31,31 +57,7 @@ function PointsOfInterest({ bounds }: PointsOfInterestProps) {
               .filter((field) => !!field)
               .join(", ")}
             chips={result.categories}
-            imageLoader={async () => {
-              const category = result.categories?.[0] || "unknown";
-              const photo = await fetchUnsplashImage(category);
-
-              return {
-                src: photo.src,
-                alt: photo.alt,
-                attribution: (
-                  <Text>
-                    Photo by{" "}
-                    <Link
-                      as={ReactRouterLink}
-                      to={
-                        photo.attribution.link +
-                        `?utm_source=${encodeURIComponent("https://www.destructuring-bind.org/maps")}&utm_medium=referral`
-                      }
-                      isExternal
-                    >
-                      {photo.attribution.name}
-                    </Link>{" "}
-                    (Unsplash)
-                  </Text>
-                ),
-              };
-            }}
+            imageLoader={imageLoader(result.categories)}
           />
         </Marker>
       ))}
