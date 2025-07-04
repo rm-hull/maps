@@ -160,10 +160,10 @@ export function CompanyDataLayer({ minZoom }: CompanyDataLayerProps) {
 
   useMapEvents({
     moveend() {
-      setBounds(map.getBounds());
+      if (overlayChecked["Company Data"]) setBounds(map.getBounds());
     },
     zoomend() {
-      setBounds(map.getBounds());
+      if (overlayChecked["Company Data"]) setBounds(map.getBounds());
     },
     overlayadd(event) {
       handleOverlayChange(event.name, true);

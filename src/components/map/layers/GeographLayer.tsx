@@ -58,7 +58,7 @@ export function GeographLayer({ minZoom }: GeographLayerProps) {
 
   useMapEvents({
     moveend() {
-      setLatLng(map.getCenter());
+      if (overlayChecked.Geograph) setLatLng(map.getCenter());
     },
     overlayadd(event) {
       handleOverlayChange(event.name, true);

@@ -1,11 +1,11 @@
 import * as L from "leaflet";
 import { LayerGroup, Marker, useMap, useMapEvents } from "react-leaflet";
-import { Link, Text } from "@chakra-ui/react";
-import { useCallback, useState } from "react";
+import { useMemo, useState } from "react";
+import { ImageLoaderFn } from "../../FadeInImage";
 import { type LatLngBounds } from "leaflet";
 import MarkerClusterGroup from "react-leaflet-cluster";
-import { Link as ReactRouterLink } from "react-router-dom";
 import ResultPopup from "../ResultPopup";
+import { UnsplashAttributionLink } from "../UnsplashAttributionLink";
 import { fetchUnsplashImage } from "../../../services/geods";
 import { useCachedQuery } from "../../../hooks/useCachedQuery";
 import { useErrorToast } from "../../../hooks/useErrorToast";
@@ -20,29 +20,21 @@ function PointsOfInterest({ bounds }: PointsOfInterestProps) {
   const { data, error } = useCachedQuery(useGeodsPOI(bounds));
   useErrorToast("geods-poi-error", "Error loading GeoDS POI", error);
 
-  const imageLoader = useCallback((categories?: string[]) => {
-    return async () => {
-      const photo = await fetchUnsplashImage(categories?.[0] || "unknown");
-      return {
-        src: photo.src,
-        alt: photo.alt,
-        attribution: (
-          <Text>
-            Photo by{" "}
-            <Link
-              as={ReactRouterLink}
-              to={
-                photo.attribution.link +
-                `?utm_source=${encodeURIComponent("https://www.destructuring-bind.org/maps")}&utm_medium=referral`
-              }
-              isExternal
-            >
-              {photo.attribution.name}
-            </Link>{" "}
-            (Unsplash)
-          </Text>
-        ),
-      };
+  const imageLoaderMap = useMemo(() => {
+    const cache = new Map<string, ImageLoaderFn>();
+    return (categories?: string[]) => {
+      const key = categories?.[0] || "unknown";
+      if (!cache.has(key)) {
+        cache.set(key, async () => {
+          const photo = await fetchUnsplashImage(key);
+          return {
+            src: photo.src,
+            alt: photo.alt,
+            attribution: <UnsplashAttributionLink name={photo.attribution.name} link={photo.attribution.link} />,
+          };
+        });
+      }
+      return cache.get(key)!;
     };
   }, []);
 
@@ -57,7 +49,7 @@ function PointsOfInterest({ bounds }: PointsOfInterestProps) {
               .filter((field) => !!field)
               .join(", ")}
             chips={result.categories}
-            imageLoader={imageLoader(result.categories)}
+            imageLoader={imageLoaderMap(result.categories)}
           />
         </Marker>
       ))}
@@ -86,10 +78,10 @@ export function GeodsPointsOfInterestLayer({ minZoom }: GeodsPointsOfInterestLay
 
   useMapEvents({
     moveend() {
-      setBounds(map.getBounds());
+      if (overlayChecked["GeoDS POI"]) setBounds(map.getBounds());
     },
     zoomend() {
-      setBounds(map.getBounds());
+      if (overlayChecked["GeoDS POI"]) setBounds(map.getBounds());
     },
     overlayadd(event) {
       handleOverlayChange(event.name, true);
