@@ -1,13 +1,16 @@
 import * as L from "leaflet";
 import { LayerGroup, Marker, useMap, useMapEvents } from "react-leaflet";
+import { useMemo, useState } from "react";
+import { ImageLoaderFn } from "../../FadeInImage";
 import { type LatLngBounds } from "leaflet";
 import MarkerClusterGroup from "react-leaflet-cluster";
 import ResultPopup from "../ResultPopup";
+import { UnsplashAttributionLink } from "../UnsplashAttributionLink";
+import { fetchUnsplashImage } from "../../../services/geods";
 import { useCachedQuery } from "../../../hooks/useCachedQuery";
 import { useErrorToast } from "../../../hooks/useErrorToast";
 import { useGeneralSettings } from "../../../hooks/useGeneralSettings";
 import { useGeodsPOI } from "../../../hooks/useGeodsPOI";
-import { useState } from "react";
 
 interface PointsOfInterestProps {
   bounds: LatLngBounds;
@@ -16,6 +19,24 @@ interface PointsOfInterestProps {
 function PointsOfInterest({ bounds }: PointsOfInterestProps) {
   const { data, error } = useCachedQuery(useGeodsPOI(bounds));
   useErrorToast("geods-poi-error", "Error loading GeoDS POI", error);
+
+  const imageLoaderMap = useMemo(() => {
+    const cache = new Map<string, ImageLoaderFn>();
+    return (categories?: string[]) => {
+      const key = categories?.[0] || "unknown";
+      if (!cache.has(key)) {
+        cache.set(key, async () => {
+          const photo = await fetchUnsplashImage(key);
+          return {
+            src: photo.src,
+            alt: photo.alt,
+            attribution: <UnsplashAttributionLink name={photo.attribution.name} link={photo.attribution.link} />,
+          };
+        });
+      }
+      return cache.get(key)!;
+    };
+  }, []);
 
   return (
     <MarkerClusterGroup chunkedLoading showCoverageOnHover={false} removeOutsideVisibleBounds>
@@ -28,6 +49,7 @@ function PointsOfInterest({ bounds }: PointsOfInterestProps) {
               .filter((field) => !!field)
               .join(", ")}
             chips={result.categories}
+            imageLoader={imageLoaderMap(result.categories)}
           />
         </Marker>
       ))}
@@ -56,10 +78,10 @@ export function GeodsPointsOfInterestLayer({ minZoom }: GeodsPointsOfInterestLay
 
   useMapEvents({
     moveend() {
-      setBounds(map.getBounds());
+      if (overlayChecked["GeoDS POI"]) setBounds(map.getBounds());
     },
     zoomend() {
-      setBounds(map.getBounds());
+      if (overlayChecked["GeoDS POI"]) setBounds(map.getBounds());
     },
     overlayadd(event) {
       handleOverlayChange(event.name, true);

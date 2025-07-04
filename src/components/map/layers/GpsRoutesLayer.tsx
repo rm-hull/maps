@@ -55,10 +55,10 @@ export function GpsRoutesLayer({ minZoom }: GpsRoutesLayerProps) {
 
   useMapEvents({
     moveend() {
-      setBounds(map.getBounds());
+      if (overlayChecked["GPS Routes"]) setBounds(map.getBounds());
     },
     zoomend() {
-      setBounds(map.getBounds());
+      if (overlayChecked["GPS Routes"]) setBounds(map.getBounds());
     },
     overlayadd(event) {
       handleOverlayChange(event.name, true);

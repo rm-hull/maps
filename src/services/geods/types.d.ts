@@ -21,3 +21,12 @@ type Result = {
   northing: number;
   lsoa21cd: string;
 };
+
+export interface UnsplashProxyResponse {
+  src: string;
+  alt: string;
+  attribution: {
+    name: string;
+    link: string;
+  };
+}
