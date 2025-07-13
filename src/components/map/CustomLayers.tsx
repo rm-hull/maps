@@ -7,20 +7,32 @@ import { GpsRoutesLayer } from "./layers/GpsRoutesLayer";
 import { LatLngBounds } from "leaflet";
 import { useGeneralSettings } from "../../hooks/useGeneralSettings";
 
-type NamedRecord = Record<
-  string,
-  {
-    minZoom: number;
-    component: React.ComponentType<{ bounds: LatLngBounds }>;
-    checked?: boolean;
+type CustomLayerGroupProps = {
+  enabled?: boolean;
+  minZoom: number;
+};
+
+function CustomLayerGroup({ enabled, minZoom, children }: PropsWithChildren<CustomLayerGroupProps>) {
+  const map = useMap();
+
+  if (map.getZoom() < minZoom) {
+    return null;
   }
->;
+
+  return <LayerGroup>{enabled && children}</LayerGroup>;
+}
+
+type Overlay = {
+  minZoom: number;
+  component: React.ComponentType<{ bounds: LatLngBounds }>;
+  checked?: boolean;
+};
 
 export function CustomLayers() {
   const map = useMap();
   const [settings] = useGeneralSettings();
   const [bounds, setBounds] = useState<LatLngBounds>(map.getBounds());
-  const [overlay, setOverlay] = useState<NamedRecord>({
+  const [overlay, setOverlay] = useState<Record<string, Overlay>>({
     "GPS Routes": { minZoom: 4, component: GpsRoutesLayer, checked: settings?.autoSelect?.gpsRoutes },
     Geograph: { minZoom: 2, component: GeographLayer, checked: settings?.autoSelect?.geograph },
     "GeoDS POI": { minZoom: 9, component: GeodsPointsOfInterestLayer, checked: settings?.autoSelect?.geodsPOI },
@@ -44,7 +56,6 @@ export function CustomLayers() {
     zoomend() {
       setBounds(map.getBounds());
     },
-
     overlayadd(event) {
       handleOverlayChange(event.name, true);
     },
@@ -60,19 +71,4 @@ export function CustomLayers() {
       </CustomLayerGroup>
     </LayersControl.Overlay>
   ));
-}
-
-type CustomLayerGroupProps = {
-  enabled?: boolean;
-  minZoom: number;
-};
-
-function CustomLayerGroup({ enabled, minZoom, children }: PropsWithChildren<CustomLayerGroupProps>) {
-  const map = useMap();
-
-  if (map.getZoom() < minZoom) {
-    return null;
-  }
-
-  return <LayerGroup>{enabled && children}</LayerGroup>;
 }
