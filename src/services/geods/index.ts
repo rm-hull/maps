@@ -1,5 +1,5 @@
+import { SearchResponse, UnsplashProxyResponse } from "./types";
 import { LatLngBounds } from "leaflet";
-import { SearchResponse } from "./types";
 import axios from "axios";
 
 const API_URL = import.meta.env.VITE_GEODS_POI_API_URL as string;
@@ -32,5 +32,14 @@ export const fetchGeodsPOI = async (bounds: LatLngBounds): Promise<SearchRespons
       ].join(","),
     },
   });
+  return resp.data;
+};
+
+export const fetchUnsplashImage = async (category: string): Promise<UnsplashProxyResponse> => {
+  if (API_URL === undefined) {
+    throw Error("No GeoDS POI API URL specified");
+  }
+
+  const resp = await client.get<UnsplashProxyResponse>(`/v1/geods-poi/image/${category}`);
   return resp.data;
 };

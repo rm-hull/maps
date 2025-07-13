@@ -27,7 +27,7 @@ export function GeographLayer({ bounds }: GeographLayerProps) {
             description={item.description?.replace(/Dist:.+?km.*?<br\/>/, "")}
             imageUrl={item.thumb.replace("_120x120", "")}
             targetUrl={item.link}
-            attribution={`[${item.author}, ${item.imageTaken}]`}
+            attribution={[item.author, item.imageTaken].filter(Boolean).join(", ")}
           />
         </Marker>
       ))}

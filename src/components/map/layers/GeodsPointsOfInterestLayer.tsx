@@ -1,10 +1,14 @@
 import { Icon, type LatLngBounds } from "leaflet";
+import { ImageLoaderFn } from "../../FadeInImage";
 import { Marker } from "react-leaflet";
 import MarkerClusterGroup from "react-leaflet-cluster";
 import ResultPopup from "../ResultPopup";
+import { UnsplashAttributionLink } from "../UnsplashAttributionLink";
+import { fetchUnsplashImage } from "../../../services/geods";
 import { useCachedQuery } from "../../../hooks/useCachedQuery";
 import { useErrorToast } from "../../../hooks/useErrorToast";
 import { useGeodsPOI } from "../../../hooks/useGeodsPOI";
+import { useMemo } from "react";
 
 interface GeodsPointsOfInterestLayerProps {
   bounds: LatLngBounds;
@@ -13,6 +17,24 @@ interface GeodsPointsOfInterestLayerProps {
 export function GeodsPointsOfInterestLayer({ bounds }: GeodsPointsOfInterestLayerProps) {
   const { data, error } = useCachedQuery(useGeodsPOI(bounds));
   useErrorToast("geods-poi-error", "Error loading GeoDS POI", error);
+
+  const imageLoaderMap = useMemo(() => {
+    const cache = new Map<string, ImageLoaderFn>();
+    return (categories?: string[]) => {
+      const key = categories?.[0] || "unknown";
+      if (!cache.has(key)) {
+        cache.set(key, async () => {
+          const photo = await fetchUnsplashImage(key);
+          return {
+            src: photo.src,
+            alt: photo.alt,
+            attribution: <UnsplashAttributionLink name={photo.attribution.name} link={photo.attribution.link} />,
+          };
+        });
+      }
+      return cache.get(key)!;
+    };
+  }, []);
 
   return (
     <MarkerClusterGroup chunkedLoading showCoverageOnHover={false} removeOutsideVisibleBounds>
@@ -25,6 +47,7 @@ export function GeodsPointsOfInterestLayer({ bounds }: GeodsPointsOfInterestLaye
               .filter((field) => !!field)
               .join(", ")}
             chips={result.categories}
+            imageLoader={imageLoaderMap(result.categories)}
           />
         </Marker>
       ))}
