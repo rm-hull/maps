@@ -21,7 +21,7 @@ export interface Item {
   date: number;
   imageTaken: string;
   dateUpdated: number;
-  tags: string[];
+  tags: string;
   lat: string;
   long: string;
   thumb: string;

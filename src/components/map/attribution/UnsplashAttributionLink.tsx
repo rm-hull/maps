@@ -7,14 +7,14 @@ interface UnsplashAttributionLinkProps {
 }
 
 export function UnsplashAttributionLink({ name, link }: UnsplashAttributionLinkProps) {
+  const url = new URL(link);
+  url.searchParams.set("utm_source", "https://www.destructuring-bind.org/maps");
+  url.searchParams.set("utm_medium", "referral");
+
   return (
     <Text>
       Photo by{" "}
-      <Link
-        as={ReactRouterLink}
-        to={link + `?utm_source=${encodeURIComponent("https://www.destructuring-bind.org/maps")}&utm_medium=referral`}
-        isExternal
-      >
+      <Link as={ReactRouterLink} to={url.toString()} isExternal>
         {name}
       </Link>{" "}
       (Unsplash)

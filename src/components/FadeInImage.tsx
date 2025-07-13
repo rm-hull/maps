@@ -20,7 +20,6 @@ export function FadeInImage({ loader, src, alt, height, attribution, ...rest }: 
     let isMounted = true;
     setImageDetails({ src, alt, attribution });
     setError(false);
-    setLoaded(false);
 
     if (loader) {
       loader()
