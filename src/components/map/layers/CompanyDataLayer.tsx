@@ -1,5 +1,5 @@
 import { Badge, HStack, Heading, Link, List, ListItem, Text, UnorderedList } from "@chakra-ui/react";
-import { LayerGroup, Marker, Popup } from "react-leaflet";
+import { Marker, Popup } from "react-leaflet";
 import { CompanyData } from "../../../services/companyData/types";
 import { type LatLngBounds } from "leaflet";
 import { Link as ReactRouterLink } from "react-router-dom";
@@ -122,17 +122,13 @@ export function CompanyDataLayer({ bounds }: CompanyDataLayerProps) {
   const { data, error } = useCachedQuery(useCompanyData(bounds));
   useErrorToast("company-data-error", "Error loading Company data", error);
 
-  return (
-    <LayerGroup>
-      {Object.entries(data?.results ?? {}).map(([key, results]) => (
-        <Marker
-          key={key}
-          position={toLatLng([results[0].easting, results[0].northing])}
-          icon={countIcon("orange", results.length)}
-        >
-          <CompanyListPopup companies={results} />
-        </Marker>
-      ))}
-    </LayerGroup>
-  );
+  return Object.entries(data?.results ?? {}).map(([key, results]) => (
+    <Marker
+      key={key}
+      position={toLatLng([results[0].easting, results[0].northing])}
+      icon={countIcon("orange", results.length)}
+    >
+      <CompanyListPopup companies={results} />
+    </Marker>
+  ));
 }

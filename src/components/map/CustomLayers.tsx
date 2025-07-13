@@ -7,31 +7,33 @@ import { GpsRoutesLayer } from "./layers/GpsRoutesLayer";
 import { LatLngBounds } from "leaflet";
 import { useGeneralSettings } from "../../hooks/useGeneralSettings";
 
-type Overlay = "GPS Routes" | "Geograph" | "GeoDS POI" | "Company Data";
-
-// type X = {
-//   name: string;
-//   minZoom: number;
-//   component: React.ReactElement;
-// };
-
-type Overlays = Record<Overlay, boolean>;
+type NamedRecord = Record<
+  string,
+  {
+    minZoom: number;
+    component: React.ComponentType<{ bounds: LatLngBounds }>;
+    checked?: boolean;
+  }
+>;
 
 export function CustomLayers() {
   const map = useMap();
   const [settings] = useGeneralSettings();
   const [bounds, setBounds] = useState<LatLngBounds>(map.getBounds());
-  const [overlayChecked, setOverlayChecked] = useState<Overlays>({
-    "GPS Routes": settings?.autoSelect?.gpsRoutes ?? false,
-    Geograph: settings?.autoSelect?.geograph ?? false,
-    "GeoDS POI": settings?.autoSelect?.geograph ?? false,
-    "Company Data": settings?.autoSelect?.companyData ?? false,
+  const [overlay, setOverlay] = useState<NamedRecord>({
+    "GPS Routes": { minZoom: 4, component: GpsRoutesLayer, checked: settings?.autoSelect?.gpsRoutes },
+    Geograph: { minZoom: 2, component: GeographLayer, checked: settings?.autoSelect?.geograph },
+    "GeoDS POI": { minZoom: 9, component: GeodsPointsOfInterestLayer, checked: settings?.autoSelect?.geodsPOI },
+    "Company Data": { minZoom: 11, component: CompanyDataLayer, checked: settings?.autoSelect?.companyData },
   });
 
   const handleOverlayChange = (layer: string, checked: boolean) => {
-    setOverlayChecked((prevState) => ({
+    setOverlay((prevState) => ({
       ...prevState,
-      [layer]: checked,
+      [layer]: {
+        ...prevState[layer],
+        checked,
+      },
     }));
   };
 
@@ -51,37 +53,17 @@ export function CustomLayers() {
     },
   });
 
-  return (
-    <>
-      <LayersControl.Overlay name="GPS Routes" checked={overlayChecked["GPS Routes"]}>
-        <CustomLayerGroup enabled={overlayChecked["GPS Routes"]} minZoom={4}>
-          <GpsRoutesLayer bounds={bounds} />
-        </CustomLayerGroup>
-      </LayersControl.Overlay>
-
-      <LayersControl.Overlay name="Geograph" checked={overlayChecked["Geograph"]}>
-        <CustomLayerGroup enabled={overlayChecked["Geograph"]} minZoom={4}>
-          <GeographLayer bounds={bounds} />
-        </CustomLayerGroup>
-      </LayersControl.Overlay>
-
-      <LayersControl.Overlay name="GeoDS POI" checked={overlayChecked["GeoDS POI"]}>
-        <CustomLayerGroup enabled={overlayChecked["GeoDS POI"]} minZoom={9}>
-          <GeodsPointsOfInterestLayer bounds={bounds} />
-        </CustomLayerGroup>
-      </LayersControl.Overlay>
-
-      <LayersControl.Overlay name="Company Data" checked={overlayChecked["Company Data"]}>
-        <CustomLayerGroup enabled={overlayChecked["Company Data"]} minZoom={11}>
-          <CompanyDataLayer bounds={bounds} />
-        </CustomLayerGroup>
-      </LayersControl.Overlay>
-    </>
-  );
+  return Object.entries(overlay).map(([name, overlay]) => (
+    <LayersControl.Overlay key={name} name={name} checked={overlay.checked}>
+      <CustomLayerGroup enabled={overlay.checked} minZoom={overlay.minZoom}>
+        <overlay.component bounds={bounds} />
+      </CustomLayerGroup>
+    </LayersControl.Overlay>
+  ));
 }
 
 type CustomLayerGroupProps = {
-  enabled: boolean;
+  enabled?: boolean;
   minZoom: number;
 };
 

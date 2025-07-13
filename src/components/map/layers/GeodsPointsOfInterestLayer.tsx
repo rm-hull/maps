@@ -1,5 +1,5 @@
 import { Icon, type LatLngBounds } from "leaflet";
-import { LayerGroup, Marker } from "react-leaflet";
+import { Marker } from "react-leaflet";
 import MarkerClusterGroup from "react-leaflet-cluster";
 import ResultPopup from "../ResultPopup";
 import { useCachedQuery } from "../../../hooks/useCachedQuery";
@@ -15,22 +15,20 @@ export function GeodsPointsOfInterestLayer({ bounds }: GeodsPointsOfInterestLaye
   useErrorToast("geods-poi-error", "Error loading GeoDS POI", error);
 
   return (
-    <LayerGroup>
-      <MarkerClusterGroup chunkedLoading showCoverageOnHover={false} removeOutsideVisibleBounds>
-        {data?.results?.map((result) => (
-          <Marker key={result.id} position={[result.lat, result.long]} icon={categoryIcon(result.categories?.[0])}>
-            <ResultPopup
-              title={result.primary_name}
-              description={[result.address, result.locality, result.postcode]
-                .map((field) => field?.trim())
-                .filter((field) => !!field)
-                .join(", ")}
-              chips={result.categories}
-            />
-          </Marker>
-        ))}
-      </MarkerClusterGroup>
-    </LayerGroup>
+    <MarkerClusterGroup chunkedLoading showCoverageOnHover={false} removeOutsideVisibleBounds>
+      {data?.results?.map((result) => (
+        <Marker key={result.id} position={[result.lat, result.long]} icon={categoryIcon(result.categories?.[0])}>
+          <ResultPopup
+            title={result.primary_name}
+            description={[result.address, result.locality, result.postcode]
+              .map((field) => field?.trim())
+              .filter((field) => !!field)
+              .join(", ")}
+            chips={result.categories}
+          />
+        </Marker>
+      ))}
+    </MarkerClusterGroup>
   );
 }
 

@@ -13,14 +13,10 @@ export function GeographLayer({ bounds }: GeographLayerProps) {
   const map = useMap();
 
   const center = bounds.getCenter();
-  const distance = map.distance(center, bounds.getNorthEast()) * 1.5;
+  const distance = map.distance(bounds.getSouthWest(), bounds.getNorthEast());
 
   const { data, error } = useGeograph(center, distance / 1000.0);
   useErrorToast("geograph-error", "Error loading Geograph images", error);
-
-  // if (data === undefined || error !== undefined) {
-  //   return null;
-  // }
 
   return (
     <MarkerClusterGroup chunkedLoading showCoverageOnHover={false} removeOutsideVisibleBounds>
