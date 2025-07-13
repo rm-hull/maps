@@ -1,4 +1,5 @@
 import { Marker, useMap } from "react-leaflet";
+import { GeographAttributionLink } from "../attribution/GeographAttributionLink";
 import { LatLngBounds } from "leaflet";
 import MarkerClusterGroup from "react-leaflet-cluster";
 import ResultPopup from "../ResultPopup";
@@ -27,10 +28,23 @@ export function GeographLayer({ bounds }: GeographLayerProps) {
             description={item.description?.replace(/Dist:.+?km.*?<br\/>/, "")}
             imageUrl={item.thumb.replace("_120x120", "")}
             targetUrl={item.link}
-            attribution={[item.author, item.imageTaken].filter(Boolean).join(", ")}
+            attribution={<GeographAttributionLink name={item.author} date={item.imageTaken} link={item.source} />}
+            chips={[item.category, ...tagSplitter(item.tags)].filter(Boolean)}
           />
         </Marker>
       ))}
     </MarkerClusterGroup>
   );
+}
+
+function tagSplitter(tags?: string): string[] {
+  if (!tags) {
+    return [];
+  }
+
+  return tags
+    .split(/\?/g)
+    .filter((tag) => tag.startsWith("top:"))
+    .flatMap((tag) => tag.substring(4).split(/, /g))
+    .toSorted();
 }

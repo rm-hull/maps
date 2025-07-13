@@ -3,7 +3,7 @@ import { ImageLoaderFn } from "../../FadeInImage";
 import { Marker } from "react-leaflet";
 import MarkerClusterGroup from "react-leaflet-cluster";
 import ResultPopup from "../ResultPopup";
-import { UnsplashAttributionLink } from "../UnsplashAttributionLink";
+import { UnsplashAttributionLink } from "../attribution/UnsplashAttributionLink";
 import { fetchUnsplashImage } from "../../../services/geods";
 import { useCachedQuery } from "../../../hooks/useCachedQuery";
 import { useErrorToast } from "../../../hooks/useErrorToast";

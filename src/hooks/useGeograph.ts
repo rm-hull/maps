@@ -18,8 +18,11 @@ export function useGeograph(latLng: LatLng, distanceKm: number) {
         for await (const item of generator) {
           if (!isMounted) break;
           results.push(item);
-          setStreamedItems([...results]);
+          if (results.length % 10 === 0) {
+            setStreamedItems([...results]);
+          }
         }
+        setStreamedItems([...results]);
       } catch (err) {
         setError(err as Error);
         setStreamedItems(undefined);

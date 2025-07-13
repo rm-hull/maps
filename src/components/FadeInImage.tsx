@@ -19,8 +19,8 @@ export function FadeInImage({ loader, src, alt, height, attribution, ...rest }: 
   useEffect(() => {
     let isMounted = true;
     setImageDetails({ src, alt, attribution });
-    setError(false);
-    setLoaded(false);
+    // setError(false);
+    // setLoaded(false);
 
     if (loader) {
       loader()

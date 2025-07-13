@@ -1,6 +1,7 @@
 import { Badge, Box, Card, CardBody, CardHeader, Heading, Link, Text } from "@chakra-ui/react";
 import { FadeInImage, ImageLoaderFn } from "../FadeInImage";
 import { Popup } from "react-leaflet";
+import { ReactNode } from "react";
 import { Link as ReactRouterLink } from "react-router-dom";
 
 interface ResultPopupProps {
@@ -9,7 +10,7 @@ interface ResultPopupProps {
   imageLoader?: ImageLoaderFn;
   imageUrl?: string;
   targetUrl?: string;
-  attribution?: string;
+  attribution?: ReactNode;
   distanceKm?: number;
   chips?: string[];
 }
