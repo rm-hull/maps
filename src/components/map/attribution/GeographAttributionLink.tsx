@@ -8,14 +8,14 @@ interface GeographAttributionLinkProps {
 }
 
 export function GeographAttributionLink({ name, date, link }: GeographAttributionLinkProps) {
+  const url = new URL(link);
+  url.searchParams.set("utm_source", "https://www.destructuring-bind.org/maps");
+  url.searchParams.set("utm_medium", "referral");
+
   return (
     <Text>
       CC licensed by{" "}
-      <Link
-        as={ReactRouterLink}
-        to={link + `?utm_source=${encodeURIComponent("https://www.destructuring-bind.org/maps")}&utm_medium=referral`}
-        isExternal
-      >
+      <Link as={ReactRouterLink} to={url.toString()} isExternal>
         {name}
       </Link>
       {date && `, ${date}`}

@@ -45,6 +45,6 @@ function tagSplitter(tags?: string): string[] {
   return tags
     .split(/\?/g)
     .filter((tag) => tag.startsWith("top:"))
-    .flatMap((tag) => tag.substring(4).split(/, /g))
+    .flatMap((tag) => tag.substring(4).split(/, ?/g))
     .toSorted();
 }
