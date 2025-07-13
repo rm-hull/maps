@@ -16,7 +16,7 @@ export async function* fetchGeographSyndicatorEndpoint(
   maxResults = 1000
 ): AsyncGenerator<Item> {
   if (API_KEY === undefined) {
-    throw Error("No Geograph API key specified");
+    throw new Error("No Geograph API key specified");
   }
 
   let results = 0;

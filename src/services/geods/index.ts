@@ -15,11 +15,11 @@ const client = axios.create({
 
 export const fetchGeodsPOI = async (bounds: LatLngBounds): Promise<SearchResponse> => {
   if (API_URL === undefined) {
-    throw Error("No GeoDS POI API URL specified");
+    throw new Error("No GeoDS POI API URL specified");
   }
 
   // if (API_KEY === undefined) {
-  //   throw Error("No GeoDS POI API Key specified");
+  //   throw new Error("No GeoDS POI API Key specified");
   // }
 
   const resp = await client.get<SearchResponse>("/v1/geods-poi/search", {
@@ -37,7 +37,7 @@ export const fetchGeodsPOI = async (bounds: LatLngBounds): Promise<SearchRespons
 
 export const fetchUnsplashImage = async (category: string): Promise<UnsplashProxyResponse> => {
   if (API_URL === undefined) {
-    throw Error("No GeoDS POI API URL specified");
+    throw new Error("No GeoDS POI API URL specified");
   }
 
   const resp = await client.get<UnsplashProxyResponse>(`/v1/geods-poi/image/${category}`);
