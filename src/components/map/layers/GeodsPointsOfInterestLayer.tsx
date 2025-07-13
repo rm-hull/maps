@@ -32,7 +32,7 @@ export function GeodsPointsOfInterestLayer({ bounds }: GeodsPointsOfInterestLaye
   );
 }
 
-function categoryIcon(category?: string): L.Icon {
+function categoryIcon(category?: string) {
   const url = `${import.meta.env.VITE_GEODS_POI_API_URL}v1/geods-poi/marker/${category?.toLowerCase() || "unknown"}`;
   const shadowUrl = `${import.meta.env.VITE_GEODS_POI_API_URL}v1/geods-poi/marker/shadow`;
   return new Icon({
