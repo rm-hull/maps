@@ -1,3 +1,11 @@
+.leaflet-measure-resultpopup .leaflet-popup-content-wrapper {
+  padding: 1px !important;
+}
+
+.leaflet-measure-resultpopup .leaflet-popup-content {
+  margin: 13px 24px 13px 20px !important;
+}
+
 .leaflet-popup-content-wrapper {
   padding: unset !important;
   padding-top: 1px !important;
