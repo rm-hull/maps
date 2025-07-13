@@ -15,11 +15,11 @@ const client = axios.create({
 
 export const fetchGpsRoutes = async (bounds: LatLngBounds, truncateText: boolean): Promise<SearchResponse> => {
   if (API_URL === undefined) {
-    throw Error("No GPS Routes API URL specified");
+    throw new Error("No GPS Routes API URL specified");
   }
 
   if (API_KEY === undefined) {
-    throw Error("No GPS Routes API Key specified");
+    throw new Error("No GPS Routes API Key specified");
   }
 
   const payload: SearchRequest = {
