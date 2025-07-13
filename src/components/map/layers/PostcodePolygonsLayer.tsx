@@ -1,10 +1,11 @@
 import { useCallback, useMemo, useState } from "react";
+import { Badge } from "@chakra-ui/react";
 import { Feature } from "geojson";
-import { GeoJSON, useMap, useMapEvents } from "react-leaflet";
+import { GeoJSON } from "react-leaflet";
 import { type LatLngBounds } from "leaflet";
 import { Layer } from "leaflet";
-// import { useCachedQuery } from "../../../hooks/useCachedQuery";
 import { useErrorToast } from "../../../hooks/useErrorToast";
+import { useMousePosition } from "../../../hooks/useMousePosition";
 import { usePostcodePolygons } from "../../../hooks/usePostcodePolygons";
 
 const defaultStyle = {
@@ -15,16 +16,19 @@ const defaultStyle = {
 };
 
 const hiddenStyle = {
-  color: "#ff000055",
+  // color: "#ff000055",
+  color: "#ff000000",
   weight: 1,
   fillOpacity: 0.0,
 };
 
-export default function PostcodePolygonsLayer() {
-  const map = useMap();
-  // const [settings] = useGeneralSettings();
-  const [bounds, setBounds] = useState<LatLngBounds>(map.getBounds());
+interface PostcodePolygonsLayerProps {
+  bounds: LatLngBounds;
+}
 
+export default function PostcodePolygonsLayer({ bounds }: PostcodePolygonsLayerProps) {
+  const { mousePosition, updateMousePosition } = useMousePosition();
+  const [tooltipVisible, setTooltipVisible] = useState(false);
   const [hoveredFeatureId, setHoveredFeatureId] = useState<string>();
   const { data, error } = usePostcodePolygons(bounds);
   useErrorToast("postcode-polygons-error", "Error loading postcode polygons", error);
@@ -41,38 +45,43 @@ export default function PostcodePolygonsLayer() {
     });
   }, []);
 
-  useMapEvents({
-    moveend() {
-      setBounds(map.getBounds());
-    },
-    zoomend() {
-      setBounds(map.getBounds());
-    },
-    // overlayadd(event) {
-    //   handleOverlayChange(event.name, true);
-    // },
-    // overlayremove(event) {
-    //   handleOverlayChange(event.name, false);
-    // },
-  });
-
   const hoveredFeature = useMemo(() => {
     return data?.features.find((f) => f.id?.toString() === hoveredFeatureId);
   }, [hoveredFeatureId, data]);
 
-  console.log({ hoveredFeatureId, hoveredFeature });
   return (
     <>
       {data && <GeoJSON data={data} style={hiddenStyle} onEachFeature={onEachFeature} />}
+      <Badge
+        visibility={tooltipVisible ? "visible" : "hidden"}
+        colorScheme="blue"
+        pointerEvents="none"
+        position="absolute"
+        zIndex={400}
+        style={{
+          left: `${mousePosition.x + 10}px`,
+          top: `${mousePosition.y - 30}px`,
+        }}
+      >
+        {hoveredFeatureId}
+      </Badge>
       {hoveredFeature && (
         <GeoJSON
           key={hoveredFeatureId}
           data={hoveredFeature}
           style={defaultStyle}
           pathOptions={{ lineJoin: "round", lineCap: "round" }}
+          eventHandlers={{
+            mousemove: (e) => {
+              setTooltipVisible(true);
+              updateMousePosition(e.originalEvent);
+            },
+            mouseout: () => {
+              setTooltipVisible(false);
+            },
+          }}
         />
       )}
-      {/* {featurePopupContent && popupLatLng && <Popup position={popupLatLng}>{featurePopupContent}</Popup>} */}
     </>
   );
 }

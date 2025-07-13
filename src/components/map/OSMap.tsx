@@ -12,7 +12,6 @@ import { Ruler } from "../controls/Ruler";
 import { SearchBox } from "./SearchBox";
 import { Settings } from "../controls/Settings";
 import { Tracks } from "./Tracks";
-import PostcodePolygonsLayer from "./layers/PostcodePolygonsLayer";
 
 interface OSMapProps {
   center?: L.LatLngTuple;
@@ -64,7 +63,7 @@ export function OSMap({ center }: OSMapProps) {
 
         <CustomLayers />
       </LayersControl>
-      <PostcodePolygonsLayer />
+
       <CurrentLocation active={settings?.initialLocation === "current" && center === undefined} />
       <FlyToLocation
         latLng={

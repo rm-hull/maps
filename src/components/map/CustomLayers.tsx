@@ -6,6 +6,7 @@ import { GeographLayer } from "./layers/GeographLayer";
 import { GpsRoutesLayer } from "./layers/GpsRoutesLayer";
 import { LatLngBounds } from "leaflet";
 import { useGeneralSettings } from "../../hooks/useGeneralSettings";
+import PostcodePolygonsLayer from "./layers/PostcodePolygonsLayer";
 
 type CustomLayerGroupProps = {
   enabled?: boolean;
@@ -37,6 +38,7 @@ export function CustomLayers() {
     Geograph: { minZoom: 10, component: GeographLayer, checked: settings?.autoSelect?.geograph },
     "GeoDS POI": { minZoom: 8, component: GeodsPointsOfInterestLayer, checked: settings?.autoSelect?.geodsPOI },
     "Company Data": { minZoom: 10, component: CompanyDataLayer, checked: settings?.autoSelect?.companyData },
+    Postcodes: { minZoom: 5, component: PostcodePolygonsLayer, checked: settings?.autoSelect?.postcodes },
   });
 
   const handleOverlayChange = (layer: string, checked: boolean) => {
