@@ -33,10 +33,10 @@ export function CustomLayers() {
   const [settings] = useGeneralSettings();
   const [bounds, setBounds] = useState<LatLngBounds>(map.getBounds());
   const [overlay, setOverlay] = useState<Record<string, Overlay>>({
-    "GPS Routes": { minZoom: 4, component: GpsRoutesLayer, checked: settings?.autoSelect?.gpsRoutes },
-    Geograph: { minZoom: 2, component: GeographLayer, checked: settings?.autoSelect?.geograph },
-    "GeoDS POI": { minZoom: 9, component: GeodsPointsOfInterestLayer, checked: settings?.autoSelect?.geodsPOI },
-    "Company Data": { minZoom: 11, component: CompanyDataLayer, checked: settings?.autoSelect?.companyData },
+    "GPS Routes": { minZoom: 5, component: GpsRoutesLayer, checked: settings?.autoSelect?.gpsRoutes },
+    Geograph: { minZoom: 10, component: GeographLayer, checked: settings?.autoSelect?.geograph },
+    "GeoDS POI": { minZoom: 8, component: GeodsPointsOfInterestLayer, checked: settings?.autoSelect?.geodsPOI },
+    "Company Data": { minZoom: 10, component: CompanyDataLayer, checked: settings?.autoSelect?.companyData },
   });
 
   const handleOverlayChange = (layer: string, checked: boolean) => {
