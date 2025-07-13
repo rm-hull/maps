@@ -1,22 +1,20 @@
-import * as L from "leaflet";
-import { LayerGroup, Marker, useMap, useMapEvents } from "react-leaflet";
-import { useMemo, useState } from "react";
+import { Icon, type LatLngBounds } from "leaflet";
 import { ImageLoaderFn } from "../../FadeInImage";
-import { type LatLngBounds } from "leaflet";
+import { Marker } from "react-leaflet";
 import MarkerClusterGroup from "react-leaflet-cluster";
 import ResultPopup from "../ResultPopup";
 import { UnsplashAttributionLink } from "../UnsplashAttributionLink";
 import { fetchUnsplashImage } from "../../../services/geods";
 import { useCachedQuery } from "../../../hooks/useCachedQuery";
 import { useErrorToast } from "../../../hooks/useErrorToast";
-import { useGeneralSettings } from "../../../hooks/useGeneralSettings";
 import { useGeodsPOI } from "../../../hooks/useGeodsPOI";
+import { useMemo } from "react";
 
-interface PointsOfInterestProps {
+interface GeodsPointsOfInterestLayerProps {
   bounds: LatLngBounds;
 }
 
-function PointsOfInterest({ bounds }: PointsOfInterestProps) {
+export function GeodsPointsOfInterestLayer({ bounds }: GeodsPointsOfInterestLayerProps) {
   const { data, error } = useCachedQuery(useGeodsPOI(bounds));
   useErrorToast("geods-poi-error", "Error loading GeoDS POI", error);
 
@@ -57,51 +55,10 @@ function PointsOfInterest({ bounds }: PointsOfInterestProps) {
   );
 }
 
-interface GeodsPointsOfInterestLayerProps {
-  minZoom: number;
-}
-
-export function GeodsPointsOfInterestLayer({ minZoom }: GeodsPointsOfInterestLayerProps) {
-  const map = useMap();
-  const [settings] = useGeneralSettings();
-  const [bounds, setBounds] = useState<LatLngBounds>(map.getBounds());
-  const [overlayChecked, setOverlayChecked] = useState<Record<string, boolean>>({
-    "GeoDS POI": settings?.autoSelect?.geodsPOI ?? false,
-  });
-
-  const handleOverlayChange = (layer: string, checked: boolean) => {
-    setOverlayChecked((prevState) => ({
-      ...prevState,
-      [layer]: checked,
-    }));
-  };
-
-  useMapEvents({
-    moveend() {
-      if (overlayChecked["GeoDS POI"]) setBounds(map.getBounds());
-    },
-    zoomend() {
-      if (overlayChecked["GeoDS POI"]) setBounds(map.getBounds());
-    },
-    overlayadd(event) {
-      handleOverlayChange(event.name, true);
-    },
-    overlayremove(event) {
-      handleOverlayChange(event.name, false);
-    },
-  });
-
-  if (map.getZoom() < minZoom) {
-    return null;
-  }
-
-  return <LayerGroup>{overlayChecked["GeoDS POI"] && <PointsOfInterest bounds={bounds} />}</LayerGroup>;
-}
-
-function categoryIcon(category?: string): L.Icon {
+function categoryIcon(category?: string) {
   const url = `${import.meta.env.VITE_GEODS_POI_API_URL}v1/geods-poi/marker/${category?.toLowerCase() || "unknown"}`;
   const shadowUrl = `${import.meta.env.VITE_GEODS_POI_API_URL}v1/geods-poi/marker/shadow`;
-  return new L.Icon({
+  return new Icon({
     popupAnchor: [1, -34],
     iconSize: [32, 37],
     iconAnchor: [16, 37],

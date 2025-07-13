@@ -1,19 +1,17 @@
-import { LayerGroup, Marker, useMap, useMapEvents } from "react-leaflet";
 import { type LatLngBounds } from "leaflet";
+import { Marker } from "react-leaflet";
 import MarkerClusterGroup from "react-leaflet-cluster";
 import ResultPopup from "../ResultPopup";
 import { useCachedQuery } from "../../../hooks/useCachedQuery";
 import { useErrorToast } from "../../../hooks/useErrorToast";
-import { useGeneralSettings } from "../../../hooks/useGeneralSettings";
 import { useGpsRoutes } from "../../../hooks/useGpsRoutes";
-import { useState } from "react";
 import { violetMarker } from "../../../icons";
 
-interface SearchHitsProps {
+interface GpsRoutesLayerProps {
   bounds: LatLngBounds;
 }
 
-function SearchHits({ bounds }: SearchHitsProps) {
+export function GpsRoutesLayer({ bounds }: GpsRoutesLayerProps) {
   const { data, error } = useCachedQuery(useGpsRoutes(bounds, true));
   useErrorToast("gps-routes-error", "Error loading GPS routes", error);
 
@@ -32,45 +30,4 @@ function SearchHits({ bounds }: SearchHitsProps) {
       ))}
     </MarkerClusterGroup>
   );
-}
-
-interface GpsRoutesLayerProps {
-  minZoom: number;
-}
-
-export function GpsRoutesLayer({ minZoom }: GpsRoutesLayerProps) {
-  const map = useMap();
-  const [settings] = useGeneralSettings();
-  const [bounds, setBounds] = useState<LatLngBounds>(map.getBounds());
-  const [overlayChecked, setOverlayChecked] = useState<Record<string, boolean>>({
-    "GPS Routes": settings?.autoSelect?.gpsRoutes ?? false,
-  });
-
-  const handleOverlayChange = (layer: string, checked: boolean) => {
-    setOverlayChecked((prevState) => ({
-      ...prevState,
-      [layer]: checked,
-    }));
-  };
-
-  useMapEvents({
-    moveend() {
-      if (overlayChecked["GPS Routes"]) setBounds(map.getBounds());
-    },
-    zoomend() {
-      if (overlayChecked["GPS Routes"]) setBounds(map.getBounds());
-    },
-    overlayadd(event) {
-      handleOverlayChange(event.name, true);
-    },
-    overlayremove(event) {
-      handleOverlayChange(event.name, false);
-    },
-  });
-
-  if (map.getZoom() < minZoom) {
-    return null;
-  }
-
-  return <LayerGroup>{overlayChecked["GPS Routes"] && <SearchHits bounds={bounds} />}</LayerGroup>;
 }

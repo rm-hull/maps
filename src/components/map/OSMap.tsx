@@ -4,12 +4,9 @@ import { DEFAULT_ZOOM_LEVEL, useGeneralSettings } from "../../hooks/useGeneralSe
 import { LayerGroup, LayersControl, MapContainer, ScaleControl, TileLayer } from "react-leaflet";
 import { crs, toLatLng } from "../../services/osdatahub/helpers";
 import { API_KEY } from "../../services/osdatahub";
-import { CompanyDataLayer } from "./layers/CompanyDataLayer";
 import { CurrentLocation } from "../controls/CurrentLocation";
+import { CustomLayers } from "./CustomLayers";
 import { FlyToLocation } from "./FlyToLocation";
-import { GeodsPointsOfInterestLayer } from "./layers/GeodsPointsOfInterestLayer";
-import { GeographLayer } from "./layers/GeographLayer";
-import { GpsRoutesLayer } from "./layers/GpsRoutesLayer";
 import { PointOfInterest } from "./PointOfInterest";
 import { Ruler } from "../controls/Ruler";
 import { SearchBox } from "./SearchBox";
@@ -64,21 +61,7 @@ export function OSMap({ center }: OSMapProps) {
           <TileLayer url={`https://api.os.uk/maps/raster/v1/zxy/Light_27700/{z}/{x}/{y}.png?key=${API_KEY}`} />
         </LayersControl.BaseLayer>
 
-        <LayersControl.Overlay name="Geograph" checked={settings?.autoSelect?.geograph}>
-          <GeographLayer minZoom={10} />
-        </LayersControl.Overlay>
-
-        <LayersControl.Overlay name="GPS Routes" checked={settings?.autoSelect?.gpsRoutes}>
-          <GpsRoutesLayer minZoom={5} />
-        </LayersControl.Overlay>
-
-        <LayersControl.Overlay name="GeoDS POI" checked={settings?.autoSelect?.geodsPOI}>
-          <GeodsPointsOfInterestLayer minZoom={8} />
-        </LayersControl.Overlay>
-
-        <LayersControl.Overlay name="Company Data" checked={settings?.autoSelect?.companyData}>
-          <CompanyDataLayer minZoom={10} />
-        </LayersControl.Overlay>
+        <CustomLayers />
       </LayersControl>
       <CurrentLocation active={settings?.initialLocation === "current" && center === undefined} />
       <FlyToLocation
