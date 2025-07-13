@@ -16,11 +16,11 @@ const client = axios.create({
 
 export const fetchPolygons = async (bounds: LatLngBounds): Promise<FeatureCollection> => {
   if (API_URL === undefined) {
-    throw Error("No Postcode Polygons API URL specified");
+    throw new Error("No Postcode Polygons API URL specified");
   }
 
   // if (API_KEY === undefined) {
-  //   throw Error("No Postcode Polygons API Key specified");
+  //   throw new Error("No Postcode Polygons API Key specified");
   // }
 
   const [west, south] = toBNG(bounds.getSouthWest());
