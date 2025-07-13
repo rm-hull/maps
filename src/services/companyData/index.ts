@@ -12,7 +12,7 @@ const client = axios.create({
 
 export const fetchCompanyData = async (bounds: LatLngBounds): Promise<SearchResponse> => {
   if (API_URL === undefined) {
-    throw Error("No Company Data API URL specified");
+    throw new Error("No Company Data API URL specified");
   }
 
   const [west, south] = toBNG(bounds.getSouthWest());

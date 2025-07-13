@@ -4,7 +4,7 @@ import { convertKeys } from "./helpers";
 
 export const API_KEY = import.meta.env.VITE_OS_DATAHUB_API_KEY as string;
 if (API_KEY === undefined) {
-  throw Error("No OS DataHub API key specified");
+  throw new Error("No OS DataHub API key specified");
 }
 
 const client = axios.create({
