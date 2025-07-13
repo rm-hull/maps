@@ -1,35 +1,35 @@
-import { LayerGroup, Marker, useMap, useMapEvents } from "react-leaflet";
-import { type LatLng } from "leaflet";
+import { Marker, useMap } from "react-leaflet";
+import { GeographAttributionLink } from "../attribution/GeographAttributionLink";
+import { LatLngBounds } from "leaflet";
 import MarkerClusterGroup from "react-leaflet-cluster";
 import ResultPopup from "../ResultPopup";
 import { useErrorToast } from "../../../hooks/useErrorToast";
-import { useGeneralSettings } from "../../../hooks/useGeneralSettings";
 import { useGeograph } from "../../../hooks/useGeograph";
-import { useState } from "react";
 
-interface ImagesProps {
-  latLng: LatLng;
-  distance: number;
+interface GeographLayerProps {
+  bounds: LatLngBounds;
 }
 
-function Images({ latLng, distance }: ImagesProps) {
-  const { data, error } = useGeograph(latLng, distance / 1000.0);
-  useErrorToast("geograph-error", "Error loading Geograph images", error);
+export function GeographLayer({ bounds }: GeographLayerProps) {
+  const map = useMap();
 
-  if (data === undefined || error !== undefined) {
-    return null;
-  }
+  const center = bounds.getCenter();
+  const distance = map.distance(bounds.getSouthWest(), bounds.getNorthEast());
+
+  const { data, error } = useGeograph(center, distance / 1000.0);
+  useErrorToast("geograph-error", "Error loading Geograph images", error);
 
   return (
     <MarkerClusterGroup chunkedLoading showCoverageOnHover={false} removeOutsideVisibleBounds>
-      {data.map((item) => (
+      {data?.map((item) => (
         <Marker key={item.guid} position={[parseFloat(item.lat), parseFloat(item.long)]}>
           <ResultPopup
             title={item.title.replace(/.* : /, "")}
             description={item.description?.replace(/Dist:.+?km.*?<br\/>/, "")}
             imageUrl={item.thumb.replace("_120x120", "")}
             targetUrl={item.link}
-            attribution={`[${item.author}, ${item.imageTaken}]`}
+            attribution={<GeographAttributionLink name={item.author} date={item.imageTaken} link={item.source} />}
+            chips={[item.category, ...tagSplitter(item.tags)].filter(Boolean)}
           />
         </Marker>
       ))}
@@ -37,42 +37,14 @@ function Images({ latLng, distance }: ImagesProps) {
   );
 }
 
-interface GeographLayerProps {
-  minZoom: number;
-}
-
-export function GeographLayer({ minZoom }: GeographLayerProps) {
-  const map = useMap();
-  const [settings] = useGeneralSettings();
-  const [latLng, setLatLng] = useState<LatLng>(map.getCenter());
-  const [overlayChecked, setOverlayChecked] = useState<Record<string, boolean>>({
-    Geograph: settings?.autoSelect?.geograph ?? false,
-  });
-
-  const handleOverlayChange = (layer: string, checked: boolean) => {
-    setOverlayChecked((prevState) => ({
-      ...prevState,
-      [layer]: checked,
-    }));
-  };
-
-  useMapEvents({
-    moveend() {
-      setLatLng(map.getCenter());
-    },
-    overlayadd(event) {
-      handleOverlayChange(event.name, true);
-    },
-    overlayremove(event) {
-      handleOverlayChange(event.name, false);
-    },
-  });
-
-  if (map.getZoom() < minZoom) {
-    return null;
+function tagSplitter(tags?: string): string[] {
+  if (!tags) {
+    return [];
   }
 
-  const distance = map.distance(map.getCenter(), map.getBounds().getNorthEast()) * 2;
-
-  return <LayerGroup>{overlayChecked.Geograph && <Images latLng={latLng} distance={distance} />}</LayerGroup>;
+  return tags
+    .split(/\?/g)
+    .filter((tag) => tag.startsWith("top:"))
+    .flatMap((tag) => tag.substring(4).split(/, ?/g))
+    .toSorted();
 }

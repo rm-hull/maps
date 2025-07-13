@@ -1,27 +1,59 @@
-import { Box, Center, Image, Spinner } from "@chakra-ui/react";
+import { Box, Center, Image, Spinner, Tag } from "@chakra-ui/react";
 import { LuCircleX, LuSkull } from "react-icons/lu";
-import { useCallback, useState } from "react";
+import { ReactNode, useCallback, useEffect, useState } from "react";
 
-type FadeInImageProps = {
-  src?: string;
-  alt: string;
+type ImageDetails = { src?: string; alt?: string; attribution?: ReactNode };
+
+export type ImageLoaderFn = () => Promise<ImageDetails>;
+
+interface FadeInImageProps extends ImageDetails {
+  loader?: ImageLoaderFn;
   height?: number;
-};
+}
 
-export function FadeInImage({ src, alt, height, ...rest }: FadeInImageProps) {
+export function FadeInImage({ loader, src, alt, height, attribution, ...rest }: FadeInImageProps) {
+  const [imageDetails, setImageDetails] = useState<ImageDetails>({ src, alt, attribution });
   const [isLoaded, setLoaded] = useState(false);
   const [error, setError] = useState(false);
+
+  useEffect(() => {
+    let isMounted = true;
+    setImageDetails({ src, alt, attribution });
+    setError(false);
+
+    if (loader) {
+      loader()
+        .then((resolvedUrl) => {
+          if (isMounted) {
+            setImageDetails(resolvedUrl);
+          }
+          return;
+        })
+        .catch(() => {
+          if (isMounted) {
+            setError(true);
+          }
+        });
+    } else if (!src) {
+      // If there is no loader and no src, we can consider it "loaded" immediately.
+      setLoaded(true);
+    }
+
+    return () => {
+      isMounted = false;
+    };
+  }, [loader, src, alt, attribution]);
 
   const placeholder = useCallback(() => {
     if (error) {
       return <LuSkull color="tomato" size={72} />;
-    } else if (!src) {
-      return <LuCircleX color="gray" size={72} />;
     } else if (!isLoaded) {
       return <Spinner color="blue" size="lg" />;
+    } else if (!imageDetails.src) {
+      return <LuCircleX color="gray" size={72} />;
     }
     return null;
-  }, [src, isLoaded, error]);
+  }, [error, isLoaded, imageDetails.src]);
 
   return (
     <Box position="relative" w="full" h={height} {...rest}>
@@ -29,8 +61,8 @@ export function FadeInImage({ src, alt, height, ...rest }: FadeInImageProps) {
         {placeholder()}
       </Center>
       <Image
-        src={src}
-        alt={alt}
+        src={imageDetails?.src}
+        alt={imageDetails?.alt}
         onLoad={() => setLoaded(true)}
         onError={() => setError(true)}
         width="full"
@@ -40,6 +72,22 @@ export function FadeInImage({ src, alt, height, ...rest }: FadeInImageProps) {
         opacity={isLoaded ? 1 : 0}
         loading="lazy"
       />
+      {imageDetails?.attribution && (
+        <Tag
+          position="absolute"
+          bottom={0}
+          right={0}
+          m={1}
+          p={0.5}
+          variant="subtle"
+          size="xs"
+          fontSize="xs"
+          colorScheme="gray"
+          opacity={0.5}
+        >
+          {imageDetails.attribution}
+        </Tag>
+      )}
     </Box>
   );
 }
