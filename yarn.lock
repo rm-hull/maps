@@ -4912,15 +4912,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-plugin-testing-library@npm:^7.5.4":
-  version: 7.5.4
-  resolution: "eslint-plugin-testing-library@npm:7.5.4"
+"eslint-plugin-testing-library@npm:^7.6.0":
+  version: 7.6.0
+  resolution: "eslint-plugin-testing-library@npm:7.6.0"
   dependencies:
     "@typescript-eslint/scope-manager": "npm:^8.15.0"
     "@typescript-eslint/utils": "npm:^8.15.0"
   peerDependencies:
     eslint: ^8.57.0 || ^9.0.0
-  checksum: 10/0d9b2ee8bd7d65dadde74e551fc45707e355647fe966a7d5ea763fa4687b32d12152970a081c5f36cde54ac07d531bb2594d4188fab7340bbd17ad620d792bcb
+  checksum: 10/ebf369f8495cbb8e38497c368a2565e92abc92145ecbfa08ce4f9a60a6a8f74f1dc5368788654bd68949abf29279efc0d31c757a1623e9f4ef35e717d58de32b
   languageName: node
   linkType: hard
 
@@ -6497,7 +6497,7 @@ __metadata:
     eslint-plugin-react-compiler: "npm:19.1.0-rc.2"
     eslint-plugin-react-hooks: "npm:^5.2.0"
     eslint-plugin-react-refresh: "npm:^0.4.20"
-    eslint-plugin-testing-library: "npm:^7.5.4"
+    eslint-plugin-testing-library: "npm:^7.6.0"
     framer-motion: "npm:^12.23.3"
     globals: "npm:^16.3.0"
     jotai: "npm:^2.12.5"
