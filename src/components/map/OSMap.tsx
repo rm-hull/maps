@@ -63,6 +63,7 @@ export function OSMap({ center }: OSMapProps) {
 
         <CustomLayers />
       </LayersControl>
+
       <CurrentLocation active={settings?.initialLocation === "current" && center === undefined} />
       <FlyToLocation
         latLng={
