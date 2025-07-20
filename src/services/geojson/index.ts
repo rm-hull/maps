@@ -1,6 +1,6 @@
-import { FeatureCollection, LineString } from "geojson";
 import { gpx, kml } from "@tmcw/togeojson";
 import axios from "axios";
+import { FeatureCollection, LineString } from "geojson";
 
 export type GeoJSONCollection = FeatureCollection<LineString>;
 

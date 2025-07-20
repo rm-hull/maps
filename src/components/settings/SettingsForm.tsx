@@ -1,11 +1,4 @@
 import {
-  AutoSelect,
-  DEFAULT_ZOOM_LEVEL,
-  type InitialLocation,
-  type MapStyle,
-  useGeneralSettings,
-} from "../../hooks/useGeneralSettings";
-import {
   FormControl,
   FormLabel,
   HStack,
@@ -20,9 +13,19 @@ import {
   VStack,
   useDisclosure,
 } from "@chakra-ui/react";
-import { ChangeEvent } from "react";
-import { CustomSearch } from "./CustomSearch";
 import { type LatLngTuple } from "leaflet";
+import { ChangeEvent } from "react";
+
+import {
+  AutoSelect,
+  DEFAULT_ZOOM_LEVEL,
+  type InitialLocation,
+  type MapStyle,
+  useGeneralSettings,
+} from "../../hooks/useGeneralSettings";
+
+import { CustomSearch } from "./CustomSearch";
+
 
 export function SettingsForm() {
   const [settings, updateSettings] = useGeneralSettings();

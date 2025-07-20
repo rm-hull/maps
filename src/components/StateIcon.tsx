@@ -1,5 +1,5 @@
-import { FiAlertTriangle, FiCheck, FiSearch, FiXCircle } from "react-icons/fi";
 import { CircularProgress } from "@chakra-ui/react";
+import { FiAlertTriangle, FiCheck, FiSearch, FiXCircle } from "react-icons/fi";
 export type SearchState = "ok" | "error" | "busy" | "not-found" | undefined;
 
 interface StateIconProps {

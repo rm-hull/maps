@@ -1,6 +1,7 @@
-import { type Item, type Response } from "./types.d";
-import { type LatLng } from "leaflet";
 import axios from "axios";
+import { type LatLng } from "leaflet";
+
+import { type Item, type Response } from "./types.d";
 
 const API_KEY = import.meta.env.VITE_GEOGRAPH_API_KEY as string;
 

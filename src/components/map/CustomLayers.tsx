@@ -1,11 +1,15 @@
-import { LayerGroup, LayersControl, useMap, useMapEvents } from "react-leaflet";
+import { LatLngBounds } from "leaflet";
 import { PropsWithChildren, useState } from "react";
+import { LayerGroup, LayersControl, useMap, useMapEvents } from "react-leaflet";
+
+import { useGeneralSettings } from "../../hooks/useGeneralSettings";
+
 import { CompanyDataLayer } from "./layers/CompanyDataLayer";
 import { GeodsPointsOfInterestLayer } from "./layers/GeodsPointsOfInterestLayer";
 import { GeographLayer } from "./layers/GeographLayer";
 import { GpsRoutesLayer } from "./layers/GpsRoutesLayer";
-import { LatLngBounds } from "leaflet";
-import { useGeneralSettings } from "../../hooks/useGeneralSettings";
+
+
 
 type CustomLayerGroupProps = {
   enabled?: boolean;

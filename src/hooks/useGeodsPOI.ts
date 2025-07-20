@@ -1,8 +1,9 @@
 import { type AxiosError } from "axios";
 import { type LatLngBounds } from "leaflet";
-import { type SearchResponse } from "../services/geods/types";
-import { fetchGeodsPOI } from "../services/geods";
 import { useQuery } from "react-query";
+
+import { fetchGeodsPOI } from "../services/geods";
+import { type SearchResponse } from "../services/geods/types";
 
 export function useGeodsPOI(bounds: LatLngBounds) {
   return useQuery<SearchResponse, AxiosError>(

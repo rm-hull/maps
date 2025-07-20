@@ -13,6 +13,7 @@ import {
   TabPanels,
   Tabs,
 } from "@chakra-ui/react";
+
 import { About } from "./About";
 import { License } from "./License";
 import { SettingsForm } from "./SettingsForm";

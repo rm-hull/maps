@@ -1,5 +1,5 @@
-import { useEffect } from "react";
 import { useToast } from "@chakra-ui/react";
+import { useEffect } from "react";
 
 export function useErrorToast(id: string, title: string, error: Error | null | undefined) {
   const toast = useToast();

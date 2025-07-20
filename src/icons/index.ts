@@ -1,7 +1,8 @@
 import * as L from "leaflet";
-import markerShadowUrl from "./markers/marker-shadow.png";
+
 import redMarkerUrl from "./markers/marker-icon-2x-red.png";
 import violetMarkerUrl from "./markers/marker-icon-2x-violet.png";
+import markerShadowUrl from "./markers/marker-shadow.png";
 
 const commonProps: L.BaseIconOptions = {
   shadowUrl: markerShadowUrl,

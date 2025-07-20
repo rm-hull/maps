@@ -1,7 +1,8 @@
-import { useEffect, useState } from "react";
-import { type Item } from "../services/geograph/types";
 import { type LatLng } from "leaflet";
+import { useEffect, useState } from "react";
+
 import { fetchGeographSyndicatorEndpoint } from "../services/geograph";
+import { type Item } from "../services/geograph/types";
 
 export function useGeograph(latLng: LatLng, distanceKm: number) {
   const [streamedItems, setStreamedItems] = useState<Item[]>();

@@ -1,6 +1,6 @@
 import { Box, Center, Image, Spinner, Tag } from "@chakra-ui/react";
-import { LuCircleX, LuSkull } from "react-icons/lu";
 import { ReactNode, useCallback, useEffect, useState } from "react";
+import { LuCircleX, LuSkull } from "react-icons/lu";
 
 type ImageDetails = { src?: string; alt?: string; attribution?: ReactNode };
 
