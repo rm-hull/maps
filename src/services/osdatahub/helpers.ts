@@ -4,8 +4,6 @@ import proj4 from "proj4";
 import { camelCaseKeys } from "../../utils/camelCaseKeys";
 import { type BritishNationalGrid } from "./types.d";
 
-
-
 export function convertKeys<T>(response: AxiosResponse<T>): AxiosResponse<T> {
   if (response.data !== undefined && response.data !== null) {
     response.data = camelCaseKeys(response.data) as T;
