@@ -15,15 +15,23 @@ export default tseslint.config(
       js.configs.recommended,
       importPlugin.flatConfigs.recommended,
       ...tseslint.configs.recommended,
+      ...tseslint.configs.recommendedTypeChecked,
+      {
+        languageOptions: {
+          ecmaVersion: "latest",
+          sourceType: "module",
+          globals: globals.browser,
+          parser: tseslint.parser,
+          parserOptions: {
+            projectService: true,
+            tsconfigRootDir: import.meta.dirname,
+          },
+        },
+      },
       pluginPromise.configs["flat/recommended"],
       eslintConfigPrettier,
     ],
     files: ["**/*.{ts,tsx}"],
-    languageOptions: {
-      ecmaVersion: "latest",
-      // sourceType: "module",
-      globals: globals.browser,
-    },
     plugins: {
       react: react,
       "react-hooks": reactHooks,
@@ -32,7 +40,17 @@ export default tseslint.config(
     rules: {
       ...reactHooks.configs.recommended.rules,
       "react-refresh/only-export-components": ["warn", { allowConstantExport: true }],
-      "sort-imports": "warn",
+      "import/order": [
+        "error",
+        {
+          groups: ["builtin", "external", "internal", "parent", "sibling", "index"],
+          "newlines-between": "never",
+          alphabetize: {
+            order: "asc",
+            caseInsensitive: true,
+          },
+        },
+      ],
     },
     settings: {
       "import/resolver": {

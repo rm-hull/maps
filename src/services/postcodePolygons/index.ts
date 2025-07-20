@@ -1,6 +1,6 @@
+import axios from "axios";
 import { FeatureCollection } from "geojson";
 import { LatLngBounds } from "leaflet";
-import axios from "axios";
 import { toBNG } from "../osdatahub/helpers";
 
 const API_URL = import.meta.env.VITE_POSTCODE_POLYGONS_API_URL as string;

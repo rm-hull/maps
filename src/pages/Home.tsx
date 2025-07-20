@@ -1,7 +1,7 @@
 import { type LatLngTuple } from "leaflet";
+import { lazily } from "react-lazily";
 import { Loader } from "../components/Loader";
 import { OSMap } from "../components/map/OSMap";
-import { lazily } from "react-lazily";
 import { useSettings } from "../hooks/useSettings";
 
 const { SettingsModal } = lazily(() => import("../components/settings/SettingsModal"));

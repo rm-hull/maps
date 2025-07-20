@@ -1,7 +1,7 @@
-import { useEffect, useState } from "react";
-import { type Item } from "../services/geograph/types";
 import { type LatLng } from "leaflet";
+import { useEffect, useState } from "react";
 import { fetchGeographSyndicatorEndpoint } from "../services/geograph";
+import { type Item } from "../services/geograph/types";
 
 export function useGeograph(latLng: LatLng, distanceKm: number) {
   const [streamedItems, setStreamedItems] = useState<Item[]>();
@@ -11,25 +11,25 @@ export function useGeograph(latLng: LatLng, distanceKm: number) {
     let isMounted = true; // To prevent state updates if component unmounts
 
     async function fetchStreamedData() {
-      try {
-        const results: Item[] = [];
-        const generator = fetchGeographSyndicatorEndpoint(latLng, distanceKm);
+      const results: Item[] = [];
+      const generator = fetchGeographSyndicatorEndpoint(latLng, distanceKm);
 
-        for await (const item of generator) {
-          if (!isMounted) break;
-          results.push(item);
-          if (results.length % 10 === 0) {
-            setStreamedItems([...results]);
-          }
+      for await (const item of generator) {
+        if (!isMounted) break;
+        results.push(item);
+        if (results.length % 10 === 0) {
+          setStreamedItems([...results]);
         }
-        setStreamedItems([...results]);
-      } catch (err) {
+      }
+      setStreamedItems([...results]);
+    }
+
+    fetchStreamedData().catch((err) => {
+      if (isMounted) {
         setError(err as Error);
         setStreamedItems(undefined);
       }
-    }
-
-    fetchStreamedData();
+    });
 
     return () => {
       isMounted = false;

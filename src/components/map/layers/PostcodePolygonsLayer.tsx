@@ -1,9 +1,9 @@
-import { useCallback, useMemo, useState } from "react";
 import { Badge } from "@chakra-ui/react";
 import { Feature } from "geojson";
-import { GeoJSON } from "react-leaflet";
 import { type LatLngBounds } from "leaflet";
 import { Layer } from "leaflet";
+import { useCallback, useMemo, useState } from "react";
+import { GeoJSON } from "react-leaflet";
 import { useErrorToast } from "../../../hooks/useErrorToast";
 import { useMousePosition } from "../../../hooks/useMousePosition";
 import { usePostcodePolygons } from "../../../hooks/usePostcodePolygons";

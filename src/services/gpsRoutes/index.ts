@@ -1,6 +1,6 @@
-import { SearchRequest, SearchResponse } from "./types";
-import { LatLngBounds } from "leaflet";
 import axios from "axios";
+import { LatLngBounds } from "leaflet";
+import { SearchRequest, SearchResponse } from "./types";
 
 const API_URL = import.meta.env.VITE_GPS_ROUTES_API_URL as string;
 const API_KEY = import.meta.env.VITE_GPS_ROUTES_API_KEY as string;

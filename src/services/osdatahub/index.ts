@@ -1,6 +1,6 @@
-import { type BritishNationalGrid, type Response } from "./types.d";
 import axios from "axios";
 import { convertKeys } from "./helpers";
+import { type BritishNationalGrid, type Response } from "./types.d";
 
 export const API_KEY = import.meta.env.VITE_OS_DATAHUB_API_KEY as string;
 if (API_KEY === undefined) {
