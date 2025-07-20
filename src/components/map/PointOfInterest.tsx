@@ -3,7 +3,6 @@ import { useState } from "react";
 import { Popup, useMapEvent } from "react-leaflet";
 import { NearestInfo } from "./NearestInfo";
 
-
 export function PointOfInterest() {
   const [position, setPosition] = useState<LatLng>();
   useMapEvent("contextmenu", (event) => {

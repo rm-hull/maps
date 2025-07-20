@@ -7,8 +7,6 @@ import { GeodsPointsOfInterestLayer } from "./layers/GeodsPointsOfInterestLayer"
 import { GeographLayer } from "./layers/GeographLayer";
 import { GpsRoutesLayer } from "./layers/GpsRoutesLayer";
 
-
-
 type CustomLayerGroupProps = {
   enabled?: boolean;
   minZoom: number;

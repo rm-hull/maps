@@ -20,7 +20,6 @@ import { SupportedMimeTypes } from "../../services/geojson";
 import { fromReactQuery } from "../../utils/queryStatus";
 import { StateIcon } from "../StateIcon";
 
-
 const CORS_PROXY = import.meta.env.VITE_CORS_PROXY as string;
 
 export function TracksForm() {

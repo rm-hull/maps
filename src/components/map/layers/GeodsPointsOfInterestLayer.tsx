@@ -10,7 +10,6 @@ import { ImageLoaderFn } from "../../FadeInImage";
 import { UnsplashAttributionLink } from "../attribution/UnsplashAttributionLink";
 import ResultPopup from "../ResultPopup";
 
-
 interface GeodsPointsOfInterestLayerProps {
   bounds: LatLngBounds;
 }

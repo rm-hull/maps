@@ -17,7 +17,6 @@ import { find } from "../../services/osdatahub";
 import { toLatLng } from "../../services/osdatahub/helpers";
 import { type SearchState, StateIcon } from "../StateIcon";
 
-
 export function SearchBox() {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [inputRef, setInputFocus] = useFocus();

@@ -24,7 +24,6 @@ import {
 } from "../../hooks/useGeneralSettings";
 import { CustomSearch } from "./CustomSearch";
 
-
 export function SettingsForm() {
   const [settings, updateSettings] = useGeneralSettings();
   const { isOpen, onOpen, onClose } = useDisclosure();
