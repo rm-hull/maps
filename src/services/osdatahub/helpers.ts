@@ -1,9 +1,7 @@
 import { type AxiosResponse } from "axios";
 import { type LatLng, type LatLngTuple, Proj } from "leaflet";
 import proj4 from "proj4";
-
 import { camelCaseKeys } from "../../utils/camelCaseKeys";
-
 import { type BritishNationalGrid } from "./types.d";
 
 

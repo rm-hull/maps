@@ -1,5 +1,4 @@
 import axios from "axios";
-
 import { convertKeys } from "./helpers";
 import { type BritishNationalGrid, type Response } from "./types.d";
 

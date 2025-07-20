@@ -15,7 +15,6 @@ import {
 } from "@chakra-ui/react";
 import { type LatLngTuple } from "leaflet";
 import { ChangeEvent } from "react";
-
 import {
   AutoSelect,
   DEFAULT_ZOOM_LEVEL,
@@ -23,7 +22,6 @@ import {
   type MapStyle,
   useGeneralSettings,
 } from "../../hooks/useGeneralSettings";
-
 import { CustomSearch } from "./CustomSearch";
 
 

@@ -3,7 +3,6 @@ import { useEffect } from "react";
 import { IoMdLocate } from "react-icons/io";
 import { Circle, Marker, Popup } from "react-leaflet";
 import Control from "react-leaflet-custom-control";
-
 import { useCurrentLocation } from "../../hooks/useCurrentLocation";
 import { redMarker } from "../../icons";
 import { NearestInfo } from "../map/NearestInfo";

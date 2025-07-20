@@ -1,7 +1,6 @@
 import { type AxiosError } from "axios";
 import { type LatLngBounds } from "leaflet";
 import { useQuery } from "react-query";
-
 import { fetchCompanyData } from "../services/companyData";
 import { type SearchResponse } from "../services/companyData/types";
 

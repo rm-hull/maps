@@ -1,5 +1,4 @@
 import * as L from "leaflet";
-
 import redMarkerUrl from "./markers/marker-icon-2x-red.png";
 import violetMarkerUrl from "./markers/marker-icon-2x-violet.png";
 import markerShadowUrl from "./markers/marker-shadow.png";

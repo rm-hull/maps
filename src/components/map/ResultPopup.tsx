@@ -2,7 +2,6 @@ import { Badge, Box, Card, CardBody, CardHeader, Heading, Link, Text } from "@ch
 import { ReactNode } from "react";
 import { Popup } from "react-leaflet";
 import { Link as ReactRouterLink } from "react-router-dom";
-
 import { FadeInImage, ImageLoaderFn } from "../FadeInImage";
 
 interface ResultPopupProps {

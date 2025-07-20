@@ -1,14 +1,12 @@
 import "proj4leaflet";
 import * as L from "leaflet";
 import { LayerGroup, LayersControl, MapContainer, ScaleControl, TileLayer } from "react-leaflet";
-
 import { DEFAULT_ZOOM_LEVEL, useGeneralSettings } from "../../hooks/useGeneralSettings";
 import { API_KEY } from "../../services/osdatahub";
 import { crs, toLatLng } from "../../services/osdatahub/helpers";
 import { CurrentLocation } from "../controls/CurrentLocation";
 import { Ruler } from "../controls/Ruler";
 import { Settings } from "../controls/Settings";
-
 import { CustomLayers } from "./CustomLayers";
 import { FlyToLocation } from "./FlyToLocation";
 import { PointOfInterest } from "./PointOfInterest";

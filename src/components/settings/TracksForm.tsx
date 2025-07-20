@@ -15,7 +15,6 @@ import {
 } from "@chakra-ui/react";
 import { ChangeEvent, useEffect, useState } from "react";
 import { useQueryClient } from "react-query";
-
 import { useGeoJSON } from "../../hooks/useGeoJSON";
 import { SupportedMimeTypes } from "../../services/geojson";
 import { fromReactQuery } from "../../utils/queryStatus";

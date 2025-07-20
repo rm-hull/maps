@@ -2,7 +2,6 @@ import { Icon, type LatLngBounds } from "leaflet";
 import { useMemo } from "react";
 import { Marker } from "react-leaflet";
 import MarkerClusterGroup from "react-leaflet-cluster";
-
 import { useCachedQuery } from "../../../hooks/useCachedQuery";
 import { useErrorToast } from "../../../hooks/useErrorToast";
 import { useGeodsPOI } from "../../../hooks/useGeodsPOI";

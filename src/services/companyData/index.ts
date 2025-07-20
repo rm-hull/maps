@@ -1,8 +1,6 @@
 import axios from "axios";
 import { LatLngBounds } from "leaflet";
-
 import { toBNG } from "../osdatahub/helpers";
-
 import { SearchResponse } from "./types";
 
 const API_URL = import.meta.env.VITE_COMPANY_DATA_API_URL as string;

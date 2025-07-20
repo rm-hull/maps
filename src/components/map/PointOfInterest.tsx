@@ -1,7 +1,6 @@
 import { type LatLng } from "leaflet";
 import { useState } from "react";
 import { Popup, useMapEvent } from "react-leaflet";
-
 import { NearestInfo } from "./NearestInfo";
 
 

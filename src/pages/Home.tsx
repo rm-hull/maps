@@ -1,6 +1,5 @@
 import { type LatLngTuple } from "leaflet";
 import { lazily } from "react-lazily";
-
 import { Loader } from "../components/Loader";
 import { OSMap } from "../components/map/OSMap";
 import { useSettings } from "../hooks/useSettings";

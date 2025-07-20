@@ -1,5 +1,4 @@
 import { QueryStatus } from "react-query";
-
 import { SearchState } from "../components/StateIcon";
 
 export function fromReactQuery(status: QueryStatus): SearchState {

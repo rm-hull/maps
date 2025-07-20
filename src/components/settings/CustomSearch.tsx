@@ -1,7 +1,6 @@
 import { IconButton, Input, InputGroup, InputRightElement } from "@chakra-ui/react";
 import { type LatLngTuple } from "leaflet";
 import { type ChangeEvent, useState } from "react";
-
 import { find } from "../../services/osdatahub";
 import { toLatLng } from "../../services/osdatahub/helpers";
 import { type SearchState, StateIcon } from "../StateIcon";

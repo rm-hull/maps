@@ -1,7 +1,6 @@
 import { type AxiosError } from "axios";
 import { type LatLngBounds } from "leaflet";
 import { useQuery } from "react-query";
-
 import { fetchGpsRoutes } from "../services/gpsRoutes";
 import { type SearchResponse } from "../services/gpsRoutes/types";
 
