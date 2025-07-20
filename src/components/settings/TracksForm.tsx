@@ -1,4 +1,3 @@
-import { ChangeEvent, useEffect, useState } from "react";
 import {
   Checkbox,
   FormControl,
@@ -14,11 +13,12 @@ import {
   VStack,
   useBoolean,
 } from "@chakra-ui/react";
-import { StateIcon } from "../StateIcon";
+import { ChangeEvent, useEffect, useState } from "react";
+import { useQueryClient } from "react-query";
+import { useGeoJSON } from "../../hooks/useGeoJSON";
 import { SupportedMimeTypes } from "../../services/geojson";
 import { fromReactQuery } from "../../utils/queryStatus";
-import { useGeoJSON } from "../../hooks/useGeoJSON";
-import { useQueryClient } from "react-query";
+import { StateIcon } from "../StateIcon";
 
 const CORS_PROXY = import.meta.env.VITE_CORS_PROXY as string;
 
@@ -49,9 +49,9 @@ export function TracksForm() {
     setType(type);
   };
 
-  const handleClick = () => {
-    queryClient.invalidateQueries(["geojson"]);
-    refetch();
+  const handleClick = async () => {
+    await queryClient.invalidateQueries(["geojson"]);
+    await refetch();
   };
 
   const state = fromReactQuery(status);

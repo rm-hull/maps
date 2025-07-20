@@ -1,14 +1,14 @@
 import { Icon, type LatLngBounds } from "leaflet";
-import { ImageLoaderFn } from "../../FadeInImage";
+import { useMemo } from "react";
 import { Marker } from "react-leaflet";
 import MarkerClusterGroup from "react-leaflet-cluster";
-import ResultPopup from "../ResultPopup";
-import { UnsplashAttributionLink } from "../attribution/UnsplashAttributionLink";
-import { fetchUnsplashImage } from "../../../services/geods";
 import { useCachedQuery } from "../../../hooks/useCachedQuery";
 import { useErrorToast } from "../../../hooks/useErrorToast";
 import { useGeodsPOI } from "../../../hooks/useGeodsPOI";
-import { useMemo } from "react";
+import { fetchUnsplashImage } from "../../../services/geods";
+import { ImageLoaderFn } from "../../FadeInImage";
+import { UnsplashAttributionLink } from "../attribution/UnsplashAttributionLink";
+import ResultPopup from "../ResultPopup";
 
 interface GeodsPointsOfInterestLayerProps {
   bounds: LatLngBounds;
