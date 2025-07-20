@@ -9,7 +9,7 @@ import globals from "globals";
 import tseslint from "typescript-eslint";
 
 export default tseslint.config(
-  { ignores: ["dist", "coverage", ".yarn", ".pnp*"] },
+  { ignores: ["dist", "coverage", ".yarn", ".pnp*", "src/proto/*.ts"] },
   {
     extends: [
       js.configs.recommended,
@@ -20,6 +20,8 @@ export default tseslint.config(
         languageOptions: {
           ecmaVersion: "latest",
           sourceType: "module",
+          globals: globals.browser,
+          parser: tseslint.parser,
           parserOptions: {
             projectService: true,
             tsconfigRootDir: import.meta.dirname,
@@ -30,11 +32,6 @@ export default tseslint.config(
       eslintConfigPrettier,
     ],
     files: ["**/*.{ts,tsx}"],
-    languageOptions: {
-      ecmaVersion: "latest",
-      // sourceType: "module",
-      globals: globals.browser,
-    },
     plugins: {
       react: react,
       "react-hooks": reactHooks,
