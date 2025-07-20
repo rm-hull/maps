@@ -9,7 +9,7 @@ import globals from "globals";
 import tseslint from "typescript-eslint";
 
 export default tseslint.config(
-  { ignores: ["dist", "coverage", ".yarn", ".pnp*", "src/proto/*.ts"] },
+  { ignores: ["dist", "coverage", ".yarn", ".pnp*"] },
   {
     extends: [
       js.configs.recommended,
