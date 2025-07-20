@@ -51,9 +51,9 @@ export function TracksForm() {
     setType(type);
   };
 
-  const handleClick = () => {
-    queryClient.invalidateQueries(["geojson"]);
-    refetch();
+  const handleClick = async () => {
+    await queryClient.invalidateQueries(["geojson"]);
+    await refetch();
   };
 
   const state = fromReactQuery(status);

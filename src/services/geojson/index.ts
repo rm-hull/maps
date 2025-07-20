@@ -10,7 +10,12 @@ export enum SupportedMimeTypes {
 }
 
 export const fetchGeoJSON = async (url: string, type: SupportedMimeTypes): Promise<GeoJSONCollection> => {
-  const resp = await axios.get(url);
+  const resp = await axios.get<string>(url);
   const dom = new DOMParser().parseFromString(resp.data, "text/xml");
-  return (type === "application/gpx+xml" ? gpx(dom) : kml(dom)) as GeoJSONCollection;
+  switch (type) {
+    case SupportedMimeTypes.GPX:
+      return gpx(dom) as GeoJSONCollection;
+    case SupportedMimeTypes.KML:
+      return kml(dom) as GeoJSONCollection;
+  }
 };
