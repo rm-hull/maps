@@ -10,7 +10,7 @@
     "@emotion/styled": "^11.14.1",
     "@react-leaflet/core": "^3.0.0",
     "@tmcw/togeojson": "^7.1.2",
-    "axios": "^1.10.0",
+    "axios": "^1.11.0",
     "change-case": "^5.4.4",
     "framer-motion": "^12.23.6",
     "jotai": "^2.12.5",
