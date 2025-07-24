@@ -149,6 +149,14 @@ export function SettingsForm() {
           >
             Company Data
           </Switch>
+
+          <Switch
+            size="sm"
+            isChecked={settings?.autoSelect?.postcodes ?? false}
+            onChange={handleUpdateAutoSelect("postcodes")}
+          >
+            Postcodes
+          </Switch>
         </VStack>
       </FormControl>
     </VStack>
