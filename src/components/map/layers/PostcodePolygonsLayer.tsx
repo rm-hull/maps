@@ -2,7 +2,8 @@ import { Badge } from "@chakra-ui/react";
 import { Feature } from "geojson";
 import { type LatLngBounds } from "leaflet";
 import { Layer } from "leaflet";
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useState } from "react";
+import { createPortal } from "react-dom";
 import { GeoJSON } from "react-leaflet";
 import { useErrorToast } from "../../../hooks/useErrorToast";
 import { useMousePosition } from "../../../hooks/useMousePosition";
@@ -33,55 +34,67 @@ export default function PostcodePolygonsLayer({ bounds }: PostcodePolygonsLayerP
   const { data, error } = usePostcodePolygons(bounds);
   useErrorToast("postcode-polygons-error", "Error loading postcode polygons", error);
 
-  const onEachFeature = useCallback((feature: Feature, layer: Layer) => {
-    layer.on({
-      mouseover: () => {
-        setHoveredFeatureId(feature.id?.toString());
-      },
-      // mouseout: (e: LeafletMouseEvent) => {
-      //   console.log(e);
-      //   debouncedSetHoveredFeatureId(undefined);
-      // },
-    });
-  }, []);
+  const onEachFeature = useCallback(
+    (feature: Feature, layer: Layer) => {
+      layer.on({
+        mouseover: (e) => {
+          setHoveredFeatureId(feature.id?.toString());
+          setTooltipVisible(true);
+          updateMousePosition(e.originalEvent);
+        },
+        mousemove: (e) => {
+          setTooltipVisible(true);
+          updateMousePosition(e.originalEvent);
+        },
+        mouseout: () => {
+          setTooltipVisible(false);
+          setHoveredFeatureId(undefined);
+        },
+      });
+    },
+    [updateMousePosition]
+  );
 
-  const hoveredFeature = useMemo(() => {
-    return data?.features.find((f) => f.id?.toString() === hoveredFeatureId);
-  }, [hoveredFeatureId, data]);
+  const styleFn = useCallback(
+    (feature: Feature | undefined) => {
+      if (feature && feature.id?.toString() === hoveredFeatureId) {
+        return defaultStyle;
+      }
+      return hiddenStyle;
+    },
+    [hoveredFeatureId]
+  );
+
+  // Find the map container to attach the portal
+  const mapContainer = typeof window !== "undefined" ? document.querySelector<HTMLElement>(".leaflet-container") : null;
 
   return (
     <>
-      {data && <GeoJSON data={data} style={hiddenStyle} onEachFeature={onEachFeature} />}
-      <Badge
-        visibility={tooltipVisible ? "visible" : "hidden"}
-        colorScheme="blue"
-        pointerEvents="none"
-        position="absolute"
-        zIndex={400}
-        style={{
-          left: `${mousePosition.x + 10}px`,
-          top: `${mousePosition.y - 30}px`,
-        }}
-      >
-        {hoveredFeatureId}
-      </Badge>
-      {hoveredFeature && (
+      {data && (
         <GeoJSON
-          key={hoveredFeatureId}
-          data={hoveredFeature}
-          style={defaultStyle}
+          data={data}
+          style={styleFn}
+          onEachFeature={onEachFeature}
           pathOptions={{ lineJoin: "round", lineCap: "round" }}
-          eventHandlers={{
-            mousemove: (e) => {
-              setTooltipVisible(true);
-              updateMousePosition(e.originalEvent);
-            },
-            mouseout: () => {
-              setTooltipVisible(false);
-            },
-          }}
         />
       )}
+      {mapContainer &&
+        createPortal(
+          <Badge
+            visibility={tooltipVisible ? "visible" : "hidden"}
+            colorScheme="blue"
+            pointerEvents="none"
+            position="absolute"
+            zIndex={400}
+            style={{
+              left: `${mousePosition.x + 10}px`,
+              top: `${mousePosition.y - 30}px`,
+            }}
+          >
+            {hoveredFeatureId}
+          </Badge>,
+          mapContainer
+        )}
     </>
   );
 }
