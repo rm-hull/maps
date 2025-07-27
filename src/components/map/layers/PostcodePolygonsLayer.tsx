@@ -2,9 +2,9 @@ import { Badge } from "@chakra-ui/react";
 import { Feature } from "geojson";
 import { type LatLngBounds } from "leaflet";
 import { Layer } from "leaflet";
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useState } from "react";
 import { createPortal } from "react-dom";
-import { GeoJSON } from "react-leaflet";
+import { GeoJSON, useMap } from "react-leaflet";
 import { useErrorToast } from "../../../hooks/useErrorToast";
 import { useMousePosition } from "../../../hooks/useMousePosition";
 import { usePostcodePolygons } from "../../../hooks/usePostcodePolygons";
@@ -28,6 +28,7 @@ interface PostcodePolygonsLayerProps {
 }
 
 export default function PostcodePolygonsLayer({ bounds }: PostcodePolygonsLayerProps) {
+  const map = useMap();
   const { mousePosition, updateMousePosition } = useMousePosition();
   const [tooltipVisible, setTooltipVisible] = useState(false);
   const [hoveredFeatureId, setHoveredFeatureId] = useState<string>();
@@ -65,12 +66,6 @@ export default function PostcodePolygonsLayer({ bounds }: PostcodePolygonsLayerP
     [hoveredFeatureId]
   );
 
-  // Find the map container to attach the portal
-  const mapContainer = useMemo(
-    () => (typeof window !== "undefined" ? document.querySelector<HTMLElement>(".leaflet-container") : null),
-    []
-  );
-
   return (
     <>
       {data && (
@@ -81,23 +76,23 @@ export default function PostcodePolygonsLayer({ bounds }: PostcodePolygonsLayerP
           pathOptions={{ lineJoin: "round", lineCap: "round" }}
         />
       )}
-      {mapContainer &&
-        createPortal(
-          <Badge
-            visibility={tooltipVisible ? "visible" : "hidden"}
-            colorScheme="blue"
-            pointerEvents="none"
-            position="absolute"
-            zIndex={400}
-            style={{
-              left: `${mousePosition.x + 10}px`,
-              top: `${mousePosition.y - 30}px`,
-            }}
-          >
-            {hoveredFeatureId}
-          </Badge>,
-          mapContainer
-        )}
+
+      {createPortal(
+        <Badge
+          visibility={tooltipVisible ? "visible" : "hidden"}
+          colorScheme="blue"
+          pointerEvents="none"
+          position="absolute"
+          zIndex={400}
+          style={{
+            left: `${mousePosition.x + 10}px`,
+            top: `${mousePosition.y - 30}px`,
+          }}
+        >
+          {hoveredFeatureId}
+        </Badge>,
+        map.getContainer()
+      )}
     </>
   );
 }
