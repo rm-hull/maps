@@ -2,7 +2,7 @@ import { Badge } from "@chakra-ui/react";
 import { Feature } from "geojson";
 import { type LatLngBounds } from "leaflet";
 import { Layer } from "leaflet";
-import { useCallback, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import { createPortal } from "react-dom";
 import { GeoJSON } from "react-leaflet";
 import { useErrorToast } from "../../../hooks/useErrorToast";
@@ -66,7 +66,10 @@ export default function PostcodePolygonsLayer({ bounds }: PostcodePolygonsLayerP
   );
 
   // Find the map container to attach the portal
-  const mapContainer = typeof window !== "undefined" ? document.querySelector<HTMLElement>(".leaflet-container") : null;
+  const mapContainer = useMemo(
+    () => (typeof window !== "undefined" ? document.querySelector<HTMLElement>(".leaflet-container") : null),
+    []
+  );
 
   return (
     <>
