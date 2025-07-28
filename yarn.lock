@@ -6505,7 +6505,7 @@ __metadata:
     leaflet: "npm:^1.9.4"
     leaflet-measure: "npm:^3.1.0"
     prettier: "npm:^3.6.2"
-    proj4: "npm:^2.19.9"
+    proj4: "npm:^2.19.10"
     proj4leaflet: "npm:^1.0.2"
     react: "npm:^19.1.0"
     react-dom: "npm:^19.1.0"
@@ -7163,13 +7163,23 @@ __metadata:
   languageName: node
   linkType: hard
 
-"proj4@npm:*, proj4@npm:^2.19.0, proj4@npm:^2.19.9, proj4@npm:^2.3.14":
+"proj4@npm:*, proj4@npm:^2.19.0, proj4@npm:^2.3.14":
   version: 2.19.9
   resolution: "proj4@npm:2.19.9"
   dependencies:
     mgrs: "npm:1.0.0"
     wkt-parser: "npm:^1.5.1"
   checksum: 10/38843e408d6f3bae191b9ac8aa819d50340782d1b4e84d334c5ddb3efb734a182914bcd9c640e1e94fc011c2a10ec923a1e6f5918c4112739c1a853a45c97a75
+  languageName: node
+  linkType: hard
+
+"proj4@npm:^2.19.10":
+  version: 2.19.10
+  resolution: "proj4@npm:2.19.10"
+  dependencies:
+    mgrs: "npm:1.0.0"
+    wkt-parser: "npm:^1.5.1"
+  checksum: 10/a94053fb0ec404595466ee4b8ffc203b26a3da430f54ca714c53e1d746327921884280a23001ddbe13e1fefd6bfb89101cdc3e8271620c3fa5a2d2672204ff27
   languageName: node
   linkType: hard
 
