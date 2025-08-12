@@ -1,4 +1,5 @@
 import * as L from "leaflet";
+import blueMarkerUrl from "./markers/marker-icon-2x-blue.png";
 import redMarkerUrl from "./markers/marker-icon-2x-red.png";
 import violetMarkerUrl from "./markers/marker-icon-2x-violet.png";
 import markerShadowUrl from "./markers/marker-shadow.png";
@@ -19,6 +20,11 @@ export const redMarker = new L.Icon({
 export const violetMarker = new L.Icon({
   ...commonProps,
   iconUrl: violetMarkerUrl,
+});
+
+export const blueMarker = new L.Icon({
+  ...commonProps,
+  iconUrl: blueMarkerUrl,
 });
 
 export function countIcon(color: string, count: number): L.DivIcon {
