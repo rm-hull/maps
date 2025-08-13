@@ -6510,7 +6510,7 @@ __metadata:
     react-icons: "npm:^5.5.0"
     react-lazily: "npm:^0.9.2"
     react-leaflet: "npm:^5.0.0"
-    react-leaflet-cluster: "npm:^3.1.0"
+    react-leaflet-cluster: "npm:^3.1.1"
     react-leaflet-custom-control: "npm:^1.5.0"
     react-query: "npm:^3.39.3"
     react-router-dom: "npm:^7.8.0"
@@ -7326,9 +7326,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-leaflet-cluster@npm:^3.1.0":
-  version: 3.1.0
-  resolution: "react-leaflet-cluster@npm:3.1.0"
+"react-leaflet-cluster@npm:^3.1.1":
+  version: 3.1.1
+  resolution: "react-leaflet-cluster@npm:3.1.1"
   dependencies:
     leaflet.markercluster: "npm:^1.5.3"
   peerDependencies:
@@ -7336,7 +7336,7 @@ __metadata:
     react: ^18.2.0 || ^19.0.0
     react-dom: ^18.2.0 || ^19.0.0
     react-leaflet: ^4.0.0
-  checksum: 10/7950921483e9b528b9d241fad84f5fa3336f50adeb165a0fd1531f2d7748b08fbb65b61c4e9da0ee3f46efd311e3d7514b3b7d15a4b34f82556c507d7eaa9d3b
+  checksum: 10/7d1972696ebfcfa6f894f94c19622980c5b343739f7d6c171890e5803e5404f7bb18ec813fc4bb80b4245e4bb00584cebd36a10e19fa492d632b04e293608d01
   languageName: node
   linkType: hard
 
