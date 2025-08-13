@@ -68,7 +68,7 @@ export function OSMap({ center }: OSMapProps) {
       <FlyToLocation
         latLng={
           settings?.initialLocation === "custom" && settings.customLocation && center === undefined
-            ? new L.LatLng(...settings.customLocation.latLng)
+            ? L.latLng(settings.customLocation.latLng)
             : undefined
         }
       />
