@@ -13,7 +13,7 @@ import {
   VStack,
   useDisclosure,
 } from "@chakra-ui/react";
-import { type LatLngTuple } from "leaflet";
+import { type LatLng } from "leaflet";
 import { ChangeEvent } from "react";
 import {
   AutoSelect,
@@ -36,8 +36,14 @@ export function SettingsForm() {
     updateSettings({ ...settings, mapStyle });
   };
 
-  const handleUpdateCustomSearch = (latLng: LatLngTuple, searchTerm: string): void => {
-    updateSettings({ ...settings, customLocation: { latLng, searchTerm } });
+  const handleUpdateCustomSearch = (latLng: LatLng, searchTerm: string): void => {
+    updateSettings({
+      ...settings,
+      customLocation: {
+        latLng: [latLng.lat, latLng.lng], // note Leaflet's LatLngTuple format
+        searchTerm,
+      },
+    });
   };
 
   const handleUpdateZoomLevel = (zoomLevel: number): void => {
