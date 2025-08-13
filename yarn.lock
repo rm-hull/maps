@@ -2389,6 +2389,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@terraformer/wkt@npm:^2.2.1":
+  version: 2.2.1
+  resolution: "@terraformer/wkt@npm:2.2.1"
+  checksum: 10/4f2749aec801f6a8f5d0d89f1784941f7dd44c8a7fde0b1dda3bd42e9cd9f7509f3bb66f99e0f2af47ec0ab2fcc93f67cfebd28037b506a499ea79ab8c0d06e8
+  languageName: node
+  linkType: hard
+
 "@testing-library/dom@npm:^10.4.1":
   version: 10.4.1
   resolution: "@testing-library/dom@npm:10.4.1"
@@ -2688,6 +2695,15 @@ __metadata:
   version: 7.7.0
   resolution: "@types/semver@npm:7.7.0"
   checksum: 10/ee4514c6c852b1c38f951239db02f9edeea39f5310fad9396a00b51efa2a2d96b3dfca1ae84c88181ea5b7157c57d32d7ef94edacee36fbf975546396b85ba5b
+  languageName: node
+  linkType: hard
+
+"@types/terraformer__wkt@npm:^2":
+  version: 2.0.3
+  resolution: "@types/terraformer__wkt@npm:2.0.3"
+  dependencies:
+    "@types/geojson": "npm:*"
+  checksum: 10/aae80e7a8a76baf91106405a334c0041f3404f121e25ea3e24190b5d17e4fde51e29be6f9f7150d9e2ad19941554889a6bf3952f724759e106e53a26e8791a04
   languageName: node
   linkType: hard
 
@@ -6460,6 +6476,7 @@ __metadata:
     "@eslint/js": "npm:^9.33.0"
     "@react-leaflet/core": "npm:^3.0.0"
     "@stylistic/eslint-plugin": "npm:^5.2.3"
+    "@terraformer/wkt": "npm:^2.2.1"
     "@testing-library/dom": "npm:^10.4.1"
     "@testing-library/react": "npm:^16.3.0"
     "@testing-library/user-event": "npm:^14.6.1"
@@ -6471,6 +6488,7 @@ __metadata:
     "@types/proj4leaflet": "npm:^1.0.11"
     "@types/react": "npm:^19.1.10"
     "@types/react-dom": "npm:^19.1.7"
+    "@types/terraformer__wkt": "npm:^2"
     "@typescript-eslint/eslint-plugin": "npm:^8.39.1"
     "@typescript-eslint/parser": "npm:^8.39.1"
     "@typescript-eslint/types": "npm:^8.39.1"
