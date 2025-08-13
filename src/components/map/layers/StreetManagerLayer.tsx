@@ -1,17 +1,16 @@
 import { PathOptions, type LatLngBounds } from "leaflet";
-import { GeoJSON } from "react-leaflet";
-import MarkerClusterGroup from "react-leaflet-cluster";
 import { useCachedQuery } from "../../../hooks/useCachedQuery";
 import { useErrorToast } from "../../../hooks/useErrorToast";
 import { useStreetManager } from "../../../hooks/useStreetManager";
-import { getGeoJSON, getObjectRef } from "../../../services/streetManager/types.d";
+import { getCoordinates, getObjectRef } from "../../../services/streetManager/types.d";
+import WktLayer from "../WktShape";
 
 interface StreetManagerLayerProps {
   bounds: LatLngBounds;
 }
 const defaultStyle: PathOptions = {
-  color: "#FF0000",
-  weight: 2,
+  color: "#FF000077",
+  weight: 4,
   fillColor: "#FF0000",
   fillOpacity: 0.1,
 };
@@ -23,11 +22,10 @@ export function StreetManagerLayer({ bounds }: StreetManagerLayerProps) {
   return (
     <>
       {data?.results.map((result) => (
-        <GeoJSON
+        <WktLayer
           key={getObjectRef(result)}
-          data={getGeoJSON(result)}
-          style={defaultStyle}
-          pathOptions={{ lineJoin: "round", lineCap: "round" }}
+          wkt={getCoordinates(result)}
+          pathOptions={{ ...defaultStyle, lineJoin: "round", lineCap: "round" }}
         />
         // <Marker key={getObjectRef(result)} position={[result._geoloc.lat, result._geoloc.lng]} icon={violetMarker}>
         //   <ResultPopup

@@ -91,6 +91,10 @@ export function getObjectRef(event: Event): string {
   );
 }
 
+export function getCoordinates(event: Event): string {
+  return event.works_location_coordinates ?? event.activity_coordinates ?? event.section_58_coordinates;
+}
+
 export function getGeoJSON(event: Event): GeoJSON {
   const raw = wktToGeoJSON(
     event.works_location_coordinates ?? event.activity_coordinates ?? event.section_58_coordinates
