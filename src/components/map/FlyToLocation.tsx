@@ -1,9 +1,9 @@
-import { type LatLngTuple } from "leaflet";
+import { type LatLng } from "leaflet";
 import { useEffect } from "react";
 import { useMap } from "react-leaflet";
 
 interface FlyToLocationProps {
-  latLng?: LatLngTuple;
+  latLng?: LatLng;
 }
 
 export function FlyToLocation({ latLng }: FlyToLocationProps): null {
