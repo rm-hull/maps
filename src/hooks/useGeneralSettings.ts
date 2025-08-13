@@ -7,7 +7,7 @@ export type MapStyle = "leisure" | "roads" | "outdoor" | "light";
 
 export interface CustomLocation {
   searchTerm: string;
-  latLng: LatLngTuple;
+  latLng: LatLngTuple; // Note leaflet stores in latitude, longitude (confusingly) rather than the more standard x,y coords
 }
 
 export interface AutoSelect {

@@ -37,7 +37,13 @@ export function SettingsForm() {
   };
 
   const handleUpdateCustomSearch = (latLng: LatLng, searchTerm: string): void => {
-    updateSettings({ ...settings, customLocation: { latLng: [latLng.lng, latLng.lat], searchTerm } });
+    updateSettings({
+      ...settings,
+      customLocation: {
+        latLng: [latLng.lat, latLng.lng], // note Leaflet's LatLngTuple format
+        searchTerm,
+      },
+    });
   };
 
   const handleUpdateZoomLevel = (zoomLevel: number): void => {
