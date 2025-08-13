@@ -40,7 +40,7 @@ export function CustomLayers() {
     "GeoDS POI": { minZoom: 8, component: GeodsPointsOfInterestLayer, checked: settings?.autoSelect?.geodsPOI },
     "Company Data": { minZoom: 10, component: CompanyDataLayer, checked: settings?.autoSelect?.companyData },
     Postcodes: { minZoom: 5, component: PostcodePolygonsLayer, checked: settings?.autoSelect?.postcodes },
-    "Street Manager": { minZoom: 5, component: StreetManagerLayer, checked: settings?.autoSelect?.streetManager },
+    "Street Manager": { minZoom: 9, component: StreetManagerLayer, checked: settings?.autoSelect?.streetManager },
   });
 
   const handleOverlayChange = (layer: string, checked: boolean) => {

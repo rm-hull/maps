@@ -15,6 +15,8 @@ const defaultStyle: PathOptions = {
   weight: 4,
   fillColor: "#FF0000",
   fillOpacity: 0.1,
+  lineJoin: "round",
+  lineCap: "round",
 };
 
 export function StreetManagerLayer({ bounds }: StreetManagerLayerProps) {
@@ -22,11 +24,7 @@ export function StreetManagerLayer({ bounds }: StreetManagerLayerProps) {
   useErrorToast("street-manager-error", "Error loading street-manager events", error);
 
   return data?.results.map((result) => (
-    <WktLayer
-      key={getObjectRef(result)}
-      wkt={getCoordinates(result)}
-      pathOptions={{ ...defaultStyle, lineJoin: "round", lineCap: "round" }}
-    >
+    <WktLayer key={getObjectRef(result)} wkt={getCoordinates(result)} pathOptions={defaultStyle}>
       <Popup maxWidth={400} closeButton={false}>
         <Card overflow="hidden" shadow="none" width="xs" border={0} outline={0}>
           <CardHeader p={1} pb={0}>

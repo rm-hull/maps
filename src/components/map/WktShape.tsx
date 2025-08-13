@@ -17,26 +17,22 @@ export default function WktLayer({ wkt, children, ...props }: PropsWithChildren<
 
   switch (geojson.type) {
     case "Point": {
-      const [e, n] = geojson.coordinates;
-      const latlng = toLatLng([e, n]);
       return (
-        <CircleMarker center={latlng} radius={8} {...props}>
+        <CircleMarker center={toLatLng(geojson.coordinates)} radius={8} {...props}>
           {children}
         </CircleMarker>
       );
     }
     case "LineString": {
-      const latlngs = geojson.coordinates.map(toLatLng);
       return (
-        <Polyline positions={latlngs} {...props}>
+        <Polyline positions={geojson.coordinates.map(toLatLng)} {...props}>
           {children}
         </Polyline>
       );
     }
     case "Polygon": {
-      const latlngs = geojson.coordinates.map((ring) => ring.map(toLatLng));
       return (
-        <Polygon positions={latlngs} {...props}>
+        <Polygon positions={geojson.coordinates.map((ring) => ring.map(toLatLng))} {...props}>
           {children}
         </Polygon>
       );
