@@ -1,15 +1,16 @@
 import { PathProps } from "@react-leaflet/core";
 import { wktToGeoJSON } from "@terraformer/wkt";
-import { LatLngTuple } from "leaflet";
 import { PropsWithChildren } from "react";
 import { CircleMarker, Polyline, Polygon } from "react-leaflet";
 import { toLatLng } from "../../services/osdatahub/helpers";
 
 type WktShapeProps = {
-  wkt: string;
+  wkt?: string;
 } & PathProps;
 
 export default function WktLayer({ wkt, children, ...props }: PropsWithChildren<WktShapeProps>) {
+  if (!wkt) return null;
+
   const geojson = wktToGeoJSON(wkt);
 
   if (!geojson) return null;
@@ -17,7 +18,7 @@ export default function WktLayer({ wkt, children, ...props }: PropsWithChildren<
   switch (geojson.type) {
     case "Point": {
       const [e, n] = geojson.coordinates;
-      const latlng = toLatLng([e, n]).reverse() as LatLngTuple;
+      const latlng = toLatLng([e, n]);
       return (
         <CircleMarker center={latlng} radius={8} {...props}>
           {children}
@@ -25,7 +26,7 @@ export default function WktLayer({ wkt, children, ...props }: PropsWithChildren<
       );
     }
     case "LineString": {
-      const latlngs = geojson.coordinates.map(([e, n]) => toLatLng([e, n]).reverse() as LatLngTuple);
+      const latlngs = geojson.coordinates.map(toLatLng);
       return (
         <Polyline positions={latlngs} {...props}>
           {children}
@@ -33,9 +34,7 @@ export default function WktLayer({ wkt, children, ...props }: PropsWithChildren<
       );
     }
     case "Polygon": {
-      const latlngs = geojson.coordinates.map((ring) =>
-        ring.map(([e, n]) => toLatLng([e, n]).reverse() as LatLngTuple)
-      );
+      const latlngs = geojson.coordinates.map((ring) => ring.map(toLatLng));
       return (
         <Polygon positions={latlngs} {...props}>
           {children}
