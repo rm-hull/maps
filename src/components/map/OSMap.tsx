@@ -14,7 +14,7 @@ import { SearchBox } from "./SearchBox";
 import { Tracks } from "./Tracks";
 
 interface OSMapProps {
-  center?: L.LatLngTuple;
+  center?: L.LatLng;
 }
 
 export function OSMap({ center }: OSMapProps) {
@@ -27,7 +27,7 @@ export function OSMap({ center }: OSMapProps) {
       minZoom={0}
       maxZoom={13}
       center={center ?? toLatLng([337297, 503695])}
-      maxBounds={[toLatLng([-238375.0, 0.0]), toLatLng([900000.0, 1376256.0])]}
+      maxBounds={new L.LatLngBounds([toLatLng([-238375.0, 0.0]), toLatLng([900000.0, 1376256.0])])}
       scrollWheelZoom={true}
       style={{ width: "100vw", height: "100vh" }}
       attributionControl={false}
@@ -67,7 +67,9 @@ export function OSMap({ center }: OSMapProps) {
       <CurrentLocation active={settings?.initialLocation === "current" && center === undefined} />
       <FlyToLocation
         latLng={
-          settings?.initialLocation === "custom" && center === undefined ? settings.customLocation?.latLng : undefined
+          settings?.initialLocation === "custom" && settings.customLocation && center === undefined
+            ? new L.LatLng(settings.customLocation.latLng[1], settings.customLocation.latLng[0])
+            : undefined
         }
       />
       <Tracks />
