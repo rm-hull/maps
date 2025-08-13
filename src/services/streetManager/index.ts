@@ -11,7 +11,7 @@ const client = axios.create({
 });
 
 export const fetchStreetManagerEvents = async (bounds: LatLngBounds): Promise<SearchResponse> => {
-  if (API_URL === undefined) {
+  if (!API_URL) {
     throw new Error("No street-manager API URL specified");
   }
 
