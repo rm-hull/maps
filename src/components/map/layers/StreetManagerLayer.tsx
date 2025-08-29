@@ -1,4 +1,3 @@
-import { get } from "http";
 import { Heading, Text, List, ListItem, Box, VStack } from "@chakra-ui/react";
 import { PathOptions, type LatLngBounds } from "leaflet";
 import { Popup } from "react-leaflet";
