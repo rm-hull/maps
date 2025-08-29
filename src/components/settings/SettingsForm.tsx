@@ -163,6 +163,14 @@ export function SettingsForm() {
           >
             Postcodes
           </Switch>
+
+          <Switch
+            size="sm"
+            isChecked={settings?.autoSelect?.streetManager ?? false}
+            onChange={handleUpdateAutoSelect("streetManager")}
+          >
+            Street Manager
+          </Switch>
         </VStack>
       </FormControl>
     </VStack>

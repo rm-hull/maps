@@ -16,6 +16,7 @@ export interface AutoSelect {
   geodsPOI?: boolean;
   companyData?: boolean;
   postcodes?: boolean;
+  streetManager?: boolean;
 }
 
 export interface GeneralSettings {
