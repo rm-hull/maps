@@ -28,3 +28,19 @@ export function getEndDate(event: Event) {
     event.actual_end_date_time ?? event.end_time ?? event.end_date ?? event.proposed_end_time ?? event.proposed_end_date
   );
 }
+
+export function groupEventsByObjectRef(events: Event[]): Record<string, Event[]> {
+  return events.reduce(
+    (acc, event) => {
+      const ref = event.work_reference_number ?? event.activity_reference_number ?? event.section_58_reference_number;
+      if (ref) {
+        if (!acc[ref]) {
+          acc[ref] = [];
+        }
+        acc[ref].push(event);
+      }
+      return acc;
+    },
+    {} as Record<string, Event[]>
+  );
+}
