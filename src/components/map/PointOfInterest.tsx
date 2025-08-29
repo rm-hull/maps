@@ -1,10 +1,10 @@
 import { type LatLng } from "leaflet";
-import { useState, type JSX } from "react";
+import { useState } from "react";
 import { Popup, useMapEvent } from "react-leaflet";
 import { NearestInfo } from "./NearestInfo";
 
-export function PointOfInterest(): JSX.Element | null {
-  const [position, setPosition] = useState<LatLng | undefined>(undefined);
+export function PointOfInterest() {
+  const [position, setPosition] = useState<LatLng>();
   useMapEvent("contextmenu", (event) => {
     setPosition(event.latlng);
   });

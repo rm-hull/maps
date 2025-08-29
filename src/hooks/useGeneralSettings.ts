@@ -7,11 +7,15 @@ export type MapStyle = "leisure" | "roads" | "outdoor" | "light";
 
 export interface CustomLocation {
   searchTerm: string;
-  latLng: LatLngTuple;
+  latLng: LatLngTuple; // Note leaflet stores in latitude, longitude (confusingly) rather than the more standard x,y coords
 }
 
 export interface AutoSelect {
-  geograph: boolean;
+  geograph?: boolean;
+  gpsRoutes?: boolean;
+  geodsPOI?: boolean;
+  companyData?: boolean;
+  postcodes?: boolean;
 }
 
 export interface GeneralSettings {

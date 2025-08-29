@@ -1,7 +1,6 @@
 import { Code, Link, Text, VStack } from "@chakra-ui/react";
-import { type JSX } from "react";
 
-export function About(): JSX.Element {
+export function About() {
   return (
     <VStack spacing={4} align="left">
       <Text>

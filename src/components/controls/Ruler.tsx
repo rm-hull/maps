@@ -1,16 +1,10 @@
-/* eslint-disable @typescript-eslint/ban-ts-comment */
-/* eslint-disable @typescript-eslint/explicit-function-return-type */
-/* eslint-disable @typescript-eslint/no-unsafe-argument */
-/* eslint-disable @typescript-eslint/no-unsafe-member-access */
-/* eslint-disable @typescript-eslint/no-unsafe-call */
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
-import * as L from "leaflet";
 import "leaflet-measure";
 import "leaflet-measure/dist/leaflet-measure.css";
+import * as L from "leaflet";
 import { useEffect } from "react";
 import { useMap } from "react-leaflet";
 
-// @ts-expect-error
+// @ts-expect-error: L.Control type does not have a Measure property
 const measureControl = new L.Control.Measure({
   position: "topleft",
   primaryLengthUnit: "meters",
@@ -19,7 +13,7 @@ const measureControl = new L.Control.Measure({
   secondaryAreaUnit: "acres",
 });
 
-// @ts-expect-error
+// @ts-expect-error: L.Control type does not have a Measure property
 L.Control.Measure.include({
   _setCaptureMarkerIcon: function () {
     this._captureMarker.options.autoPanOnFocus = false;

@@ -10,18 +10,19 @@ import {
   InputRightElement,
   Radio,
   RadioGroup,
-  useBoolean,
   VStack,
+  useBoolean,
 } from "@chakra-ui/react";
-import { ChangeEvent, useEffect, useState, type JSX } from "react";
-import { fromReactQuery, StateIcon } from "../StateIcon";
+import { ChangeEvent, useEffect, useState } from "react";
+import { useQueryClient } from "react-query";
 import { useGeoJSON } from "../../hooks/useGeoJSON";
 import { SupportedMimeTypes } from "../../services/geojson";
-import { useQueryClient } from "react-query";
+import { fromReactQuery } from "../../utils/queryStatus";
+import { StateIcon } from "../StateIcon";
 
 const CORS_PROXY = import.meta.env.VITE_CORS_PROXY as string;
 
-export function TracksForm(): JSX.Element {
+export function TracksForm() {
   const [type, setType] = useState<SupportedMimeTypes>(SupportedMimeTypes.GPX);
   const [url, setUrl] = useState<string>("");
   const [useCorsProxy, { toggle: setUseCorsProxy }] = useBoolean();
@@ -32,7 +33,7 @@ export function TracksForm(): JSX.Element {
 
   useEffect(() => {
     queryClient.removeQueries(["geojson"]);
-  }, []);
+  }, [queryClient]);
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>): void => {
     setUrl(event.target.value);
@@ -48,9 +49,9 @@ export function TracksForm(): JSX.Element {
     setType(type);
   };
 
-  const handleClick = () => {
-    queryClient.invalidateQueries(["geojson"]);
-    refetch();
+  const handleClick = async () => {
+    await queryClient.invalidateQueries(["geojson"]);
+    await refetch();
   };
 
   const state = fromReactQuery(status);

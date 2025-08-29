@@ -1,5 +1,6 @@
-import { ChakraProvider, ColorModeScript, createLocalStorageManager, theme } from "@chakra-ui/react";
+import "./index.css";
 import "leaflet/dist/leaflet.css";
+import { ChakraProvider, ColorModeScript, createLocalStorageManager, theme } from "@chakra-ui/react";
 import { createRoot } from "react-dom/client";
 import { ErrorBoundary } from "react-error-boundary";
 import ReactGA from "react-ga4";
@@ -8,8 +9,10 @@ import { ReactQueryDevtools } from "react-query/devtools";
 import { BrowserRouter as Router } from "react-router-dom";
 import { App } from "./App";
 import { ErrorFallback } from "./components/ErrorFallback";
-import { SettingsProvider } from "./components/settings/SettingsProvider";
+import SettingsProvider from "./components/settings/SettingsProvider";
 import { reportWebVitals } from "./reportWebVitals";
+import 'react-leaflet-cluster/dist/assets/MarkerCluster.css'
+import 'react-leaflet-cluster/dist/assets/MarkerCluster.Default.css'
 
 if (import.meta.env.VITE_GOOGLE_ANALYTICS_MEASUREMENT_ID !== undefined) {
   ReactGA.initialize(import.meta.env.VITE_GOOGLE_ANALYTICS_MEASUREMENT_ID as string);

@@ -1,6 +1,6 @@
 import { Progress } from "@chakra-ui/react";
-import { type JSX, Suspense, type PropsWithChildren } from "react";
+import { type PropsWithChildren, Suspense } from "react";
 
-export function Loader({ children }: PropsWithChildren): JSX.Element {
+export function Loader({ children }: PropsWithChildren) {
   return <Suspense fallback={<Progress size="xs" isIndeterminate />}>{children}</Suspense>;
 }

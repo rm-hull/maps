@@ -1,6 +1,5 @@
-import * as L from "leaflet";
 import "proj4leaflet";
-import { type JSX } from "react";
+import * as L from "leaflet";
 import { LayerGroup, LayersControl, MapContainer, ScaleControl, TileLayer } from "react-leaflet";
 import { DEFAULT_ZOOM_LEVEL, useGeneralSettings } from "../../hooks/useGeneralSettings";
 import { API_KEY } from "../../services/osdatahub";
@@ -8,18 +7,18 @@ import { crs, toLatLng } from "../../services/osdatahub/helpers";
 import { CurrentLocation } from "../controls/CurrentLocation";
 import { Ruler } from "../controls/Ruler";
 import { Settings } from "../controls/Settings";
+import { CustomLayers } from "./CustomLayers";
 import { FlyToLocation } from "./FlyToLocation";
-import { GeographLayer } from "./GeographLayer";
 import { PointOfInterest } from "./PointOfInterest";
 import { SearchBox } from "./SearchBox";
 import { Tracks } from "./Tracks";
 import { BngTileLayer } from "./BngTileLayer";
 
 interface OSMapProps {
-  center?: L.LatLngTuple;
+  center?: L.LatLng;
 }
 
-export function OSMap({ center }: OSMapProps): JSX.Element | null {
+export function OSMap({ center }: OSMapProps) {
   const [settings] = useGeneralSettings();
 
   return (
@@ -29,7 +28,7 @@ export function OSMap({ center }: OSMapProps): JSX.Element | null {
       minZoom={0}
       maxZoom={13}
       center={center ?? toLatLng([337297, 503695])}
-      maxBounds={[toLatLng([-238375.0, 0.0]), toLatLng([900000.0, 1376256.0])]}
+      maxBounds={new L.LatLngBounds([toLatLng([-238375.0, 0.0]), toLatLng([900000.0, 1376256.0])])}
       scrollWheelZoom={true}
       style={{ width: "100vw", height: "100vh" }}
       attributionControl={false}
@@ -63,14 +62,15 @@ export function OSMap({ center }: OSMapProps): JSX.Element | null {
           <TileLayer url={`https://api.os.uk/maps/raster/v1/zxy/Light_27700/{z}/{x}/{y}.png?key=${API_KEY}`} />
         </LayersControl.BaseLayer>
 
-        <LayersControl.Overlay name="Geograph" checked={settings?.autoSelect?.geograph}>
-          <GeographLayer minZoom={10} />
-        </LayersControl.Overlay>
+        <CustomLayers />
       </LayersControl>
+
       <CurrentLocation active={settings?.initialLocation === "current" && center === undefined} />
       <FlyToLocation
         latLng={
-          settings?.initialLocation === "custom" && center === undefined ? settings.customLocation?.latLng : undefined
+          settings?.initialLocation === "custom" && settings.customLocation && center === undefined
+            ? L.latLng(settings.customLocation.latLng)
+            : undefined
         }
       />
       <Tracks />

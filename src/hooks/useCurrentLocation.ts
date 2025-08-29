@@ -1,5 +1,5 @@
 import { type LatLng } from "leaflet";
-import { useState, type MouseEvent } from "react";
+import { type MouseEvent, useState } from "react";
 import { useMapEvent } from "react-leaflet";
 
 interface LocationDetails {

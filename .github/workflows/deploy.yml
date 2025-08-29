@@ -17,7 +17,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Setup Yarn
         uses: actions/setup-node@v4
@@ -26,25 +26,30 @@ jobs:
           cache: "yarn"
 
       - name: Install dependencies
-        run: |
-          yarn install
+        run: yarn install
 
-      # - name: Lint
-      #   run: yarn lint
+      - name: Lint
+        continue-on-error: true
+        run: yarn lint
 
       - name: Test
         run: yarn test:ci
 
-      # - name: Coveralls
-      #   uses: coverallsapp/github-action@v2
-      #   with:
-      #     file: coverage/clover.xml
+      - name: Coveralls
+        uses: coverallsapp/github-action@v2
+        with:
+          file: coverage/clover.xml
 
       - name: Build
         env:
           VITE_CORS_PROXY: ${{ secrets.VITE_CORS_PROXY }}
-          VITE_OS_DATAHUB_API_KEY: ${{ secrets.VITE_OS_DATAHUB_API_KEY }}
           VITE_GEOGRAPH_API_KEY: ${{ secrets.VITE_GEOGRAPH_API_KEY }}
+          VITE_OS_DATAHUB_API_KEY: ${{ secrets.VITE_OS_DATAHUB_API_KEY }}
+          VITE_GPS_ROUTES_API_KEY: ${{ secrets.VITE_GPS_ROUTES_API_KEY }}
+          VITE_GPS_ROUTES_API_URL: ${{ secrets.VITE_GPS_ROUTES_API_URL}}
+          VITE_GEODS_POI_API_URL: ${{ secrets.VITE_GEODS_POI_API_URL }}
+          VITE_COMPANY_DATA_API_URL: ${{ secrets.VITE_COMPANY_DATA_API_URL }}
+          VITE_POSTCODE_POLYGONS_API_URL: ${{ secrets.VITE_POSTCODE_POLYGONS_API_URL }}
           VITE_GOOGLE_ANALYTICS_MEASUREMENT_ID: ${{ secrets.VITE_GOOGLE_ANALYTICS_MEASUREMENT_ID }}
         run: yarn build && cp ./dist/index.html ./dist/404.html
 
@@ -68,13 +73,13 @@ jobs:
       - name: Setup Pages
         uses: actions/configure-pages@v5
 
-      - uses: actions/download-artifact@v4
+      - uses: actions/download-artifact@v5
         with:
           name: dist-files
           path: ./dist/
 
       - name: Upload to Github Pages
-        uses: actions/upload-pages-artifact@v3
+        uses: actions/upload-pages-artifact@v4
         with:
           path: ./dist
 
