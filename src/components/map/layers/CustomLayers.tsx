@@ -1,12 +1,12 @@
 import { LatLngBounds } from "leaflet";
 import { PropsWithChildren, useState } from "react";
 import { LayerGroup, LayersControl, useMap, useMapEvents } from "react-leaflet";
-import { useGeneralSettings } from "../../hooks/useGeneralSettings";
-import { CompanyDataLayer } from "./layers/CompanyDataLayer";
-import { GeodsPointsOfInterestLayer } from "./layers/GeodsPointsOfInterestLayer";
-import { GeographLayer } from "./layers/GeographLayer";
-import { GpsRoutesLayer } from "./layers/GpsRoutesLayer";
-import PostcodePolygonsLayer from "./layers/PostcodePolygonsLayer";
+import { useGeneralSettings } from "../../../hooks/useGeneralSettings";
+import { CompanyDataLayer } from "./custom/CompanyDataLayer";
+import { GeodsPointsOfInterestLayer } from "./custom/GeodsPointsOfInterestLayer";
+import { GeographLayer } from "./custom/GeographLayer";
+import { GpsRoutesLayer } from "./custom/GpsRoutesLayer";
+import PostcodePolygonsLayer from "./custom/PostcodePolygonsLayer";
 
 type CustomLayerGroupProps = {
   enabled?: boolean;
@@ -34,11 +34,11 @@ export function CustomLayers() {
   const [settings] = useGeneralSettings();
   const [bounds, setBounds] = useState<LatLngBounds>(map.getBounds());
   const [overlay, setOverlay] = useState<Record<string, Overlay>>({
-    "GPS Routes": { minZoom: 5, component: GpsRoutesLayer, checked: settings?.autoSelect?.gpsRoutes },
-    Geograph: { minZoom: 10, component: GeographLayer, checked: settings?.autoSelect?.geograph },
-    "GeoDS POI": { minZoom: 8, component: GeodsPointsOfInterestLayer, checked: settings?.autoSelect?.geodsPOI },
-    "Company Data": { minZoom: 10, component: CompanyDataLayer, checked: settings?.autoSelect?.companyData },
-    Postcodes: { minZoom: 5, component: PostcodePolygonsLayer, checked: settings?.autoSelect?.postcodes },
+    "GPS Routes": { minZoom: 11, component: GpsRoutesLayer, checked: settings?.autoSelect?.gpsRoutes },
+    Geograph: { minZoom: 16, component: GeographLayer, checked: settings?.autoSelect?.geograph },
+    "GeoDS POI": { minZoom: 14, component: GeodsPointsOfInterestLayer, checked: settings?.autoSelect?.geodsPOI },
+    "Company Data": { minZoom: 16, component: CompanyDataLayer, checked: settings?.autoSelect?.companyData },
+    Postcodes: { minZoom: 11, component: PostcodePolygonsLayer, checked: settings?.autoSelect?.postcodes },
   });
 
   const handleOverlayChange = (layer: string, checked: boolean) => {
