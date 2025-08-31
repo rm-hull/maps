@@ -5,6 +5,12 @@ import { LayerGroup, LayersControl, TileLayer } from "react-leaflet";
 export function HistoricLayers() {
   return (
     <>
+      {/* <LayersControl.BaseLayer name="OS One Inch 1st / Old Series, 1798-1878">
+        <LayerGroup>
+          <TileLayer url="https://mapseries-tilesets.s3.amazonaws.com/geological/sixinch2025/{z}/{x}/{y}.png" />
+          <TileLayer url="https://mapseries-tilesets.s3.amazonaws.com/geological/sixincheng/{z}/{x}/{y}.png" />
+        </LayerGroup>
+      </LayersControl.BaseLayer> */}
       <LayersControl.BaseLayer name="Bartholomew Half Inch 1897-1907">
         <TileLayer
           url="https://mapseries-tilesets.s3.amazonaws.com/bartholomew_great_britain/{z}/{x}/{y}.png"
@@ -22,8 +28,48 @@ export function HistoricLayers() {
       <LayersControl.BaseLayer name="OS One Inch, 1885-1900">
         <TileLayer url="https://mapseries-tilesets.s3.amazonaws.com/1inch_2nd_ed/{z}/{x}/{y}.png" />
       </LayersControl.BaseLayer>
-      <LayersControl.BaseLayer name="OS 25 Inch, 1892-1914 (Yorkshire)">
-        <TileLayer url="https://mapseries-tilesets.s3.amazonaws.com/25_inch/yorkshire/{z}/{x}/{y}.png" />
+      <LayersControl.BaseLayer name="OS 25 Inch, 1892-1914">
+        <LayerGroup>
+          <TileLayer url="https://mapseries-tilesets.s3.amazonaws.com/25_inch/lincolnshire/{z}/{x}/{y}.png" />
+          <TileLayer url="https://mapseries-tilesets.s3.amazonaws.com/25_inch/nottinghamshire/{z}/{x}/{y}.png" />
+          <TileLayer url="https://geo.nls.uk/mapdata3/os/25_inch/lancashire/{z}/{x}/{y}.png" />
+          <TileLayer url="https://mapseries-tilesets.s3.amazonaws.com/25_inch/yorkshire/{z}/{x}/{y}.png" />
+          <TileLayer url="https://mapseries-tilesets.s3.amazonaws.com/25_inch/Shrop_Derby/{z}/{x}/{y}.png" />
+          <TileLayer url="https://mapseries-tilesets.s3.amazonaws.com/25_inch/25_inch_holes_england/{z}/{x}/{y}.png" />
+          <TileLayer url="https://mapseries-tilesets.s3.amazonaws.com/channel-islands/25-inch/{z}/{x}/{y}.png" />
+          <TileLayer url="https://mapseries-tilesets.s3.amazonaws.com/25_inch/wiltshire2nd/{z}/{x}/{y}.png" />
+          <TileLayer url="https://mapseries-tilesets.s3.amazonaws.com/25_inch/suffolk/{z}/{x}/{y}.png" />
+          <TileLayer url="https://mapseries-tilesets.s3.amazonaws.com/25_inch/cambridge/{z}/{x}/{y}.png" />
+          <TileLayer url="https://mapseries-tilesets.s3.amazonaws.com/25_inch/devon2nd/{z}/{x}/{y}.png" />
+          <TileLayer url="https://mapseries-tilesets.s3.amazonaws.com/25_inch/sussex/{z}/{x}/{y}.png" />
+          <TileLayer url="https://mapseries-tilesets.s3.amazonaws.com/25_inch/bedfordshire/{z}/{x}/{y}.png" />
+          <TileLayer url="https://mapseries-tilesets.s3.amazonaws.com/25_inch/dorset/{z}/{x}/{y}.png" />
+          <TileLayer url="https://mapseries-tilesets.s3.amazonaws.com/25_inch/london/{z}/{x}/{y}.png" />
+          <TileLayer url="https://mapseries-tilesets.s3.amazonaws.com/25_inch/kent/{z}/{x}/{y}.png" />
+          <TileLayer url="https://mapseries-tilesets.s3.amazonaws.com/25_inch/northumberland/{z}/{x}/{y}.png" />
+          <TileLayer url="https://mapseries-tilesets.s3.amazonaws.com/25_inch/hampshire/{z}/{x}/{y}.png" />
+          <TileLayer url="https://geo.nls.uk/mapdata3/os/25_inch/great-yarmouth-addition/{z}/{x}/{y}.png" />
+          <TileLayer url="https://mapseries-tilesets.s3.amazonaws.com/25_inch/berkshire/{z}/{x}/{y}.png" />
+          <TileLayer url="https://geo.nls.uk/mapdata3/os/25_inch_holes_england/104194125/{z}/{x}/{y}.png" />
+          <TileLayer url="https://geo.nls.uk/mapdata3/os/25_inch_holes_england/104194119/{z}/{x}/{y}.png" />
+          <TileLayer url="https://geo.nls.uk/mapdata3/os/25_inch_holes_england/135198775/{z}/{x}/{y}.png" />
+          <TileLayer url="https://mapseries-tilesets.s3.amazonaws.com/25_inch/middlesex/{z}/{x}/{y}.png" />
+          <TileLayer url="https://mapseries-tilesets.s3.amazonaws.com/25_inch/surrey/{z}/{x}/{y}.png" />
+          <TileLayer url="https://mapseries-tilesets.s3.amazonaws.com/25_inch/newcastle_addition/{z}/{x}/{y}.png" />
+          <TileLayer url="https://mapseries-tilesets.s3.amazonaws.com/25_inch/cornwall/{z}/{x}/{y}.png" />
+          <TileLayer url="https://mapseries-tilesets.s3.amazonaws.com/25_inch/huntingdon/{z}/{x}/{y}.png" />
+          <TileLayer url="https://mapseries-tilesets.s3.amazonaws.com/25_inch/rutland/{z}/{x}/{y}.png" />
+          <TileLayer url="https://geo.nls.uk/mapdata3/os/25_inch_holes_england/103683170/{z}/{x}/{y}.png" />
+          <TileLayer url="https://mapseries-tilesets.s3.amazonaws.com/25_inch/essex/{z}/{x}/{y}.png" />
+          <TileLayer url="https://mapseries-tilesets.s3.amazonaws.com/25_inch/hertfordshire/{z}/{x}/{y}.png" />
+          <TileLayer url="https://mapseries-tilesets.s3.amazonaws.com/25_inch/somerset/{z}/{x}/{y}.png" />
+          <TileLayer url="https://geo.nls.uk/mapdata3/os/25_inch/132280016/{z}/{x}/{y}.png" />
+          <TileLayer url="https://geo.nls.uk/mapdata3/os/25_inch/edinburgh_west/{z}/{x}/{y}.png" />
+          <TileLayer url="https://mapseries-tilesets.s3.amazonaws.com/25_inch/hertfordshire/{z}/{x}/{y}.png" />
+          <TileLayer url="https://geo.nls.uk/mapdata3/os/25_inch_holes_england/103676684/{z}/{x}/{y}.png" />
+          <TileLayer url="https://mapseries-tilesets.s3.amazonaws.com/25_inch/london/{z}/{x}/{y}.png" />
+          <TileLayer url="https://geo.nls.uk/mapdata3/os/25_inch_holes_england/104194125/{z}/{x}/{y}.png" />
+        </LayerGroup>
       </LayersControl.BaseLayer>
       <LayersControl.BaseLayer name="OS 1:25,000 1937-1961">
         <TileLayer url="https://api.maptiler.com/tiles/uk-osgb25k1937/{z}/{x}/{y}.jpg?key=7Y0Q1ck46BnB8cXXXg8X" />
