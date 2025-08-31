@@ -8,7 +8,7 @@ import { useGeodsPOI } from "../../../../hooks/useGeodsPOI";
 import { fetchUnsplashImage } from "../../../../services/geods";
 import { ImageLoaderFn } from "../../../FadeInImage";
 import { UnsplashAttributionLink } from "../../attribution/UnsplashAttributionLink";
-import ResultPopup from "../../ResultPopup";
+import { ResultPopup } from "../../ResultPopup";
 
 interface GeodsPointsOfInterestLayerProps {
   bounds: LatLngBounds;

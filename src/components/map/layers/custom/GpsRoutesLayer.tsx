@@ -5,7 +5,7 @@ import { useCachedQuery } from "../../../../hooks/useCachedQuery";
 import { useErrorToast } from "../../../../hooks/useErrorToast";
 import { useGpsRoutes } from "../../../../hooks/useGpsRoutes";
 import { violetMarker } from "../../../../icons";
-import ResultPopup from "../../ResultPopup";
+import { ResultPopup } from "../../ResultPopup";
 
 interface GpsRoutesLayerProps {
   bounds: LatLngBounds;

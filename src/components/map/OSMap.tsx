@@ -1,15 +1,15 @@
 import "proj4leaflet";
 import * as L from "leaflet";
-import { LayerGroup, LayersControl, MapContainer, ScaleControl, TileLayer } from "react-leaflet";
+import { LayersControl, MapContainer, ScaleControl, TileLayer } from "react-leaflet";
 import { DEFAULT_ZOOM_LEVEL, useGeneralSettings } from "../../hooks/useGeneralSettings";
-import { API_KEY as OS_DATAHUB_API_KEY } from "../../services/osdatahub";
 import { toLatLng } from "../../services/osdatahub/helpers";
 import { CurrentLocation } from "../controls/CurrentLocation";
 import { Ruler } from "../controls/Ruler";
 import { Settings } from "../controls/Settings";
 import { FlyToLocation } from "./FlyToLocation";
 import { CustomLayers } from "./layers/CustomLayers";
-import { ThunderfootLayers } from "./layers/ThunderfootLayers";
+import { OrdnanceSurveyLayers } from "./layers/OrdnanceSurveyLayers";
+import { ThunderforestLayers } from "./layers/ThunderforestLayers";
 import { WaymarkedTrailsLayers } from "./layers/WaymarkedTrailsLayers";
 import { PointOfInterest } from "./PointOfInterest";
 import { SearchBox } from "./SearchBox";
@@ -54,39 +54,9 @@ export function OSMap({ center }: OSMapProps) {
             opacity={0.8}
           />
         </LayersControl.BaseLayer>
-        <LayersControl.BaseLayer name="Ordnance Survey: Leisure" checked={settings?.mapStyle === "leisure"}>
-          <LayerGroup>
-            <TileLayer
-              url="https://api.destructuring-bind.org/mapproxy/wmts/wmts/leisure_3857/grid_3857/{z}/{x}/{y}.png"
-              tileSize={256}
-              // tms={true}
-              maxZoom={17}
-              maxNativeZoom={17}
-              opacity={0.8}
-            />
-            <TileLayer
-              url={`https://api.os.uk/maps/raster/v1/zxy/Road_3857/{z}/{x}/{y}.png?key=${OS_DATAHUB_API_KEY}`}
-              minZoom={16}
-            />
-          </LayerGroup>
-        </LayersControl.BaseLayer>
-        <LayersControl.BaseLayer
-          name="Ordnance Survey: Roads"
-          checked={settings?.mapStyle === undefined || settings?.mapStyle === "roads"}
-        >
-          <TileLayer url={`https://api.os.uk/maps/raster/v1/zxy/Road_3857/{z}/{x}/{y}.png?key=${OS_DATAHUB_API_KEY}`} />
-        </LayersControl.BaseLayer>
-        <LayersControl.BaseLayer name="Ordnance Survey: Outdoor" checked={settings?.mapStyle === "outdoor"}>
-          <TileLayer
-            url={`https://api.os.uk/maps/raster/v1/zxy/Outdoor_3857/{z}/{x}/{y}.png?key=${OS_DATAHUB_API_KEY}`}
-          />
-        </LayersControl.BaseLayer>
-        <LayersControl.BaseLayer name="Ordnance Survey: Light" checked={settings?.mapStyle === "light"}>
-          <TileLayer
-            url={`https://api.os.uk/maps/raster/v1/zxy/Light_3857/{z}/{x}/{y}.png?key=${OS_DATAHUB_API_KEY}`}
-          />
-        </LayersControl.BaseLayer>
-        <ThunderfootLayers />
+
+        <OrdnanceSurveyLayers />
+        <ThunderforestLayers />
         <WaymarkedTrailsLayers />
         <LayersControl.Overlay name="NASA (GIBS) Snow Cover">
           <TileLayer
@@ -94,7 +64,7 @@ export function OSMap({ center }: OSMapProps) {
             maxZoom={8}
           />
         </LayersControl.Overlay>
-        {/* <CustomLayers /> */}
+        <CustomLayers />
       </LayersControl>
 
       <CurrentLocation active={settings?.initialLocation === "current" && center === undefined} />

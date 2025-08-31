@@ -27,7 +27,7 @@ interface PostcodePolygonsLayerProps {
   bounds: LatLngBounds;
 }
 
-export default function PostcodePolygonsLayer({ bounds }: PostcodePolygonsLayerProps) {
+export function PostcodePolygonsLayer({ bounds }: PostcodePolygonsLayerProps) {
   const map = useMap();
   const { mousePosition, updateMousePosition } = useMousePosition();
   const [tooltipVisible, setTooltipVisible] = useState(false);

@@ -6,7 +6,7 @@ import { CompanyDataLayer } from "./custom/CompanyDataLayer";
 import { GeodsPointsOfInterestLayer } from "./custom/GeodsPointsOfInterestLayer";
 import { GeographLayer } from "./custom/GeographLayer";
 import { GpsRoutesLayer } from "./custom/GpsRoutesLayer";
-import PostcodePolygonsLayer from "./custom/PostcodePolygonsLayer";
+import { PostcodePolygonsLayer } from "./custom/PostcodePolygonsLayer";
 
 type CustomLayerGroupProps = {
   enabled?: boolean;
@@ -42,6 +42,10 @@ export function CustomLayers() {
   });
 
   const handleOverlayChange = (layer: string, checked: boolean) => {
+    if (!(layer in overlay)) {
+      return;
+    }
+
     setOverlay((prevState) => ({
       ...prevState,
       [layer]: {

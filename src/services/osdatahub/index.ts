@@ -2,15 +2,15 @@ import axios from "axios";
 import { convertKeys } from "./helpers";
 import { type BritishNationalGrid, type Response } from "./types.d";
 
-export const API_KEY = import.meta.env.VITE_OS_DATAHUB_API_KEY as string;
-if (API_KEY === undefined) {
+export const OS_DATAHUB_API_KEY = import.meta.env.VITE_OS_DATAHUB_API_KEY as string;
+if (OS_DATAHUB_API_KEY === undefined) {
   throw new Error("No OS DataHub API key specified");
 }
 
 const client = axios.create({
   baseURL: "https://api.os.uk",
   timeout: 10000,
-  params: { key: API_KEY },
+  params: { key: OS_DATAHUB_API_KEY },
 });
 client.interceptors.response.use(convertKeys);
 

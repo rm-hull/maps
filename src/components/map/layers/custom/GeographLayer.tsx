@@ -5,7 +5,7 @@ import { useErrorToast } from "../../../../hooks/useErrorToast";
 import { useGeograph } from "../../../../hooks/useGeograph";
 import { blueMarker } from "../../../../icons";
 import { GeographAttributionLink } from "../../attribution/GeographAttributionLink";
-import ResultPopup from "../../ResultPopup";
+import { ResultPopup } from "../../ResultPopup";
 
 interface GeographLayerProps {
   bounds: LatLngBounds;

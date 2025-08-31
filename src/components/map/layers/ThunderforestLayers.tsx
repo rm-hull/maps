@@ -2,7 +2,7 @@ import { LayersControl, TileLayer } from "react-leaflet";
 
 const THUNDERFOREST_API_KEY = import.meta.env.VITE_THUNDERFOREST_API_KEY as string | undefined;
 
-export function ThunderfootLayers() {
+export function ThunderforestLayers() {
   if (!THUNDERFOREST_API_KEY) {
     return null;
   }
