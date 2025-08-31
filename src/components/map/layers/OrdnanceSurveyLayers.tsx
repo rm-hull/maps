@@ -15,13 +15,13 @@ export function OrdnanceSurveyLayers() {
             <TileLayer
               url={`${VITE_MAPPROXY_BASE_URL}/mapproxy/wmts/wmts/leisure_3857/grid_3857/{z}/{x}/{y}.png`}
               tileSize={256}
-              maxZoom={17}
-              maxNativeZoom={17}
+              maxZoom={16}
+              maxNativeZoom={15}
               opacity={0.8}
             />
             <TileLayer
               url={`https://api.os.uk/maps/raster/v1/zxy/Road_3857/{z}/{x}/{y}.png?key=${OS_DATAHUB_API_KEY}`}
-              minZoom={16}
+              minZoom={17}
             />
           </LayerGroup>
         </LayersControl.BaseLayer>
