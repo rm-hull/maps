@@ -35,8 +35,7 @@ export function CurrentLocation({ active }: CurrentLocationProps) {
           />
           <Marker
             position={location.position}
-            opacity={location.active && !location.pending ? 1 : 0.6}
-            icon={locateIcon(location.active && !location.pending ? "rgba(240,0,0,0.6)" : "rgba(240,0,0,0.4)")}
+            icon={locateIcon(`rgba(240,0,0,${location.active && !location.pending ? 0.6 : 0.4})`)}
           >
             <NearestInfo
               latLng={location.position}
@@ -56,7 +55,7 @@ export function CurrentLocation({ active }: CurrentLocationProps) {
           borderWidth={2}
           borderColor="rgba(0,0,0,0.2)"
           fontSize="1.5rem"
-          color={location.active ? "rgba(240,0,0,0.5)" : "rgba(0,0,0,0.5)"}
+          color={location.active ? "rgba(240,0,0,0.6)" : "rgba(0,0,0,0.5)"}
           borderRadius={5}
           size="lg"
         >
