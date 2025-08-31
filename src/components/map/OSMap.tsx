@@ -8,6 +8,7 @@ import { Ruler } from "../controls/Ruler";
 import { Settings } from "../controls/Settings";
 import { FlyToLocation } from "./FlyToLocation";
 import { CustomLayers } from "./layers/CustomLayers";
+import { HistoricLayers } from "./layers/HistoricLayers";
 import { OrdnanceSurveyLayers } from "./layers/OrdnanceSurveyLayers";
 import { ThunderforestLayers } from "./layers/ThunderforestLayers";
 import { WaymarkedTrailsLayers } from "./layers/WaymarkedTrailsLayers";
@@ -57,6 +58,7 @@ export function OSMap({ center }: OSMapProps) {
 
         <OrdnanceSurveyLayers />
         <ThunderforestLayers />
+        <HistoricLayers />
         <WaymarkedTrailsLayers />
         <LayersControl.Overlay name="NASA (GIBS) Snow Cover">
           <TileLayer
