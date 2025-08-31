@@ -57,7 +57,7 @@ export function OSMap({ center }: OSMapProps) {
         <LayersControl.BaseLayer name="Ordnance Survey: Leisure" checked={settings?.mapStyle === "leisure"}>
           <LayerGroup>
             <TileLayer
-              url="http://localhost:8080/mapproxy/wmts/wmts/leisure_3857/grid_3857/{z}/{x}/{y}.png"
+              url="https://api.destructuring-bind.org/mapproxy/wmts/wmts/leisure_3857/grid_3857/{z}/{x}/{y}.png"
               tileSize={256}
               // tms={true}
               maxZoom={17}
