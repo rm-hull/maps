@@ -50,6 +50,8 @@ jobs:
           VITE_GEODS_POI_API_URL: ${{ secrets.VITE_GEODS_POI_API_URL }}
           VITE_COMPANY_DATA_API_URL: ${{ secrets.VITE_COMPANY_DATA_API_URL }}
           VITE_POSTCODE_POLYGONS_API_URL: ${{ secrets.VITE_POSTCODE_POLYGONS_API_URL }}
+          VITE_MAPPROXY_BASE_URL: ${{ secrets.VITE_MAPPROXY_BASE_URL }}
+          VITE_THUNDERFOREST_API_KEY: ${{ secrets.VITE_THUNDERFOREST_API_KEY }}
           VITE_GOOGLE_ANALYTICS_MEASUREMENT_ID: ${{ secrets.VITE_GOOGLE_ANALYTICS_MEASUREMENT_ID }}
         run: yarn build && cp ./dist/index.html ./dist/404.html
 

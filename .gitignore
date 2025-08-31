@@ -114,3 +114,5 @@ dist
 !.yarn/versions
 
 tmp/
+
+mapproxy/cache_data/

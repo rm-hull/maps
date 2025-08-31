@@ -2,12 +2,12 @@ import { Badge, HStack, Heading, Link, List, ListItem, Text, UnorderedList } fro
 import { type LatLngBounds } from "leaflet";
 import { Marker, Popup } from "react-leaflet";
 import { Link as ReactRouterLink } from "react-router-dom";
-import { useCachedQuery } from "../../../hooks/useCachedQuery";
-import { useCompanyData } from "../../../hooks/useCompanyData";
-import { useErrorToast } from "../../../hooks/useErrorToast";
-import { countIcon } from "../../../icons";
-import { CompanyData } from "../../../services/companyData/types";
-import { toLatLng } from "../../../services/osdatahub/helpers";
+import { useCachedQuery } from "../../../../hooks/useCachedQuery";
+import { useCompanyData } from "../../../../hooks/useCompanyData";
+import { useErrorToast } from "../../../../hooks/useErrorToast";
+import { countIcon } from "../../../../icons";
+import { CompanyData } from "../../../../services/companyData/types";
+import { toLatLng } from "../../../../services/osdatahub/helpers";
 
 function address(companyData: CompanyData): string {
   return [

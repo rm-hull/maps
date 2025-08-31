@@ -27,7 +27,7 @@ export interface GeneralSettings {
   autoSelect?: AutoSelect;
 }
 
-export const DEFAULT_ZOOM_LEVEL = 7;
+export const DEFAULT_ZOOM_LEVEL = 13;
 
 type UseGeneralSettingsReturnType = [GeneralSettings | undefined, (value: GeneralSettings | undefined) => void];
 

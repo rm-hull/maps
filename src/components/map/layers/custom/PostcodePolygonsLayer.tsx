@@ -5,9 +5,9 @@ import { Layer } from "leaflet";
 import { useCallback, useState } from "react";
 import { createPortal } from "react-dom";
 import { GeoJSON, useMap } from "react-leaflet";
-import { useErrorToast } from "../../../hooks/useErrorToast";
-import { useMousePosition } from "../../../hooks/useMousePosition";
-import { usePostcodePolygons } from "../../../hooks/usePostcodePolygons";
+import { useErrorToast } from "../../../../hooks/useErrorToast";
+import { useMousePosition } from "../../../../hooks/useMousePosition";
+import { usePostcodePolygons } from "../../../../hooks/usePostcodePolygons";
 
 const defaultStyle = {
   color: "#0000FF77",
@@ -27,7 +27,7 @@ interface PostcodePolygonsLayerProps {
   bounds: LatLngBounds;
 }
 
-export default function PostcodePolygonsLayer({ bounds }: PostcodePolygonsLayerProps) {
+export function PostcodePolygonsLayer({ bounds }: PostcodePolygonsLayerProps) {
   const map = useMap();
   const { mousePosition, updateMousePosition } = useMousePosition();
   const [tooltipVisible, setTooltipVisible] = useState(false);

@@ -88,8 +88,8 @@ export function SettingsForm() {
           id="zoom-level"
           value={zoomLevel}
           mt={1}
-          min={0}
-          max={13}
+          min={7}
+          max={18}
           step={1}
           onChange={handleUpdateZoomLevel}
           onMouseOver={onOpen}

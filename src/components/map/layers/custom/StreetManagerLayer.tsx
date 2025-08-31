@@ -1,18 +1,18 @@
 import { Heading, Text, List, ListItem, Box, VStack } from "@chakra-ui/react";
 import { PathOptions, type LatLngBounds } from "leaflet";
 import { Popup } from "react-leaflet";
-import { useCachedQuery } from "../../../hooks/useCachedQuery";
-import { useErrorToast } from "../../../hooks/useErrorToast";
-import { useStreetManager } from "../../../hooks/useStreetManager";
+import { useCachedQuery } from "../../../../hooks/useCachedQuery";
+import { useErrorToast } from "../../../../hooks/useErrorToast";
+import { useStreetManager } from "../../../../hooks/useStreetManager";
 import {
   getCoordinates,
   getObjectRef,
   getStartDate,
   getEndDate,
   groupEventsByObjectRef,
-} from "../../../services/streetManager/helpers";
-import { Event } from "../../../services/streetManager/types";
-import WktLayer from "../WktShape";
+} from "../../../../services/streetManager/helpers";
+import { Event } from "../../../../services/streetManager/types";
+import WktLayer from "../../WktShape";
 
 type EventsPopupProps = {
   events: Event[];

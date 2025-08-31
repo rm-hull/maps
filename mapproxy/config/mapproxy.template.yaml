@@ -1,0 +1,98 @@
+services:
+  demo:
+  wmts:
+    restful: true
+    restful_template: "/wmts/{Layer}/{TileMatrixSet}/{TileMatrix}/{TileCol}/{TileRow}.{Format}"
+    kvp: true
+  wms:
+    srs: ["EPSG:3857", "EPSG:27700"]
+    image_formats: ["image/png"]
+    md:
+      title: "OS Leisure maps reprojected to Web Mercator"
+      abstract: "On-the-fly reprojection from EPSG:27700 (BNG) to EPSG:3857"
+  tms:
+    use_grid_names: true
+
+layers:
+  - name: leisure_3857
+    title: OS Leisure 2D (EPSG:3857)
+    sources: [leisure_cache_3857]
+
+  - name: leisure_27700
+    title: OS Leisure 2D (EPSG:27700)
+    sources: [leisure_cache_27700]
+
+caches:
+  leisure_cache_3857:
+    sources: [leisure_cache_27700]
+    grids: [grid_3857]
+    format: image/png
+    image:
+      resampling_method: bicubic
+    cache:
+      type: file
+      directory: /mapproxy/cache_data/leisure_3857
+      directory_layout: tms
+
+  leisure_cache_27700:
+    sources: [leisure_source]
+    grids: [grid_27700]
+    format: image/png
+    image:
+      resampling_method: bicubic
+    cache:
+      type: file
+      directory: /mapproxy/cache_data/leisure_27700
+      directory_layout: tms
+
+sources:
+  leisure_source:
+    type: tile
+    url: https://api.os.uk/maps/raster/v1/zxy/Leisure_27700/%(z)s/%(x)s/%(y)s.png?key=${VITE_OS_DATAHUB_API_KEY}
+    grid: grid_27700
+    transparent: true
+    # coverage now matches the native CRS of the source
+    coverage:
+      bbox: [-238375, 0, 900000, 1376256]
+      srs: "EPSG:27700"
+
+grids:
+  grid_27700:
+    srs: "EPSG:27700"
+    bbox: [-238375, 0, 900000, 1376256]
+    origin: "nw"
+    tile_size: [256, 256]
+    res:
+      [
+        896.0,
+        448.0,
+        224.0,
+        112.0,
+        56.0,
+        28.0,
+        14.0,
+        7.0,
+        3.5,
+        1.75,
+        0.875,
+        0.4375,
+        0.21875,
+        0.109375,
+        0.0546875,
+        0.02734375,
+        0.013671875,
+      ]
+
+  grid_3857:
+    srs: "EPSG:3857"
+    # match the extent of the UK in WebMercator
+    # bbox: [-1037739.94, 6400024.38, 207033.03, 8593533.35]
+    origin: "nw"
+    tile_size: [256, 256]
+    # Use standard Web Mercator resolutions
+    res_factor: 2
+    min_res: 156543.03392804097
+
+globals:
+  cache:
+    lock_dir: /mapproxy/cache_data/tile_locks

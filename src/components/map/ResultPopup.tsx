@@ -15,7 +15,7 @@ interface ResultPopupProps {
   chips?: string[];
 }
 
-export default function ResultPopup({
+export function ResultPopup({
   title,
   description,
   imageUrl,
