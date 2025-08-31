@@ -4,9 +4,8 @@ import { IoMdLocate } from "react-icons/io";
 import { Circle, Marker, Popup } from "react-leaflet";
 import Control from "react-leaflet-custom-control";
 import { useCurrentLocation } from "../../hooks/useCurrentLocation";
-import { redMarker } from "../../icons";
+import { locateIcon } from "../../icons";
 import { NearestInfo } from "../map/NearestInfo";
-
 
 interface CurrentLocationProps {
   active?: boolean;
@@ -36,8 +35,7 @@ export function CurrentLocation({ active }: CurrentLocationProps) {
           />
           <Marker
             position={location.position}
-            opacity={location.active && !location.pending ? 1 : 0.6}
-            icon={redMarker}
+            icon={locateIcon(`rgba(240,0,0,${location.active && !location.pending ? 0.6 : 0.4})`)}
           >
             <NearestInfo
               latLng={location.position}
@@ -57,7 +55,7 @@ export function CurrentLocation({ active }: CurrentLocationProps) {
           borderWidth={2}
           borderColor="rgba(0,0,0,0.2)"
           fontSize="1.5rem"
-          color={location.active ? "rgba(240,0,0,0.5)" : "rgba(0,0,0,0.5)"}
+          color={location.active ? "rgba(240,0,0,0.6)" : "rgba(0,0,0,0.5)"}
           borderRadius={5}
           size="lg"
         >
