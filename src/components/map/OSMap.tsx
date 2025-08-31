@@ -60,7 +60,7 @@ export function OSMap({ center }: OSMapProps) {
         <WaymarkedTrailsLayers />
         <LayersControl.Overlay name="NASA (GIBS) Snow Cover">
           <TileLayer
-            url="https://map1.vis.earthdata.nasa.gov/wmts-webmerc/MODIS_Terra_NDSI_Snow_Cover/default//GoogleMapsCompatible_Level{maxZoom}/{z}/{y}/{x}.png"
+            url="https://map1.vis.earthdata.nasa.gov/wmts-webmerc/MODIS_Terra_NDSI_Snow_Cover/default/GoogleMapsCompatible_Level{maxZoom}/{z}/{y}/{x}.png"
             maxZoom={8}
           />
         </LayersControl.Overlay>
