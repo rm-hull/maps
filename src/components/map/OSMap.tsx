@@ -47,6 +47,19 @@ export function OSMap({ center }: OSMapProps) {
         <LayersControl.BaseLayer name="OpenStreetMap">
           <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
         </LayersControl.BaseLayer>
+        <LayersControl.BaseLayer name="Carto Dark Matter">
+          <TileLayer url="https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}@2x.png" />
+        </LayersControl.BaseLayer>
+        <LayersControl.BaseLayer name="Carto Voyager">
+          <TileLayer url="https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}@2x.png" />
+        </LayersControl.BaseLayer>
+        <LayersControl.BaseLayer name="SLUB (OSM)">
+          <TileLayer url="https://tile-4.kartenforum.slub-dresden.de/styles/maptiler-basic-v2/{z}/{x}/{y}@2x.png" />
+        </LayersControl.BaseLayer>
+        <LayersControl.BaseLayer name="Skobbler Night (OSM)">
+          <TileLayer url="https://tiles2-bc7b4da77e971c12cb0e069bffcf2771.skobblermaps.com/TileService/tiles/2.0/01021113210/2/{z}/{x}/{y}.png@2x?traffic=false" />
+        </LayersControl.BaseLayer>
+
         <LayersControl.BaseLayer name="OpenTopoMap">
           <TileLayer
             url="https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png"
