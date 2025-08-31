@@ -1,11 +1,11 @@
 import { LatLngBounds } from "leaflet";
 import { Marker, useMap } from "react-leaflet";
 import MarkerClusterGroup from "react-leaflet-cluster";
-import { useErrorToast } from "../../../hooks/useErrorToast";
-import { useGeograph } from "../../../hooks/useGeograph";
-import { blueMarker } from "../../../icons";
-import { GeographAttributionLink } from "../attribution/GeographAttributionLink";
-import ResultPopup from "../ResultPopup";
+import { useErrorToast } from "../../../../hooks/useErrorToast";
+import { useGeograph } from "../../../../hooks/useGeograph";
+import { blueMarker } from "../../../../icons";
+import { GeographAttributionLink } from "../../attribution/GeographAttributionLink";
+import { ResultPopup } from "../../ResultPopup";
 
 interface GeographLayerProps {
   bounds: LatLngBounds;
