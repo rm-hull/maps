@@ -1,16 +1,15 @@
 import "proj4leaflet";
 import * as L from "leaflet";
-import { LayersControl, MapContainer, ScaleControl, TileLayer } from "react-leaflet";
+import { MapContainer, ScaleControl } from "react-leaflet";
+import { BASE_LAYERS } from "../../config/layer";
 import { DEFAULT_ZOOM_LEVEL, useGeneralSettings } from "../../hooks/useGeneralSettings";
 import { toLatLng } from "../../services/osdatahub/helpers";
 import { CurrentLocation } from "../controls/CurrentLocation";
 import { Ruler } from "../controls/Ruler";
 import { Settings } from "../controls/Settings";
+import { CustomOverlays } from "./CustomOverlays";
 import { FlyToLocation } from "./FlyToLocation";
-import { CustomLayers } from "./layers/CustomLayers";
-import { OrdnanceSurveyLayers } from "./layers/OrdnanceSurveyLayers";
-import { ThunderforestLayers } from "./layers/ThunderforestLayers";
-import { WaymarkedTrailsLayers } from "./layers/WaymarkedTrailsLayers";
+import { LayerControl } from "./layers/LayerControl";
 import { PointOfInterest } from "./PointOfInterest";
 import { SearchBox } from "./SearchBox";
 import { Tracks } from "./Tracks";
@@ -36,7 +35,7 @@ export function OSMap({ center }: OSMapProps) {
       <PointOfInterest />
       <SearchBox />
 
-      <LayersControl position="topright">
+      {/* <LayersControl position="topright">
         <LayersControl.BaseLayer name="ESRI World TopoMap">
           <TileLayer url="https://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}" />
         </LayersControl.BaseLayer>
@@ -78,7 +77,7 @@ export function OSMap({ center }: OSMapProps) {
           />
         </LayersControl.Overlay>
         <CustomLayers />
-      </LayersControl>
+      </LayersControl> */}
 
       <CurrentLocation active={settings?.initialLocation === "current" && center === undefined} />
       <FlyToLocation
@@ -90,6 +89,9 @@ export function OSMap({ center }: OSMapProps) {
       />
       <Tracks />
       <Settings />
+      <LayerControl initialLayer={BASE_LAYERS.ESRI[0]} />
+      <CustomOverlays />
+
       <ScaleControl position="bottomright" />
       <Ruler />
     </MapContainer>

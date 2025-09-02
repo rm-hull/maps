@@ -10,20 +10,12 @@ export interface CustomLocation {
   latLng: LatLngTuple; // Note leaflet stores in latitude, longitude (confusingly) rather than the more standard x,y coords
 }
 
-export interface AutoSelect {
-  geograph?: boolean;
-  gpsRoutes?: boolean;
-  geodsPOI?: boolean;
-  companyData?: boolean;
-  postcodes?: boolean;
-}
-
 export interface GeneralSettings {
   initialLocation?: InitialLocation;
   mapStyle?: MapStyle;
   customLocation?: CustomLocation;
   initialZoomLevel?: number;
-  autoSelect?: AutoSelect;
+  overlays?: Record<string, boolean>;
 }
 
 export const DEFAULT_ZOOM_LEVEL = 13;

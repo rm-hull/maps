@@ -8,15 +8,12 @@ import {
   SliderFilledTrack,
   SliderThumb,
   SliderTrack,
-  Switch,
   Tooltip,
   VStack,
   useDisclosure,
 } from "@chakra-ui/react";
 import { type LatLng } from "leaflet";
-import { ChangeEvent } from "react";
 import {
-  AutoSelect,
   DEFAULT_ZOOM_LEVEL,
   type InitialLocation,
   type MapStyle,
@@ -48,12 +45,6 @@ export function SettingsForm() {
 
   const handleUpdateZoomLevel = (zoomLevel: number): void => {
     updateSettings({ ...settings, initialZoomLevel: zoomLevel });
-  };
-
-  const handleUpdateAutoSelect = (autoSelectKey: keyof AutoSelect) => {
-    return (event: ChangeEvent<HTMLInputElement>) => {
-      updateSettings({ ...settings, autoSelect: { ...settings?.autoSelect, [autoSelectKey]: event.target.checked } });
-    };
   };
 
   const zoomLevel = settings?.initialZoomLevel ?? DEFAULT_ZOOM_LEVEL;
@@ -117,53 +108,6 @@ export function SettingsForm() {
             <Radio value="light">Light</Radio>
           </VStack>
         </RadioGroup>
-      </FormControl>
-
-      <FormControl display="flex" alignItems="flex-start">
-        <FormLabel mb={0} minW={110}>
-          Auto-select:
-        </FormLabel>
-        <VStack align="left" mt={1}>
-          <Switch
-            size="sm"
-            isChecked={settings?.autoSelect?.geograph ?? false}
-            onChange={handleUpdateAutoSelect("geograph")}
-          >
-            Geograph API
-          </Switch>
-
-          <Switch
-            size="sm"
-            isChecked={settings?.autoSelect?.gpsRoutes ?? false}
-            onChange={handleUpdateAutoSelect("gpsRoutes")}
-          >
-            GPS Routes
-          </Switch>
-
-          <Switch
-            size="sm"
-            isChecked={settings?.autoSelect?.geodsPOI ?? false}
-            onChange={handleUpdateAutoSelect("geodsPOI")}
-          >
-            GeoDS Points of Interest
-          </Switch>
-
-          <Switch
-            size="sm"
-            isChecked={settings?.autoSelect?.companyData ?? false}
-            onChange={handleUpdateAutoSelect("companyData")}
-          >
-            Company Data
-          </Switch>
-
-          <Switch
-            size="sm"
-            isChecked={settings?.autoSelect?.postcodes ?? false}
-            onChange={handleUpdateAutoSelect("postcodes")}
-          >
-            Postcodes
-          </Switch>
-        </VStack>
       </FormControl>
     </VStack>
   );
