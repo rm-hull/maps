@@ -20,7 +20,8 @@ export function CustomOverlays() {
   return Object.entries(OVERLAYS).map(
     ([name, overlay]) =>
       settings?.overlays?.[name] &&
-      mapZoom > overlay.minZoom && (
+      mapZoom > overlay.minZoom &&
+      (overlay.maxZoom === undefined || mapZoom <= overlay.maxZoom) && (
         <MapOverlay key={name} name={name}>
           <overlay.component bounds={bounds} />
         </MapOverlay>
