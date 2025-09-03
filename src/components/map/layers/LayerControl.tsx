@@ -92,7 +92,7 @@ export function LayerControl({ initialLayer }: BaseLayerControlProps) {
     if (layerOption === selectedLayer) {
       return;
     }
-    tileLayers.map((l) => map.removeLayer(l));
+    tileLayers.forEach((l) => map.removeLayer(l));
     const newLayers = addTileLayers(layerOption);
     setTileLayers(newLayers);
     setSelectedLayer(layerOption);
