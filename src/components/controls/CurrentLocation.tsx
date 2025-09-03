@@ -4,6 +4,7 @@ import { IoMdLocate } from "react-icons/io";
 import { Circle, Marker, Popup } from "react-leaflet";
 import Control from "react-leaflet-custom-control";
 import { useCurrentLocation } from "../../hooks/useCurrentLocation";
+import { useErrorToast } from "../../hooks/useErrorToast";
 import { locateIcon } from "../../icons";
 import { NearestInfo } from "../map/NearestInfo";
 
@@ -22,6 +23,8 @@ export function CurrentLocation({ active }: CurrentLocationProps) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
     []
   );
+
+  useErrorToast("gps-error", "Error determining GPS location", location.error);
 
   return (
     <>
