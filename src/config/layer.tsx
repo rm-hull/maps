@@ -36,9 +36,9 @@ function createLayer(name: string, url: string, options?: L.TileLayerOptions): L
 
 export const BASE_LAYERS: Record<string, LayerOption[]> = {
   Carto: [
-    createLayer("Positron", "https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}@2x.png"),
-    createLayer("Dark Matter", "https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}@2x.png"),
-    createLayer("Voyager", "https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}@2x.png"),
+    createLayer("Positron", "https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png"),
+    createLayer("Dark Matter", "https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png"),
+    createLayer("Voyager", "https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png"),
   ],
   ESRI: [
     createLayer(
@@ -49,6 +49,10 @@ export const BASE_LAYERS: Record<string, LayerOption[]> = {
       "World Imagery",
       "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}"
     ),
+    createLayer(
+      "World Gray Canvas",
+      "https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}"
+    ),
   ],
   "Open Street Map": [
     createLayer("OpenStreetMap", "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"),
@@ -57,11 +61,12 @@ export const BASE_LAYERS: Record<string, LayerOption[]> = {
       maxNativeZoom: 15,
       opacity: 0.8,
     }),
+    createLayer("CyclOSM", "https://{s}.tile-cyclosm.openstreetmap.fr/cyclosm/{z}/{x}/{y}.png"),
     createLayer("Humanitarian", "https://tile-c.openstreetmap.fr/hot/{z}/{x}/{y}.png"),
-    createLayer("SLUB", "https://tile-4.kartenforum.slub-dresden.de/styles/maptiler-basic-v2/{z}/{x}/{y}@2x.png"),
+    createLayer("SLUB", "https://tile-4.kartenforum.slub-dresden.de/styles/maptiler-basic-v2/{z}/{x}/{y}{r}.png"),
     createLayer(
       "Skobbler Night",
-      "https://tiles2-bc7b4da77e971c12cb0e069bffcf2771.skobblermaps.com/TileService/tiles/2.0/01021113210/2/{z}/{x}/{y}.png@2x?traffic=false"
+      "https://tiles2-bc7b4da77e971c12cb0e069bffcf2771.skobblermaps.com/TileService/tiles/2.0/01021113210/2/{z}/{x}/{y}.png{r}?traffic=false"
     ),
   ],
   "Ordnance Survey": [
@@ -95,20 +100,36 @@ export const BASE_LAYERS: Record<string, LayerOption[]> = {
       minZoom: 17,
     }),
   ],
+  Stadia: [
+    createLayer("Alidade Satellite", "https://tiles.stadiamaps.com/tiles/alidade_satellite/{z}/{x}/{y}{r}.png"),
+    createLayer("Alidade Smooth Dark", "https://tiles.stadiamaps.com/tiles/alidade_smooth_dark/{z}/{x}/{y}{r}.png"),
+    createLayer("OSMBright", "https://tiles.stadiamaps.com/tiles/osm_bright/{z}/{x}/{y}{r}.png"),
+    createLayer("Stamen Toner", "https://tiles.stadiamaps.com/tiles/stamen_toner/{z}/{x}/{y}{r}.png"),
+    createLayer("Stamen Watercolor", "https://tiles.stadiamaps.com/tiles/stamen_watercolor/{z}/{x}/{y}.png"),
+  ],
   Thunderforest: [
-    createLayer("Atlas", `https://{s}.tile.thunderforest.com/atlas/{z}/{x}/{y}@2x.png?apikey=${THUNDERFOREST_API_KEY}`),
-    createLayer("Cycle", `https://{s}.tile.thunderforest.com/cycle/{z}/{x}/{y}@2x.png?apikey=${THUNDERFOREST_API_KEY}`),
-    createLayer(
-      "Transport",
-      `https://{s}.tile.thunderforest.com/transport/{z}/{x}/{y}@2x.png?apikey=${THUNDERFOREST_API_KEY}`
-    ),
+    createLayer("Atlas", `https://{s}.tile.thunderforest.com/atlas/{z}/{x}/{y}{r}.png?apikey=${THUNDERFOREST_API_KEY}`),
+    createLayer("Cycle", `https://{s}.tile.thunderforest.com/cycle/{z}/{x}/{y}{r}.png?apikey=${THUNDERFOREST_API_KEY}`),
+
     createLayer(
       "Landscape",
-      `https://{s}.tile.thunderforest.com/landscape/{z}/{x}/{y}@2x.png?apikey=${THUNDERFOREST_API_KEY}`
+      `https://{s}.tile.thunderforest.com/landscape/{z}/{x}/{y}{r}.png?apikey=${THUNDERFOREST_API_KEY}`
+    ),
+    createLayer(
+      "Mobile Atlas",
+      `https://{s}.tile.thunderforest.com/mobile-atlas/{z}/{x}/{y}{r}.png?apikey=${THUNDERFOREST_API_KEY}`
+    ),
+    createLayer(
+      "Neighbourhood",
+      `https://{s}.tile.thunderforest.com/neighbourhood/{z}/{x}/{y}{r}.png?apikey=${THUNDERFOREST_API_KEY}`
     ),
     createLayer(
       "Outdoors",
-      `https://{s}.tile.thunderforest.com/outdoors/{z}/{x}/{y}@2x.png?apikey=${THUNDERFOREST_API_KEY}`
+      `https://{s}.tile.thunderforest.com/outdoors/{z}/{x}/{y}{r}.png?apikey=${THUNDERFOREST_API_KEY}`
+    ),
+    createLayer(
+      "Transport",
+      `https://{s}.tile.thunderforest.com/transport/{z}/{x}/{y}{r}.png?apikey=${THUNDERFOREST_API_KEY}`
     ),
   ],
 };
@@ -131,6 +152,28 @@ export const OVERLAYS: Record<string, Overlay> = {
     minZoom: 6,
     component: () => <TileLayer url="https://tile.waymarkedtrails.org/mtb/{z}/{x}/{y}.png" />,
   },
+  "Positron Labels": {
+    minZoom: 6,
+    maxZoom: 12,
+    component: () => <TileLayer url="https://{s}.basemaps.cartocdn.com/light_only_labels/{z}/{x}/{y}{r}.png" />,
+  },
+
+  "Dark Matter Labels": {
+    minZoom: 6,
+    maxZoom: 12,
+    component: () => <TileLayer url="https://{s}.basemaps.cartocdn.com/dark_only_labels/{z}/{x}/{y}{r}.png" />,
+  },
+
+  "Stadia Stamen Toner Lines": {
+    minZoom: 6,
+    component: () => <TileLayer url="https://tiles.stadiamaps.com/tiles/stamen_toner_lines/{z}/{x}/{y}{r}.png" />,
+  },
+
+  "Stadia Stamen Toner Labels": {
+    minZoom: 6,
+    component: () => <TileLayer url="https://tiles.stadiamaps.com/tiles/stamen_toner_labels/{z}/{x}/{y}{r}.png" />,
+  },
+
   "NASA (GIBS) Snow Cover": {
     minZoom: 6,
     maxZoom: 8,
