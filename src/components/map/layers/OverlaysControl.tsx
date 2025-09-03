@@ -27,7 +27,7 @@ export function OverlaysControl() {
           isChecked={settings?.overlays?.[name] ?? false}
           onChange={(e) => handleOverlayChange(name, e.target.checked)}
           key={name}
-          isDisabled={zoom > (cfg.maxZoom ?? 17) || zoom <= cfg.minZoom}
+          isDisabled={zoom > (cfg.maxZoom ?? map.getMaxZoom()) || zoom <= cfg.minZoom}
         >
           {name}
         </Checkbox>
