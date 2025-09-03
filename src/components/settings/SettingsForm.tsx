@@ -4,24 +4,19 @@ import {
   HStack,
   Radio,
   RadioGroup,
+  Select,
   Slider,
   SliderFilledTrack,
   SliderThumb,
   SliderTrack,
-  Switch,
   Tooltip,
   VStack,
   useDisclosure,
 } from "@chakra-ui/react";
 import { type LatLng } from "leaflet";
 import { ChangeEvent } from "react";
-import {
-  AutoSelect,
-  DEFAULT_ZOOM_LEVEL,
-  type InitialLocation,
-  type MapStyle,
-  useGeneralSettings,
-} from "../../hooks/useGeneralSettings";
+import { BASE_LAYERS } from "../../config/layer";
+import { DEFAULT_ZOOM_LEVEL, type InitialLocation, useGeneralSettings } from "../../hooks/useGeneralSettings";
 import { CustomSearch } from "./CustomSearch";
 
 export function SettingsForm() {
@@ -32,8 +27,8 @@ export function SettingsForm() {
     updateSettings({ ...settings, initialLocation });
   };
 
-  const handleUpdateMapStyle = (mapStyle: MapStyle): void => {
-    updateSettings({ ...settings, mapStyle });
+  const handleUpdateMapStyle = (event: ChangeEvent<HTMLSelectElement>): void => {
+    updateSettings({ ...settings, mapStyle: event.target.value });
   };
 
   const handleUpdateCustomSearch = (latLng: LatLng, searchTerm: string): void => {
@@ -48,12 +43,6 @@ export function SettingsForm() {
 
   const handleUpdateZoomLevel = (zoomLevel: number): void => {
     updateSettings({ ...settings, initialZoomLevel: zoomLevel });
-  };
-
-  const handleUpdateAutoSelect = (autoSelectKey: keyof AutoSelect) => {
-    return (event: ChangeEvent<HTMLInputElement>) => {
-      updateSettings({ ...settings, autoSelect: { ...settings?.autoSelect, [autoSelectKey]: event.target.checked } });
-    };
   };
 
   const zoomLevel = settings?.initialZoomLevel ?? DEFAULT_ZOOM_LEVEL;
@@ -80,8 +69,8 @@ export function SettingsForm() {
         </RadioGroup>
       </FormControl>
 
-      <FormControl display="flex" alignItems="flex-start">
-        <FormLabel htmlFor="zoom-level" mb={0} minW={110}>
+      <FormControl display="flex" alignItems="baseline">
+        <FormLabel htmlFor="zoom-level" minW={110}>
           Zoom level:
         </FormLabel>
         <Slider
@@ -105,65 +94,21 @@ export function SettingsForm() {
         </Slider>
       </FormControl>
 
-      <FormControl display="flex" alignItems="flex-start">
+      <FormControl display="flex" alignItems="baseline">
         <FormLabel htmlFor="map-style" mb={0} minW={110}>
           Map style:
         </FormLabel>
-        <RadioGroup id="map-style" onChange={handleUpdateMapStyle} value={settings?.mapStyle}>
-          <VStack align="left">
-            <Radio value="leisure">Leisure</Radio>
-            <Radio value="roads">Roads</Radio>
-            <Radio value="outdoor">Outdoor</Radio>
-            <Radio value="light">Light</Radio>
-          </VStack>
-        </RadioGroup>
-      </FormControl>
-
-      <FormControl display="flex" alignItems="flex-start">
-        <FormLabel mb={0} minW={110}>
-          Auto-select:
-        </FormLabel>
-        <VStack align="left" mt={1}>
-          <Switch
-            size="sm"
-            isChecked={settings?.autoSelect?.geograph ?? false}
-            onChange={handleUpdateAutoSelect("geograph")}
-          >
-            Geograph API
-          </Switch>
-
-          <Switch
-            size="sm"
-            isChecked={settings?.autoSelect?.gpsRoutes ?? false}
-            onChange={handleUpdateAutoSelect("gpsRoutes")}
-          >
-            GPS Routes
-          </Switch>
-
-          <Switch
-            size="sm"
-            isChecked={settings?.autoSelect?.geodsPOI ?? false}
-            onChange={handleUpdateAutoSelect("geodsPOI")}
-          >
-            GeoDS Points of Interest
-          </Switch>
-
-          <Switch
-            size="sm"
-            isChecked={settings?.autoSelect?.companyData ?? false}
-            onChange={handleUpdateAutoSelect("companyData")}
-          >
-            Company Data
-          </Switch>
-
-          <Switch
-            size="sm"
-            isChecked={settings?.autoSelect?.postcodes ?? false}
-            onChange={handleUpdateAutoSelect("postcodes")}
-          >
-            Postcodes
-          </Switch>
-        </VStack>
+        <Select id="map-style" onChange={handleUpdateMapStyle} value={settings?.mapStyle}>
+          {Object.entries(BASE_LAYERS).map(([provider, layers]) => (
+            <optgroup label={provider} key={provider}>
+              {layers.map((layer) => (
+                <option value={`${provider} / ${layer.name}`} key={layer.name}>
+                  {layer.name}
+                </option>
+              ))}
+            </optgroup>
+          ))}
+        </Select>
       </FormControl>
     </VStack>
   );
