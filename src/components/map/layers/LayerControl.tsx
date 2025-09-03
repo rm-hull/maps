@@ -8,6 +8,7 @@ import {
   Button,
   Link,
   Text,
+  Collapse,
 } from "@chakra-ui/react";
 import * as L from "leaflet";
 import { useState } from "react";
@@ -17,14 +18,13 @@ import Control from "react-leaflet-custom-control";
 import { BASE_LAYERS, LayerOption } from "../../../config/layer";
 import { OverlaysControl } from "./OverlaysControl";
 
-type ComponentProps = {
+type BaseLayerAccordionProps = {
   selectedLayer: LayerOption;
   onMouseLeave: () => void;
   onLayerChanged: (layer: LayerOption) => void;
 };
 
-// TODO: better naming
-function Component({ onMouseLeave, onLayerChanged, selectedLayer }: ComponentProps) {
+function BaseLayerAccordion({ onMouseLeave, onLayerChanged, selectedLayer }: BaseLayerAccordionProps) {
   const selectedIndex = Object.values(BASE_LAYERS).findIndex((layers) => layers.some((l) => l === selectedLayer));
   return (
     <Box
@@ -100,28 +100,35 @@ export function LayerControl({ initialLayer }: BaseLayerControlProps) {
 
   return (
     <Control position="topright">
-      {expanded ? (
-        <Component
-          onMouseLeave={() => setExpanded(false)}
-          selectedLayer={selectedLayer}
-          onLayerChanged={handlerBaseLayerChange}
-        />
-      ) : (
-        <Button
-          background="white"
-          variant="outline"
-          padding={0}
-          borderWidth={2}
-          borderColor="rgba(0,0,0,0.2)"
-          fontSize="1.5rem"
-          color={"rgba(0,0,0,0.5)"}
-          borderRadius={5}
-          size="lg"
-          onMouseOver={() => setExpanded(true)}
-        >
-          <IoLayersSharp />
-        </Button>
-      )}
+      <Box position="relative">
+        <Collapse in={expanded} unmountOnExit>
+          <Box position="absolute" top={0} right={220} width="100%">
+            <BaseLayerAccordion
+              selectedLayer={selectedLayer}
+              onMouseLeave={() => setExpanded(false)}
+              onLayerChanged={handlerBaseLayerChange}
+            />
+          </Box>
+        </Collapse>
+        <Collapse in={!expanded} unmountOnExit>
+          <Box position="absolute" top={0} right={12} width="100%">
+            <Button
+              background="white"
+              variant="outline"
+              padding={0}
+              borderWidth={2}
+              borderColor="rgba(0,0,0,0.2)"
+              fontSize="1.5rem"
+              color="rgba(0,0,0,0.5)"
+              borderRadius={5}
+              size="lg"
+              onMouseOver={() => setExpanded(true)}
+            >
+              <IoLayersSharp />
+            </Button>
+          </Box>
+        </Collapse>
+      </Box>
     </Control>
   );
 }

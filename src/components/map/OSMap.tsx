@@ -32,6 +32,10 @@ export function OSMap({ center }: OSMapProps) {
     [settings?.initialLocation, settings?.customLocation, center]
   );
 
+  const [initialMapStyle] = Object.entries(BASE_LAYERS)
+    .map(([provider, layers]) => layers.find((l) => `${provider} / ${l.name}` === settings?.mapStyle))
+    .filter((l) => l !== undefined);
+
   if (!settings) {
     return null;
   }
@@ -52,7 +56,7 @@ export function OSMap({ center }: OSMapProps) {
       <CurrentLocation active={settings?.initialLocation === "current" && center === undefined} />
       <Tracks />
       <Settings />
-      <LayerControl initialLayer={BASE_LAYERS.ESRI[0]} /> {/* TODO: make configurable*/}
+      <LayerControl initialLayer={initialMapStyle ?? BASE_LAYERS.ESRI[0]} /> {/* TODO: make configurable*/}
       <CustomOverlays />
       <ScaleControl position="bottomright" />
       <Ruler />

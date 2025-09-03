@@ -4,6 +4,7 @@ import {
   HStack,
   Radio,
   RadioGroup,
+  Select,
   Slider,
   SliderFilledTrack,
   SliderThumb,
@@ -13,12 +14,9 @@ import {
   useDisclosure,
 } from "@chakra-ui/react";
 import { type LatLng } from "leaflet";
-import {
-  DEFAULT_ZOOM_LEVEL,
-  type InitialLocation,
-  type MapStyle,
-  useGeneralSettings,
-} from "../../hooks/useGeneralSettings";
+import { ChangeEvent } from "react";
+import { BASE_LAYERS } from "../../config/layer";
+import { DEFAULT_ZOOM_LEVEL, type InitialLocation, useGeneralSettings } from "../../hooks/useGeneralSettings";
 import { CustomSearch } from "./CustomSearch";
 
 export function SettingsForm() {
@@ -29,8 +27,8 @@ export function SettingsForm() {
     updateSettings({ ...settings, initialLocation });
   };
 
-  const handleUpdateMapStyle = (mapStyle: MapStyle): void => {
-    updateSettings({ ...settings, mapStyle });
+  const handleUpdateMapStyle = (event: ChangeEvent<HTMLSelectElement>): void => {
+    updateSettings({ ...settings, mapStyle: event.target.value });
   };
 
   const handleUpdateCustomSearch = (latLng: LatLng, searchTerm: string): void => {
@@ -71,8 +69,8 @@ export function SettingsForm() {
         </RadioGroup>
       </FormControl>
 
-      <FormControl display="flex" alignItems="flex-start">
-        <FormLabel htmlFor="zoom-level" mb={0} minW={110}>
+      <FormControl display="flex" alignItems="baseline">
+        <FormLabel htmlFor="zoom-level" minW={110}>
           Zoom level:
         </FormLabel>
         <Slider
@@ -96,18 +94,21 @@ export function SettingsForm() {
         </Slider>
       </FormControl>
 
-      <FormControl display="flex" alignItems="flex-start">
+      <FormControl display="flex" alignItems="baseline">
         <FormLabel htmlFor="map-style" mb={0} minW={110}>
           Map style:
         </FormLabel>
-        <RadioGroup id="map-style" onChange={handleUpdateMapStyle} value={settings?.mapStyle}>
-          <VStack align="left">
-            <Radio value="leisure">Leisure</Radio>
-            <Radio value="roads">Roads</Radio>
-            <Radio value="outdoor">Outdoor</Radio>
-            <Radio value="light">Light</Radio>
-          </VStack>
-        </RadioGroup>
+        <Select id="map-style" onChange={handleUpdateMapStyle} value={settings?.mapStyle}>
+          {Object.entries(BASE_LAYERS).map(([provider, layers]) => (
+            <optgroup label={provider} key={provider}>
+              {layers.map((layer) => (
+                <option value={`${provider} / ${layer.name}`} key={layer.name}>
+                  {layer.name}
+                </option>
+              ))}
+            </optgroup>
+          ))}
+        </Select>
       </FormControl>
     </VStack>
   );
