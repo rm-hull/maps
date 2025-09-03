@@ -75,11 +75,11 @@ function BaseLayerAccordion({ onMouseLeave, onLayerChanged, selectedLayer }: Bas
   );
 }
 
-type BaseLayerControlProps = {
+type LayerControlProps = {
   initialLayer: LayerOption;
 };
 
-export function LayerControl({ initialLayer }: BaseLayerControlProps) {
+export function LayerControl({ initialLayer }: LayerControlProps) {
   const [expanded, setExpanded] = useState(false);
   const map = useMap();
   const addTileLayers = (layerOption: LayerOption) =>

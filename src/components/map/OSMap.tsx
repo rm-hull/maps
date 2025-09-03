@@ -32,9 +32,16 @@ export function OSMap({ center }: OSMapProps) {
     [settings?.initialLocation, settings?.customLocation, center]
   );
 
-  const [initialMapStyle] = Object.entries(BASE_LAYERS)
-    .map(([provider, layers]) => layers.find((l) => `${provider} / ${l.name}` === settings?.mapStyle))
-    .filter((l) => l !== undefined);
+  const initialMapStyle = useMemo(() => {
+    if (!settings?.mapStyle) return undefined;
+
+    for (const [provider, layers] of Object.entries(BASE_LAYERS)) {
+      const foundLayer = layers.find((l) => `${provider} / ${l.name}` === settings.mapStyle);
+      if (foundLayer) {
+        return foundLayer;
+      }
+    }
+  }, [settings?.mapStyle]);
 
   if (!settings) {
     return null;
@@ -56,7 +63,7 @@ export function OSMap({ center }: OSMapProps) {
       <CurrentLocation active={settings?.initialLocation === "current" && center === undefined} />
       <Tracks />
       <Settings />
-      <LayerControl initialLayer={initialMapStyle ?? BASE_LAYERS.ESRI[0]} /> {/* TODO: make configurable*/}
+      <LayerControl initialLayer={initialMapStyle ?? BASE_LAYERS["Thunderforest"][0]} />
       <CustomOverlays />
       <ScaleControl position="bottomright" />
       <Ruler />
