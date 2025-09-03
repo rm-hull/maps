@@ -14,9 +14,6 @@ export function CustomOverlays() {
     moveend() {
       setBounds(map.getBounds());
     },
-    zoomend() {
-      setBounds(map.getBounds());
-    },
   });
 
   const mapZoom = map.getZoom();

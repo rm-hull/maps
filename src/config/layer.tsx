@@ -114,7 +114,7 @@ export const BASE_LAYERS: Record<string, LayerOption[]> = {
 };
 
 export const OVERLAYS: Record<string, Overlay> = {
-  "GPS Routes": { minZoom: 11, component: GpsRoutesLayer },
+  "GPS Routes": { minZoom: 10, component: GpsRoutesLayer },
   Geograph: { minZoom: 16, component: GeographLayer },
   "GeoDS POI": { minZoom: 14, component: GeodsPointsOfInterestLayer },
   "Company Data": { minZoom: 16, component: CompanyDataLayer },
