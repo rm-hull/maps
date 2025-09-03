@@ -85,7 +85,7 @@ export function LayerControl({ initialLayer }: BaseLayerControlProps) {
   const addTileLayers = (layerOption: LayerOption) =>
     layerOption.tiles.map((tile) => new L.TileLayer(tile.url, tile.options).addTo(map));
 
-  const [tileLayers, setTileLayers] = useState<L.TileLayer[]>(addTileLayers(initialLayer));
+  const [tileLayers, setTileLayers] = useState<L.TileLayer[]>(() => addTileLayers(initialLayer));
   const [selectedLayer, setSelectedLayer] = useState<LayerOption>(initialLayer);
 
   const handlerBaseLayerChange = (layerOption: LayerOption) => {
