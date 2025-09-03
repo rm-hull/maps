@@ -48,9 +48,11 @@ function Component({ onMouseLeave, onLayerChanged, selectedLayer }: ComponentPro
             </AccordionButton>
             <AccordionPanel padding={2}>
               {layers.map((layer) => (
-                <Box display="inline-block" key={layer.name} marginRight={2}>
+                <Box key={layer.name} display="inline-block" marginRight={2}>
                   <Link size="md" onClick={() => onLayerChanged(layer)}>
-                    <Text fontWeight={layer === selectedLayer ? "bold" : "default"}>{layer.name}</Text>
+                    <Text fontSize={14} fontWeight={layer === selectedLayer ? "bold" : "default"}>
+                      {layer.name}
+                    </Text>
                   </Link>
                 </Box>
               ))}
@@ -87,6 +89,9 @@ export function LayerControl({ initialLayer }: BaseLayerControlProps) {
   const [selectedLayer, setSelectedLayer] = useState<LayerOption>(initialLayer);
 
   const handlerBaseLayerChange = (layerOption: LayerOption) => {
+    if (layerOption === selectedLayer) {
+      return;
+    }
     tileLayers.map((l) => map.removeLayer(l));
     const newLayers = addTileLayers(layerOption);
     setTileLayers(newLayers);

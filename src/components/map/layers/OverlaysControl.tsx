@@ -1,13 +1,11 @@
 import { VStack, Checkbox } from "@chakra-ui/react";
-import { useState } from "react";
-import { useMap, useMapEvents } from "react-leaflet";
+import { useMap } from "react-leaflet";
 import { OVERLAYS } from "../../../config/layer";
 import { useGeneralSettings } from "../../../hooks/useGeneralSettings";
 
 export function OverlaysControl() {
   const map = useMap();
   const [settings, updateSettings] = useGeneralSettings();
-  const [zoom, setZoom] = useState<number>(0);
   const handleOverlayChange = (name: string, checked: boolean) => {
     updateSettings({
       ...settings,
@@ -18,11 +16,7 @@ export function OverlaysControl() {
     });
   };
 
-  useMapEvents({
-    zoomend() {
-      setZoom(map.getZoom());
-    },
-  });
+  const zoom = map.getZoom();
 
   return (
     <VStack align="start" spacing={1}>
