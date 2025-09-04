@@ -2690,7 +2690,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/leaflet@npm:*, @types/leaflet@npm:^1.9.20":
+"@types/leaflet@npm:^1.9, @types/leaflet@npm:^1.9.20":
   version: 1.9.20
   resolution: "@types/leaflet@npm:1.9.20"
   dependencies:
@@ -2740,14 +2740,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/proj4leaflet@npm:^1.0.11":
-  version: 1.0.11
-  resolution: "@types/proj4leaflet@npm:1.0.11"
+"@types/proj4leaflet@npm:^1.0.12":
+  version: 1.0.12
+  resolution: "@types/proj4leaflet@npm:1.0.12"
   dependencies:
     "@types/geojson": "npm:*"
-    "@types/leaflet": "npm:*"
+    "@types/leaflet": "npm:^1.9"
     proj4: "npm:^2.19.0"
-  checksum: 10/a526b8d7ea1cc1178338fba98301d7aff5b613ffd34637348835e7cc6361845ba8257f393458b3d5955fb6c080611d91fadc91401852476671661dbc27c9b71b
+  checksum: 10/5d1f9755983efbcdb54caae3e5116012c4640d549138bcc24e96c7ae806aabdf09bf7972a3e3ae5bf00b5b38fb78a5a20f468f7c9ebaa81082e625e1f673a08e
   languageName: node
   linkType: hard
 
@@ -6649,7 +6649,7 @@ __metadata:
     "@types/leaflet": "npm:^1.9.20"
     "@types/node": "npm:^24.3.0"
     "@types/proj4": "npm:^2.19.0"
-    "@types/proj4leaflet": "npm:^1.0.11"
+    "@types/proj4leaflet": "npm:^1.0.12"
     "@types/react": "npm:^19.1.12"
     "@types/react-dom": "npm:^19.1.9"
     "@typescript-eslint/eslint-plugin": "npm:^8.41.0"
