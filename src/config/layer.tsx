@@ -26,6 +26,7 @@ export type Overlay = {
 const VITE_MAPPROXY_BASE_URL = import.meta.env.VITE_MAPPROXY_BASE_URL as string | undefined;
 const OS_DATAHUB_API_KEY = import.meta.env.VITE_OS_DATAHUB_API_KEY as string | undefined;
 const THUNDERFOREST_API_KEY = import.meta.env.VITE_THUNDERFOREST_API_KEY as string | undefined;
+const TOMTOM_API_KEY = import.meta.env.VITE_TOMTOM_API_KEY as string | undefined;
 
 function createLayer(name: string, url: string, options?: L.TileLayerOptions): LayerOption {
   return {
@@ -181,6 +182,15 @@ export const OVERLAYS: Record<string, Overlay> = {
       <TileLayer
         url="https://map1.vis.earthdata.nasa.gov/wmts-webmerc/MODIS_Terra_NDSI_Snow_Cover/default/GoogleMapsCompatible_Level{maxZoom}/{z}/{y}/{x}.png"
         maxZoom={8}
+      />
+    ),
+  },
+
+  "TomTom Traffic Flow": {
+    minZoom: 6,
+    component: () => (
+      <TileLayer
+        url={`https://api.tomtom.com/traffic/map/4/tile/flow/relative/{z}/{x}/{y}.png?key=${TOMTOM_API_KEY}&tileSize=512&thickness=5`}
       />
     ),
   },
