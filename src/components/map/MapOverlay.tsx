@@ -1,3 +1,4 @@
+import { Box } from "@chakra-ui/react";
 import { PropsWithChildren, useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 import { useMap } from "react-leaflet";
@@ -26,9 +27,9 @@ export const MapOverlay = ({ children, name, className = "" }: PropsWithChildren
 
   return pane
     ? createPortal(
-        <div className={className} style={{ pointerEvents: "auto" }}>
+        <Box className={className} pointerEvents="auto">
           {children}
-        </div>,
+        </Box>,
         pane
       )
     : null;
