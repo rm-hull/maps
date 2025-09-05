@@ -46,7 +46,7 @@ function BaseLayerAccordion({ onMouseLeave, onLayerChanged, selectedLayer }: Bas
               </Box>
               <AccordionIcon />
             </AccordionButton>
-            <AccordionPanel padding={2} maxHeight={200} overflowY="scroll">
+            <AccordionPanel padding={2} maxHeight={200} overflowY="auto">
               {layers.map((layer) => (
                 <Box key={layer.name} display="inline-block" marginRight={2}>
                   <Link size="md" onClick={() => onLayerChanged(layer)}>
@@ -66,7 +66,7 @@ function BaseLayerAccordion({ onMouseLeave, onLayerChanged, selectedLayer }: Bas
             </Box>
             <AccordionIcon />
           </AccordionButton>
-          <AccordionPanel padding={2} maxHeight={200} overflowY="scroll">
+          <AccordionPanel padding={2} maxHeight={200} overflowY="auto">
             <OverlaysControl />
           </AccordionPanel>
         </AccordionItem>
