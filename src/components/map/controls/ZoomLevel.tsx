@@ -9,13 +9,13 @@ export function ZoomLevel() {
   const map = useMap();
   const [zoom, setZoom] = useState(map.getZoom());
   useMapEvents({
-    zoomend(e) {
-      setZoom((e.target as L.Map).getZoom());
+    zoomend() {
+      setZoom(map.getZoom());
     },
   });
 
   return (
-    <Control position="topleft" >
+    <Control position="topleft">
       {settings?.showZoomLevel && (
         <Box
           background="white"
