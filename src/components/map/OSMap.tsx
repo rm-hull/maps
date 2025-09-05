@@ -9,6 +9,7 @@ import { CurrentLocation } from "./controls/CurrentLocation";
 import { LayerControl } from "./controls/LayerControl";
 import { Ruler } from "./controls/Ruler";
 import { Settings } from "./controls/Settings";
+import { ZoomLevel } from "./controls/ZoomLevel";
 import { CustomOverlays } from "./CustomOverlays";
 import { PointOfInterest } from "./PointOfInterest";
 import { SearchBox } from "./SearchBox";
@@ -65,6 +66,7 @@ export function OSMap({ center }: OSMapProps) {
       <Settings />
       <LayerControl initialLayer={initialMapStyle ?? BASE_LAYERS["Thunderforest"][0]} />
       <CustomOverlays />
+      <ZoomLevel />
       <ScaleControl position="bottomright" />
       <Ruler />
     </MapContainer>
