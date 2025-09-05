@@ -137,9 +137,12 @@ export const BASE_LAYERS: Record<string, LayerOption[]> = {
   "Historic Maps": [
     createLayer(
       "OS 1:25,000 1937-1961",
-      "https://api.maptiler.com/tiles/uk-osgb25k1937/{z}/{x}/{y}.jpg?key=7Y0Q1ck46BnB8cXXXg8X"
+      "https://api.maptiler.com/tiles/uk-osgb25k1937/{z}/{x}/{y}.jpg?key=7Y0Q1ck46BnB8cXXXg8X",
+      { maxNativeZoom: 16 }
     ),
-    createLayer("OS One Inch, 1885-1900", "https://mapseries-tilesets.s3.amazonaws.com/1inch_2nd_ed/{z}/{x}/{y}.png"),
+    createLayer("OS One Inch, 1885-1900", "https://mapseries-tilesets.s3.amazonaws.com/1inch_2nd_ed/{z}/{x}/{y}.png", {
+      maxNativeZoom: 16,
+    }),
     {
       name: "OS 25 Inch, 1892-1914",
       tiles: [
@@ -206,12 +209,13 @@ export const BASE_LAYERS: Record<string, LayerOption[]> = {
       ],
     },
 
-    createLayer("2nd Land Utilization Svy., 1:10k 1960s", "https://geo.nls.uk/mapdata2/lus_10k/{z}/{x}/{y}.png"),
+    createLayer("2nd Land Utilization Svy., 1:10k 1960s", "https://geo.nls.uk/mapdata2/lus_10k/{z}/{x}/{y}.png", {
+      maxNativeZoom: 16,
+    }),
     createLayer(
       "Bartholomew Half Inch 1897-1907",
       "https://mapseries-tilesets.s3.amazonaws.com/bartholomew_great_britain/{z}/{x}/{y}.png",
       {
-        maxZoom: 15,
         maxNativeZoom: 15,
       }
     ),
@@ -219,7 +223,6 @@ export const BASE_LAYERS: Record<string, LayerOption[]> = {
       "Bartholomew Half Inch 1940-1947",
       "https://mapseries-tilesets.s3.amazonaws.com/bartholomew/great_britain_1940s/{z}/{x}/{y}.png",
       {
-        maxZoom: 14,
         maxNativeZoom: 14,
       }
     ),
