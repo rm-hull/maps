@@ -217,6 +217,18 @@ export const OVERLAYS: Record<string, Overlay> = {
     ),
   },
 
+  "Light Pollution / Dark Skies, 2016": {
+    minZoom: 6,
+    component: () => (
+      <TileLayer
+        url="https://mapseries-tilesets.s3.amazonaws.com/light-pollution/{z}/{x}/{y}.png"
+        maxNativeZoom={9}
+        opacity={0.6}
+        zIndex={650}
+      />
+    ),
+  },
+
   "TomTom Traffic Flow": {
     minZoom: 6,
     component: () => (
