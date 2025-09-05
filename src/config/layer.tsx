@@ -209,9 +209,50 @@ export const BASE_LAYERS: Record<string, LayerOption[]> = {
       ],
     },
 
+    createLayer(
+      "England and Wales - OS One Inch, 1945-47",
+      "https://mapseries-tilesets.s3.amazonaws.com/os/newpopular/{z}/{x}/{y}.png",
+      { maxNativeZoom: 16 }
+    ),
+
+    createLayer(
+      "OS Six Inch, 1888-1913",
+      "https://mapseries-tilesets.s3.amazonaws.com/os/6inchsecond/{z}/{x}/{y}.png",
+      // { tileSize: 512 }
+      { maxNativeZoom: 17 }
+    ),
+
+    createLayer(
+      "OS 1:1,250 Air Photos, 1944-50",
+      "https://mapseries-tilesets.s3.amazonaws.com/air-photos-1250/{z}/{x}/{y}.png"
+    ),
+
+    createLayer(
+      "OS 1:1m to 1:63K, 1920s-1940s",
+      "https://mapseries-tilesets.s3.amazonaws.com/api/nls/{z}/{x}/{y}.jpg",
+      // { tileSize: 512 }
+      { maxNativeZoom: 14 }
+    ),
+
+    createLayer(
+      "OS 10 mile, Admin Areas, 1956",
+      "https://mapseries-tilesets.s3.amazonaws.com/ten_mile/admin/{z}/{x}/{y}.png",
+      { maxNativeZoom: 12 }
+    ),
+
     createLayer("2nd Land Utilization Svy., 1:10k 1960s", "https://geo.nls.uk/mapdata2/lus_10k/{z}/{x}/{y}.png", {
       maxNativeZoom: 16,
     }),
+
+    createLayer(
+      "Geology One Inch, 1940s-1955",
+      "https://mapseries-tilesets.s3.amazonaws.com/geological/oneinch2025/{z}/{x}/{y}.png"
+    ),
+
+    createLayer(
+      "35.Scapa Flow North, 1944",
+      "https://mapseries-tilesets.s3.amazonaws.com/ad_chart_2/101942045/{z}/{x}/{y}.png"
+    ),
     createLayer(
       "Bartholomew Half Inch 1897-1907",
       "https://mapseries-tilesets.s3.amazonaws.com/bartholomew_great_britain/{z}/{x}/{y}.png",
@@ -220,11 +261,34 @@ export const BASE_LAYERS: Record<string, LayerOption[]> = {
       }
     ),
     createLayer(
+      "OS One Inch, 1919-1926 (Regular)",
+      "https://mapseries-tilesets.s3.amazonaws.com/os/popular-england/{z}/{x}/{y}.png",
+      { maxNativeZoom: 15 }
+    ),
+    createLayer(
       "Bartholomew Half Inch 1940-1947",
       "https://mapseries-tilesets.s3.amazonaws.com/bartholomew/great_britain_1940s/{z}/{x}/{y}.png",
       {
         maxNativeZoom: 14,
       }
+    ),
+
+    createLayer(
+      "Bartholomew World, 1881",
+      "https://mapseries-tilesets.s3.amazonaws.com/bartholomew-world/{z}/{x}/{y}.png",
+      { maxNativeZoom: 7 }
+    ),
+
+    createLayer(
+      "Arrowsmith World, 1790",
+      "https://mapseries-tilesets.s3.amazonaws.com/mapdata3/100611144/{z}/{x}/{y}.png",
+      { maxNativeZoom: 8 }
+    ),
+
+    createLayer(
+      "Times Survey Atlas, 1920",
+      "https://mapseries-tilesets.s3.amazonaws.com/tsa/layer_05/{z}/{x}/{y}.png",
+      { maxNativeZoom: 12 }
     ),
   ],
 };
