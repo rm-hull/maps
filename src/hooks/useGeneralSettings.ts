@@ -13,6 +13,7 @@ export interface GeneralSettings {
   mapStyle?: string;
   customLocation?: CustomLocation;
   initialZoomLevel?: number;
+  showZoomLevel?: boolean;
   overlays?: Record<string, boolean>;
 }
 

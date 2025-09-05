@@ -9,6 +9,7 @@ import {
   SliderFilledTrack,
   SliderThumb,
   SliderTrack,
+  Switch,
   Tooltip,
   VStack,
   useDisclosure,
@@ -43,6 +44,10 @@ export function SettingsForm() {
 
   const handleUpdateZoomLevel = (zoomLevel: number): void => {
     updateSettings({ ...settings, initialZoomLevel: zoomLevel });
+  };
+
+  const handleUpdateZoomControl = (): void => {
+    updateSettings({ ...settings, showZoomLevel: !settings?.showZoomLevel });
   };
 
   const zoomLevel = settings?.initialZoomLevel ?? DEFAULT_ZOOM_LEVEL;
@@ -94,8 +99,15 @@ export function SettingsForm() {
         </Slider>
       </FormControl>
 
+      <FormControl display="flex">
+        <FormLabel htmlFor="zoom-control" minW={110}>
+          Show zoom control?
+        </FormLabel>
+        <Switch id="zoom-control" isChecked={settings?.showZoomLevel} onChange={handleUpdateZoomControl} />
+      </FormControl>
+
       <FormControl display="flex" alignItems="baseline">
-        <FormLabel htmlFor="map-style" mb={0} minW={110}>
+        <FormLabel htmlFor="map-style" minW={110}>
           Map style:
         </FormLabel>
         <Select id="map-style" onChange={handleUpdateMapStyle} value={settings?.mapStyle}>
