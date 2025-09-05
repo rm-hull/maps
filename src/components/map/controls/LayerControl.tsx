@@ -26,7 +26,7 @@ type BaseLayerAccordionProps = {
   onLayerChanged: (layer: LayerOption) => void;
 };
 
-function Overlays() {
+function OverlaySelector() {
   const map = useMap();
   const [settings, updateSettings] = useGeneralSettings();
   const handleOverlayChange = (name: string, checked: boolean) => {
@@ -102,7 +102,7 @@ function BaseLayerAccordion({ onMouseLeave, onLayerChanged, selectedLayer }: Bas
             <AccordionIcon />
           </AccordionButton>
           <AccordionPanel padding={2} maxHeight={200} overflowY="auto">
-            <Overlays />
+            <OverlaySelector />
           </AccordionPanel>
         </AccordionItem>
       </Accordion>
