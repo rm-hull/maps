@@ -5,11 +5,12 @@ import { MapContainer, ScaleControl } from "react-leaflet";
 import { BASE_LAYERS } from "../../config/layer";
 import { DEFAULT_ZOOM_LEVEL, useGeneralSettings } from "../../hooks/useGeneralSettings";
 import { toLatLng } from "../../services/osdatahub/helpers";
-import { CurrentLocation } from "../controls/CurrentLocation";
-import { Ruler } from "../controls/Ruler";
-import { Settings } from "../controls/Settings";
+import { CurrentLocation } from "./controls/CurrentLocation";
+import { LayerControl } from "./controls/LayerControl";
+import { Ruler } from "./controls/Ruler";
+import { Settings } from "./controls/Settings";
+import { ZoomLevel } from "./controls/ZoomLevel";
 import { CustomOverlays } from "./CustomOverlays";
-import { LayerControl } from "./layers/LayerControl";
 import { PointOfInterest } from "./PointOfInterest";
 import { SearchBox } from "./SearchBox";
 import { Tracks } from "./Tracks";
@@ -65,6 +66,7 @@ export function OSMap({ center }: OSMapProps) {
       <Settings />
       <LayerControl initialLayer={initialMapStyle ?? BASE_LAYERS["Thunderforest"][0]} />
       <CustomOverlays />
+      <ZoomLevel />
       <ScaleControl position="bottomright" />
       <Ruler />
     </MapContainer>

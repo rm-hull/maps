@@ -52,7 +52,8 @@ export const BASE_LAYERS: Record<string, LayerOption[]> = {
     ),
     createLayer(
       "World Gray Canvas",
-      "https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}"
+      "https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}",
+      { maxNativeZoom: 16, maxZoom: 17 }
     ),
   ],
   "Open Street Map": [
@@ -233,36 +234,64 @@ export const OVERLAYS: Record<string, Overlay> = {
   Postcodes: { minZoom: 11, component: PostcodePolygonsLayer },
   "Waymarked Hiking Trails": {
     minZoom: 6,
-    component: () => <TileLayer url="https://tile.waymarkedtrails.org/hiking/{z}/{x}/{y}.png" />,
+    component: () => (
+      <TileLayer url="https://tile.waymarkedtrails.org/hiking/{z}/{x}/{y}.png" pane="overlayPane" zIndex={650} />
+    ),
   },
   "Waymarked Cycling Trails": {
     minZoom: 6,
-    component: () => <TileLayer url="https://tile.waymarkedtrails.org/cycling/{z}/{x}/{y}.png" />,
+    component: () => (
+      <TileLayer url="https://tile.waymarkedtrails.org/cycling/{z}/{x}/{y}.png" pane="overlayPane" zIndex={650} />
+    ),
   },
   "Waymarked MTB Trails": {
     minZoom: 6,
-    component: () => <TileLayer url="https://tile.waymarkedtrails.org/mtb/{z}/{x}/{y}.png" />,
+    component: () => (
+      <TileLayer url="https://tile.waymarkedtrails.org/mtb/{z}/{x}/{y}.png" pane="overlayPane" zIndex={650} />
+    ),
   },
   "Positron Labels": {
     minZoom: 6,
-    maxZoom: 12,
-    component: () => <TileLayer url="https://{s}.basemaps.cartocdn.com/light_only_labels/{z}/{x}/{y}{r}.png" />,
+    component: () => (
+      <TileLayer
+        url="https://{s}.basemaps.cartocdn.com/light_only_labels/{z}/{x}/{y}{r}.png"
+        pane="overlayPane"
+        zIndex={655}
+      />
+    ),
   },
 
   "Dark Matter Labels": {
     minZoom: 6,
-    maxZoom: 12,
-    component: () => <TileLayer url="https://{s}.basemaps.cartocdn.com/dark_only_labels/{z}/{x}/{y}{r}.png" />,
+    component: () => (
+      <TileLayer
+        url="https://{s}.basemaps.cartocdn.com/dark_only_labels/{z}/{x}/{y}{r}.png"
+        pane="overlayPane"
+        zIndex={655}
+      />
+    ),
   },
 
   "Stadia Stamen Toner Lines": {
     minZoom: 6,
-    component: () => <TileLayer url="https://tiles.stadiamaps.com/tiles/stamen_toner_lines/{z}/{x}/{y}{r}.png" />,
+    component: () => (
+      <TileLayer
+        url="https://tiles.stadiamaps.com/tiles/stamen_toner_lines/{z}/{x}/{y}{r}.png"
+        pane="overlayPane"
+        zIndex={650}
+      />
+    ),
   },
 
   "Stadia Stamen Toner Labels": {
     minZoom: 6,
-    component: () => <TileLayer url="https://tiles.stadiamaps.com/tiles/stamen_toner_labels/{z}/{x}/{y}{r}.png" />,
+    component: () => (
+      <TileLayer
+        url="https://tiles.stadiamaps.com/tiles/stamen_toner_labels/{z}/{x}/{y}{r}.png"
+        pane="overlayPane"
+        zIndex={655}
+      />
+    ),
   },
 
   "NASA (GIBS) Snow Cover": {
@@ -272,6 +301,8 @@ export const OVERLAYS: Record<string, Overlay> = {
       <TileLayer
         url="https://map1.vis.earthdata.nasa.gov/wmts-webmerc/MODIS_Terra_NDSI_Snow_Cover/default/GoogleMapsCompatible_Level{maxZoom}/{z}/{y}/{x}.png"
         maxZoom={8}
+        pane="overlayPane"
+        zIndex={650}
       />
     ),
   },
@@ -281,6 +312,8 @@ export const OVERLAYS: Record<string, Overlay> = {
     component: () => (
       <TileLayer
         url={`https://api.tomtom.com/traffic/map/4/tile/flow/relative/{z}/{x}/{y}.png?key=${TOMTOM_API_KEY}&tileSize=512&thickness=5`}
+        pane="overlayPane"
+        zIndex={650}
       />
     ),
   },
