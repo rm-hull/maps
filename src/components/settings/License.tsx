@@ -2,7 +2,7 @@ import { Heading, Text, VStack } from "@chakra-ui/react";
 
 export function License() {
   return (
-    <VStack spacing={4} align="left">
+    <VStack spacing={4} align="left" overflowY="scroll" maxHeight={320}>
       <Heading size="md">MIT License</Heading>
       <Text>Copyright &copy; {new Date().getFullYear()} Richard Hull</Text>
 
