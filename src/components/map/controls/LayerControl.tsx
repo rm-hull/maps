@@ -9,20 +9,55 @@ import {
   Link,
   Text,
   Collapse,
+  VStack,
+  Checkbox,
 } from "@chakra-ui/react";
 import * as L from "leaflet";
 import { useState } from "react";
 import { IoLayersSharp } from "react-icons/io5";
 import { useMap } from "react-leaflet";
 import Control from "react-leaflet-custom-control";
-import { BASE_LAYERS, LayerOption } from "../../../config/layer";
-import { OverlaysControl } from "./OverlaysControl";
+import { BASE_LAYERS, LayerOption, OVERLAYS } from "../../../config/layer";
+import { useGeneralSettings } from "../../../hooks/useGeneralSettings";
 
 type BaseLayerAccordionProps = {
   selectedLayer: LayerOption;
   onMouseLeave: () => void;
   onLayerChanged: (layer: LayerOption) => void;
 };
+
+function Overlays() {
+  const map = useMap();
+  const [settings, updateSettings] = useGeneralSettings();
+  const handleOverlayChange = (name: string, checked: boolean) => {
+    updateSettings({
+      ...settings,
+      overlays: {
+        ...settings?.overlays,
+        [name]: checked,
+      },
+    });
+  };
+
+  const zoom = map.getZoom();
+
+  return (
+    <VStack align="start" spacing={1}>
+      {Object.entries(OVERLAYS).map(([name, cfg]) => (
+        <Checkbox
+          size="sm"
+          isTruncated
+          isChecked={settings?.overlays?.[name] ?? false}
+          onChange={(e) => handleOverlayChange(name, e.target.checked)}
+          key={name}
+          isDisabled={zoom > (cfg.maxZoom ?? map.getMaxZoom()) || zoom <= cfg.minZoom}
+        >
+          {name}
+        </Checkbox>
+      ))}
+    </VStack>
+  );
+}
 
 function BaseLayerAccordion({ onMouseLeave, onLayerChanged, selectedLayer }: BaseLayerAccordionProps) {
   const selectedIndex = Object.values(BASE_LAYERS).findIndex((layers) => layers.some((l) => l === selectedLayer));
@@ -67,7 +102,7 @@ function BaseLayerAccordion({ onMouseLeave, onLayerChanged, selectedLayer }: Bas
             <AccordionIcon />
           </AccordionButton>
           <AccordionPanel padding={2} maxHeight={200} overflowY="scroll">
-            <OverlaysControl />
+            <Overlays />
           </AccordionPanel>
         </AccordionItem>
       </Accordion>
