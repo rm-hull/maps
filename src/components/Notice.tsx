@@ -1,10 +1,4 @@
-import {
-  AlertDialog,
-  AlertDialogBody,
-  AlertDialogContent,
-  AlertDialogHeader,
-  AlertDialogOverlay,
-} from "@chakra-ui/react";
+import { Dialog } from "@chakra-ui/react";
 import { type JSX, type PropsWithChildren, useRef } from "react";
 
 interface NoticeProps {
@@ -16,21 +10,24 @@ export function Notice({ header, children }: PropsWithChildren<NoticeProps>) {
   const cancelRef = useRef<any>(null);
 
   return (
-    <AlertDialog
-      isOpen={true}
-      closeOnEsc={false}
-      closeOnOverlayClick={false}
-      onClose={() => null}
-      leastDestructiveRef={cancelRef}
-    >
-      <AlertDialogOverlay>
-        <AlertDialogContent>
-          <AlertDialogHeader fontSize="xl" fontWeight="bold">
-            {header}
-          </AlertDialogHeader>
-          {children !== undefined && <AlertDialogBody>{children}</AlertDialogBody>}
-        </AlertDialogContent>
-      </AlertDialogOverlay>
-    </AlertDialog>
+    <Dialog.Root role="alertdialog">
+      {children}
+      {/* <Alert.Root
+        open={true}
+        closeOnEsc={false}
+        closeOnOverlayClick={false}
+        onClose={() => null}
+        leastDestructiveRef={cancelRef}
+      >
+        <AlertDialogOverlay>
+          <AlertDialogContent>
+            <AlertDialogHeader fontSize="xl" fontWeight="bold">
+              {header}
+            </AlertDialogHeader>
+            {children !== undefined && <AlertDialogBody>{children}</AlertDialogBody>}
+          </AlertDialogContent>
+        </AlertDialogOverlay>
+      </Alert.Root> */}
+    </Dialog.Root>
   );
 }

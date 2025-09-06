@@ -1,7 +1,7 @@
 import { createContext } from "react";
 
 export interface SettingsContextProps {
-  isOpen: boolean;
+  open: boolean;
   onOpen: () => void;
   onClose: () => void;
 }

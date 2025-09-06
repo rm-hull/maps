@@ -1,8 +1,9 @@
-import { Table, useToast } from "@chakra-ui/react";
+import { Table } from "@chakra-ui/react";
 import { type LatLng } from "leaflet";
 import { type JSX, useEffect } from "react";
 import { useNearest } from "../../hooks/useNearest";
 import { toBNG } from "../../services/osdatahub/helpers";
+import { toaster } from "../ui/toaster";
 
 interface GPSProps {
   latLng: LatLng;
@@ -68,20 +69,19 @@ type NearestInfoProps = GPSProps & {
 export function NearestInfo({ latLng, altitude, heading, accuracy, timestamp, render }: NearestInfoProps) {
   const bng = toBNG(latLng);
   const { data, status, error } = useNearest(bng);
-  const toast = useToast();
 
   useEffect(() => {
     if (error) {
-      toast({
+      toaster.create({
         id: "nearest-error",
         title: "Error fetching nearest location",
         description: error.message,
-        status: "error",
+        type: "error",
         duration: 9000,
-        isClosable: true,
+        closable: true,
       });
     }
-  }, [error, toast]);
+  }, [error]);
 
   if (data === undefined || status !== "success") {
     return null;

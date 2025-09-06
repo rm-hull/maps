@@ -1,17 +1,4 @@
-import {
-  Accordion,
-  AccordionButton,
-  AccordionIcon,
-  AccordionItem,
-  AccordionPanel,
-  Box,
-  Button,
-  Link,
-  Text,
-  Collapse,
-  VStack,
-  Checkbox,
-} from "@chakra-ui/react";
+import { Accordion, Box, Button, Link, Text, VStack, Checkbox, Collapsible } from "@chakra-ui/react";
 import * as L from "leaflet";
 import { useState } from "react";
 import { IoLayersSharp } from "react-icons/io5";
@@ -42,25 +29,31 @@ function OverlaySelector() {
   const zoom = map.getZoom();
 
   return (
-    <VStack align="start" spacing={1}>
+    <VStack align="start" gap={1}>
       {Object.entries(OVERLAYS).map(([name, cfg]) => (
-        <Checkbox
-          size="sm"
-          isTruncated
-          isChecked={settings?.overlays?.[name] ?? false}
-          onChange={(e) => handleOverlayChange(name, e.target.checked)}
+        <Checkbox.Root
           key={name}
-          isDisabled={zoom > (cfg.maxZoom ?? map.getMaxZoom()) || zoom <= cfg.minZoom}
+          checked={settings?.overlays?.[name] ?? false}
+          onCheckedChange={(e) => handleOverlayChange(name, e.checked)}
+          disabled={zoom > (cfg.maxZoom ?? map.getMaxZoom()) || zoom <= cfg.minZoom}
+          size="sm"
         >
-          {name}
-        </Checkbox>
+          <Checkbox.HiddenInput />
+          <Checkbox.Control>
+            <Checkbox.Indicator />
+          </Checkbox.Control>
+          <Checkbox.Label truncate>{name}</Checkbox.Label>
+        </Checkbox.Root>
       ))}
     </VStack>
   );
 }
 
 function BaseLayerAccordion({ onMouseLeave, onLayerChanged, selectedLayer }: BaseLayerAccordionProps) {
-  const selectedIndex = Object.values(BASE_LAYERS).findIndex((layers) => layers.some((l) => l === selectedLayer));
+  const selected = Object.entries(BASE_LAYERS)
+    .filter(([, layers]) => layers.some((l) => l === selectedLayer))
+    .map(([provider]) => provider);
+
   return (
     <Box
       background="white"
@@ -72,40 +65,44 @@ function BaseLayerAccordion({ onMouseLeave, onLayerChanged, selectedLayer }: Bas
       width={220}
       onMouseLeave={onMouseLeave}
     >
-      <Accordion defaultIndex={selectedIndex}>
+      <Accordion.Root defaultValue={selected}>
         {Object.entries(BASE_LAYERS).map(([provider, layers]) => (
-          <AccordionItem key={provider}>
-            <AccordionButton padding={1}>
+          <Accordion.Item key={provider} value={provider}>
+            <Accordion.ItemTrigger padding={1}>
               <Box as="span" flex="1" textAlign="left" padding={0}>
                 {provider}
               </Box>
-              <AccordionIcon />
-            </AccordionButton>
-            <AccordionPanel padding={2} maxHeight={200} overflowY="auto">
-              {layers.map((layer) => (
-                <Box key={layer.name} display="inline-block" marginRight={2}>
-                  <Link size="md" onClick={() => onLayerChanged(layer)}>
-                    <Text fontSize={14} fontWeight={layer === selectedLayer ? "bold" : "default"}>
-                      {layer.name}
-                    </Text>
-                  </Link>
-                </Box>
-              ))}
-            </AccordionPanel>
-          </AccordionItem>
+              <Accordion.ItemIndicator />
+            </Accordion.ItemTrigger>
+            <Accordion.ItemContent>
+              <Accordion.ItemBody padding={2} maxHeight={200} overflowY="auto">
+                {layers.map((layer) => (
+                  <Box key={layer.name} display="inline-block" marginRight={2}>
+                    <Link onClick={() => onLayerChanged(layer)}>
+                      <Text fontSize={14} fontWeight={layer === selectedLayer ? "bold" : "default"}>
+                        {layer.name}
+                      </Text>
+                    </Link>
+                  </Box>
+                ))}
+              </Accordion.ItemBody>
+            </Accordion.ItemContent>
+          </Accordion.Item>
         ))}
-        <AccordionItem>
-          <AccordionButton padding={1}>
+        <Accordion.Item value="overlays">
+          <Accordion.ItemTrigger padding={1}>
             <Box as="span" flex="1" textAlign="left" padding={0}>
               Overlays
             </Box>
-            <AccordionIcon />
-          </AccordionButton>
-          <AccordionPanel padding={2} maxHeight={200} overflowY="auto">
-            <OverlaySelector />
-          </AccordionPanel>
-        </AccordionItem>
-      </Accordion>
+            <Accordion.ItemIndicator />
+          </Accordion.ItemTrigger>
+          <Accordion.ItemContent>
+            <Accordion.ItemBody padding={2} maxHeight={200} overflowY="auto">
+              <OverlaySelector />
+            </Accordion.ItemBody>
+          </Accordion.ItemContent>
+        </Accordion.Item>
+      </Accordion.Root>
     </Box>
   );
 }
@@ -136,17 +133,17 @@ export function LayerControl({ initialLayer }: LayerControlProps) {
   return (
     <Control position="topright">
       <Box position="relative">
-        <Collapse in={expanded} unmountOnExit>
-          <Box position="absolute" top={0} right={220} width="100%">
+        <Collapsible.Root open={expanded} unmountOnExit>
+          <Collapsible.Content position="absolute" top={0} right={220} width="100%">
             <BaseLayerAccordion
               selectedLayer={selectedLayer}
               onMouseLeave={() => setExpanded(false)}
               onLayerChanged={handlerBaseLayerChange}
             />
-          </Box>
-        </Collapse>
-        <Collapse in={!expanded} unmountOnExit>
-          <Box position="absolute" top={0} right={12} width="100%">
+          </Collapsible.Content>
+        </Collapsible.Root>
+        <Collapsible.Root open={!expanded} unmountOnExit>
+          <Collapsible.Content position="absolute" top={0} right={12} width="100%">
             <Button
               background="white"
               variant="outline"
@@ -161,8 +158,8 @@ export function LayerControl({ initialLayer }: LayerControlProps) {
             >
               <IoLayersSharp />
             </Button>
-          </Box>
-        </Collapse>
+          </Collapsible.Content>
+        </Collapsible.Root>
       </Box>
     </Control>
   );

@@ -3,7 +3,7 @@ import { type PropsWithChildren } from "react";
 import { SettingsContext } from "../../utils/settingsContext";
 
 export default function SettingsProvider({ children }: PropsWithChildren<unknown>) {
-  const { isOpen, onOpen, onClose } = useDisclosure();
+  const { open, onOpen, onClose } = useDisclosure();
 
-  return <SettingsContext.Provider value={{ isOpen, onOpen, onClose }}>{children}</SettingsContext.Provider>;
+  return <SettingsContext.Provider value={{ open, onOpen, onClose }}>{children}</SettingsContext.Provider>;
 }

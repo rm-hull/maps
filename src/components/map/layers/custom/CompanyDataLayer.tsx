@@ -1,4 +1,4 @@
-import { Badge, HStack, Heading, Link, List, ListItem, Text, UnorderedList } from "@chakra-ui/react";
+import { Badge, HStack, Heading, Link, List, ListItem, Text } from "@chakra-ui/react";
 import { type LatLngBounds } from "leaflet";
 import { Marker, Popup } from "react-leaflet";
 import { Link as ReactRouterLink } from "react-router-dom";
@@ -72,44 +72,42 @@ interface CompanyListPopupProps {
 function CompanyListPopup({ companies }: CompanyListPopupProps) {
   return (
     <Popup maxWidth={400} closeButton={false}>
-      <List spacing={1} maxHeight={300} overflowY="auto">
+      <List.Root gap={1} maxHeight={300} overflowY="auto">
         {companies.toSorted(byAddressLine1).map((company) => (
           <ListItem key={company.company_number} p={2} borderBottom="1px solid" borderColor="gray.200">
-            <HStack spacing={2} alignItems="start" justifyContent="space-between">
-              <Heading size="sm" isTruncated>
-                <Link
-                  as={ReactRouterLink}
-                  to={`https://find-and-update.company-information.service.gov.uk/company/${company.company_number}`}
-                  target="_blank"
-                  rel="noreferrer"
-                  outlineOffset={0}
-                >
-                  {company.company_name}
+            <HStack gap={2} alignItems="start" justifyContent="space-between">
+              <Heading size="sm" truncate>
+                <Link asChild target="_blank" rel="noreferrer" outlineOffset={0}>
+                  <ReactRouterLink
+                    to={`https://find-and-update.company-information.service.gov.uk/company/${company.company_number}`}
+                  >
+                    {company.company_name}
+                  </ReactRouterLink>
                 </Link>
               </Heading>
-              <Badge colorScheme={companyStatusColorScheme(company.company_status)} fontSize="xs" isTruncated>
+              <Badge colorScheme={companyStatusColorScheme(company.company_status)} fontSize="xs" truncate>
                 {company.company_status}
               </Badge>
             </HStack>
-            <Text fontSize="sm" isTruncated textTransform="capitalize">
+            <Text fontSize="sm" truncate textTransform="capitalize">
               {new Date(company.incorporation_date).toLocaleDateString("en-GB")} | {company.company_category} |{" "}
               {company.accounts_account_category.toLowerCase()}
             </Text>
             <Text fontSize="xs" color="gray.600">
               {address(company)}
             </Text>
-            <UnorderedList>
+            <List.Root>
               {[company.sic_code_1, company.sic_code_2, company.sic_code_3, company.sic_code_4]
                 .filter(Boolean)
                 .map((sicCode, index) => (
-                  <ListItem key={index} fontSize="xs" color="gray.600">
+                  <List.Item key={index} fontSize="xs" color="gray.600">
                     {sicCode}
-                  </ListItem>
+                  </List.Item>
                 ))}
-            </UnorderedList>
+            </List.Root>
           </ListItem>
         ))}
-      </List>
+      </List.Root>
     </Popup>
   );
 }

@@ -1,12 +1,7 @@
 import {
   Button,
-  Modal,
-  ModalBody,
+  Dialog,
   ModalCloseButton,
-  ModalContent,
-  ModalFooter,
-  ModalHeader,
-  ModalOverlay,
   Tabs,
 } from "@chakra-ui/react";
 import { About } from "./About";
@@ -21,41 +16,42 @@ interface SettingsModalProps {
 
 export function SettingsModal({ isOpen, onClose }: SettingsModalProps) {
   return (
-    <Modal isOpen={isOpen} onClose={onClose} size="xl" scrollBehavior="inside">
-      <ModalOverlay />
-      <ModalContent>
-        <Tabs.Root>
-          <ModalHeader>
-            <Tabs.List>
-              <Tabs.Trigger value="settings">Settings</Tabs.Trigger>
-              <Tabs.Trigger value="about">About</Tabs.Trigger>
-              <Tabs.Trigger value="license">License</Tabs.Trigger>
-              <Tabs.Trigger value="tracks">Tracks</Tabs.Trigger>
-            </Tabs.List>
-          </ModalHeader>
-          <ModalCloseButton />
-          <ModalBody>
-            <Tabs.Content value="settings">
-              <SettingsForm />
-            </Tabs.Content>
-            <Tabs.Content value="about">
-              <About />
-            </Tabs.Content>
-            <Tabs.Content value="license">
-              <License />
-            </Tabs.Content>
-            <Tabs.Content value="tracks">
-              <TracksForm />
-            </Tabs.Content>
-          </ModalBody>
+    <Dialog.Root open={isOpen} onClose={onClose} size="xl" scrollBehavior="inside">
+      <Dialog.Positioner>
+        <Dialog.Content>
+          <Tabs.Root>
+            <Dialog.Header>
+              <Tabs.List>
+                <Tabs.Trigger value="settings">Settings</Tabs.Trigger>
+                <Tabs.Trigger value="about">About</Tabs.Trigger>
+                <Tabs.Trigger value="license">License</Tabs.Trigger>
+                <Tabs.Trigger value="tracks">Tracks</Tabs.Trigger>
+              </Tabs.List>
+            </Dialog.Header>
+            <ModalCloseButton />
+            <Dialog.Body>
+              <Tabs.Content value="settings">
+                <SettingsForm />
+              </Tabs.Content>
+              <Tabs.Content value="about">
+                <About />
+              </Tabs.Content>
+              <Tabs.Content value="license">
+                <License />
+              </Tabs.Content>
+              <Tabs.Content value="tracks">
+                <TracksForm />
+              </Tabs.Content>
+            </Dialog.Body>
 
-          <ModalFooter>
-            <Button variant="ghost" onClick={onClose}>
-              Close
-            </Button>
-          </ModalFooter>
-        </Tabs.Root>
-      </ModalContent>
-    </Modal>
+            <Dialog.Footer>
+              <Button variant="ghost" onClick={onClose}>
+                Close
+              </Button>
+            </Dialog.Footer>
+          </Tabs.Root>
+        </Dialog.Content>
+      </Dialog.Positioner>
+    </Dialog.Root>
   );
 }
