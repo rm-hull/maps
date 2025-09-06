@@ -22,7 +22,7 @@ import { CustomSearch } from "./CustomSearch";
 
 export function SettingsForm() {
   const [settings, updateSettings] = useGeneralSettings();
-  const { isOpen, onOpen, onClose } = useDisclosure();
+  const { open, onOpen, onClose } = useDisclosure();
 
   const handleUpdateInitialLocation = (initialLocation: InitialLocation): void => {
     updateSettings({ ...settings, initialLocation });
@@ -89,7 +89,7 @@ export function SettingsForm() {
           onMouseOver={onOpen}
           onMouseOut={onClose}
         >
-          <Tooltip hasArrow bg="blue.500" color="white" placement="bottom" isOpen={isOpen} label={zoomLevel}>
+          <Tooltip hasArrow bg="blue.500" color="white" placement="bottom" isOpen={open} label={zoomLevel}>
             <SliderThumb />
           </Tooltip>
           <SliderTrack>

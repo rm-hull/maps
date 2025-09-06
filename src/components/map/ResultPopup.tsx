@@ -26,7 +26,7 @@ export function ResultPopup({
   chips,
 }: ResultPopupProps) {
   const cardDetails = (
-    <Card overflow="hidden" shadow="none" width="xs" border={0} outline={0}>
+    <Card.Root overflow="hidden" shadow="none" width="xs" border={0} outline={0}>
       {(imageUrl || imageLoader) && (
         <FadeInImage src={imageUrl} loader={imageLoader} alt={title} height={60} attribution={attribution} />
       )}
@@ -35,13 +35,13 @@ export function ResultPopup({
           {distanceKm} km
         </Badge>
       )}
-      <CardHeader p={1} pb={0}>
-        <Heading size="sm" noOfLines={1}>
+      <Card.Header p={1} pb={0}>
+        <Heading size="sm" maxLines={1}>
           {title}
         </Heading>
-      </CardHeader>
-      <CardBody p={1} pt={0}>
-        <Text fontSize="sm" noOfLines={3} color="gray.600">
+      </Card.Header>
+      <Card.Body p={1} pt={0}>
+        <Text fontSize="sm" maxLines={3} color="gray.600">
           {description}
         </Text>
         {chips && (
@@ -53,8 +53,8 @@ export function ResultPopup({
             ))}
           </Box>
         )}
-      </CardBody>
-    </Card>
+      </Card.Body>
+    </Card.Root>
   );
 
   if (!targetUrl) {

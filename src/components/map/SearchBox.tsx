@@ -18,7 +18,7 @@ import { toLatLng } from "../../services/osdatahub/helpers";
 import { type SearchState, StateIcon } from "../StateIcon";
 
 export function SearchBox() {
-  const { isOpen, onOpen, onClose } = useDisclosure();
+  const { open, onOpen, onClose } = useDisclosure();
   const [inputRef, setInputFocus] = useFocus();
   const bg = useColorModeValue("white", "var(--chakra-colors-gray-900)");
   const [value, setValue] = useControllableState({ defaultValue: "" });
@@ -30,10 +30,10 @@ export function SearchBox() {
   });
 
   useEffect(() => {
-    if (isOpen) {
+    if (open) {
       setTimeout(setInputFocus, 20);
     }
-  }, [isOpen, setInputFocus]);
+  }, [open, setInputFocus]);
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>): void => {
     setSearching(undefined);
@@ -73,7 +73,7 @@ export function SearchBox() {
 
   return (
     <Control position="bottomright" prepend>
-      <Collapse in={isOpen} animate>
+      <Collapse in={open} animate>
         <Box p="4px">
           <InputGroup>
             <InputLeftElement>

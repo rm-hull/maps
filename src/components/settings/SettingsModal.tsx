@@ -7,10 +7,6 @@ import {
   ModalFooter,
   ModalHeader,
   ModalOverlay,
-  Tab,
-  TabList,
-  TabPanel,
-  TabPanels,
   Tabs,
 } from "@chakra-ui/react";
 import { About } from "./About";
@@ -28,31 +24,29 @@ export function SettingsModal({ isOpen, onClose }: SettingsModalProps) {
     <Modal isOpen={isOpen} onClose={onClose} size="xl" scrollBehavior="inside">
       <ModalOverlay />
       <ModalContent>
-        <Tabs>
+        <Tabs.Root>
           <ModalHeader>
-            <TabList>
-              <Tab>Settings</Tab>
-              <Tab>About</Tab>
-              <Tab>License</Tab>
-              <Tab>Tracks</Tab>
-            </TabList>
+            <Tabs.List>
+              <Tabs.Trigger value="settings">Settings</Tabs.Trigger>
+              <Tabs.Trigger value="about">About</Tabs.Trigger>
+              <Tabs.Trigger value="license">License</Tabs.Trigger>
+              <Tabs.Trigger value="tracks">Tracks</Tabs.Trigger>
+            </Tabs.List>
           </ModalHeader>
           <ModalCloseButton />
           <ModalBody>
-            <TabPanels>
-              <TabPanel>
-                <SettingsForm />
-              </TabPanel>
-              <TabPanel>
-                <About />
-              </TabPanel>
-              <TabPanel>
-                <License />
-              </TabPanel>
-              <TabPanel>
-                <TracksForm />
-              </TabPanel>
-            </TabPanels>
+            <Tabs.Content value="settings">
+              <SettingsForm />
+            </Tabs.Content>
+            <Tabs.Content value="about">
+              <About />
+            </Tabs.Content>
+            <Tabs.Content value="license">
+              <License />
+            </Tabs.Content>
+            <Tabs.Content value="tracks">
+              <TracksForm />
+            </Tabs.Content>
           </ModalBody>
 
           <ModalFooter>
@@ -60,7 +54,7 @@ export function SettingsModal({ isOpen, onClose }: SettingsModalProps) {
               Close
             </Button>
           </ModalFooter>
-        </Tabs>
+        </Tabs.Root>
       </ModalContent>
     </Modal>
   );

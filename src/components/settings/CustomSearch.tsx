@@ -41,7 +41,7 @@ export function CustomSearch({ isDisabled = false, searchTerm = "", onUpdate }: 
 
   return (
     <InputGroup size="sm">
-      <Input value={value} onChange={handleChange} placeholder="search" isDisabled={isDisabled} />
+      <Input value={value} onChange={handleChange} placeholder="search" disabled={isDisabled} />
       <InputRightElement>
         <IconButton
           variant="none"
