@@ -16,10 +16,10 @@ export function StateIcon({ state }: StateIconProps) {
       return <FiAlertTriangle color="orange" />;
     case "busy":
       return (
-        <ProgressCircle.Root value={null} size="xs">
+        <ProgressCircle.Root value={null} size="xs" colorPalette="blue">
           <ProgressCircle.Circle>
             <ProgressCircle.Track />
-            <ProgressCircle.Range />
+            <ProgressCircle.Range strokeLinecap="round" />
           </ProgressCircle.Circle>
         </ProgressCircle.Root>
       );

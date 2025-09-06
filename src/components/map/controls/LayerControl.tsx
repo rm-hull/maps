@@ -7,12 +7,6 @@ import Control from "react-leaflet-custom-control";
 import { BASE_LAYERS, LayerOption, OVERLAYS } from "../../../config/layer";
 import { useGeneralSettings } from "../../../hooks/useGeneralSettings";
 
-type BaseLayerAccordionProps = {
-  selectedLayer: LayerOption;
-  onMouseLeave: () => void;
-  onLayerChanged: (layer: LayerOption) => void;
-};
-
 function OverlaySelector() {
   const map = useMap();
   const [settings, updateSettings] = useGeneralSettings();
@@ -48,6 +42,12 @@ function OverlaySelector() {
     </VStack>
   );
 }
+
+type BaseLayerAccordionProps = {
+  selectedLayer: LayerOption;
+  onMouseLeave: () => void;
+  onLayerChanged: (layer: LayerOption) => void;
+};
 
 function BaseLayerAccordion({ onMouseLeave, onLayerChanged, selectedLayer }: BaseLayerAccordionProps) {
   const selected = Object.entries(BASE_LAYERS)
@@ -134,30 +134,34 @@ export function LayerControl({ initialLayer }: LayerControlProps) {
     <Control position="topright">
       <Box position="relative">
         <Collapsible.Root open={expanded} unmountOnExit>
-          <Collapsible.Content position="absolute" top={0} right={220} width="100%">
-            <BaseLayerAccordion
-              selectedLayer={selectedLayer}
-              onMouseLeave={() => setExpanded(false)}
-              onLayerChanged={handlerBaseLayerChange}
-            />
+          <Collapsible.Content>
+            <Box position="absolute" top={0} right={220} width="100%">
+              <BaseLayerAccordion
+                selectedLayer={selectedLayer}
+                onMouseLeave={() => setExpanded(false)}
+                onLayerChanged={handlerBaseLayerChange}
+              />
+            </Box>
           </Collapsible.Content>
         </Collapsible.Root>
         <Collapsible.Root open={!expanded} unmountOnExit>
-          <Collapsible.Content position="absolute" top={0} right={12} width="100%">
-            <Button
-              background="white"
-              variant="outline"
-              padding={0}
-              borderWidth={2}
-              borderColor="rgba(0,0,0,0.2)"
-              fontSize="1.5rem"
-              color="rgba(0,0,0,0.5)"
-              borderRadius={5}
-              size="lg"
-              onMouseOver={() => setExpanded(true)}
-            >
-              <IoLayersSharp />
-            </Button>
+          <Collapsible.Content>
+            <Box position="absolute" top={0} right={11} width="100%">
+              <Button
+                background="white"
+                variant="outline"
+                padding={0}
+                borderWidth={2}
+                borderColor="rgba(0,0,0,0.2)"
+                fontSize="1.5rem"
+                color="rgba(0,0,0,0.5)"
+                borderRadius={5}
+                size="lg"
+                onMouseOver={() => setExpanded(true)}
+              >
+                <IoLayersSharp />
+              </Button>
+            </Box>
           </Collapsible.Content>
         </Collapsible.Root>
       </Box>
