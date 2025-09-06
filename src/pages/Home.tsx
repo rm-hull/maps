@@ -1,25 +1,10 @@
 import { type LatLng } from "leaflet";
-import { lazily } from "react-lazily";
-import { Loader } from "../components/Loader";
 import { OSMap } from "../components/map/OSMap";
-import { useSettings } from "../hooks/useSettings";
-
-const { SettingsModal } = lazily(() => import("../components/settings/SettingsModal"));
 
 interface HomeProps {
   latLng?: LatLng;
 }
 
 export function Home({ latLng }: HomeProps) {
-  const { isOpen, onClose } = useSettings();
-  return (
-    <>
-      <OSMap center={latLng} />
-      {isOpen && (
-        <Loader>
-          <SettingsModal isOpen={isOpen} onClose={onClose} />
-        </Loader>
-      )}
-    </>
-  );
+  return <OSMap center={latLng} />;
 }

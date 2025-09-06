@@ -85,7 +85,7 @@ function CompanyListPopup({ companies }: CompanyListPopupProps) {
                   </ReactRouterLink>
                 </Link>
               </Heading>
-              <Badge colorScheme={companyStatusColorScheme(company.company_status)} fontSize="xs" truncate>
+              <Badge colorPalette={companyStatusColorScheme(company.company_status)} fontSize="xs">
                 {company.company_status}
               </Badge>
             </HStack>

@@ -10,14 +10,16 @@ import { useGeneralSettings } from "../../../hooks/useGeneralSettings";
 function OverlaySelector() {
   const map = useMap();
   const [settings, updateSettings] = useGeneralSettings();
-  const handleOverlayChange = (name: string, checked: boolean) => {
-    updateSettings({
-      ...settings,
-      overlays: {
-        ...settings?.overlays,
-        [name]: checked,
-      },
-    });
+  const handleOverlayChange = (name: string, checked: boolean | "indeterminate") => {
+    if (checked !== "indeterminate") {
+      updateSettings({
+        ...settings,
+        overlays: {
+          ...settings?.overlays,
+          [name]: checked,
+        },
+      });
+    }
   };
 
   const zoom = map.getZoom();

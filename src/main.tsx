@@ -8,7 +8,6 @@ import { ReactQueryDevtools } from "react-query/devtools";
 import { BrowserRouter as Router } from "react-router-dom";
 import { App } from "./App";
 import { ErrorFallback } from "./components/ErrorFallback";
-import SettingsProvider from "./components/settings/SettingsProvider";
 import { Provider } from "./components/ui/provider";
 import { reportWebVitals } from "./reportWebVitals";
 import "react-leaflet-cluster/dist/assets/MarkerCluster.css";
@@ -33,13 +32,11 @@ root.render(
     <QueryClientProvider client={queryClient}>
       <ReactQueryDevtools initialIsOpen={false} />
       <Provider>
-        <SettingsProvider>
-          <Router basename="/maps">
-            <ErrorBoundary FallbackComponent={ErrorFallback}>
-              <App />
-            </ErrorBoundary>
-          </Router>
-        </SettingsProvider>
+        <Router basename="/maps">
+          <ErrorBoundary FallbackComponent={ErrorFallback}>
+            <App />
+          </ErrorBoundary>
+        </Router>
       </Provider>
     </QueryClientProvider>
   </>

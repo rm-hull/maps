@@ -14,8 +14,8 @@ export function UnsplashAttributionLink({ name, link }: UnsplashAttributionLinkP
   return (
     <Text>
       Photo by{" "}
-      <Link as={ReactRouterLink} to={url.toString()} isExternal>
-        {name}
+      <Link asChild target="_blank" rel="noreferrer" outlineOffset={0}>
+        <ReactRouterLink to={url.toString()}>{name}</ReactRouterLink>
       </Link>{" "}
       (Unsplash)
     </Text>
