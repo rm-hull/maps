@@ -6,7 +6,7 @@ import { baseLayers } from "../../config/layer";
 import { DEFAULT_ZOOM_LEVEL, useGeneralSettings } from "../../hooks/useGeneralSettings";
 import { toLatLng } from "../../services/osdatahub/helpers";
 import { CurrentLocation } from "./controls/CurrentLocation";
-import { LayerControl } from "./controls/LayerControl";
+import { Layers } from "./controls/Layers";
 import { Ruler } from "./controls/Ruler";
 import { Settings } from "./controls/Settings";
 import { ZoomLevel } from "./controls/ZoomLevel";
@@ -55,7 +55,7 @@ export function OSMap({ center }: OSMapProps) {
       <CurrentLocation active={settings?.initialLocation === "current" && center === undefined} />
       <Tracks />
       <Settings />
-      <LayerControl initialLayer={initialMapStyle ?? baseLayers.at(0)!} />
+      <Layers defaultLayer={initialMapStyle ?? baseLayers.at(0)!} />
       <CustomOverlays />
       <ZoomLevel />
       <ScaleControl position="bottomright" />
