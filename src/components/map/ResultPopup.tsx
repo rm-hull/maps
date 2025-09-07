@@ -1,4 +1,4 @@
-import { Badge, Box, Card, CardBody, CardHeader, Heading, Link, Text } from "@chakra-ui/react";
+import { Badge, Box, Card, Heading, Link, Text } from "@chakra-ui/react";
 import { ReactNode } from "react";
 import { Popup } from "react-leaflet";
 import { Link as ReactRouterLink } from "react-router-dom";
@@ -26,7 +26,7 @@ export function ResultPopup({
   chips,
 }: ResultPopupProps) {
   const cardDetails = (
-    <Card overflow="hidden" shadow="none" width="xs" border={0} outline={0}>
+    <Card.Root overflow="hidden" shadow="none" width="xs" border={0} outline={0}>
       {(imageUrl || imageLoader) && (
         <FadeInImage src={imageUrl} loader={imageLoader} alt={title} height={60} attribution={attribution} />
       )}
@@ -35,26 +35,26 @@ export function ResultPopup({
           {distanceKm} km
         </Badge>
       )}
-      <CardHeader p={1} pb={0}>
-        <Heading size="sm" noOfLines={1}>
+      <Card.Header p={1} pb={0}>
+        <Heading size="sm" lineClamp={1}>
           {title}
         </Heading>
-      </CardHeader>
-      <CardBody p={1} pt={0}>
-        <Text fontSize="sm" noOfLines={3} color="gray.600">
+      </Card.Header>
+      <Card.Body p={1} pt={0}>
+        <Text fontSize="sm" lineClamp={3} color="gray.600">
           {description}
         </Text>
         {chips && (
           <Box gap={2}>
             {chips.map((chip) => (
-              <Badge m={1} key={chip} colorScheme="blue">
-                {chip.replaceAll("_", " ")}
+              <Badge m={1} key={chip} colorPalette="blue" fontWeight="bold">
+                {chip.replaceAll("_", " ").toUpperCase()}
               </Badge>
             ))}
           </Box>
         )}
-      </CardBody>
-    </Card>
+      </Card.Body>
+    </Card.Root>
   );
 
   if (!targetUrl) {
@@ -67,8 +67,8 @@ export function ResultPopup({
 
   return (
     <Popup maxWidth={400} closeButton={false}>
-      <Link as={ReactRouterLink} to={targetUrl} target="_blank" rel="noreferrer" outlineOffset={0}>
-        {cardDetails}
+      <Link asChild target="_blank" rel="noreferrer" outlineOffset={0}>
+        <ReactRouterLink to={targetUrl}>{cardDetails}</ReactRouterLink>
       </Link>
     </Popup>
   );

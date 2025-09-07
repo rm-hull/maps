@@ -1,13 +1,4 @@
-import {
-  Box,
-  Collapse,
-  Input,
-  InputGroup,
-  InputLeftElement,
-  useColorModeValue,
-  useControllableState,
-  useDisclosure,
-} from "@chakra-ui/react";
+import { Collapsible, Input, InputGroup, useControllableState, useDisclosure } from "@chakra-ui/react";
 import { type ChangeEvent, useEffect, useState } from "react";
 import { useMapEvent } from "react-leaflet";
 import Control from "react-leaflet-custom-control";
@@ -16,9 +7,10 @@ import { useFocus } from "../../hooks/useFocus";
 import { find } from "../../services/osdatahub";
 import { toLatLng } from "../../services/osdatahub/helpers";
 import { type SearchState, StateIcon } from "../StateIcon";
+import { useColorModeValue } from "../ui/color-mode";
 
 export function SearchBox() {
-  const { isOpen, onOpen, onClose } = useDisclosure();
+  const { open, onOpen, onClose } = useDisclosure();
   const [inputRef, setInputFocus] = useFocus();
   const bg = useColorModeValue("white", "var(--chakra-colors-gray-900)");
   const [value, setValue] = useControllableState({ defaultValue: "" });
@@ -30,10 +22,10 @@ export function SearchBox() {
   });
 
   useEffect(() => {
-    if (isOpen) {
+    if (open) {
       setTimeout(setInputFocus, 20);
     }
-  }, [isOpen, setInputFocus]);
+  }, [open, setInputFocus]);
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>): void => {
     setSearching(undefined);
@@ -73,17 +65,15 @@ export function SearchBox() {
 
   return (
     <Control position="bottomright" prepend>
-      <Collapse in={isOpen} animate>
-        <Box p="4px">
-          <InputGroup>
-            <InputLeftElement>
-              <StateIcon state={searching} />
-            </InputLeftElement>
+      <Collapsible.Root open={open}>
+        <Collapsible.Content p="4px">
+          <InputGroup startElement={<StateIcon state={searching} />} startElementProps={{ pointerEvents: "none" }}>
             <Input
+              id="search"
               name="search"
               borderWidth={2}
               borderColor="rgba(0,0,0,0.2)"
-              focusBorderColor="rgba(0,0,0,0.2)"
+              // focusBorderColor="rgba(0,0,0,0.2)"
               readOnly={searching === "busy"}
               autoComplete="off"
               autoCapitalize="off"
@@ -95,8 +85,8 @@ export function SearchBox() {
               onChange={handleChange}
             />
           </InputGroup>
-        </Box>
-      </Collapse>
+        </Collapsible.Content>
+      </Collapsible.Root>
     </Control>
   );
 }

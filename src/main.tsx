@@ -1,6 +1,5 @@
 import "./index.css";
 import "leaflet/dist/leaflet.css";
-import { ChakraProvider, ColorModeScript, createLocalStorageManager, theme } from "@chakra-ui/react";
 import { createRoot } from "react-dom/client";
 import { ErrorBoundary } from "react-error-boundary";
 import ReactGA from "react-ga4";
@@ -9,10 +8,10 @@ import { ReactQueryDevtools } from "react-query/devtools";
 import { BrowserRouter as Router } from "react-router-dom";
 import { App } from "./App";
 import { ErrorFallback } from "./components/ErrorFallback";
-import SettingsProvider from "./components/settings/SettingsProvider";
+import { Provider } from "./components/ui/provider";
 import { reportWebVitals } from "./reportWebVitals";
-import 'react-leaflet-cluster/dist/assets/MarkerCluster.css'
-import 'react-leaflet-cluster/dist/assets/MarkerCluster.Default.css'
+import "react-leaflet-cluster/dist/assets/MarkerCluster.css";
+import "react-leaflet-cluster/dist/assets/MarkerCluster.Default.css";
 
 if (import.meta.env.VITE_GOOGLE_ANALYTICS_MEASUREMENT_ID !== undefined) {
   ReactGA.initialize(import.meta.env.VITE_GOOGLE_ANALYTICS_MEASUREMENT_ID as string);
@@ -24,25 +23,19 @@ if (container === null) {
 }
 
 const root = createRoot(container);
-const manager = createLocalStorageManager("maps.color-mode");
 const queryClient = new QueryClient();
 
 root.render(
-  <>
-    <ColorModeScript storageKey="maps.color-mode" />
-    <QueryClientProvider client={queryClient}>
-      <ReactQueryDevtools initialIsOpen={false} />
-      <ChakraProvider theme={theme} colorModeManager={manager}>
-        <SettingsProvider>
-          <Router basename="/maps">
-            <ErrorBoundary FallbackComponent={ErrorFallback}>
-              <App />
-            </ErrorBoundary>
-          </Router>
-        </SettingsProvider>
-      </ChakraProvider>
-    </QueryClientProvider>
-  </>
+  <QueryClientProvider client={queryClient}>
+    <ReactQueryDevtools initialIsOpen={false} />
+    <Provider themes={[]}>
+      <Router basename="/maps">
+        <ErrorBoundary FallbackComponent={ErrorFallback}>
+          <App />
+        </ErrorBoundary>
+      </Router>
+    </Provider>
+  </QueryClientProvider>
 );
 
 // If you want to start measuring performance in your app, pass a function

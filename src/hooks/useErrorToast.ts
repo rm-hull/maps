@@ -1,18 +1,17 @@
-import { useToast } from "@chakra-ui/react";
 import { useEffect } from "react";
+import { toaster } from "../components/ui/toaster";
 
 export function useErrorToast(id: string, title: string, error: Error | null | undefined) {
-  const toast = useToast();
   useEffect(() => {
     if (error) {
-      toast({
+      toaster.create({
         id,
         title,
         description: error.message,
-        status: "error",
+        type: "error",
         duration: 9000,
-        isClosable: true,
+        closable: true,
       });
     }
-  }, [id, title, error, toast]);
+  }, [id, title, error]);
 }

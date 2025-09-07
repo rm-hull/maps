@@ -73,20 +73,20 @@ export function FadeInImage({ loader, src, alt, height, attribution, ...rest }: 
         loading="lazy"
       />
       {imageDetails?.attribution && (
-        <Tag
+        <Tag.Root
           position="absolute"
           bottom={0}
           right={0}
           m={1}
           p={0.5}
           variant="subtle"
-          size="xs"
+          size="sm"
           fontSize="xs"
           colorScheme="gray"
           opacity={0.5}
         >
-          {imageDetails.attribution}
-        </Tag>
+          <Tag.Label>{imageDetails.attribution}</Tag.Label>
+        </Tag.Root>
       )}
     </Box>
   );
