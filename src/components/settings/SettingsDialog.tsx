@@ -20,7 +20,7 @@ export function SettingsDialog({ children }: PropsWithChildren) {
         <Dialog.Backdrop />
         <Dialog.Positioner>
           <Dialog.Content>
-            <Tabs.Root defaultValue="settings">
+            <Tabs.Root colorPalette="blue" defaultValue="settings">
               <Dialog.Header>
                 <Dialog.Title width="100%">
                   <Tabs.List>

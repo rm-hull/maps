@@ -28,7 +28,7 @@ const queryClient = new QueryClient();
 root.render(
   <QueryClientProvider client={queryClient}>
     <ReactQueryDevtools initialIsOpen={false} />
-    <Provider themes={[]}>
+    <Provider>
       <Router basename="/maps">
         <ErrorBoundary FallbackComponent={ErrorFallback}>
           <App />
