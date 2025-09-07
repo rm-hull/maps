@@ -12,7 +12,6 @@ export function SettingsForm() {
   };
 
   const handleUpdateMapStyle = (selected: string[]): void => {
-    console.log({ selected });
     updateSettings({ ...settings, mapStyle: selected[0] });
   };
 
