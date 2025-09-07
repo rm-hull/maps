@@ -23,23 +23,19 @@ if (container === null) {
 }
 
 const root = createRoot(container);
-// const manager = createLocalStorageManager("maps.color-mode");
 const queryClient = new QueryClient();
 
 root.render(
-  <>
-    {/* <ColorModeScript storageKey="maps.color-mode" /> */}
-    <QueryClientProvider client={queryClient}>
-      <ReactQueryDevtools initialIsOpen={false} />
-      <Provider>
-        <Router basename="/maps">
-          <ErrorBoundary FallbackComponent={ErrorFallback}>
-            <App />
-          </ErrorBoundary>
-        </Router>
-      </Provider>
-    </QueryClientProvider>
-  </>
+  <QueryClientProvider client={queryClient}>
+    <ReactQueryDevtools initialIsOpen={false} />
+    <Provider themes={[]}>
+      <Router basename="/maps">
+        <ErrorBoundary FallbackComponent={ErrorFallback}>
+          <App />
+        </ErrorBoundary>
+      </Router>
+    </Provider>
+  </QueryClientProvider>
 );
 
 // If you want to start measuring performance in your app, pass a function
