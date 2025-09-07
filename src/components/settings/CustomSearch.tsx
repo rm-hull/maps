@@ -1,4 +1,4 @@
-import { IconButton, Input, InputGroup } from "@chakra-ui/react";
+import { Button, Input, InputGroup } from "@chakra-ui/react";
 import { type LatLng } from "leaflet";
 import { type ChangeEvent, useState } from "react";
 import { find } from "../../services/osdatahub";
@@ -42,8 +42,8 @@ export function CustomSearch({ disabled = false, searchTerm = "", onUpdate }: Cu
   return (
     <InputGroup
       endElement={
-        <IconButton
-          variant="ghost"
+        <Button
+          variant="plain"
           size="xs"
           aria-label="Find location"
           disabled={disabled || searching === "ok"}
@@ -52,10 +52,10 @@ export function CustomSearch({ disabled = false, searchTerm = "", onUpdate }: Cu
           }}
         >
           <StateIcon state={searching} />
-        </IconButton>
+        </Button>
       }
     >
-      <Input size="sm" value={value} onChange={handleChange} placeholder="search" disabled={disabled} />
+      <Input size="xs" value={value} onChange={handleChange} placeholder="search" disabled={disabled} />
     </InputGroup>
   );
 }

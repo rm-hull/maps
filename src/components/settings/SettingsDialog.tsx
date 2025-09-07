@@ -20,9 +20,9 @@ export function SettingsDialog({ children }: PropsWithChildren) {
         <Dialog.Backdrop />
         <Dialog.Positioner>
           <Dialog.Content>
-            <Tabs.Root defaultValue="settings" variant="subtle">
+            <Tabs.Root defaultValue="settings">
               <Dialog.Header>
-                <Dialog.Title>
+                <Dialog.Title width="100%">
                   <Tabs.List>
                     <Tabs.Trigger value="settings">Settings</Tabs.Trigger>
                     <Tabs.Trigger value="about">About</Tabs.Trigger>

@@ -2,7 +2,7 @@ import "proj4leaflet";
 import * as L from "leaflet";
 import { useMemo } from "react";
 import { MapContainer, ScaleControl } from "react-leaflet";
-import { BASE_LAYERS } from "../../config/layer";
+import { baseLayers } from "../../config/layer";
 import { DEFAULT_ZOOM_LEVEL, useGeneralSettings } from "../../hooks/useGeneralSettings";
 import { toLatLng } from "../../services/osdatahub/helpers";
 import { CurrentLocation } from "./controls/CurrentLocation";
@@ -33,16 +33,7 @@ export function OSMap({ center }: OSMapProps) {
     [settings?.initialLocation, settings?.customLocation, center]
   );
 
-  const initialMapStyle = useMemo(() => {
-    if (!settings?.mapStyle) return undefined;
-
-    for (const [provider, layers] of Object.entries(BASE_LAYERS)) {
-      const foundLayer = layers.find((l) => `${provider} / ${l.name}` === settings.mapStyle);
-      if (foundLayer) {
-        return foundLayer;
-      }
-    }
-  }, [settings?.mapStyle]);
+  const initialMapStyle = useMemo(() => baseLayers.find(settings?.mapStyle), [settings?.mapStyle]);
 
   if (!settings) {
     return null;
@@ -64,7 +55,7 @@ export function OSMap({ center }: OSMapProps) {
       <CurrentLocation active={settings?.initialLocation === "current" && center === undefined} />
       <Tracks />
       <Settings />
-      <LayerControl initialLayer={initialMapStyle ?? BASE_LAYERS["Thunderforest"][0]} />
+      <LayerControl initialLayer={initialMapStyle ?? baseLayers.at(0)!} />
       <CustomOverlays />
       <ZoomLevel />
       <ScaleControl position="bottomright" />

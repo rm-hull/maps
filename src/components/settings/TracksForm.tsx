@@ -1,4 +1,4 @@
-import { Checkbox, Field, HStack, IconButton, Input, InputGroup, RadioGroup, VStack } from "@chakra-ui/react";
+import { Button, Checkbox, Field, HStack, Input, InputGroup, RadioGroup, VStack } from "@chakra-ui/react";
 import { ChangeEvent, useEffect, useState } from "react";
 import { useQueryClient } from "react-query";
 import { useGeoJSON } from "../../hooks/useGeoJSON";
@@ -11,11 +11,9 @@ const CORS_PROXY = import.meta.env.VITE_CORS_PROXY as string;
 export function TracksForm() {
   const [type, setType] = useState<SupportedMimeTypes>(SupportedMimeTypes.GPX);
   const [url, setUrl] = useState<string>("");
-  const [useCorsProxy, setUseCorsProxy] = useState(false);
+  const [useCorsProxy, setUseCorsProxy] = useState<boolean | "indeterminate">(false);
   const queryClient = useQueryClient();
   const { isLoading, status, refetch, error } = useGeoJSON(useCorsProxy ? `${CORS_PROXY}${url}` : url, type);
-
-  console.log({ error });
 
   useEffect(() => {
     queryClient.removeQueries(["geojson"]);
@@ -31,8 +29,10 @@ export function TracksForm() {
     }
   };
 
-  const handleTypeChange = (type: SupportedMimeTypes) => {
-    setType(type);
+  const handleTypeChange = (type: string | null) => {
+    if (type !== null) {
+      setType(type as SupportedMimeTypes);
+    }
   };
 
   const handleClick = () => {
@@ -67,28 +67,17 @@ export function TracksForm() {
       </Field.Root>
 
       <Field.Root invalid={!!error}>
-        <Field.Label /* size="sm"*/>
-          <InputGroup
-            endElement={
-              <IconButton
-                variant="ghost"
-                size="sm"
-                aria-label="Fetch Tracks"
-                disabled={state === "ok"}
-                onClick={handleClick}
-              >
-                <StateIcon state={state} />
-              </IconButton>
-            }
-          >
-            <Input
-              placeholder="Enter URL (either GPX or KML)"
-              value={url}
-              onChange={handleChange}
-              disabled={isLoading}
-            />
-          </InputGroup>
-        </Field.Label>
+        <Field.Label>URL:</Field.Label>
+        <InputGroup
+          width="xl"
+          endElement={
+            <Button variant="plain" size="sm" aria-label="Fetch Tracks" disabled={state === "ok"} onClick={handleClick}>
+              <StateIcon state={state} />
+            </Button>
+          }
+        >
+          <Input placeholder="Enter URL (either GPX or KML)" value={url} onChange={handleChange} disabled={isLoading} />
+        </InputGroup>
         <Field.ErrorText display="block">{error?.message}</Field.ErrorText>
       </Field.Root>
 
@@ -101,8 +90,6 @@ export function TracksForm() {
           <Checkbox.Label>Use CORS proxy</Checkbox.Label>
         </Checkbox.Root>
       </Field.Root>
-
-      {error && error.message}
     </VStack>
   );
 }

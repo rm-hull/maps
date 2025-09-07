@@ -1,10 +1,10 @@
 import { Accordion, Box, Button, Link, Text, VStack, Checkbox, Collapsible } from "@chakra-ui/react";
 import * as L from "leaflet";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { IoLayersSharp } from "react-icons/io5";
 import { useMap } from "react-leaflet";
 import Control from "react-leaflet-custom-control";
-import { BASE_LAYERS, LayerOption, OVERLAYS } from "../../../config/layer";
+import { baseLayers, LayerOption, OVERLAYS } from "../../../config/layer";
 import { useGeneralSettings } from "../../../hooks/useGeneralSettings";
 
 function OverlaySelector() {
@@ -52,10 +52,6 @@ type BaseLayerAccordionProps = {
 };
 
 function BaseLayerAccordion({ onMouseLeave, onLayerChanged, selectedLayer }: BaseLayerAccordionProps) {
-  const selected = Object.entries(BASE_LAYERS)
-    .filter(([, layers]) => layers.some((l) => l === selectedLayer))
-    .map(([provider]) => provider);
-
   return (
     <Box
       background="white"
@@ -67,8 +63,8 @@ function BaseLayerAccordion({ onMouseLeave, onLayerChanged, selectedLayer }: Bas
       width={220}
       onMouseLeave={onMouseLeave}
     >
-      <Accordion.Root defaultValue={selected}>
-        {Object.entries(BASE_LAYERS).map(([provider, layers]) => (
+      <Accordion.Root defaultValue={[selectedLayer.provider]}>
+        {baseLayers.group().map(([provider, layers]) => (
           <Accordion.Item key={provider} value={provider}>
             <Accordion.ItemTrigger padding={1}>
               <Box as="span" flex="1" textAlign="left" padding={0}>
@@ -116,21 +112,27 @@ type LayerControlProps = {
 export function LayerControl({ initialLayer }: LayerControlProps) {
   const [expanded, setExpanded] = useState(false);
   const map = useMap();
-  const addTileLayers = (layerOption: LayerOption) =>
-    layerOption.tiles.map((tile) => L.tileLayer(tile.url, tile.options).addTo(map));
+
+  const addTileLayers = useCallback(
+    (layerOption: LayerOption) => layerOption.tiles.map((tile) => L.tileLayer(tile.url, tile.options).addTo(map)),
+    [map]
+  );
 
   const [tileLayers, setTileLayers] = useState<L.TileLayer[]>(() => addTileLayers(initialLayer));
   const [selectedLayer, setSelectedLayer] = useState<LayerOption>(initialLayer);
 
-  const handlerBaseLayerChange = (layerOption: LayerOption) => {
-    if (layerOption === selectedLayer) {
-      return;
-    }
-    tileLayers.forEach((l) => map.removeLayer(l));
-    const newLayers = addTileLayers(layerOption);
-    setTileLayers(newLayers);
-    setSelectedLayer(layerOption);
-  };
+  const handleBaseLayerChange = useCallback(
+    (layerOption: LayerOption) => {
+      if (layerOption === selectedLayer) {
+        return;
+      }
+      tileLayers.forEach((l) => map.removeLayer(l));
+      const newLayers = addTileLayers(layerOption);
+      setTileLayers(newLayers);
+      setSelectedLayer(layerOption);
+    },
+    [addTileLayers, map, selectedLayer, tileLayers]
+  );
 
   return (
     <Control position="topright">
@@ -141,7 +143,7 @@ export function LayerControl({ initialLayer }: LayerControlProps) {
               <BaseLayerAccordion
                 selectedLayer={selectedLayer}
                 onMouseLeave={() => setExpanded(false)}
-                onLayerChanged={handlerBaseLayerChange}
+                onLayerChanged={handleBaseLayerChange}
               />
             </Box>
           </Collapsible.Content>

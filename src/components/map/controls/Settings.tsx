@@ -1,19 +1,15 @@
+import { SettingsDialog } from "@/components/settings/SettingsDialog";
 import { Button } from "@chakra-ui/react";
 import { IoMdSettings } from "react-icons/io";
 import Control from "react-leaflet-custom-control";
-import { SettingsDialog } from "@/components/settings/SettingsDialog";
-// import { useSettings } from "../../../hooks/useSettings";
 
 export function Settings() {
-  // const { onOpen } = useSettings();
-
   return (
     <SettingsDialog>
       <Control position="topright">
         <Button
           background="white"
           variant="outline"
-          // onClick={onOpen}
           padding={0}
           borderWidth={2}
           borderColor="rgba(0,0,0,0.2)"
