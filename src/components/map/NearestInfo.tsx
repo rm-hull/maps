@@ -1,8 +1,9 @@
-import { Table, TableContainer, Tbody, Td, Th, Tr, useToast } from "@chakra-ui/react";
+import { Table } from "@chakra-ui/react";
 import { type LatLng } from "leaflet";
 import { type JSX, useEffect } from "react";
 import { useNearest } from "../../hooks/useNearest";
 import { toBNG } from "../../services/osdatahub/helpers";
+import { toaster } from "../ui/toaster";
 
 interface GPSProps {
   latLng: LatLng;
@@ -17,45 +18,45 @@ function GPS({ latLng, altitude, heading, accuracy, timestamp }: GPSProps) {
 
   return (
     <>
-      <Tr>
-        <Th>Easting</Th>
-        <Td>{easting}</Td>
-      </Tr>
-      <Tr>
-        <Th>Northing</Th>
-        <Td>{northing}</Td>
-      </Tr>
-      <Tr>
-        <Th>Latitude</Th>
-        <Td>{latLng.lat.toFixed(7)} N</Td>
-      </Tr>
-      <Tr>
-        <Th>Longitude</Th>
-        <Td>{latLng.lng.toFixed(7)} E</Td>
-      </Tr>
+      <Table.Row>
+        <Table.ColumnHeader>Easting</Table.ColumnHeader>
+        <Table.Cell>{easting}</Table.Cell>
+      </Table.Row>
+      <Table.Row>
+        <Table.ColumnHeader>Northing</Table.ColumnHeader>
+        <Table.Cell>{northing}</Table.Cell>
+      </Table.Row>
+      <Table.Row>
+        <Table.ColumnHeader>Latitude</Table.ColumnHeader>
+        <Table.Cell>{latLng.lat.toFixed(7)} N</Table.Cell>
+      </Table.Row>
+      <Table.Row>
+        <Table.ColumnHeader>Longitude</Table.ColumnHeader>
+        <Table.Cell>{latLng.lng.toFixed(7)} E</Table.Cell>
+      </Table.Row>
       {altitude !== undefined && (
-        <Tr>
-          <Th>Altitude</Th>
-          <Td>{altitude.toFixed(1)} m</Td>
-        </Tr>
+        <Table.Row>
+          <Table.ColumnHeader>Altitude</Table.ColumnHeader>
+          <Table.Cell>{altitude.toFixed(1)} m</Table.Cell>
+        </Table.Row>
       )}
       {heading !== undefined && (
-        <Tr>
-          <Th>Heading</Th>
-          <Td>{heading}°</Td>
-        </Tr>
+        <Table.Row>
+          <Table.ColumnHeader>Heading</Table.ColumnHeader>
+          <Table.Cell>{heading}°</Table.Cell>
+        </Table.Row>
       )}
       {accuracy !== undefined && (
-        <Tr>
-          <Th>GPS Accuracy</Th>
-          <Td>{accuracy.toFixed(0)} m</Td>
-        </Tr>
+        <Table.Row>
+          <Table.ColumnHeader>GPS Accuracy</Table.ColumnHeader>
+          <Table.Cell>{accuracy.toFixed(0)} m</Table.Cell>
+        </Table.Row>
       )}
       {timestamp !== undefined && (
-        <Tr>
-          <Th>Last updated</Th>
-          <Td>{new Date(timestamp).toISOString().substring(11, 19)}</Td>
-        </Tr>
+        <Table.Row>
+          <Table.ColumnHeader>Last updated</Table.ColumnHeader>
+          <Table.Cell>{new Date(timestamp).toISOString().substring(11, 19)}</Table.Cell>
+        </Table.Row>
       )}
     </>
   );
@@ -68,20 +69,19 @@ type NearestInfoProps = GPSProps & {
 export function NearestInfo({ latLng, altitude, heading, accuracy, timestamp, render }: NearestInfoProps) {
   const bng = toBNG(latLng);
   const { data, status, error } = useNearest(bng);
-  const toast = useToast();
 
   useEffect(() => {
     if (error) {
-      toast({
+      toaster.create({
         id: "nearest-error",
         title: "Error fetching nearest location",
         description: error.message,
-        status: "error",
+        type: "error",
         duration: 9000,
-        isClosable: true,
+        closable: true,
       });
     }
-  }, [error, toast]);
+  }, [error]);
 
   if (data === undefined || status !== "success") {
     return null;
@@ -89,13 +89,11 @@ export function NearestInfo({ latLng, altitude, heading, accuracy, timestamp, re
 
   if ((data.header.totalresults ?? 0) === 0) {
     return render(
-      <TableContainer>
-        <Table size="sm">
-          <Tbody>
-            <GPS latLng={latLng} altitude={altitude} heading={heading} accuracy={accuracy} timestamp={timestamp} />
-          </Tbody>
-        </Table>
-      </TableContainer>
+      <Table.Root size="sm">
+        <Table.Body>
+          <GPS latLng={latLng} altitude={altitude} heading={heading} accuracy={accuracy} timestamp={timestamp} />
+        </Table.Body>
+      </Table.Root>
     );
   }
 
@@ -103,26 +101,24 @@ export function NearestInfo({ latLng, altitude, heading, accuracy, timestamp, re
   const { localType, name1, countyUnitary, districtBorough, region } = gazetteerEntry ?? {};
 
   return render(
-    <TableContainer>
-      <Table size="sm">
-        <Tbody>
-          <Tr>
-            <Th>{localType}</Th>
-            <Td>{name1}</Td>
-          </Tr>
-          {districtBorough !== undefined && (
-            <Tr>
-              <Th>District</Th>
-              <Td>{districtBorough}</Td>
-            </Tr>
-          )}
-          <Tr>
-            <Th>Region</Th>
-            <Td>{countyUnitary ?? region}</Td>
-          </Tr>
-          <GPS latLng={latLng} altitude={altitude} heading={heading} accuracy={accuracy} timestamp={timestamp} />
-        </Tbody>
-      </Table>
-    </TableContainer>
+    <Table.Root size="sm">
+      <Table.Body>
+        <Table.Row>
+          <Table.ColumnHeader>{localType}</Table.ColumnHeader>
+          <Table.Cell>{name1}</Table.Cell>
+        </Table.Row>
+        {districtBorough !== undefined && (
+          <Table.Row>
+            <Table.ColumnHeader>District</Table.ColumnHeader>
+            <Table.Cell>{districtBorough}</Table.Cell>
+          </Table.Row>
+        )}
+        <Table.Row>
+          <Table.ColumnHeader>Region</Table.ColumnHeader>
+          <Table.Cell>{countyUnitary ?? region}</Table.Cell>
+        </Table.Row>
+        <GPS latLng={latLng} altitude={altitude} heading={heading} accuracy={accuracy} timestamp={timestamp} />
+      </Table.Body>
+    </Table.Root>
   );
 }

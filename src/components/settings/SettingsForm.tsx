@@ -1,35 +1,18 @@
-import {
-  FormControl,
-  FormLabel,
-  HStack,
-  Radio,
-  RadioGroup,
-  Select,
-  Slider,
-  SliderFilledTrack,
-  SliderThumb,
-  SliderTrack,
-  Switch,
-  Tooltip,
-  VStack,
-  useDisclosure,
-} from "@chakra-ui/react";
+import { Field, HStack, Listbox, RadioGroup, Slider, Switch, VStack } from "@chakra-ui/react";
 import { type LatLng } from "leaflet";
-import { ChangeEvent } from "react";
-import { BASE_LAYERS } from "../../config/layer";
+import { baseLayers } from "../../config/layer";
 import { DEFAULT_ZOOM_LEVEL, type InitialLocation, useGeneralSettings } from "../../hooks/useGeneralSettings";
 import { CustomSearch } from "./CustomSearch";
 
 export function SettingsForm() {
   const [settings, updateSettings] = useGeneralSettings();
-  const { isOpen, onOpen, onClose } = useDisclosure();
 
   const handleUpdateInitialLocation = (initialLocation: InitialLocation): void => {
     updateSettings({ ...settings, initialLocation });
   };
 
-  const handleUpdateMapStyle = (event: ChangeEvent<HTMLSelectElement>): void => {
-    updateSettings({ ...settings, mapStyle: event.target.value });
+  const handleUpdateMapStyle = (selected: string[]): void => {
+    updateSettings({ ...settings, mapStyle: selected[0] });
   };
 
   const handleUpdateCustomSearch = (latLng: LatLng, searchTerm: string): void => {
@@ -54,74 +37,92 @@ export function SettingsForm() {
 
   return (
     <VStack gap={6}>
-      <FormControl display="flex" alignItems="flex-start">
-        <FormLabel htmlFor="initial-location" mb={0} minW={110}>
-          Initial location:
-        </FormLabel>
-        <RadioGroup id="initial-location" onChange={handleUpdateInitialLocation} value={settings?.initialLocation}>
+      <Field.Root>
+        <Field.Label>Initial location:</Field.Label>
+        <RadioGroup.Root
+          onValueChange={(e) => handleUpdateInitialLocation(e.value as InitialLocation)}
+          value={settings?.initialLocation}
+        >
           <VStack align="left">
-            <Radio value="default">Default (Ambleside)</Radio>
-            <Radio value="current">Current (requires location services enabling)</Radio>
+            <RadioGroup.Item value="default">
+              <RadioGroup.ItemHiddenInput />
+              <RadioGroup.ItemIndicator />
+              <RadioGroup.ItemText>Default (Ambleside)</RadioGroup.ItemText>
+            </RadioGroup.Item>
+            <RadioGroup.Item value="current">
+              <RadioGroup.ItemHiddenInput />
+              <RadioGroup.ItemIndicator />
+              <RadioGroup.ItemText>Current (requires location services enabling)</RadioGroup.ItemText>
+            </RadioGroup.Item>
             <HStack>
-              <Radio value="custom">Custom</Radio>
+              <RadioGroup.Item value="custom">
+                <RadioGroup.ItemHiddenInput />
+                <RadioGroup.ItemIndicator />
+                <RadioGroup.ItemText>Custom</RadioGroup.ItemText>
+              </RadioGroup.Item>
               <CustomSearch
                 searchTerm={settings?.customLocation?.searchTerm}
-                isDisabled={settings?.initialLocation !== "custom"}
+                disabled={settings?.initialLocation !== "custom"}
                 onUpdate={handleUpdateCustomSearch}
               />
             </HStack>
           </VStack>
-        </RadioGroup>
-      </FormControl>
+        </RadioGroup.Root>
+      </Field.Root>
 
-      <FormControl display="flex" alignItems="baseline">
-        <FormLabel htmlFor="zoom-level" minW={110}>
-          Zoom level:
-        </FormLabel>
-        <Slider
-          id="zoom-level"
-          value={zoomLevel}
-          mt={1}
+      <Field.Root>
+        <Slider.Root
+          defaultValue={[zoomLevel]}
           min={7}
           max={18}
-          step={1}
-          onChange={handleUpdateZoomLevel}
-          onMouseOver={onOpen}
-          onMouseOut={onClose}
+          width="100%"
+          onValueChange={(e) => handleUpdateZoomLevel(e.value[0])}
         >
-          <Tooltip hasArrow bg="blue.500" color="white" placement="bottom" isOpen={isOpen} label={zoomLevel}>
-            <SliderThumb />
-          </Tooltip>
-          <SliderTrack>
-            <SliderFilledTrack />
-          </SliderTrack>
-          <SliderThumb />
-        </Slider>
-      </FormControl>
+          <HStack>
+            <Slider.Label>Zoom level:</Slider.Label>
+            <Slider.ValueText />
+          </HStack>
+          <Slider.Control>
+            <Slider.Track>
+              <Slider.Range />
+            </Slider.Track>
+            <Slider.Thumbs />
+          </Slider.Control>
+        </Slider.Root>
+      </Field.Root>
 
-      <FormControl display="flex">
-        <FormLabel htmlFor="zoom-control" minW={110}>
-          Show zoom control?
-        </FormLabel>
-        <Switch id="zoom-control" isChecked={settings?.showZoomLevel} onChange={handleUpdateZoomControl} />
-      </FormControl>
+      <Field.Root>
+        <Switch.Root checked={settings?.showZoomLevel} onChange={handleUpdateZoomControl}>
+          <Switch.Label>Show zoom control?</Switch.Label>
+          <Switch.HiddenInput />
+          <Switch.Control>
+            <Switch.Thumb />
+          </Switch.Control>
+        </Switch.Root>
+      </Field.Root>
 
-      <FormControl display="flex" alignItems="baseline">
-        <FormLabel htmlFor="map-style" minW={110}>
-          Map style:
-        </FormLabel>
-        <Select id="map-style" onChange={handleUpdateMapStyle} value={settings?.mapStyle}>
-          {Object.entries(BASE_LAYERS).map(([provider, layers]) => (
-            <optgroup label={provider} key={provider}>
-              {layers.map((layer) => (
-                <option value={`${provider} / ${layer.name}`} key={layer.name}>
-                  {layer.name}
-                </option>
-              ))}
-            </optgroup>
-          ))}
-        </Select>
-      </FormControl>
+      <Field.Root>
+        <Listbox.Root
+          collection={baseLayers}
+          value={[settings?.mapStyle ?? "Leisure"]}
+          onValueChange={(e) => handleUpdateMapStyle(e.value)}
+        >
+          <Listbox.Label>Map style:</Listbox.Label>
+          <Listbox.Content maxHeight={240} divideY="1px">
+            {baseLayers.group().map(([provider, layers]) => (
+              <Listbox.ItemGroup key={provider}>
+                <Listbox.ItemGroupLabel>{provider}</Listbox.ItemGroupLabel>
+                {layers.map((item) => (
+                  <Listbox.Item key={item.name} item={item}>
+                    <Listbox.ItemText>{item.name}</Listbox.ItemText>
+                    <Listbox.ItemIndicator />
+                  </Listbox.Item>
+                ))}
+              </Listbox.ItemGroup>
+            ))}
+          </Listbox.Content>
+        </Listbox.Root>
+      </Field.Root>
     </VStack>
   );
 }

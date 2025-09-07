@@ -1,18 +1,4 @@
-import {
-  Checkbox,
-  FormControl,
-  FormErrorMessage,
-  FormLabel,
-  HStack,
-  IconButton,
-  Input,
-  InputGroup,
-  InputRightElement,
-  Radio,
-  RadioGroup,
-  VStack,
-  useBoolean,
-} from "@chakra-ui/react";
+import { Button, Checkbox, Field, HStack, Input, InputGroup, RadioGroup, VStack } from "@chakra-ui/react";
 import { ChangeEvent, useEffect, useState } from "react";
 import { useQueryClient } from "react-query";
 import { useGeoJSON } from "../../hooks/useGeoJSON";
@@ -25,11 +11,9 @@ const CORS_PROXY = import.meta.env.VITE_CORS_PROXY as string;
 export function TracksForm() {
   const [type, setType] = useState<SupportedMimeTypes>(SupportedMimeTypes.GPX);
   const [url, setUrl] = useState<string>("");
-  const [useCorsProxy, { toggle: setUseCorsProxy }] = useBoolean();
+  const [useCorsProxy, setUseCorsProxy] = useState<boolean | "indeterminate">(false);
   const queryClient = useQueryClient();
   const { isLoading, status, refetch, error } = useGeoJSON(useCorsProxy ? `${CORS_PROXY}${url}` : url, type);
-
-  console.log({ error });
 
   useEffect(() => {
     queryClient.removeQueries(["geojson"]);
@@ -45,62 +29,67 @@ export function TracksForm() {
     }
   };
 
-  const handleTypeChange = (type: SupportedMimeTypes) => {
-    setType(type);
+  const handleTypeChange = (type: string | null) => {
+    if (type !== null) {
+      setType(type as SupportedMimeTypes);
+    }
   };
 
-  const handleClick = async () => {
-    await queryClient.invalidateQueries(["geojson"]);
-    await refetch();
+  const handleClick = () => {
+    queryClient
+      .invalidateQueries(["geojson"])
+      .then(() => refetch())
+      .catch(console.error);
   };
 
   const state = fromReactQuery(status);
 
   return (
     <VStack gap={6}>
-      <FormControl display="flex" alignItems="flex-start">
-        <FormLabel htmlFor="type" mb={0}>
+      <Field.Root display="flex" alignItems="flex-start">
+        <Field.Label htmlFor="type" mb={0}>
           Type:
-        </FormLabel>
-        <RadioGroup id="type" onChange={handleTypeChange} value={type}>
+        </Field.Label>
+        <RadioGroup.Root id="type" onValueChange={(e) => handleTypeChange(e.value)} value={type}>
           <HStack align="left">
-            <Radio value={SupportedMimeTypes.KML}>KML</Radio>
-            <Radio value={SupportedMimeTypes.GPX}>GPX</Radio>
+            <RadioGroup.Item value={SupportedMimeTypes.KML}>
+              <RadioGroup.ItemHiddenInput />
+              <RadioGroup.ItemIndicator />
+              <RadioGroup.ItemText>KML</RadioGroup.ItemText>
+            </RadioGroup.Item>
+            <RadioGroup.Item value={SupportedMimeTypes.GPX}>
+              <RadioGroup.ItemHiddenInput />
+              <RadioGroup.ItemIndicator />
+              <RadioGroup.ItemText>GPX</RadioGroup.ItemText>
+            </RadioGroup.Item>
           </HStack>
-        </RadioGroup>
-      </FormControl>
+        </RadioGroup.Root>
+      </Field.Root>
 
-      <FormControl isInvalid={!!error}>
-        <InputGroup size="sm">
-          <Input
-            placeholder="Enter URL (either GPX or KML)"
-            value={url}
-            onChange={handleChange}
-            isDisabled={isLoading}
-          />
-          <InputRightElement>
-            <IconButton
-              variant="none"
-              size="sm"
-              aria-label="Fetch Tracks"
-              icon={<StateIcon state={state} />}
-              isDisabled={state === "ok"}
-              onClick={handleClick}
-            />
-          </InputRightElement>
+      <Field.Root invalid={!!error}>
+        <Field.Label>URL:</Field.Label>
+        <InputGroup
+          width="xl"
+          endElement={
+            <Button variant="plain" size="sm" aria-label="Fetch Tracks" disabled={state === "ok"} onClick={handleClick}>
+              <StateIcon state={state} />
+            </Button>
+          }
+        >
+          <Input placeholder="Enter URL (either GPX or KML)" value={url} onChange={handleChange} disabled={isLoading} />
         </InputGroup>
-        <FormErrorMessage display="block">{error?.message}</FormErrorMessage>
-      </FormControl>
+        <Field.ErrorText display="block">{error?.message}</Field.ErrorText>
+      </Field.Root>
 
-      <FormControl>
-        <InputGroup>
-          <Checkbox onChange={setUseCorsProxy} checked={useCorsProxy}>
-            Use CORS proxy
-          </Checkbox>
-        </InputGroup>
-      </FormControl>
-
-      {error && error.message}
+      <Field.Root>
+        <Checkbox.Root onCheckedChange={(e) => setUseCorsProxy(e.checked)} checked={useCorsProxy}>
+          <Checkbox.HiddenInput />
+          <Checkbox.Control>
+            <Checkbox.Indicator />
+          </Checkbox.Control>
+          <Checkbox.Label>Use CORS proxy</Checkbox.Label>
+        </Checkbox.Root>
+      </Field.Root>
     </VStack>
   );
 }

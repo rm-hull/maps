@@ -1,4 +1,4 @@
-import { Heading, Text, List, ListItem, Box, VStack } from "@chakra-ui/react";
+import { Heading, Text, List, Box, VStack } from "@chakra-ui/react";
 import { PathOptions, type LatLngBounds } from "leaflet";
 import { Popup } from "react-leaflet";
 import { useCachedQuery } from "../../../../hooks/useCachedQuery";
@@ -21,13 +21,13 @@ type EventsPopupProps = {
 function EventsPopup({ events }: EventsPopupProps) {
   return (
     <Popup maxWidth={400} closeButton={false}>
-      <List spacing={1} maxHeight={300} overflowY="auto">
+      <List.Root gap={1} width={400} maxHeight={300} overflowY="auto">
         {events.map((event) => {
           const ref = getObjectRef(event);
           return (
-            <ListItem key={ref} p={2} borderBottom="1px solid" borderColor="gray.200">
-              <VStack spacing={2} alignItems="start" justifyContent="space-between">
-                <Heading size="sm" isTruncated>
+            <List.Item key={ref} p={2} borderBottom="1px solid" borderColor="gray.200">
+              <VStack gap={2} alignItems="start" justifyContent="space-between">
+                <Heading size="sm" truncate>
                   {ref}
                 </Heading>
                 <Box p={1} pt={0} color="gray.600" fontSize="sm">
@@ -40,10 +40,10 @@ function EventsPopup({ events }: EventsPopupProps) {
                   <Text>End: {getEndDate(event)}</Text>
                 </Box>
               </VStack>
-            </ListItem>
+            </List.Item>
           );
         })}
-      </List>
+      </List.Root>
     </Popup>
   );
 }

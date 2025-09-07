@@ -1,4 +1,4 @@
-import { CircularProgress } from "@chakra-ui/react";
+import { ProgressCircle } from "@chakra-ui/react";
 import { FiAlertTriangle, FiCheck, FiSearch, FiXCircle } from "react-icons/fi";
 export type SearchState = "ok" | "error" | "busy" | "not-found" | undefined;
 
@@ -15,7 +15,14 @@ export function StateIcon({ state }: StateIconProps) {
     case "not-found":
       return <FiAlertTriangle color="orange" />;
     case "busy":
-      return <CircularProgress isIndeterminate size={4} />;
+      return (
+        <ProgressCircle.Root value={null} size="xs" colorPalette="blue">
+          <ProgressCircle.Circle>
+            <ProgressCircle.Track />
+            <ProgressCircle.Range strokeLinecap="round" />
+          </ProgressCircle.Circle>
+        </ProgressCircle.Root>
+      );
     default:
       return <FiSearch />;
   }
