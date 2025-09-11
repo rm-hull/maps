@@ -16,6 +16,8 @@ export type Event = {
   permit_reference_number?: string;
   promoter_swa_code?: string;
   promoter_organisation?: string;
+  promoter_website_url?: string;
+  promoter_logo_url?: string;
 
   // Coordinates & descriptions
   activity_coordinates?: string;

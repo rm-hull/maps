@@ -1,6 +1,7 @@
-import { Heading, Text, List, Box, VStack } from "@chakra-ui/react";
+import { Heading, Text, List, Box, VStack, Link, Image, HStack } from "@chakra-ui/react";
 import { PathOptions, type LatLngBounds } from "leaflet";
 import { Popup } from "react-leaflet";
+import { Link as ReactRouterLink } from "react-router-dom";
 import { useCachedQuery } from "../../../../hooks/useCachedQuery";
 import { useErrorToast } from "../../../../hooks/useErrorToast";
 import { useStreetManager } from "../../../../hooks/useStreetManager";
@@ -27,11 +28,19 @@ function EventsPopup({ events }: EventsPopupProps) {
           return (
             <List.Item key={ref} p={2} borderBottom="1px solid" borderColor="gray.200">
               <VStack gap={2} alignItems="start" justifyContent="space-between">
-                <Heading size="sm" truncate>
-                  {ref}
+                <Heading size="md" truncate>
+                  <HStack gap={1}>
+                    {event.promoter_logo_url && <Image src={event.promoter_logo_url} height={5} />}
+                    <Link asChild target="_blank" rel="noreferrer" outlineOffset={0} truncate>
+                      <ReactRouterLink to={event.promoter_website_url ?? ""}>
+                        {event.promoter_organisation}
+                      </ReactRouterLink>
+                    </Link>{" "}
+                  </HStack>
                 </Heading>
                 <Box p={1} pt={0} color="gray.600" fontSize="sm">
-                  <Text>{event.promoter_organisation}</Text> <Text>{event.activity_type}</Text>
+                  <Text>Ref: {ref}</Text>
+                  <Text>{event.activity_type}</Text>
                   <Text>
                     {event.works_location_type} ({event.work_category})
                   </Text>
