@@ -26,7 +26,7 @@ export function SettingsDialog({ children }: PropsWithChildren) {
                   <Tabs.List>
                     <Tabs.Trigger value="settings">Settings</Tabs.Trigger>
                     <Tabs.Trigger value="about">About</Tabs.Trigger>
-                    <Tabs.Trigger value="license">License</Tabs.Trigger>
+                    <Tabs.Trigger value="license">MIT License</Tabs.Trigger>
                     <Tabs.Trigger value="tracks">Tracks</Tabs.Trigger>
                   </Tabs.List>
                 </Dialog.Title>
@@ -40,7 +40,7 @@ export function SettingsDialog({ children }: PropsWithChildren) {
                   <About />
                 </Tabs.Content>
                 <Tabs.Content value="license">
-                  <License />
+                  <License showHeading={false}/>
                 </Tabs.Content>
                 <Tabs.Content value="tracks">
                   <TracksForm />
@@ -49,7 +49,7 @@ export function SettingsDialog({ children }: PropsWithChildren) {
 
               <Dialog.Footer>
                 <Dialog.ActionTrigger asChild>
-                  <Button variant="ghost">Close</Button>
+                  <Button variant="subtle">Close</Button>
                 </Dialog.ActionTrigger>
               </Dialog.Footer>
 

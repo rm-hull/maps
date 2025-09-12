@@ -47,38 +47,53 @@ export function TracksForm() {
   return (
     <VStack gap={6}>
       <Field.Root display="flex" alignItems="flex-start">
-        <Field.Label htmlFor="type" mb={0}>
-          Type:
-        </Field.Label>
-        <RadioGroup.Root id="type" onValueChange={(e) => handleTypeChange(e.value)} value={type}>
-          <HStack align="left">
-            <RadioGroup.Item value={SupportedMimeTypes.KML}>
-              <RadioGroup.ItemHiddenInput />
-              <RadioGroup.ItemIndicator />
-              <RadioGroup.ItemText>KML</RadioGroup.ItemText>
-            </RadioGroup.Item>
-            <RadioGroup.Item value={SupportedMimeTypes.GPX}>
-              <RadioGroup.ItemHiddenInput />
-              <RadioGroup.ItemIndicator />
-              <RadioGroup.ItemText>GPX</RadioGroup.ItemText>
-            </RadioGroup.Item>
-          </HStack>
-        </RadioGroup.Root>
+        <HStack>
+          <Field.Label width="40px" htmlFor="type" mb={0}>
+            Type:
+          </Field.Label>
+          <RadioGroup.Root id="type" onValueChange={(e) => handleTypeChange(e.value)} value={type}>
+            <HStack align="left">
+              <RadioGroup.Item value={SupportedMimeTypes.KML}>
+                <RadioGroup.ItemHiddenInput />
+                <RadioGroup.ItemIndicator />
+                <RadioGroup.ItemText>KML</RadioGroup.ItemText>
+              </RadioGroup.Item>
+              <RadioGroup.Item value={SupportedMimeTypes.GPX}>
+                <RadioGroup.ItemHiddenInput />
+                <RadioGroup.ItemIndicator />
+                <RadioGroup.ItemText>GPX</RadioGroup.ItemText>
+              </RadioGroup.Item>
+            </HStack>
+          </RadioGroup.Root>
+        </HStack>
       </Field.Root>
 
       <Field.Root invalid={!!error}>
-        <Field.Label>URL:</Field.Label>
-        <InputGroup
-          width="xl"
-          endElement={
-            <Button variant="plain" size="sm" aria-label="Fetch Tracks" disabled={state === "ok"} onClick={handleClick}>
-              <StateIcon state={state} />
-            </Button>
-          }
-        >
-          <Input placeholder="Enter URL (either GPX or KML)" value={url} onChange={handleChange} disabled={isLoading} />
-        </InputGroup>
-        <Field.ErrorText display="block">{error?.message}</Field.ErrorText>
+        <HStack>
+          <Field.Label width="40px">URL:</Field.Label>
+          <InputGroup
+            width="xl"
+            endElement={
+              <Button
+                variant="plain"
+                size="sm"
+                aria-label="Fetch Tracks"
+                disabled={state === "ok"}
+                onClick={handleClick}
+              >
+                <StateIcon state={state} />
+              </Button>
+            }
+          >
+            <Input
+              placeholder="Enter URL (either GPX or KML)"
+              value={url}
+              onChange={handleChange}
+              disabled={isLoading}
+            />
+          </InputGroup>
+          <Field.ErrorText display="block">{error?.message}</Field.ErrorText>
+        </HStack>
       </Field.Root>
 
       <Field.Root>
