@@ -2783,12 +2783,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:^24.3.1":
-  version: 24.3.1
-  resolution: "@types/node@npm:24.3.1"
+"@types/node@npm:^24.3.2":
+  version: 24.3.2
+  resolution: "@types/node@npm:24.3.2"
   dependencies:
     undici-types: "npm:~7.10.0"
-  checksum: 10/b9a52ed8f2fb1fa764ce988828b8d579761f944f1bb0492adbdeaa676a161086bad1a807b590799681ad93b3d272468b5c5ddccf5678735d487d1b65e481bc07
+  checksum: 10/7d2be32fd33c910bb73eb43364cc8dc86d35a40b51b366900f68cc1d96cb1fc9f23a91df7d65c35250faca81e6312ee2b97252c8178e4abf9940f9c2e9b0d398
   languageName: node
   linkType: hard
 
@@ -2828,12 +2828,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/react@npm:^19.1.12":
-  version: 19.1.12
-  resolution: "@types/react@npm:19.1.12"
+"@types/react@npm:^19.1.13":
+  version: 19.1.13
+  resolution: "@types/react@npm:19.1.13"
   dependencies:
     csstype: "npm:^3.0.2"
-  checksum: 10/c03d595b84faecb15079757555c96871e84ea6eef9a5eddb13ec1f648f718f9624bebc4199e86267edb825b23df97758324ea39ff840d9ad328386f96971f588
+  checksum: 10/a4e12df335ded76e931cc2ba2a4c8a61872ed840081eca83612fbdadc4afbf0cbd0ae31fdedc7fae7f0e02c90dac98dda517dfa73bec653dd4b1de2755431a62
   languageName: node
   linkType: hard
 
@@ -4702,14 +4702,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"axios@npm:^1.11.0":
-  version: 1.11.0
-  resolution: "axios@npm:1.11.0"
+"axios@npm:^1.12.1":
+  version: 1.12.1
+  resolution: "axios@npm:1.12.1"
   dependencies:
     follow-redirects: "npm:^1.15.6"
     form-data: "npm:^4.0.4"
     proxy-from-env: "npm:^1.1.0"
-  checksum: 10/232df4af7a4e4e07baa84621b9cc4b0c518a757b4eacc7f635c0eb3642cb98dff347326739f24b891b3b4481b7b838c79a3a0c4819c9fbc1fc40232431b9c5dc
+  checksum: 10/928e88cba180a48451a7872cfd7e7072f39e3e797c69960a048eae90f456d1de44ef0d7929325939140cd4d03b06fe2ee0d29f3f4d5873b4a7584cbe6d0d3080
   languageName: node
   linkType: hard
 
@@ -6077,15 +6077,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-plugin-testing-library@npm:^7.6.8":
-  version: 7.6.8
-  resolution: "eslint-plugin-testing-library@npm:7.6.8"
+"eslint-plugin-testing-library@npm:^7.7.0":
+  version: 7.7.0
+  resolution: "eslint-plugin-testing-library@npm:7.7.0"
   dependencies:
     "@typescript-eslint/scope-manager": "npm:^8.15.0"
     "@typescript-eslint/utils": "npm:^8.15.0"
   peerDependencies:
     eslint: ^8.57.0 || ^9.0.0
-  checksum: 10/e61df24a353a298075254c89fd0278b3e6c3c8a9dbde08baeb46b4ab9e90e6080dcb5b3c2f89bf738649b58858760721fb31641672e1a837b169c16c0106ea36
+  checksum: 10/4dbad595da97783614e291fff8beb02fe2cdee848849890a03c182ca276c522708fa9f2f519698e7074ac235615fc4e8ab3d190cd80dd8c03aebd5d54aca3482
   languageName: node
   linkType: hard
 
@@ -7640,10 +7640,10 @@ __metadata:
     "@tmcw/togeojson": "npm:^7.1.2"
     "@types/geojson": "npm:^7946.0.16"
     "@types/leaflet": "npm:^1.9.20"
-    "@types/node": "npm:^24.3.1"
+    "@types/node": "npm:^24.3.2"
     "@types/proj4": "npm:^2.19.0"
     "@types/proj4leaflet": "npm:^1.0.12"
-    "@types/react": "npm:^19.1.12"
+    "@types/react": "npm:^19.1.13"
     "@types/react-dom": "npm:^19.1.9"
     "@types/terraformer__wkt": "npm:^2"
     "@typescript-eslint/eslint-plugin": "npm:^8.43.0"
@@ -7651,7 +7651,7 @@ __metadata:
     "@typescript-eslint/types": "npm:^8.43.0"
     "@vitejs/plugin-react": "npm:^5.0.2"
     "@vitest/coverage-v8": "npm:^3.2.4"
-    axios: "npm:^1.11.0"
+    axios: "npm:^1.12.1"
     babel-plugin-react-compiler: "npm:19.1.0-rc.3"
     change-case: "npm:^5.4.4"
     eslint: "npm:9.35.0"
@@ -7669,7 +7669,7 @@ __metadata:
     eslint-plugin-react-compiler: "npm:19.1.0-rc.2"
     eslint-plugin-react-hooks: "npm:^5.2.0"
     eslint-plugin-react-refresh: "npm:^0.4.20"
-    eslint-plugin-testing-library: "npm:^7.6.8"
+    eslint-plugin-testing-library: "npm:^7.7.0"
     globals: "npm:^16.4.0"
     jotai: "npm:^2.14.0"
     leaflet: "npm:^1.9.4"
@@ -7688,7 +7688,7 @@ __metadata:
     react-leaflet-cluster: "npm:^3.1.1"
     react-leaflet-custom-control: "npm:^1.5.0"
     react-query: "npm:^3.39.3"
-    react-router-dom: "npm:^7.8.2"
+    react-router-dom: "npm:^7.9.1"
     react-use: "npm:^17.6.0"
     typescript: "npm:^5.9.2"
     typescript-eslint: "npm:^8.43.0"
@@ -8611,21 +8611,21 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-router-dom@npm:^7.8.2":
-  version: 7.8.2
-  resolution: "react-router-dom@npm:7.8.2"
+"react-router-dom@npm:^7.9.1":
+  version: 7.9.1
+  resolution: "react-router-dom@npm:7.9.1"
   dependencies:
-    react-router: "npm:7.8.2"
+    react-router: "npm:7.9.1"
   peerDependencies:
     react: ">=18"
     react-dom: ">=18"
-  checksum: 10/2b8693c65b6c87004909c76a4cf1e2e1d4d241d20161ee792ce1aba0763e36484e98792a0c98a4d36d53cf8a7bc8a372ec5067b06f459df0d840dbfc8508e96e
+  checksum: 10/84525d182d913d74299213a60da8d2a49b233aa626dd9216f68e513a81cb33a19d1c50eaf09684b9283ae2d5d8cd0cdcc2ae6cd554ea5d8e4e016b442252ddc9
   languageName: node
   linkType: hard
 
-"react-router@npm:7.8.2":
-  version: 7.8.2
-  resolution: "react-router@npm:7.8.2"
+"react-router@npm:7.9.1":
+  version: 7.9.1
+  resolution: "react-router@npm:7.9.1"
   dependencies:
     cookie: "npm:^1.0.1"
     set-cookie-parser: "npm:^2.6.0"
@@ -8635,7 +8635,7 @@ __metadata:
   peerDependenciesMeta:
     react-dom:
       optional: true
-  checksum: 10/d1af3980cdfe8b915f6a8b219d57f18f9e3c4c062fa33bbb0946d4ff18c4c09fbf2f5c3616f5953f576c1d3be31616e4578773794cbb6eacf7812050997e04a2
+  checksum: 10/f15aa70bfe95bf05f755283c2b67d3316cd037c99aebf5cc6b4fd49db99a5a4a36ba0664661a84bf7d60a7643dd0457f1835896891dbf7b8f16e670e79e80491
   languageName: node
   linkType: hard
 

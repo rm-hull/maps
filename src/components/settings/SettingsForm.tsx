@@ -38,36 +38,63 @@ export function SettingsForm() {
   return (
     <VStack gap={6}>
       <Field.Root>
-        <Field.Label>Initial location:</Field.Label>
-        <RadioGroup.Root
-          onValueChange={(e) => handleUpdateInitialLocation(e.value as InitialLocation)}
-          value={settings?.initialLocation}
-        >
-          <VStack align="left">
-            <RadioGroup.Item value="default">
-              <RadioGroup.ItemHiddenInput />
-              <RadioGroup.ItemIndicator />
-              <RadioGroup.ItemText>Default (Ambleside)</RadioGroup.ItemText>
-            </RadioGroup.Item>
-            <RadioGroup.Item value="current">
-              <RadioGroup.ItemHiddenInput />
-              <RadioGroup.ItemIndicator />
-              <RadioGroup.ItemText>Current (requires location services enabling)</RadioGroup.ItemText>
-            </RadioGroup.Item>
-            <HStack>
-              <RadioGroup.Item value="custom">
+        <HStack alignItems="start">
+          <Field.Label width="100px">Initial location:</Field.Label>
+          <RadioGroup.Root
+            onValueChange={(e) => handleUpdateInitialLocation(e.value as InitialLocation)}
+            value={settings?.initialLocation}
+          >
+            <VStack align="left">
+              <RadioGroup.Item value="default">
                 <RadioGroup.ItemHiddenInput />
                 <RadioGroup.ItemIndicator />
-                <RadioGroup.ItemText>Custom</RadioGroup.ItemText>
+                <RadioGroup.ItemText>Default (Ambleside, Cumbria)</RadioGroup.ItemText>
               </RadioGroup.Item>
-              <CustomSearch
-                searchTerm={settings?.customLocation?.searchTerm}
-                disabled={settings?.initialLocation !== "custom"}
-                onUpdate={handleUpdateCustomSearch}
-              />
-            </HStack>
-          </VStack>
-        </RadioGroup.Root>
+              <RadioGroup.Item value="current">
+                <RadioGroup.ItemHiddenInput />
+                <RadioGroup.ItemIndicator />
+                <RadioGroup.ItemText>Current (requires location services enabling)</RadioGroup.ItemText>
+              </RadioGroup.Item>
+              <HStack>
+                <RadioGroup.Item value="custom">
+                  <RadioGroup.ItemHiddenInput />
+                  <RadioGroup.ItemIndicator />
+                  <RadioGroup.ItemText>Custom</RadioGroup.ItemText>
+                </RadioGroup.Item>
+                <CustomSearch
+                  searchTerm={settings?.customLocation?.searchTerm}
+                  disabled={settings?.initialLocation !== "custom"}
+                  onUpdate={handleUpdateCustomSearch}
+                />
+              </HStack>
+            </VStack>
+          </RadioGroup.Root>
+        </HStack>
+      </Field.Root>
+
+      <Field.Root>
+        <HStack alignItems="start">
+          <Field.Label width="120px">Map style:</Field.Label>
+          <Listbox.Root
+            collection={baseLayers}
+            value={[settings?.mapStyle ?? "Leisure"]}
+            onValueChange={(e) => handleUpdateMapStyle(e.value)}
+          >
+            <Listbox.Content width={400} maxHeight={140} divideY="1px">
+              {baseLayers.group().map(([provider, layers]) => (
+                <Listbox.ItemGroup key={provider}>
+                  <Listbox.ItemGroupLabel fontWeight="bold">{provider}</Listbox.ItemGroupLabel>
+                  {layers.map((item) => (
+                    <Listbox.Item key={item.name} item={item}>
+                      <Listbox.ItemText>{item.name}</Listbox.ItemText>
+                      <Listbox.ItemIndicator />
+                    </Listbox.Item>
+                  ))}
+                </Listbox.ItemGroup>
+              ))}
+            </Listbox.Content>
+          </Listbox.Root>
+        </HStack>
       </Field.Root>
 
       <Field.Root>
@@ -78,9 +105,20 @@ export function SettingsForm() {
           width="100%"
           onValueChange={(e) => handleUpdateZoomLevel(e.value[0])}
         >
-          <HStack>
-            <Slider.Label>Zoom level:</Slider.Label>
-            <Slider.ValueText />
+          <HStack display="flex" justifyContent="space-between">
+            <HStack gap={2}>
+              <Slider.Label width="100px">Zoom level:</Slider.Label>
+              <Slider.ValueText />
+            </HStack>
+            <Field.Root width="auto">
+              <Switch.Root checked={settings?.showZoomLevel} onChange={handleUpdateZoomControl}>
+                <Switch.Label>Show zoom control?</Switch.Label>
+                <Switch.HiddenInput />
+                <Switch.Control>
+                  <Switch.Thumb />
+                </Switch.Control>
+              </Switch.Root>
+            </Field.Root>
           </HStack>
           <Slider.Control>
             <Slider.Track>
@@ -89,39 +127,6 @@ export function SettingsForm() {
             <Slider.Thumbs />
           </Slider.Control>
         </Slider.Root>
-      </Field.Root>
-
-      <Field.Root>
-        <Switch.Root checked={settings?.showZoomLevel} onChange={handleUpdateZoomControl}>
-          <Switch.Label>Show zoom control?</Switch.Label>
-          <Switch.HiddenInput />
-          <Switch.Control>
-            <Switch.Thumb />
-          </Switch.Control>
-        </Switch.Root>
-      </Field.Root>
-
-      <Field.Root>
-        <Listbox.Root
-          collection={baseLayers}
-          value={[settings?.mapStyle ?? "Leisure"]}
-          onValueChange={(e) => handleUpdateMapStyle(e.value)}
-        >
-          <Listbox.Label>Map style:</Listbox.Label>
-          <Listbox.Content maxHeight={240} divideY="1px">
-            {baseLayers.group().map(([provider, layers]) => (
-              <Listbox.ItemGroup key={provider}>
-                <Listbox.ItemGroupLabel>{provider}</Listbox.ItemGroupLabel>
-                {layers.map((item) => (
-                  <Listbox.Item key={item.name} item={item}>
-                    <Listbox.ItemText>{item.name}</Listbox.ItemText>
-                    <Listbox.ItemIndicator />
-                  </Listbox.Item>
-                ))}
-              </Listbox.ItemGroup>
-            ))}
-          </Listbox.Content>
-        </Listbox.Root>
       </Field.Root>
     </VStack>
   );
