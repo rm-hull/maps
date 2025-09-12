@@ -28,16 +28,16 @@ function EventsPopup({ events }: EventsPopupProps) {
           return (
             <List.Item key={ref} p={2} borderBottom="1px solid" borderColor="gray.200">
               <VStack gap={2} alignItems="start" justifyContent="space-between">
-                <Heading size="md" truncate>
+                {event.promoter_website_url && <Heading size="md" truncate>
                   <HStack gap={1}>
                     {event.promoter_logo_url && <Image src={event.promoter_logo_url} height={5} />}
                     <Link asChild target="_blank" rel="noreferrer" outlineOffset={0} truncate>
-                      <ReactRouterLink to={event.promoter_website_url ?? ""}>
+                      <ReactRouterLink to={event.promoter_website_url}>
                         {event.promoter_organisation}
                       </ReactRouterLink>
-                    </Link>{" "}
+                    </Link>
                   </HStack>
-                </Heading>
+                </Heading>}
                 <Box p={1} pt={0} color="gray.600" fontSize="sm">
                   <Text>Ref: {ref}</Text>
                   <Text>{event.activity_type}</Text>
