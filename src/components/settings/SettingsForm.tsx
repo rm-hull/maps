@@ -1,4 +1,4 @@
-import { Box, Field, HStack, Listbox, RadioGroup, Slider, Switch, VStack } from "@chakra-ui/react";
+import { Field, HStack, Listbox, RadioGroup, Slider, Switch, VStack } from "@chakra-ui/react";
 import { type LatLng } from "leaflet";
 import { baseLayers } from "../../config/layer";
 import { DEFAULT_ZOOM_LEVEL, type InitialLocation, useGeneralSettings } from "../../hooks/useGeneralSettings";
