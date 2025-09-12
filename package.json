@@ -9,7 +9,7 @@
     "@emotion/react": "^11.14.0",
     "@react-leaflet/core": "^3.0.0",
     "@tmcw/togeojson": "^7.1.2",
-    "axios": "^1.11.0",
+    "axios": "^1.12.1",
     "change-case": "^5.4.4",
     "jotai": "^2.14.0",
     "leaflet": "^1.9.4",
