@@ -7670,7 +7670,7 @@ __metadata:
     react-leaflet-cluster: "npm:^3.1.1"
     react-leaflet-custom-control: "npm:^1.5.0"
     react-query: "npm:^3.39.3"
-    react-router-dom: "npm:^7.8.2"
+    react-router-dom: "npm:^7.9.0"
     react-use: "npm:^17.6.0"
     typescript: "npm:^5.9.2"
     typescript-eslint: "npm:^8.43.0"
@@ -8593,21 +8593,21 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-router-dom@npm:^7.8.2":
-  version: 7.8.2
-  resolution: "react-router-dom@npm:7.8.2"
+"react-router-dom@npm:^7.9.0":
+  version: 7.9.0
+  resolution: "react-router-dom@npm:7.9.0"
   dependencies:
-    react-router: "npm:7.8.2"
+    react-router: "npm:7.9.0"
   peerDependencies:
     react: ">=18"
     react-dom: ">=18"
-  checksum: 10/2b8693c65b6c87004909c76a4cf1e2e1d4d241d20161ee792ce1aba0763e36484e98792a0c98a4d36d53cf8a7bc8a372ec5067b06f459df0d840dbfc8508e96e
+  checksum: 10/f990b7ca62ea3218f4de28b4ff0ba346e27c0d5fbd9c8905b51bdb4ddff59a0780c89b8c6d9f0934c6c3e0b36729a9ecad064c3ae382f0a811ca8cb4a2d38284
   languageName: node
   linkType: hard
 
-"react-router@npm:7.8.2":
-  version: 7.8.2
-  resolution: "react-router@npm:7.8.2"
+"react-router@npm:7.9.0":
+  version: 7.9.0
+  resolution: "react-router@npm:7.9.0"
   dependencies:
     cookie: "npm:^1.0.1"
     set-cookie-parser: "npm:^2.6.0"
@@ -8617,7 +8617,7 @@ __metadata:
   peerDependenciesMeta:
     react-dom:
       optional: true
-  checksum: 10/d1af3980cdfe8b915f6a8b219d57f18f9e3c4c062fa33bbb0946d4ff18c4c09fbf2f5c3616f5953f576c1d3be31616e4578773794cbb6eacf7812050997e04a2
+  checksum: 10/8a787cfde6f754bcf604df01d750081376821b671b0702152f52fb6887f89d3603e0c6ffa32ddeef0b8c50d77e37dbe8fdcdd7a118f25f436d0c756a85c78187
   languageName: node
   linkType: hard
 
