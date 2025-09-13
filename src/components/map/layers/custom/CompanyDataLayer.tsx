@@ -1,4 +1,4 @@
-import { Badge, HStack, Heading, Link, List, ListItem, Text } from "@chakra-ui/react";
+import { Badge, DataList, HStack, Heading, Link, List, ListItem, Text } from "@chakra-ui/react";
 import { type LatLngBounds } from "leaflet";
 import { Marker, Popup } from "react-leaflet";
 import { Link as ReactRouterLink } from "react-router-dom";
@@ -96,15 +96,31 @@ function CompanyListPopup({ companies }: CompanyListPopupProps) {
             <Text fontSize="xs" color="gray.600">
               {address(company)}
             </Text>
-            <List.Root>
+            <DataList.Root gap={0} orientation="horizontal">
               {[company.sic_code_1, company.sic_code_2, company.sic_code_3, company.sic_code_4]
                 .filter(Boolean)
-                .map((sicCode, index) => (
-                  <List.Item key={index} fontSize="xs" color="gray.600">
-                    {sicCode}
-                  </List.Item>
-                ))}
-            </List.Root>
+                .map((sicCode, index) => {
+                  const [code, descr] = sicCode.split(/ - /, 2);
+                  console.log({ code, descr, sicCode });
+                  return (
+                    <DataList.Item
+                      key={index}
+                      fontSize="xs"
+                      color="gray.600"
+                      alignItems="start"
+                      lineHeight={1.4}
+                      borderLeftColor="grey.600"
+                      borderLeftWidth={2}
+                      ml={2}
+                    >
+                      <DataList.ItemLabel width="30px" minWidth="initial" pl={1}>
+                        {code}:
+                      </DataList.ItemLabel>
+                      <DataList.ItemValue>{descr}</DataList.ItemValue>
+                    </DataList.Item>
+                  );
+                })}
+            </DataList.Root>
           </ListItem>
         ))}
       </List.Root>
