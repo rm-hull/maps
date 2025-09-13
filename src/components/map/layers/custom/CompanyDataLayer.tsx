@@ -101,7 +101,6 @@ function CompanyListPopup({ companies }: CompanyListPopupProps) {
                 .filter(Boolean)
                 .map((sicCode, index) => {
                   const [code, descr] = sicCode.split(/ - /, 2);
-                  console.log({ code, descr, sicCode });
                   return (
                     <DataList.Item
                       key={index}
@@ -109,12 +108,11 @@ function CompanyListPopup({ companies }: CompanyListPopupProps) {
                       color="gray.600"
                       alignItems="start"
                       lineHeight={1.4}
-                      borderLeftColor="grey.600"
                       borderLeftWidth={2}
                       ml={2}
                     >
-                      <DataList.ItemLabel width="30px" minWidth="initial" pl={1}>
-                        {code}:
+                      <DataList.ItemLabel width="50px" minWidth="initial" pl={1} gap={0}>
+                        {code} -
                       </DataList.ItemLabel>
                       <DataList.ItemValue>{descr}</DataList.ItemValue>
                     </DataList.Item>
