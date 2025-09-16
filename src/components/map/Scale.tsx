@@ -20,7 +20,7 @@ export function Scale({ label, values }: ScaleProps) {
               width="12px"
               height="8px"
             />
-            <Text color="gray.600" fontSize="7.5px" height={3}>
+            <Text fontSize="7.5px" height={3}>
               {value}
             </Text>
           </VStack>
