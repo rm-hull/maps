@@ -274,7 +274,10 @@ export const OVERLAYS: Record<string, Overlay> = {
   "MetOffice Rain Forecast": {
     minZoom: 6,
     component: () => (
-      <WeatherLayer url="https://api.destructuring-bind.org/v1/metoffice/datahub/total_precipitation_rate/{y}/{m}/{d}/{h}.png" />
+      <WeatherLayer
+        url="https://api.destructuring-bind.org/v1/metoffice/datahub/total_precipitation_rate/{y}/{m}/{d}/{h}.png"
+        zIndex={660}
+      />
     ),
   },
 };

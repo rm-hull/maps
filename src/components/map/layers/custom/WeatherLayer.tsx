@@ -11,6 +11,7 @@ type WeatherLayerProps = {
   url: string;
   opacity?: number;
   animate?: boolean;
+  zIndex?: number;
 };
 
 const bounds = new L.LatLngBounds(
@@ -138,12 +139,11 @@ function getTodayMidnight(): Date {
   return new Date(now.getFullYear(), now.getMonth(), now.getDate());
 }
 
-function getIndexForCurrentTime() {
+function getIndexForCurrentTime(): number {
   return timesteps.indexOf(zeroPad(new Date().getHours(), 2));
 }
 
-export function WeatherLayer({ url: urlTemplate, opacity = 0.6, animate = false }: WeatherLayerProps) {
-  const today = useMemo(() => getTodayMidnight(), []);
+export function WeatherLayer({ url: urlTemplate, opacity = 0.6, animate = false, zIndex }: WeatherLayerProps) {
   const [index, setIndex] = useState(getIndexForCurrentTime());
   const [isRunning, setIsRunning] = useState(animate);
 
@@ -168,6 +168,8 @@ export function WeatherLayer({ url: urlTemplate, opacity = 0.6, animate = false 
 
     return () => clearInterval(timerId);
   }, [isRunning]);
+
+  const today = useMemo(() => getTodayMidnight(), []);
 
   const url = useMemo(() => {
     return urlTemplate
@@ -206,7 +208,7 @@ export function WeatherLayer({ url: urlTemplate, opacity = 0.6, animate = false 
           </ButtonGroup>
         </HStack>
       </Control>
-      <ImageOverlay url={url} bounds={bounds} opacity={opacity} />
+      <ImageOverlay url={url} bounds={bounds} opacity={opacity} zIndex={zIndex} />
     </>
   );
 }
