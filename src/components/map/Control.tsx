@@ -18,7 +18,7 @@ const POSITION_CLASSES = {
 
 export const Control = ({ position, container, children }: PropsWithChildren<ControlProps>) => {
   const [portalRoot, setPortalRoot] = useState<HTMLElement | null>(null);
-  const positionClass = (position && POSITION_CLASSES[position]) || POSITION_CLASSES.topright;
+  const positionClass = POSITION_CLASSES[position];
   const controlContainerRef = useRef<HTMLDivElement | null>(null);
   const map = useMap();
 
