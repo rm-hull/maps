@@ -10,8 +10,8 @@ export function Scale({ label, values }: ScaleProps) {
     <HStack color="gray.600">
       {label}
       <HStack gap={0}>
-        {values.map(({ color, value }) => (
-          <VStack key={color} gap={0}>
+        {values.map(({ color, value }, index) => (
+          <VStack key={index} gap={0}>
             <Box
               borderColor="gray.600"
               borderWidth={1}
