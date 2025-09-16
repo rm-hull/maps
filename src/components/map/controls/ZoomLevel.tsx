@@ -1,8 +1,8 @@
 import { Box } from "@chakra-ui/react";
 import { useState } from "react";
 import { useMap, useMapEvents } from "react-leaflet";
-import Control from "react-leaflet-custom-control";
 import { useGeneralSettings } from "../../../hooks/useGeneralSettings";
+import { Control } from "../Control";
 
 export function ZoomLevel() {
   const [settings] = useGeneralSettings();

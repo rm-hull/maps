@@ -7668,7 +7668,6 @@ __metadata:
     react-lazily: "npm:^0.9.2"
     react-leaflet: "npm:^5.0.0"
     react-leaflet-cluster: "npm:^3.1.1"
-    react-leaflet-custom-control: "npm:^1.5.0"
     react-query: "npm:^3.39.3"
     react-router-dom: "npm:^7.9.1"
     react-use: "npm:^17.6.0"
@@ -8539,19 +8538,6 @@ __metadata:
     react-dom: ^18.2.0 || ^19.0.0
     react-leaflet: ^4.0.0
   checksum: 10/7d1972696ebfcfa6f894f94c19622980c5b343739f7d6c171890e5803e5404f7bb18ec813fc4bb80b4245e4bb00584cebd36a10e19fa492d632b04e293608d01
-  languageName: node
-  linkType: hard
-
-"react-leaflet-custom-control@npm:^1.5.0":
-  version: 1.5.0
-  resolution: "react-leaflet-custom-control@npm:1.5.0"
-  dependencies:
-    react-leaflet: "npm:^5.0.0"
-  peerDependencies:
-    leaflet: ^1.9.0
-    react: ^17.0.2 || ^18.0.0 || ^19.0.0
-    react-dom: ^17.0.2 || ^18.0.0 || ^19.0.0
-  checksum: 10/fcb607265f954861cafa69d86b58b9cc33ffbc5ae831056dfd54ec8d9b1f4729a629a44f7f9961409639bf57584080ab41a09d928dac09097c493faa9d4557b9
   languageName: node
   linkType: hard
 
