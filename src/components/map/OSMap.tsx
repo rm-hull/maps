@@ -11,7 +11,6 @@ import { Ruler } from "./controls/Ruler";
 import { Settings } from "./controls/Settings";
 import { ZoomLevel } from "./controls/ZoomLevel";
 import { CustomOverlays } from "./CustomOverlays";
-import { WeatherLayer } from "./layers/custom/WeatherLayer";
 import { PointOfInterest } from "./PointOfInterest";
 import { SearchBox } from "./SearchBox";
 import { Tracks } from "./Tracks";
