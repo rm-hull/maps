@@ -1,14 +1,16 @@
-import { HStack, Text } from "@chakra-ui/react";
+import { ButtonGroup, HStack, IconButton, Text } from "@chakra-ui/react";
 import * as L from "leaflet";
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
+import { IoPlayOutline, IoPlaySkipForwardOutline, IoPauseOutline } from "react-icons/io5";
+import { RxReset } from "react-icons/rx";
 import { ImageOverlay } from "react-leaflet";
-import Control from "react-leaflet-custom-control";
+import { Control } from "../../Control";
 import { Scale } from "../../Scale";
 
 type WeatherLayerProps = {
   url: string;
   opacity?: number;
-  //   animate?: boolean
+  animate?: boolean;
 };
 
 const bounds = new L.LatLngBounds(
@@ -18,21 +20,14 @@ const bounds = new L.LatLngBounds(
   // N 63.0, E 15.0, S 45.0, W -25.0
 );
 
-// const scale = [
-//   { color: "#FFFFFF00", value: "0" },
-//   { color: "#00FFFF", value: "0.2" },
-//   { color: "#0080FF", value: "1" },
-//   { color: "#0000FF", value: "3" },
-//   { color: "#008080", value: "5" },
-//   { color: "#00FF00", value: "7" },
-//   { color: "#80FF00", value: "9" },
-//   { color: "#FFFF00", value: "15" },
-//   { color: "#FF8000", value: "25" },
-//   { color: "#FF4000", value: "35" },
-//   { color: "#FF0000", value: "45" },
-//   { color: "#800000", value: "55" },
-//   { color: "#800080", value: "150" },
-// ];
+const dateTimeFormatter = new Intl.DateTimeFormat("en-GB", {
+  year: "numeric",
+  month: "2-digit",
+  day: "2-digit",
+  hour: "2-digit",
+  minute: "2-digit",
+  hour12: false,
+});
 
 const scale2 = [
   { color: "#FFFFFF00", value: "0" },
@@ -120,50 +115,18 @@ const timesteps = [
   "53",
   "54",
   "57",
-  "57",
-  "57",
-  "60",
-  "60",
   "60",
   "63",
-  "63",
-  "63",
-  "66",
-  "66",
   "66",
   "69",
-  "69",
-  "69",
-  "72",
-  "72",
   "72",
   "75",
-  "75",
-  "75",
-  "78",
-  "78",
   "78",
   "81",
-  "81",
-  "81",
-  "84",
-  "84",
   "84",
   "87",
-  "87",
-  "87",
-  "90",
-  "90",
   "90",
   "93",
-  "93",
-  "93",
-  "96",
-  "96",
-  "96",
-  "99",
-  "99",
-  "99",
 ];
 
 function zeroPad(num: number, length: number): string {
@@ -175,29 +138,48 @@ function getTodayMidnight(): Date {
   return new Date(now.getFullYear(), now.getMonth(), now.getDate());
 }
 
-export function WeatherLayer({ url, opacity = 0.6 }: WeatherLayerProps) {
+function getIndexForCurrentTime() {
+  return timesteps.indexOf(zeroPad(new Date().getHours(), 2));
+}
+
+export function WeatherLayer({ url: urlTemplate, opacity = 0.6, animate = false }: WeatherLayerProps) {
   const today = getTodayMidnight();
-  const [index, setIndex] = useState(0);
+  const [index, setIndex] = useState(getIndexForCurrentTime());
+  const [isRunning, setIsRunning] = useState(animate);
+
+  const handleReset = useCallback(() => {
+    setIndex(getIndexForCurrentTime());
+  }, []);
+
+  const handlePlay = useCallback(() => {
+    setIsRunning((prev) => !prev);
+  }, []);
+
+  const handleAdvance = useCallback(() => {
+    setIndex((prev) => (prev + 1) % timesteps.length);
+  }, []);
 
   useEffect(() => {
     const timerId = setInterval(() => {
-      setIndex((prev) => (prev + 1) % timesteps.length);
+      if (isRunning) {
+        setIndex((prev) => (prev + 1) % timesteps.length);
+      }
     }, 250);
 
     return () => clearInterval(timerId);
-  }, []);
+  }, [isRunning]);
 
-  const actual = useMemo(() => {
-    return url
+  const url = useMemo(() => {
+    return urlTemplate
       .replace("{y}", zeroPad(today.getFullYear(), 4))
       .replace("{m}", zeroPad(today.getMonth() + 1, 2))
       .replace("{d}", zeroPad(today.getDate(), 2))
       .replace("{h}", timesteps[index]);
-  }, [url, today, index]);
+  }, [urlTemplate, today, index]);
 
   const currentTime = useMemo(() => {
     today.setHours(parseInt(timesteps[index]));
-    return today.toISOString().substring(0, 16).replaceAll("T", " ");
+    return dateTimeFormatter.format(today);
   }, [today, index]);
 
   return (
@@ -208,9 +190,22 @@ export function WeatherLayer({ url, opacity = 0.6 }: WeatherLayerProps) {
           <Text fontSize="xs" fontWeight="bold">
             {currentTime}
           </Text>
+          <ButtonGroup gap={1} size="xs" variant="subtle">
+            <IconButton color="purple.600" onClick={handleReset} disabled={isRunning}>
+              <RxReset />
+            </IconButton>
+
+            <IconButton color={isRunning ? "red.600" : "green.600"} onClick={handlePlay}>
+              {isRunning ? <IoPauseOutline /> : <IoPlayOutline />}
+            </IconButton>
+
+            <IconButton color="blue.600" onClick={handleAdvance} disabled={isRunning}>
+              <IoPlaySkipForwardOutline />
+            </IconButton>
+          </ButtonGroup>
         </HStack>
       </Control>
-      <ImageOverlay url={actual} bounds={bounds} opacity={opacity} />
+      <ImageOverlay url={url} bounds={bounds} opacity={opacity} />
     </>
   );
 }
