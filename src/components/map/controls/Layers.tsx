@@ -3,9 +3,9 @@ import * as L from "leaflet";
 import { useCallback, useState, useRef } from "react";
 import { IoLayersSharp } from "react-icons/io5";
 import { useMap } from "react-leaflet";
-import Control from "react-leaflet-custom-control";
 import { baseLayers, LayerOption, OVERLAYS } from "../../../config/layer";
 import { useGeneralSettings } from "../../../hooks/useGeneralSettings";
+import { Control } from "../Control";
 
 function OverlaySelector() {
   const map = useMap();
