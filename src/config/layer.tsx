@@ -7,6 +7,7 @@ import { GeographLayer } from "../components/map/layers/custom/GeographLayer";
 import { GpsRoutesLayer } from "../components/map/layers/custom/GpsRoutesLayer";
 import { PostcodePolygonsLayer } from "../components/map/layers/custom/PostcodePolygonsLayer";
 import { StreetManagerLayer } from "../components/map/layers/custom/StreetManagerLayer";
+import { WeatherLayer } from "../components/map/layers/custom/WeatherLayer";
 
 type Tile = {
   url: string;
@@ -268,6 +269,16 @@ export const OVERLAYS: Record<string, Overlay> = {
         url={`https://api.tomtom.com/traffic/map/4/tile/flow/relative/{z}/{x}/{y}.png?key=${TOMTOM_API_KEY}&tileSize=512&thickness=5`}
         pane="overlayPane"
         zIndex={650}
+      />
+    ),
+  },
+
+  "MetOffice Rain Forecast": {
+    minZoom: 6,
+    component: () => (
+      <WeatherLayer
+        url="https://api.destructuring-bind.org/v1/metoffice/datahub/total_precipitation_rate/{y}/{m}/{d}/{h}.png"
+        zIndex={660}
       />
     ),
   },
