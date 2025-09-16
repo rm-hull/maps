@@ -61,7 +61,6 @@ export function OSMap({ center }: OSMapProps) {
       <ZoomLevel />
       <ScaleControl position="bottomright" />
       <Ruler />
-      <WeatherLayer />
     </MapContainer>
   );
 }

@@ -6,6 +6,7 @@ import { GeodsPointsOfInterestLayer } from "../components/map/layers/custom/Geod
 import { GeographLayer } from "../components/map/layers/custom/GeographLayer";
 import { GpsRoutesLayer } from "../components/map/layers/custom/GpsRoutesLayer";
 import { PostcodePolygonsLayer } from "../components/map/layers/custom/PostcodePolygonsLayer";
+import { WeatherLayer } from "../components/map/layers/custom/WeatherLayer";
 
 type Tile = {
   url: string;
@@ -267,6 +268,13 @@ export const OVERLAYS: Record<string, Overlay> = {
         pane="overlayPane"
         zIndex={650}
       />
+    ),
+  },
+
+  "MetOffice Rain Forcast": {
+    minZoom: 6,
+    component: () => (
+      <WeatherLayer url="https://api.destructuring-bind.org/v1/metoffice/datahub/total_precipitation_rate/{y}/{m}/{d}/{h}.png" />
     ),
   },
 };
