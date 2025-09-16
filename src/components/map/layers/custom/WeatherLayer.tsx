@@ -18,22 +18,6 @@ const bounds = new L.LatLngBounds(
   // N 63.0, E 15.0, S 45.0, W -25.0
 );
 
-type DateTime = {
-  year: number;
-  month: number;
-  day: number;
-  hour: number;
-};
-
-function toDateTime(dt: Date): DateTime {
-  return {
-    year: dt.getFullYear(),
-    month: dt.getMonth() + 1,
-    day: dt.getDate(),
-    hour: dt.getHours(),
-  };
-}
-
 // const scale = [
 //   { color: "#FFFFFF00", value: "0" },
 //   { color: "#00FFFF", value: "0.2" },
@@ -79,31 +63,143 @@ const scale2 = [
   { color: "#800080", value: "150" },
 ];
 
+const timesteps = [
+  "00",
+  "01",
+  "02",
+  "03",
+  "04",
+  "05",
+  "06",
+  "07",
+  "08",
+  "09",
+  "10",
+  "11",
+  "12",
+  "13",
+  "14",
+  "15",
+  "16",
+  "17",
+  "18",
+  "19",
+  "20",
+  "21",
+  "22",
+  "23",
+  "24",
+  "25",
+  "26",
+  "27",
+  "28",
+  "29",
+  "30",
+  "31",
+  "32",
+  "33",
+  "34",
+  "35",
+  "36",
+  "37",
+  "38",
+  "39",
+  "40",
+  "41",
+  "42",
+  "43",
+  "44",
+  "45",
+  "46",
+  "47",
+  "48",
+  "49",
+  "50",
+  "51",
+  "52",
+  "53",
+  "54",
+  "57",
+  "57",
+  "57",
+  "60",
+  "60",
+  "60",
+  "63",
+  "63",
+  "63",
+  "66",
+  "66",
+  "66",
+  "69",
+  "69",
+  "69",
+  "72",
+  "72",
+  "72",
+  "75",
+  "75",
+  "75",
+  "78",
+  "78",
+  "78",
+  "81",
+  "81",
+  "81",
+  "84",
+  "84",
+  "84",
+  "87",
+  "87",
+  "87",
+  "90",
+  "90",
+  "90",
+  "93",
+  "93",
+  "93",
+  "96",
+  "96",
+  "96",
+  "99",
+  "99",
+  "99",
+];
+
 function zeroPad(num: number, length: number): string {
   return num.toString().padStart(length, "0");
 }
 
+function getTodayMidnight(): Date {
+  const now = new Date();
+  return new Date(now.getFullYear(), now.getMonth(), now.getDate());
+}
+
 export function WeatherLayer({ url, opacity = 0.6 }: WeatherLayerProps) {
-  const [dateTime, setDateTime] = useState(toDateTime(new Date()));
+  const today = getTodayMidnight();
+  const [index, setIndex] = useState(0);
+
   useEffect(() => {
     const timerId = setInterval(() => {
-      setDateTime((prev) => ({ ...prev, hour: (prev.hour + 1) % 25 }));
-    }, 1000);
+      setIndex((prev) => (prev + 1) % timesteps.length);
+    }, 250);
 
     return () => clearInterval(timerId);
   }, []);
 
   const actual = useMemo(() => {
     return url
-      .replace("{y}", zeroPad(dateTime.year, 4))
-      .replace("{m}", zeroPad(dateTime.month, 2))
-      .replace("{d}", zeroPad(dateTime.day, 2))
-      .replace("{h}", zeroPad(dateTime.hour, 2));
-  }, [url, dateTime]);
+      .replace("{y}", zeroPad(today.getFullYear(), 4))
+      .replace("{m}", zeroPad(today.getMonth() + 1, 2))
+      .replace("{d}", zeroPad(today.getDate(), 2))
+      .replace("{h}", timesteps[index]);
+  }, [url, today, index]);
 
-  const currentTime = `${zeroPad(dateTime.year, 4)}-${zeroPad(dateTime.month, 2)}-${zeroPad(dateTime.day, 2)} ${zeroPad(dateTime.hour, 2)}:00`;
+  const currentTime = useMemo(() => {
+    today.setHours(parseInt(timesteps[index]));
+    return today.toISOString().substring(0, 16).replaceAll("T", " ");
+  }, [today, index]);
 
-  console.log({ actual });
   return (
     <>
       <Control position="bottomleft">
