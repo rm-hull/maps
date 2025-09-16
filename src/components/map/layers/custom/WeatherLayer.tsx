@@ -178,8 +178,9 @@ export function WeatherLayer({ url: urlTemplate, opacity = 0.6, animate = false 
   }, [urlTemplate, today, index]);
 
   const currentTime = useMemo(() => {
-    today.setHours(parseInt(timesteps[index]));
-    return dateTimeFormatter.format(today);
+    const date = new Date(today);
+    date.setHours(parseInt(timesteps[index]));
+    return dateTimeFormatter.format(date);
   }, [today, index]);
 
   return (
