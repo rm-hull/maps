@@ -143,7 +143,7 @@ function getIndexForCurrentTime() {
 }
 
 export function WeatherLayer({ url: urlTemplate, opacity = 0.6, animate = false }: WeatherLayerProps) {
-  const today = getTodayMidnight();
+  const today = useMemo(() => getTodayMidnight(), []);
   const [index, setIndex] = useState(getIndexForCurrentTime());
   const [isRunning, setIsRunning] = useState(animate);
 
