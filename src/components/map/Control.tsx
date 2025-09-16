@@ -16,7 +16,7 @@ const POSITION_CLASSES = {
   topright: "leaflet-top leaflet-right",
 };
 
-export const Control = ({ position, container, children }: PropsWithChildren<ControlProps>) => {
+export const Control = ({ position, container, children, prepend }: PropsWithChildren<ControlProps>) => {
   const [portalRoot, setPortalRoot] = useState<HTMLElement | null>(null);
   const positionClass = (position && POSITION_CLASSES[position]) || POSITION_CLASSES.topright;
   const controlContainerRef = useRef<HTMLDivElement | null>(null);
@@ -33,10 +33,13 @@ export const Control = ({ position, container, children }: PropsWithChildren<Con
     if (controlContainerRef.current && portalRoot) {
       L.DomEvent.disableClickPropagation(controlContainerRef.current);
       L.DomEvent.disableScrollPropagation(controlContainerRef.current);
+      if (prepend) {
+        portalRoot.prepend(controlContainerRef.current);
+      }
     }
-  }, [portalRoot]); // Depend on portalRoot so it runs after portal is created
+  }, [portalRoot, prepend]); // Depend on portalRoot so it runs after portal is created
 
-  const className = (container?.className?.concat(" ") || "") + "leaflet-control";
+  const className = [container?.className, "leaflet-control"].filter(Boolean).join(" ");
 
   return portalRoot
     ? createPortal(
