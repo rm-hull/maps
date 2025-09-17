@@ -1,4 +1,4 @@
-import { ButtonGroup, HStack, IconButton, Text } from "@chakra-ui/react";
+import { Box, ButtonGroup, HStack, IconButton, Stack, Text } from "@chakra-ui/react";
 import * as L from "leaflet";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { IoPlayOutline, IoPlaySkipForwardOutline, IoPauseOutline } from "react-icons/io5";
@@ -188,25 +188,33 @@ export function WeatherLayer({ url: urlTemplate, opacity = 0.6, animate = false,
   return (
     <>
       <Control position="bottomleft">
-        <HStack backgroundColor="whiteAlpha.700" color="gray.600" p={1} borderRadius={5}>
+        <Stack
+          backgroundColor="whiteAlpha.700"
+          color="gray.600"
+          p={1}
+          borderRadius={5}
+          direction={{ base: "column", md: "row" }}
+        >
           <Scale label="Rain (mm/h):" values={scale2} />
-          <Text fontSize="xs" fontWeight="bold">
-            {currentTime}
-          </Text>
-          <ButtonGroup gap={1} size="xs" variant="subtle">
-            <IconButton color="purple.600" onClick={handleReset} disabled={isRunning}>
-              <RxReset />
-            </IconButton>
+          <HStack>
+            <Text fontSize="xs" fontWeight="bold">
+              {currentTime}
+            </Text>
+            <ButtonGroup gap={1} size="xs" variant="subtle">
+              <IconButton color="purple.600" onClick={handleReset} disabled={isRunning}>
+                <RxReset />
+              </IconButton>
 
-            <IconButton color={isRunning ? "red.600" : "green.600"} onClick={handlePlay}>
-              {isRunning ? <IoPauseOutline /> : <IoPlayOutline />}
-            </IconButton>
+              <IconButton color={isRunning ? "red.600" : "green.600"} onClick={handlePlay}>
+                {isRunning ? <IoPauseOutline /> : <IoPlayOutline />}
+              </IconButton>
 
-            <IconButton color="blue.600" onClick={handleAdvance} disabled={isRunning}>
-              <IoPlaySkipForwardOutline />
-            </IconButton>
-          </ButtonGroup>
-        </HStack>
+              <IconButton color="blue.600" onClick={handleAdvance} disabled={isRunning}>
+                <IoPlaySkipForwardOutline />
+              </IconButton>
+            </ButtonGroup>
+          </HStack>
+        </Stack>
       </Control>
       <ImageOverlay url={url} bounds={bounds} opacity={opacity} zIndex={zIndex} />
     </>
