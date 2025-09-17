@@ -1,4 +1,4 @@
-import { Box, ButtonGroup, HStack, IconButton, Stack, Text } from "@chakra-ui/react";
+import { ButtonGroup, HStack, IconButton, Stack, Text } from "@chakra-ui/react";
 import * as L from "leaflet";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { IoPlayOutline, IoPlaySkipForwardOutline, IoPauseOutline } from "react-icons/io5";
