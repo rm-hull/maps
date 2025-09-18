@@ -169,6 +169,12 @@ export function WeatherLayer({ url: urlTemplate, opacity = 0.6, animate = false,
     return () => clearInterval(timerId);
   }, [isRunning]);
 
+  useEffect(() => {
+    if (index === timesteps.length - 1) {
+      setIsRunning(false);
+    }
+  }, [index]);
+
   const today = useMemo(() => getTodayMidnight(), []);
 
   const url = useMemo(() => {
