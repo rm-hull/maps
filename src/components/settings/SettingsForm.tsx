@@ -38,7 +38,7 @@ export function SettingsForm() {
   return (
     <VStack gap={6}>
       <Field.Root>
-        <HStack alignItems="start">
+        <HStack alignItems="start" width="full">
           <Field.Label width="100px">Initial location:</Field.Label>
           <RadioGroup.Root
             onValueChange={(e) => handleUpdateInitialLocation(e.value as InitialLocation)}
@@ -73,14 +73,14 @@ export function SettingsForm() {
       </Field.Root>
 
       <Field.Root>
-        <HStack alignItems="start">
+        <HStack alignItems="start" width="full">
           <Field.Label width="120px">Map style:</Field.Label>
           <Listbox.Root
             collection={baseLayers}
             value={[settings?.mapStyle ?? "Leisure"]}
             onValueChange={(e) => handleUpdateMapStyle(e.value)}
           >
-            <Listbox.Content width={400} maxHeight={140} divideY="1px">
+            <Listbox.Content maxHeight={140} divideY="1px">
               {baseLayers.group().map(([provider, layers]) => (
                 <Listbox.ItemGroup key={provider}>
                   <Listbox.ItemGroupLabel fontWeight="bold">{provider}</Listbox.ItemGroupLabel>
@@ -102,7 +102,7 @@ export function SettingsForm() {
           defaultValue={[zoomLevel]}
           min={7}
           max={18}
-          width="100%"
+          width="full"
           onValueChange={(e) => handleUpdateZoomLevel(e.value[0])}
         >
           <HStack display="flex" justifyContent="space-between">
