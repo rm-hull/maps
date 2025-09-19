@@ -32,7 +32,7 @@ const OS_DATAHUB_API_KEY = import.meta.env.VITE_OS_DATAHUB_API_KEY as string | u
 const THUNDERFOREST_API_KEY = import.meta.env.VITE_THUNDERFOREST_API_KEY as string | undefined;
 const TOMTOM_API_KEY = import.meta.env.VITE_TOMTOM_API_KEY as string | undefined;
 
-function createLayer(name: string, provider: string, url: string, options?: L.TileLayerOptions): LayerOption {
+function createRasterLayer(name: string, provider: string, url: string, options?: L.TileLayerOptions): LayerOption {
   return {
     name,
     tiles: [{ url, options, type: "raster" }],
@@ -40,23 +40,36 @@ function createLayer(name: string, provider: string, url: string, options?: L.Ti
   };
 }
 
-const BASE_LAYERS: LayerOption[] = [
-  createLayer("Positron", "Carto", "https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png"),
-  createLayer("Dark Matter", "Carto", "https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png"),
-  createLayer("Voyager", "Carto", "https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png"),
+function createVectorLayer(name: string, provider: string, url: string): LayerOption {
+  return {
+    name,
+    provider,
+    tiles: [
+      {
+        type: "vector",
+        url,
+      },
+    ],
+  };
+}
 
-  createLayer(
+const BASE_LAYERS: LayerOption[] = [
+  createRasterLayer("Positron", "Carto", "https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png"),
+  createRasterLayer("Dark Matter", "Carto", "https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png"),
+  createRasterLayer("Voyager", "Carto", "https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png"),
+
+  createRasterLayer(
     "World TopoMap",
     "ESRI",
     "https://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}"
   ),
-  createLayer(
+  createRasterLayer(
     "World Imagery",
     "ESRI",
 
     "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}"
   ),
-  createLayer(
+  createRasterLayer(
     "World Gray Canvas",
     "ESRI",
     "https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}",
@@ -72,20 +85,20 @@ const BASE_LAYERS: LayerOption[] = [
       },
     ],
   },
-  createLayer("OpenStreetMap", "Open Street Map", "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"),
-  createLayer("OpenTopoMap", "Open Street Map", "https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png", {
+  createRasterLayer("OpenStreetMap", "Open Street Map", "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"),
+  createRasterLayer("OpenTopoMap", "Open Street Map", "https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png", {
     maxZoom: 15,
     maxNativeZoom: 15,
     opacity: 0.8,
   }),
-  createLayer("CyclOSM", "Open Street Map", "https://{s}.tile-cyclosm.openstreetmap.fr/cyclosm/{z}/{x}/{y}.png"),
-  createLayer("Humanitarian", "Open Street Map", "https://tile-c.openstreetmap.fr/hot/{z}/{x}/{y}.png"),
-  createLayer(
+  createRasterLayer("CyclOSM", "Open Street Map", "https://{s}.tile-cyclosm.openstreetmap.fr/cyclosm/{z}/{x}/{y}.png"),
+  createRasterLayer("Humanitarian", "Open Street Map", "https://tile-c.openstreetmap.fr/hot/{z}/{x}/{y}.png"),
+  createRasterLayer(
     "SLUB",
     "Open Street Map",
     "https://tile-4.kartenforum.slub-dresden.de/styles/maptiler-basic-v2/{z}/{x}/{y}{r}.png"
   ),
-  createLayer(
+  createRasterLayer(
     "Skobbler Night",
     "Open Street Map",
     "https://tiles2-bc7b4da77e971c12cb0e069bffcf2771.skobblermaps.com/TileService/tiles/2.0/01021113210/2/{z}/{x}/{y}.png{r}?traffic=false"
@@ -111,7 +124,7 @@ const BASE_LAYERS: LayerOption[] = [
       },
     ],
   },
-  createLayer(
+  createRasterLayer(
     "Roads",
     "Ordnance Survey",
     `https://api.os.uk/maps/raster/v1/zxy/Road_3857/{z}/{x}/{y}.png?key=${OS_DATAHUB_API_KEY}`,
@@ -119,13 +132,13 @@ const BASE_LAYERS: LayerOption[] = [
       minZoom: 17,
     }
   ),
-  createLayer(
+  createRasterLayer(
     "Outdoor",
     "Ordnance Survey",
     `https://api.os.uk/maps/raster/v1/zxy/Outdoor_3857/{z}/{x}/{y}.png?key=${OS_DATAHUB_API_KEY}`,
     { minZoom: 17 }
   ),
-  createLayer(
+  createRasterLayer(
     "Light",
     "Ordnance Survey",
     `https://api.os.uk/maps/raster/v1/zxy/Light_3857/{z}/{x}/{y}.png?key=${OS_DATAHUB_API_KEY}`,
@@ -133,104 +146,44 @@ const BASE_LAYERS: LayerOption[] = [
       minZoom: 17,
     }
   ),
-  // createLayer(
-  //   "Alidade Satellite",
-  //   "Stadia",
-  //   "https://tiles-eu.stadiamaps.com/tiles/alidade_satellite/{z}/{x}/{y}{r}.png"
-  // ),
-  {
-    name: "Alidade Smooth",
-    provider: "Stadia",
-    tiles: [
-      {
-        type: "vector",
-        url: "https://tiles-eu.stadiamaps.com/styles/alidade_smooth.json",
-      },
-    ],
-  },
-  {
-    name: "Alidade Smooth Dark",
-    provider: "Stadia",
-    tiles: [
-      {
-        type: "vector",
-        url: "https://tiles-eu.stadiamaps.com/styles/alidade_smooth_dark.json",
-      },
-    ],
-  },
-  {
-    name: "OSMBright",
-    provider: "Stadia",
-    tiles: [
-      {
-        type: "vector",
-        url: "https://tiles-eu.stadiamaps.com/styles/osm_bright.json",
-      },
-    ],
-  },
-  {
-    name: "Stamen Toner",
-    provider: "Stadia",
-    tiles: [
-      {
-        type: "vector",
-        url: "https://tiles-eu.stadiamaps.com/styles/stamen_toner.json",
-      },
-    ],
-  },
-  {
-    name: "Stamen Watercolor",
-    provider: "Stadia",
-    tiles: [
-      {
-        type: "vector",
-        url: "https://tiles-eu.stadiamaps.com/styles/stamen_watercolor.json",
-      },
-    ],
-  },
-  {
-    name: "Terrain",
-    provider: "Stadia",
-    tiles: [
-      {
-        type: "vector",
-        url: "https://tiles-eu.stadiamaps.com/styles/stamen_terrain.json",
-      },
-    ],
-  },
-
-  createLayer(
+  createVectorLayer("Alidade Smooth", "Stadia", "https://tiles-eu.stadiamaps.com/styles/alidade_smooth.json"),
+  createVectorLayer("Alidade Smooth Dark", "Stadia", "https://tiles-eu.stadiamaps.com/styles/alidade_smooth_dark.json"),
+  createVectorLayer("OSMBright", "Stadia", "https://tiles-eu.stadiamaps.com/styles/osm_bright.json"),
+  createVectorLayer("Stamen Toner", "Stadia", "https://tiles-eu.stadiamaps.com/styles/stamen_toner.json"),
+  createVectorLayer("Stamen Watercolor", "Stadia", "https://tiles-eu.stadiamaps.com/styles/stamen_watercolor.json"),
+  createVectorLayer("Terrain", "Stadia", "https://tiles-eu.stadiamaps.com/styles/stamen_terrain.json"),
+  createRasterLayer(
     "Atlas",
     "Thunderforest",
     `https://{s}.tile.thunderforest.com/atlas/{z}/{x}/{y}{r}.png?apikey=${THUNDERFOREST_API_KEY}`
   ),
-  createLayer(
+  createRasterLayer(
     "Cycle",
     "Thunderforest",
     `https://{s}.tile.thunderforest.com/cycle/{z}/{x}/{y}{r}.png?apikey=${THUNDERFOREST_API_KEY}`
   ),
 
-  createLayer(
+  createRasterLayer(
     "Landscape",
     "Thunderforest",
     `https://{s}.tile.thunderforest.com/landscape/{z}/{x}/{y}{r}.png?apikey=${THUNDERFOREST_API_KEY}`
   ),
-  createLayer(
+  createRasterLayer(
     "Mobile Atlas",
     "Thunderforest",
     `https://{s}.tile.thunderforest.com/mobile-atlas/{z}/{x}/{y}{r}.png?apikey=${THUNDERFOREST_API_KEY}`
   ),
-  createLayer(
+  createRasterLayer(
     "Neighbourhood",
     "Thunderforest",
     `https://{s}.tile.thunderforest.com/neighbourhood/{z}/{x}/{y}{r}.png?apikey=${THUNDERFOREST_API_KEY}`
   ),
-  createLayer(
+  createRasterLayer(
     "Outdoors",
     "Thunderforest",
     `https://{s}.tile.thunderforest.com/outdoors/{z}/{x}/{y}{r}.png?apikey=${THUNDERFOREST_API_KEY}`
   ),
-  createLayer(
+  createRasterLayer(
     "Transport",
     "Thunderforest",
     `https://{s}.tile.thunderforest.com/transport/{z}/{x}/{y}{r}.png?apikey=${THUNDERFOREST_API_KEY}`
