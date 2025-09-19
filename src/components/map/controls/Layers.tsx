@@ -3,9 +3,10 @@ import * as L from "leaflet";
 import { useCallback, useState, useRef } from "react";
 import { IoLayersSharp } from "react-icons/io5";
 import { useMap } from "react-leaflet";
-import { baseLayers, LayerOption, OVERLAYS } from "../../../config/layer";
+import { baseLayers, LayerOption, type Tile, OVERLAYS } from "../../../config/layer";
 import { useGeneralSettings } from "../../../hooks/useGeneralSettings";
 import { Control } from "../Control";
+import "@maplibre/maplibre-gl-leaflet";
 
 function OverlaySelector() {
   const map = useMap();
@@ -107,17 +108,23 @@ type LayersProps = {
   defaultLayer: LayerOption;
 };
 
+function createLayer(tile: Tile): L.Layer {
+  return tile.type === "raster"
+    ? L.tileLayer(tile.url, tile.options)
+    : L.maplibreGL({ style: tile.url, minZoom: tile.options?.minZoom, maxZoom: tile.options?.maxZoom });
+}
+
 export function Layers({ defaultLayer }: LayersProps) {
   const [expanded, setExpanded] = useState(false);
   const debounceRef = useRef<NodeJS.Timeout | null>(null);
   const map = useMap();
 
   const addTileLayers = useCallback(
-    (layerOption: LayerOption) => layerOption.tiles.map((tile) => L.tileLayer(tile.url, tile.options).addTo(map)),
+    (layerOption: LayerOption) => layerOption.tiles.map((tile) => createLayer(tile).addTo(map)),
     [map]
   );
 
-  const [tileLayers, setTileLayers] = useState<L.TileLayer[]>(() => addTileLayers(defaultLayer));
+  const [tileLayers, setTileLayers] = useState<L.Layer[]>(() => addTileLayers(defaultLayer));
   const [selected, setSelected] = useState<LayerOption>(defaultLayer);
 
   const handleBaseLayerChange = useCallback(
