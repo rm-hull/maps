@@ -1975,6 +1975,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@eslint-community/eslint-utils@npm:^4.9.0":
+  version: 4.9.0
+  resolution: "@eslint-community/eslint-utils@npm:4.9.0"
+  dependencies:
+    eslint-visitor-keys: "npm:^3.4.3"
+  peerDependencies:
+    eslint: ^6.0.0 || ^7.0.0 || >=8.0.0
+  checksum: 10/89b1eb3137e14c379865e60573f524fcc0ee5c4b0c7cd21090673e75e5a720f14b92f05ab2d02704c2314b67e67b6f96f3bb209ded6b890ced7b667aa4bf1fa2
+  languageName: node
+  linkType: hard
+
 "@eslint-community/regexpp@npm:^4.10.0, @eslint-community/regexpp@npm:^4.11.0, @eslint-community/regexpp@npm:^4.12.1, @eslint-community/regexpp@npm:^4.4.0":
   version: 4.12.1
   resolution: "@eslint-community/regexpp@npm:4.12.1"
@@ -2487,19 +2498,19 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@stylistic/eslint-plugin@npm:^5.3.1":
-  version: 5.3.1
-  resolution: "@stylistic/eslint-plugin@npm:5.3.1"
+"@stylistic/eslint-plugin@npm:^5.4.0":
+  version: 5.4.0
+  resolution: "@stylistic/eslint-plugin@npm:5.4.0"
   dependencies:
-    "@eslint-community/eslint-utils": "npm:^4.7.0"
-    "@typescript-eslint/types": "npm:^8.41.0"
+    "@eslint-community/eslint-utils": "npm:^4.9.0"
+    "@typescript-eslint/types": "npm:^8.44.0"
     eslint-visitor-keys: "npm:^4.2.1"
     espree: "npm:^10.4.0"
     estraverse: "npm:^5.3.0"
     picomatch: "npm:^4.0.3"
   peerDependencies:
     eslint: ">=9.0.0"
-  checksum: 10/1b7522fce6ce8208f94e574d7d0fa61d621ffce4403223e6cd6ee57061b4f6075242ef8cfc73b3489be730d46d5afa888aadce62a6b0c13e97f1c75c914661e9
+  checksum: 10/95bd7573bc4da932b1fe6da24d5032d14447d8ceeac13b5eaae567885819b76d96064c28ab76e8d98c1270de9647c8ec70e37b187786dd2be70e72f16d0a4dc6
   languageName: node
   linkType: hard
 
@@ -3075,7 +3086,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@typescript-eslint/types@npm:8.42.0, @typescript-eslint/types@npm:^8.41.0, @typescript-eslint/types@npm:^8.42.0":
+"@typescript-eslint/types@npm:8.42.0, @typescript-eslint/types@npm:^8.42.0":
   version: 8.42.0
   resolution: "@typescript-eslint/types@npm:8.42.0"
   checksum: 10/7c39a35e5bb7083070872edc797ea60a3d6ceff0e3bdf85701919b71da83a51963562053a4b35c9e2a2b08c138fb595e14bc0b5c450e671a26059b58f8d8b4f4
@@ -7605,7 +7616,7 @@ __metadata:
     "@eslint/eslintrc": "npm:^3.3.1"
     "@eslint/js": "npm:^9.35.0"
     "@react-leaflet/core": "npm:^3.0.0"
-    "@stylistic/eslint-plugin": "npm:^5.3.1"
+    "@stylistic/eslint-plugin": "npm:^5.4.0"
     "@testing-library/dom": "npm:^10.4.1"
     "@testing-library/react": "npm:^16.3.0"
     "@testing-library/user-event": "npm:^14.6.1"
