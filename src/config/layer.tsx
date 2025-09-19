@@ -8,7 +8,8 @@ import { GpsRoutesLayer } from "../components/map/layers/custom/GpsRoutesLayer";
 import { PostcodePolygonsLayer } from "../components/map/layers/custom/PostcodePolygonsLayer";
 import { WeatherLayer } from "../components/map/layers/custom/WeatherLayer";
 
-type Tile = {
+export type Tile = {
+  type: "raster" | "vector";
   url: string;
   options?: L.TileLayerOptions;
 };
@@ -34,7 +35,7 @@ const TOMTOM_API_KEY = import.meta.env.VITE_TOMTOM_API_KEY as string | undefined
 function createLayer(name: string, provider: string, url: string, options?: L.TileLayerOptions): LayerOption {
   return {
     name,
-    tiles: [{ url, options }],
+    tiles: [{ url, options, type: "raster" }],
     provider,
   };
 }
@@ -61,6 +62,16 @@ const BASE_LAYERS: LayerOption[] = [
     "https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}",
     { maxNativeZoom: 16, maxZoom: 17 }
   ),
+  {
+    name: "OpenFreeMap",
+    provider: "Open Street Map",
+    tiles: [
+      {
+        type: "vector",
+        url: "https://tiles.openfreemap.org/styles/liberty",
+      },
+    ],
+  },
   createLayer("OpenStreetMap", "Open Street Map", "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"),
   createLayer("OpenTopoMap", "Open Street Map", "https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png", {
     maxZoom: 15,
@@ -84,6 +95,7 @@ const BASE_LAYERS: LayerOption[] = [
     provider: "Ordnance Survey",
     tiles: [
       {
+        type: "raster",
         url: `${VITE_MAPPROXY_BASE_URL}/mapproxy/wmts/wmts/leisure_3857/grid_3857/{z}/{x}/{y}.png`,
         options: {
           tileSize: 256,
@@ -93,6 +105,7 @@ const BASE_LAYERS: LayerOption[] = [
         },
       },
       {
+        type: "raster",
         url: `https://api.os.uk/maps/raster/v1/zxy/Road_3857/{z}/{x}/{y}.png?key=${OS_DATAHUB_API_KEY}`,
         options: { minZoom: 17 },
       },
@@ -120,15 +133,72 @@ const BASE_LAYERS: LayerOption[] = [
       minZoom: 17,
     }
   ),
-  createLayer("Alidade Satellite", "Stadia", "https://tiles.stadiamaps.com/tiles/alidade_satellite/{z}/{x}/{y}{r}.png"),
-  createLayer(
-    "Alidade Smooth Dark",
-    "Stadia",
-    "https://tiles.stadiamaps.com/tiles/alidade_smooth_dark/{z}/{x}/{y}{r}.png"
-  ),
-  createLayer("OSMBright", "Stadia", "https://tiles.stadiamaps.com/tiles/osm_bright/{z}/{x}/{y}{r}.png"),
-  createLayer("Stamen Toner", "Stadia", "https://tiles.stadiamaps.com/tiles/stamen_toner/{z}/{x}/{y}{r}.png"),
-  createLayer("Stamen Watercolor", "Stadia", "https://tiles.stadiamaps.com/tiles/stamen_watercolor/{z}/{x}/{y}.png"),
+  // createLayer(
+  //   "Alidade Satellite",
+  //   "Stadia",
+  //   "https://tiles-eu.stadiamaps.com/tiles/alidade_satellite/{z}/{x}/{y}{r}.png"
+  // ),
+  {
+    name: "Alidade Smooth",
+    provider: "Stadia",
+    tiles: [
+      {
+        type: "vector",
+        url: "https://tiles-eu.stadiamaps.com/styles/alidade_smooth.json",
+      },
+    ],
+  },
+  {
+    name: "Alidade Smooth Dark",
+    provider: "Stadia",
+    tiles: [
+      {
+        type: "vector",
+        url: "https://tiles-eu.stadiamaps.com/styles/alidade_smooth_dark.json",
+      },
+    ],
+  },
+  {
+    name: "OSMBright",
+    provider: "Stadia",
+    tiles: [
+      {
+        type: "vector",
+        url: "https://tiles-eu.stadiamaps.com/styles/osm_bright.json",
+      },
+    ],
+  },
+  {
+    name: "Stamen Toner",
+    provider: "Stadia",
+    tiles: [
+      {
+        type: "vector",
+        url: "https://tiles-eu.stadiamaps.com/styles/stamen_toner.json",
+      },
+    ],
+  },
+  {
+    name: "Stamen Watercolor",
+    provider: "Stadia",
+    tiles: [
+      {
+        type: "vector",
+        url: "https://tiles-eu.stadiamaps.com/styles/stamen_watercolor.json",
+      },
+    ],
+  },
+  {
+    name: "Terrain",
+    provider: "Stadia",
+    tiles: [
+      {
+        type: "vector",
+        url: "https://tiles-eu.stadiamaps.com/styles/stamen_terrain.json",
+      },
+    ],
+  },
+
   createLayer(
     "Atlas",
     "Thunderforest",
@@ -217,7 +287,7 @@ export const OVERLAYS: Record<string, Overlay> = {
     minZoom: 6,
     component: () => (
       <TileLayer
-        url="https://tiles.stadiamaps.com/tiles/stamen_toner_lines/{z}/{x}/{y}{r}.png"
+        url="https://tiles-eu.stadiamaps.com/tiles/stamen_toner_lines/{z}/{x}/{y}{r}.png"
         pane="overlayPane"
         zIndex={650}
       />
@@ -228,7 +298,7 @@ export const OVERLAYS: Record<string, Overlay> = {
     minZoom: 6,
     component: () => (
       <TileLayer
-        url="https://tiles.stadiamaps.com/tiles/stamen_toner_labels/{z}/{x}/{y}{r}.png"
+        url="https://tiles-eu.stadiamaps.com/tiles/stamen_toner_labels/{z}/{x}/{y}{r}.png"
         pane="overlayPane"
         zIndex={655}
       />
