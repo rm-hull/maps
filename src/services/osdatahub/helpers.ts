@@ -1,4 +1,5 @@
 import { type AxiosResponse } from "axios";
+import { Position } from "geojson";
 import { LatLng, Proj } from "leaflet";
 import proj4 from "proj4";
 import { camelCaseKeys } from "../../utils/camelCaseKeys";
@@ -28,7 +29,7 @@ export function toBNG({ lat, lng }: LatLng): BritishNationalGrid {
   return bngConverter.forward([lng, lat]).map(Math.round) as BritishNationalGrid;
 }
 
-export function toLatLng(bng: BritishNationalGrid): LatLng {
+export function toLatLng(bng: BritishNationalGrid | Position): LatLng {
   const [lng, lat] = bngConverter.inverse(bng);
   return new LatLng(lat, lng);
 }
