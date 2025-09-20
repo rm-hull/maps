@@ -16,6 +16,7 @@ type CompanyData = {
   company_category: string;
   company_status: string;
   country_of_origin: string;
+  dissolution_date?: Date;
   incorporation_date: Date;
   accounts_account_ref_day: number;
   accounts_account_ref_month: number;
