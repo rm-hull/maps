@@ -68,11 +68,11 @@ function companyStatusColorScheme(status: string) {
 }
 
 function accountsOverdue(company: CompanyData): boolean {
-  return (company.accounts_next_due_date?.getTime() ?? 0) < Date.now();
+  return (company.accounts_next_due_date?.getTime() ?? Infinity) < Date.now();
 }
 
 function confirmationStatementOverdue(company: CompanyData): boolean {
-  return (company.conf_stmt_next_due_date?.getTime() ?? 0) < Date.now();
+  return (company.conf_stmt_next_due_date?.getTime() ?? Infinity) < Date.now();
 }
 
 interface OverdueProps {
@@ -88,7 +88,7 @@ function Overdue({ isOverdue, dueDate, label }: OverdueProps) {
 
   return (
     <Tooltip content={`Due: ${dueDate?.toDateString()}`}>
-      <HStack display="inline-flex" gap={1} pt={1} color="red.700" fontWeight="bold" cursor="pointer">
+      <HStack display="inline-flex" gap={1} pt={1} color="red.700" fontWeight="bold" cursor="help">
         <FaExclamationCircle /> {label} overdue
       </HStack>
     </Tooltip>

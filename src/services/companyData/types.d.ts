@@ -35,7 +35,7 @@ type CompanyData = {
   limited_partnerships_num_gen_partners: number;
   limited_partnerships_num_lim_partners: number;
   uri: string;
-  conf_stmt_next_due_date: Date;
+  conf_stmt_next_due_date?: Date;
   conf_stmt_last_made_up_date: Date;
 
   easting: number;
