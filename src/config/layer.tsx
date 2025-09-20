@@ -1,6 +1,6 @@
 import { createListCollection } from "@chakra-ui/react";
 import { LatLngBounds } from "leaflet";
-import { TileLayer } from "react-leaflet";
+import { TileLayer, WMSTileLayer } from "react-leaflet";
 import { CompanyDataLayer } from "../components/map/layers/custom/CompanyDataLayer";
 import { GeodsPointsOfInterestLayer } from "../components/map/layers/custom/GeodsPointsOfInterestLayer";
 import { GeographLayer } from "../components/map/layers/custom/GeographLayer";
@@ -260,11 +260,11 @@ export const OVERLAYS: Record<string, Overlay> = {
 
   "NASA (GIBS) Snow Cover": {
     minZoom: 6,
-    maxZoom: 8,
     component: () => (
+      // https://gibs.earthdata.nasa.gov/wms/epsg3857/best/wms.cgi?width=392&height=827&bbox=-171077.81664331246%2C7163686.040024497%2C-170609.6398451053%2C7164673.749749286&crs=EPSG%3A3857&format=image%2Fpng&request=GetMap&service=WMS&styles=&transparent=TRUE&version=1.3.0&layers=MODIS_Aqua_L3_NDSI_Snow_Cover_Daily%2CMODIS_Aqua_L3_Snow_Cover_Monthly_Average_Pct%2CMODIS_Aqua_NDSI_Snow_Cover%2CMODIS_Terra_L3_NDSI_Snow_Cover_Daily%2CMODIS_Terra_L3_Snow_Cover_Monthly_Average_Pct%2CMODIS_Terra_NDSI_Snow_Cover&time=1948-01-01T00%3A00%3A00Z%2F1955-10-09T19%3A12%3A00Z
       <TileLayer
-        url="https://map1.vis.earthdata.nasa.gov/wmts-webmerc/MODIS_Terra_NDSI_Snow_Cover/default/GoogleMapsCompatible_Level{maxZoom}/{z}/{y}/{x}.png"
-        maxZoom={8}
+        url="https://map1.vis.earthdata.nasa.gov/wmts-webmerc/MODIS_Terra_NDSI_Snow_Cover/default/GoogleMapsCompatible_Level8/{z}/{y}/{x}.png"
+        maxNativeZoom={8}
         pane="overlayPane"
         zIndex={650}
       />
@@ -300,6 +300,26 @@ export const OVERLAYS: Record<string, Overlay> = {
       <WeatherLayer
         url="https://api.destructuring-bind.org/v1/metoffice/datahub/total_precipitation_rate/{y}/{m}/{d}/{h}.png"
         zIndex={660}
+      />
+    ),
+  },
+  "DEFRA Flood Risk": {
+    minZoom: 6,
+    component: () => (
+      <WMSTileLayer
+        url="https://api.agrimetrics.co.uk/geoservices/datasets/f3d63ec5-a21a-49fb-803a-0fa0fb7238b6/wms"
+        params={{
+          service: "WMS",
+          version: "1.1.1",
+          request: "GetMap",
+          width: 256,
+          height: 256,
+          layers: "Flood_Risk_Areas",
+          format: "image/png",
+          transparent: true,
+        }}
+        pane="overlayPane"
+        zIndex={650}
       />
     ),
   },
