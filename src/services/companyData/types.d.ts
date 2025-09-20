@@ -16,10 +16,10 @@ type CompanyData = {
   company_category: string;
   company_status: string;
   country_of_origin: string;
-  incorporation_date: string;
+  incorporation_date: Date;
   accounts_account_ref_day: number;
   accounts_account_ref_month: number;
-  accounts_next_due_date: Date;
+  accounts_next_due_date?: Date;
   accounts_last_made_up_date: Date;
   accounts_account_category: string;
   returns_next_due_date: Date;
