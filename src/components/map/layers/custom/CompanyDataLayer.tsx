@@ -88,7 +88,7 @@ function Overdue({ isOverdue, dueDate, label }: OverdueProps) {
 
   return (
     <Tooltip content={`Due: ${dueDate?.toDateString()}`}>
-      <HStack display="inline-flex" gap={1} pt={1} color="red.700" fontWeight="bold" cursor="help">
+      <HStack display="inline-flex" gap={1} color="red.700" fontWeight="bold" cursor="help">
         <FaExclamationCircle /> {label} overdue
       </HStack>
     </Tooltip>
@@ -120,7 +120,7 @@ function CompanyListPopup({ companies }: CompanyListPopupProps) {
               </Badge>
             </HStack>
             <Text fontSize="sm" truncate textTransform="capitalize">
-              {new Date(company.incorporation_date).toLocaleDateString("en-GB")} | {company.company_category} |{" "}
+              {company.incorporation_date.toLocaleDateString("en-GB")} | {company.company_category} |{" "}
               {company.accounts_account_category.toLowerCase()}
             </Text>
             <Text fontSize="xs" color="gray.600">
@@ -152,7 +152,7 @@ function CompanyListPopup({ companies }: CompanyListPopupProps) {
                   })}
               </DataList.Root>
             )}
-            <HStack gap={3}>
+            <HStack gap={3} pt={1}>
               <Overdue isOverdue={accountsOverdue(company)} dueDate={company.accounts_next_due_date} label="Accounts" />
               <Overdue
                 isOverdue={confirmationStatementOverdue(company)}
