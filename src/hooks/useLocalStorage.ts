@@ -1,11 +1,16 @@
 import { atom, useAtom } from "jotai";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 const localStorage = atom<Record<string, unknown> | undefined>(undefined);
 
-type UseLocalStorageReturnType<T> = [T | undefined, (value: T | undefined) => void];
+type UseLocalStorageReturnType<T> = {
+  value: T | undefined;
+  setValue: (value: T | undefined) => void;
+  isLoading: boolean;
+};
 
 export const useLocalStorage = <T>(key: string): UseLocalStorageReturnType<T> => {
+  const [isLoading, setIsLoading] = useState(true);
   const readValue = (): T | undefined => {
     if (typeof window === "undefined") {
       return undefined;
@@ -42,6 +47,8 @@ export const useLocalStorage = <T>(key: string): UseLocalStorageReturnType<T> =>
     window.addEventListener("storage", handleStorageChange);
     window.addEventListener("local-storage", handleStorageChange);
 
+    setIsLoading(false);
+
     return () => {
       window.removeEventListener("storage", handleStorageChange);
       window.removeEventListener("local-storage", handleStorageChange);
@@ -49,5 +56,9 @@ export const useLocalStorage = <T>(key: string): UseLocalStorageReturnType<T> =>
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  return [storedValue?.[key] as T, setValue];
+  return {
+    value: storedValue?.[key] as T,
+    setValue,
+    isLoading,
+  };
 };

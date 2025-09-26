@@ -5,6 +5,7 @@ import { MapContainer, ScaleControl } from "react-leaflet";
 import { baseLayers } from "../../config/layer";
 import { DEFAULT_ZOOM_LEVEL, useGeneralSettings } from "../../hooks/useGeneralSettings";
 import { toLatLng } from "../../services/osdatahub/helpers";
+import { Loader } from "../Loader";
 import { CurrentLocation } from "./controls/CurrentLocation";
 import { Layers } from "./controls/Layers";
 import { Ruler } from "./controls/Ruler";
@@ -23,7 +24,7 @@ const maxBounds = new L.LatLngBounds([toLatLng([-238375.0, 0.0]), toLatLng([9000
 const defaultCenter = toLatLng([337297, 503695]); // OSGB36 / British National Grid
 
 export function OSMap({ center }: OSMapProps) {
-  const [settings] = useGeneralSettings();
+  const { settings, isLoading } = useGeneralSettings();
 
   const customLocation = useMemo(
     () =>
@@ -35,8 +36,8 @@ export function OSMap({ center }: OSMapProps) {
 
   const initialMapStyle = useMemo(() => baseLayers.find(settings?.mapStyle), [settings?.mapStyle]);
 
-  if (!settings) {
-    return null;
+  if (isLoading) {
+    return <Loader />;
   }
 
   return (
