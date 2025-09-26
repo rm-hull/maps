@@ -22,8 +22,8 @@ This is a web application that displays UK Ordnance Survey maps. It is built wit
 Before running the application, you need to create a `.env` file in the root of the project with the following content:
 
 ```
-REACT_APP_OS_DATAHUB_API_KEY=<your OS Datahub API key here>
-REACT_APP_GEOGRAPH_API_KEY=<your Geograph API key here>
+VITE_OS_DATAHUB_API_KEY=<your OS Datahub API key here>
+VITE_GEOGRAPH_API_KEY=<your Geograph API key here>
 ```
 
 You can obtain these API keys by creating accounts on the [OS DataHub](https://osdatahub.os.uk/) and [Geograph UK](https://www.geograph.org.uk/).
