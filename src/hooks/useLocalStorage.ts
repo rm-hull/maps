@@ -38,7 +38,7 @@ export const useLocalStorage = <T>(key: string): UseLocalStorageReturnType<T> =>
   const [storedValue, setStoredValue] = useAtom(localStorage);
 
   useEffect(() => {
-    setStoredValue((prev) => ({ ...prev, [key]: readValue(key) }));
+    setStoredValue((prev) => ({ ...(prev ?? {}), [key]: readValue(key) }));
 
     const handleStorageChange = (): void => {
       setStoredValue((prev) => ({ ...prev, [key]: readValue(key) }));
