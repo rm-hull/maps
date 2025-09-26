@@ -10,7 +10,7 @@ import "@maplibre/maplibre-gl-leaflet";
 
 function OverlaySelector() {
   const map = useMap();
-  const [settings, updateSettings] = useGeneralSettings();
+  const { settings, updateSettings } = useGeneralSettings();
   const handleOverlayChange = (name: string, checked: boolean | "indeterminate") => {
     if (checked !== "indeterminate") {
       updateSettings({
@@ -39,7 +39,9 @@ function OverlaySelector() {
           <Checkbox.Control>
             <Checkbox.Indicator />
           </Checkbox.Control>
-          <Checkbox.Label truncate>{name}</Checkbox.Label>
+          <Checkbox.Label truncate maxWidth={180}>
+            {name}
+          </Checkbox.Label>
         </Checkbox.Root>
       ))}
     </VStack>
@@ -94,7 +96,7 @@ function BaseLayerAccordion({ onLayerChanged, selectedLayer }: BaseLayerAccordio
             <Accordion.ItemIndicator />
           </Accordion.ItemTrigger>
           <Accordion.ItemContent>
-            <Accordion.ItemBody padding={2} maxHeight={200} overflowY="auto">
+            <Accordion.ItemBody padding={2} maxHeight={200} overflowY="auto" overflowX="hidden">
               <OverlaySelector />
             </Accordion.ItemBody>
           </Accordion.ItemContent>

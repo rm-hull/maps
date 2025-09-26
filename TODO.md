@@ -15,3 +15,7 @@
   - Improve/rationalize eslint config
 
 - Improve README.md front material.
+
+- Move `useLocalStorage()` hook into its own [npmjs](https://npmjs.org) package.
+
+- Add dark mode theming to settings dialog.
