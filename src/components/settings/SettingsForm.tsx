@@ -5,7 +5,7 @@ import { DEFAULT_ZOOM_LEVEL, type InitialLocation, useGeneralSettings } from "..
 import { CustomSearch } from "./CustomSearch";
 
 export function SettingsForm() {
-  const [settings, updateSettings] = useGeneralSettings();
+  const { settings, updateSettings } = useGeneralSettings();
 
   const handleUpdateInitialLocation = (initialLocation: InitialLocation): void => {
     updateSettings({ ...settings, initialLocation });

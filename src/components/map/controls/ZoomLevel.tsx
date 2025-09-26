@@ -5,7 +5,7 @@ import { useGeneralSettings } from "../../../hooks/useGeneralSettings";
 import { Control } from "../Control";
 
 export function ZoomLevel() {
-  const [settings] = useGeneralSettings();
+  const { settings } = useGeneralSettings();
   const map = useMap();
   const [zoom, setZoom] = useState(map.getZoom());
   useMapEvents({
