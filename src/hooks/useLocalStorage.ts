@@ -41,7 +41,7 @@ export const useLocalStorage = <T>(key: string): UseLocalStorageReturnType<T> =>
     setStoredValue((prev) => ({ ...(prev ?? {}), [key]: readValue(key) }));
 
     const handleStorageChange = (): void => {
-      setStoredValue((prev) => ({ ...prev, [key]: readValue(key) }));
+      setStoredValue((prev) => ({ ...(prev ?? {}), [key]: readValue(key) }));
     };
 
     window.addEventListener("storage", handleStorageChange);
