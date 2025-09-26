@@ -1,5 +1,7 @@
+import { Tooltip } from "@/components/ui/tooltip";
 import { Badge, DataList, HStack, Heading, Link, List, ListItem, Text } from "@chakra-ui/react";
 import { type LatLngBounds } from "leaflet";
+import { FaExclamationCircle } from "react-icons/fa";
 import { Marker, Popup } from "react-leaflet";
 import { Link as ReactRouterLink } from "react-router-dom";
 import { useCachedQuery } from "../../../../hooks/useCachedQuery";
@@ -65,6 +67,34 @@ function companyStatusColorScheme(status: string) {
   return "gray";
 }
 
+function accountsOverdue(company: CompanyData): boolean {
+  return (company.accounts_next_due_date?.getTime() ?? Infinity) < Date.now();
+}
+
+function confirmationStatementOverdue(company: CompanyData): boolean {
+  return (company.conf_stmt_next_due_date?.getTime() ?? Infinity) < Date.now();
+}
+
+interface OverdueProps {
+  isOverdue: boolean;
+  dueDate?: Date;
+  label: string;
+}
+
+function Overdue({ isOverdue, dueDate, label }: OverdueProps) {
+  if (!isOverdue) {
+    return null;
+  }
+
+  return (
+    <Tooltip content={`Due: ${dueDate?.toDateString()}`}>
+      <HStack display="inline-flex" gap={1} color="red.700" fontWeight="bold" cursor="help">
+        <FaExclamationCircle /> {label} overdue
+      </HStack>
+    </Tooltip>
+  );
+}
+
 interface CompanyListPopupProps {
   companies: CompanyData[];
 }
@@ -90,7 +120,7 @@ function CompanyListPopup({ companies }: CompanyListPopupProps) {
               </Badge>
             </HStack>
             <Text fontSize="sm" truncate textTransform="capitalize">
-              {new Date(company.incorporation_date).toLocaleDateString("en-GB")} | {company.company_category} |{" "}
+              {company.incorporation_date.toLocaleDateString("en-GB")} | {company.company_category} |{" "}
               {company.accounts_account_category.toLowerCase()}
             </Text>
             <Text fontSize="xs" color="gray.600">
@@ -122,6 +152,14 @@ function CompanyListPopup({ companies }: CompanyListPopupProps) {
                   })}
               </DataList.Root>
             )}
+            <HStack gap={3} pt={1}>
+              <Overdue isOverdue={accountsOverdue(company)} dueDate={company.accounts_next_due_date} label="Accounts" />
+              <Overdue
+                isOverdue={confirmationStatementOverdue(company)}
+                dueDate={company.conf_stmt_next_due_date}
+                label="Confirmation statement"
+              />
+            </HStack>
           </ListItem>
         ))}
       </List.Root>

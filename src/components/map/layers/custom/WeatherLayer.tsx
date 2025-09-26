@@ -22,9 +22,10 @@ const bounds = new L.LatLngBounds(
 );
 
 const dateTimeFormatter = new Intl.DateTimeFormat("en-GB", {
-  year: "numeric",
-  month: "2-digit",
+  weekday: "short",
   day: "2-digit",
+  month: "short",
+  year: "numeric",
   hour: "2-digit",
   minute: "2-digit",
   hour12: false,
@@ -203,7 +204,7 @@ export function WeatherLayer({ url: urlTemplate, opacity = 0.6, animate = false,
         >
           <Scale label="Rain (mm/h):" values={scale2} />
           <HStack>
-            <Text fontSize="xs" fontWeight="bold">
+            <Text fontSize="xs" fontWeight="bold" width="150px" textAlign="right">
               {currentTime}
             </Text>
             <ButtonGroup gap={1} size="xs" variant="subtle">
