@@ -26,7 +26,6 @@ function setValue<T>(key: string, value?: T) {
       window.localStorage.setItem(key, JSON.stringify(value));
     }
 
-    // setStoredValue((prev) => ({ ...prev, [key]: value }));
     window.dispatchEvent(new Event("local-storage"));
   } catch (error) {
     console.error(`Error setting localStorage key “${key}”:`, error);
