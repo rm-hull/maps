@@ -2269,9 +2269,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@maplibre/maplibre-gl-style-spec@npm:^24.1.1":
-  version: 24.1.1
-  resolution: "@maplibre/maplibre-gl-style-spec@npm:24.1.1"
+"@maplibre/maplibre-gl-style-spec@npm:^24.2.0":
+  version: 24.2.0
+  resolution: "@maplibre/maplibre-gl-style-spec@npm:24.2.0"
   dependencies:
     "@mapbox/jsonlint-lines-primitives": "npm:~2.0.2"
     "@mapbox/unitbezier": "npm:^0.0.1"
@@ -2284,7 +2284,7 @@ __metadata:
     gl-style-format: dist/gl-style-format.mjs
     gl-style-migrate: dist/gl-style-migrate.mjs
     gl-style-validate: dist/gl-style-validate.mjs
-  checksum: 10/067c51bd33cfd35f5230d1bb568a29db71f6012cf7759bf8b8d3b1b4c2724b45633620191444a381a30ff621040e97b045f62c7ece60247b8aad61d12f3e3295
+  checksum: 10/2c85c60735527a2214c269d84fb89ec11bd9d2a8c77fb729ba0840b638fc6e796c8a7efd686aa0db9c805297e66b97277931731649c101957565a0392569e342
   languageName: node
   linkType: hard
 
@@ -7739,9 +7739,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"maplibre-gl@npm:^5.7.3":
-  version: 5.7.3
-  resolution: "maplibre-gl@npm:5.7.3"
+"maplibre-gl@npm:^5.8.0":
+  version: 5.8.0
+  resolution: "maplibre-gl@npm:5.8.0"
   dependencies:
     "@mapbox/geojson-rewind": "npm:^0.5.2"
     "@mapbox/jsonlint-lines-primitives": "npm:^2.0.2"
@@ -7750,7 +7750,7 @@ __metadata:
     "@mapbox/unitbezier": "npm:^0.0.1"
     "@mapbox/vector-tile": "npm:^2.0.4"
     "@mapbox/whoots-js": "npm:^3.1.0"
-    "@maplibre/maplibre-gl-style-spec": "npm:^24.1.1"
+    "@maplibre/maplibre-gl-style-spec": "npm:^24.2.0"
     "@maplibre/vt-pbf": "npm:^4.0.3"
     "@types/geojson": "npm:^7946.0.16"
     "@types/geojson-vt": "npm:3.2.5"
@@ -7765,7 +7765,7 @@ __metadata:
     quickselect: "npm:^3.0.0"
     supercluster: "npm:^8.0.1"
     tinyqueue: "npm:^3.0.0"
-  checksum: 10/70d4c07df21602228d64ed52b5b9ac98a03777643dd2030383a83aee856c9b26f17fe2be5927f0b933d0db32bd0c37fe8c306b98178bb6bff014f0c2a2319c68
+  checksum: 10/18f1e1f52786c29a7d27826c7ecded2958cb1f04c7f2f7d7b9de775e4bbb38bdec45d5b0caf491302e87ea89bd400b1440711eed6dfb050fed25abd47570ba28
   languageName: node
   linkType: hard
 
@@ -7821,7 +7821,7 @@ __metadata:
     jotai: "npm:^2.15.0"
     leaflet: "npm:^1.9.4"
     leaflet-measure: "npm:^3.1.0"
-    maplibre-gl: "npm:^5.7.3"
+    maplibre-gl: "npm:^5.8.0"
     next-themes: "npm:^0.4.6"
     prettier: "npm:^3.6.2"
     proj4: "npm:^2.19.10"
