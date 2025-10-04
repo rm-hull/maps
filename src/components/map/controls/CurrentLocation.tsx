@@ -14,15 +14,11 @@ interface CurrentLocationProps {
 
 export function CurrentLocation({ active }: CurrentLocationProps) {
   const { activate, location } = useCurrentLocation();
-  useEffect(
-    () => {
-      if (active === true) {
-        activate();
-      }
-    },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    []
-  );
+  useEffect(() => {
+    if (active === true) {
+      activate();
+    }
+  }, [active, activate]);
 
   useErrorToast("gps-error", "Error determining GPS location", location.error);
 
@@ -44,7 +40,11 @@ export function CurrentLocation({ active }: CurrentLocationProps) {
               latLng={location.position}
               accuracy={location.accuracy}
               timestamp={location.timestamp}
-              render={(children) => <Popup autoClose={false} closeButton={false}>{children}</Popup>}
+              render={(children) => (
+                <Popup autoClose={false} closeButton={false}>
+                  {children}
+                </Popup>
+              )}
             />
           </Marker>
         </>
