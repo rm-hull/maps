@@ -44,7 +44,7 @@ export function CurrentLocation({ active }: CurrentLocationProps) {
               latLng={location.position}
               accuracy={location.accuracy}
               timestamp={location.timestamp}
-              render={(children) => <Popup autoClose={false}>{children}</Popup>}
+              render={(children) => <Popup autoClose={false} closeButton={false}>{children}</Popup>}
             />
           </Marker>
         </>
