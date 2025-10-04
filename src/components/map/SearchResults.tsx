@@ -1,8 +1,6 @@
 import { Box, Listbox, createListCollection, Text, VStack } from "@chakra-ui/react";
-import { lazy } from "react";
 import { GazetteerEntry, type Response } from "../../services/osdatahub/types.d";
-
-const SearchIcon = lazy(() => import("./SearchIcon").then((module) => ({ default: module.SearchIcon })));
+import { SearchIcon } from "./SearchIcon";
 
 interface SearchResponseProps {
   response: Response;

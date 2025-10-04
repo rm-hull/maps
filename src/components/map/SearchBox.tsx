@@ -62,14 +62,15 @@ export function SearchBox() {
     try {
       setSearching("busy");
       const data = await find(value, settings?.maxSearchResults ?? 5);
-      setResponse(data);
       if (data.header.totalresults === 0 || !data.results) {
         setSearching("not-found");
+        setResponse(undefined);
         return;
       }
 
       if (data.header.totalresults > 1) {
         setSearching("multiple");
+        setResponse(data);
         return;
       }
 
