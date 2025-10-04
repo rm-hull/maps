@@ -6,7 +6,10 @@ import { type BritishNationalGrid } from "./types.d";
 
 export function convertKeys<T>(response: AxiosResponse<T>): AxiosResponse<T> {
   if (response.data !== undefined && response.data !== null) {
-    response.data = camelCaseKeys(response.data as any) as T;
+    // Use unknown and type guards to avoid unsafe any
+    if (typeof response.data === "object" || Array.isArray(response.data)) {
+      response.data = camelCaseKeys(response.data) as T;
+    }
   }
   return response;
 }
