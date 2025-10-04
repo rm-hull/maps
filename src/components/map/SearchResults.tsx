@@ -1,35 +1,38 @@
 import { Box, Listbox, createListCollection, Text, VStack } from "@chakra-ui/react";
+import { lazy } from "react";
 import { GazetteerEntry, type Response } from "../../services/osdatahub/types.d";
-import { SearchIcon } from "./SearchIcon";
+
+const SearchIcon = lazy(() => import("./SearchIcon").then((module) => ({ default: module.SearchIcon })));
 
 interface SearchResponseProps {
   response: Response;
   onSelect: (gazetteerEntry: GazetteerEntry) => void;
 }
 
-function dedupeAdjacent(value: string | undefined, index: number, array: (string | undefined)[]): boolean {
+function dedupe(value: string | undefined, index: number, array: (string | undefined)[]): boolean {
   return array.indexOf(value) === index;
 }
 
 export function SearchResults({ response, onSelect }: SearchResponseProps) {
   const collection = createListCollection({
-    items: response.results?.map((result) => ({
-      label: [
-        result.gazetteerEntry.name1,
-        result.gazetteerEntry.populatedPlace,
-        result.gazetteerEntry.countyUnitary,
-        result.gazetteerEntry.districtBorough,
-        result.gazetteerEntry.postcodeDistrict,
-        result.gazetteerEntry.country,
-      ]
-        .filter(Boolean)
-        .filter(dedupeAdjacent)
-        .join(", "),
-      value: result.gazetteerEntry.id,
-      type: result.gazetteerEntry.localType,
-      icon: <SearchIcon localType={result.gazetteerEntry.localType} />,
-      data: result.gazetteerEntry,
-    })) ?? [],
+    items:
+      response.results?.map((result) => ({
+        label: [
+          result.gazetteerEntry.name1,
+          result.gazetteerEntry.populatedPlace,
+          result.gazetteerEntry.countyUnitary,
+          result.gazetteerEntry.districtBorough,
+          result.gazetteerEntry.postcodeDistrict,
+          result.gazetteerEntry.country,
+        ]
+          .filter(Boolean)
+          .filter(dedupe)
+          .join(", "),
+        value: result.gazetteerEntry.id,
+        type: result.gazetteerEntry.localType,
+        icon: <SearchIcon localType={result.gazetteerEntry.localType} />,
+        data: result.gazetteerEntry,
+      })) ?? [],
   });
 
   return (
