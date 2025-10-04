@@ -28,96 +28,55 @@ interface SearchIconProps {
   localType: string;
 }
 
+const iconMap: Record<string, React.ElementType> = {
+  City: FaCity,
+  Town: FaCity,
+  Postcode: MdHomeWork,
+  "Suburban Area": MdHomeWork,
+  "Other Settlement": MdHomeWork,
+  Village: FaHouseChimney,
+  Hamlet: FaHouseChimney,
+  Railway: MdOutlineDirectionsRailwayFilled,
+  "Railway Station": MdOutlineDirectionsRailwayFilled,
+  "Bus Station": FaBusAlt,
+  "Coach Station": FaBusAlt,
+  "Road User Services": FaCar,
+  Tramway: MdTram,
+  Hospital: MdLocalHospital,
+  Hospice: FaClinicMedical,
+  "Medical Care Accommodation": FaClinicMedical,
+  "Hill Or Mountain": FaMountain,
+  "Hill Or Mountain Ranges": FaMountain,
+  Waterfall: FaWater,
+  "Inland Water": FaWater,
+  "Woodland Or Forest": MdForest,
+  "Other Landcover": FaWalking,
+  "Named Road": FaRoad,
+  "Numbered Road": FaRoad,
+  "Section Of Numbered Road": FaRoad,
+  "Section Of Named Road": FaRoad,
+  Airport: MdLocalAirport,
+  Airfield: MdLocalAirport,
+  Heliport: FaHelicopter,
+  "Helicopter Station": FaHelicopter,
+  "Port Consisting of Docks and Nautical Berthing": MdDirectionsBoat,
+  "Passenger Ferry Terminal": MdDirectionsBoat,
+  "Vehicular Ferry Terminal": MdDirectionsBoat,
+  Harbour: MdDirectionsBoat,
+  "Primary Education": FaSchool,
+  "Secondary Education": FaSchool,
+  "Non State Primary Education": FaSchool,
+  "Non State Secondary Education": FaSchool,
+  "Special Needs Education": FaSchool,
+  "Higher or University Education": FaUniversity,
+  "Further Education": FaUniversity,
+  Beach: FaUmbrellaBeach,
+  "Oil Refining": FaOilWell,
+  "Oil Terminal": FaOilWell,
+  "Oil Distribution or Storage": FaOilWell,
+};
+
 export function SearchIcon({ localType }: SearchIconProps) {
-  switch (localType.split(/,/)[0]) {
-    case "City":
-    case "Town":
-      return <FaCity size={16} />;
-
-    case "Postcode":
-    case "Suburban Area":
-    case "Other Settlement":
-      return <MdHomeWork size={16} />;
-
-    case "Village":
-    case "Hamlet":
-      return <FaHouseChimney size={16} />;
-
-    case "Railway":
-    case "Railway Station":
-      return <MdOutlineDirectionsRailwayFilled size={16} />;
-
-    case "Bus Station":
-    case "Coach Station":
-      return <FaBusAlt size={16} />;
-
-    case "Road User Services":
-      return <FaCar size={16} />;
-
-    case "Tramway":
-      return <MdTram size={16} />;
-
-    case "Hospital":
-      return <MdLocalHospital size={16} />;
-
-    case "Hospice":
-    case "Medical Care Accommodation":
-      return <FaClinicMedical size={16} />;
-
-    case "Hill Or Mountain":
-    case "Hill Or Mountain Ranges":
-      return <FaMountain size={16} />;
-
-    case "Waterfall":
-    case "Inland Water":
-      return <FaWater size={16} />;
-
-    case "Woodland Or Forest":
-      return <MdForest size={16} />;
-
-    case "Other Landcover":
-      return <FaWalking size={16} />;
-
-    case "Named Road":
-    case "Numbered Road":
-    case "Section Of Numbered Road":
-    case "Section Of Named Road":
-      return <FaRoad size={16} />;
-
-    case "Airport":
-    case "Airfield":
-      return <MdLocalAirport size={16} />;
-
-    case "Heliport":
-    case "Helicopter Station":
-      return <FaHelicopter size={16} />;
-
-    case "Port Consisting of Docks and Nautical Berthing":
-    case "Passenger Ferry Terminal":
-    case "Vehicular Ferry Terminal":
-    case "Harbour":
-      return <MdDirectionsBoat size={16} />;
-
-    case "Primary Education":
-    case "Secondary Education":
-    case "Non State Primary Education":
-    case "Non State Secondary Education":
-    case "Special Needs Education":
-      return <FaSchool size={16} />;
-
-    case "Higher or University Education":
-    case "Further Education":
-      return <FaUniversity size={16} />;
-
-    case "Beach":
-      return <FaUmbrellaBeach size={16} />;
-
-    case "Oil Refining":
-    case "Oil Terminal":
-    case "Oil Distribution or Storage":
-      return <FaOilWell size={16} />;
-
-    default:
-      return <LuGlobe size={16} />;
-  }
+  const IconComponent = iconMap[localType.split(/,/)[0]] ?? LuGlobe;
+  return <IconComponent size={16} />;
 }

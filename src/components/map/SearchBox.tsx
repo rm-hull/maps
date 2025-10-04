@@ -36,23 +36,29 @@ export function SearchBox() {
     }
   }, [open, setInputFocus]);
 
-  const handleChange = (e: ChangeEvent<HTMLInputElement>): void => {
+  const resetSearch = (): void => {
     setPosition(undefined);
     setSearching(undefined);
     setResponse(undefined);
+  };
+
+  const handleChange = (e: ChangeEvent<HTMLInputElement>): void => {
+    resetSearch();
     setValue(e.target.value);
   };
 
   const handleCancel = (e: { preventDefault: () => void }): void => {
     e.preventDefault();
     setValue("");
-    setPosition(undefined);
-    setSearching(undefined);
-    setResponse(undefined);
+    resetSearch();
     onClose();
   };
 
   const handleSearch = async (): Promise<void> => {
+    if (!value.trim()) {
+      return;
+    }
+
     try {
       setSearching("busy");
       const data = await find(value, settings?.maxSearchResults ?? 5);
