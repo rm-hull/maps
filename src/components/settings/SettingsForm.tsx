@@ -1,4 +1,14 @@
-import { Field, HStack, Listbox, RadioGroup, Slider, Switch, VStack } from "@chakra-ui/react";
+import {
+  Field,
+  HStack,
+  Listbox,
+  NumberInput,
+  NumberInputValueChangeDetails,
+  RadioGroup,
+  Slider,
+  Switch,
+  VStack,
+} from "@chakra-ui/react";
 import { type LatLng } from "leaflet";
 import { baseLayers } from "../../config/layer";
 import { DEFAULT_ZOOM_LEVEL, type InitialLocation, useGeneralSettings } from "../../hooks/useGeneralSettings";
@@ -31,6 +41,10 @@ export function SettingsForm() {
 
   const handleUpdateZoomControl = (): void => {
     updateSettings({ ...settings, showZoomLevel: !settings?.showZoomLevel });
+  };
+
+  const handleUpdateMaxSearchResults = (details: NumberInputValueChangeDetails): void => {
+    updateSettings({ ...settings, maxSearchResults: details.valueAsNumber });
   };
 
   const zoomLevel = settings?.initialZoomLevel ?? DEFAULT_ZOOM_LEVEL;
@@ -74,7 +88,9 @@ export function SettingsForm() {
 
       <Field.Root>
         <HStack alignItems="start" width="full">
-          <Field.Label width="120px">Map style:</Field.Label>
+          <Field.Label width="120px" mt={2}>
+            Map style:
+          </Field.Label>
           <Listbox.Root
             collection={baseLayers}
             value={[settings?.mapStyle ?? "Leisure"]}
@@ -127,6 +143,31 @@ export function SettingsForm() {
             <Slider.Thumbs />
           </Slider.Control>
         </Slider.Root>
+      </Field.Root>
+
+      <Field.Root>
+        <HStack alignItems="start" width="full">
+          <Field.Label width="100px" mt={2}>
+            Max results:
+          </Field.Label>
+          <VStack alignItems="start">
+            <NumberInput.Root
+              size="sm"
+              value={settings?.maxSearchResults?.toString() ?? "5"}
+              onValueChange={handleUpdateMaxSearchResults}
+              min={1}
+              max={10}
+            >
+              <NumberInput.Control>
+                <NumberInput.IncrementTrigger />
+                <NumberInput.DecrementTrigger />
+              </NumberInput.Control>
+              <NumberInput.Scrubber />
+              <NumberInput.Input />
+            </NumberInput.Root>
+            <Field.HelperText>When searching, this will limit maximum number of results to show.</Field.HelperText>
+          </VStack>
+        </HStack>
       </Field.Root>
     </VStack>
   );

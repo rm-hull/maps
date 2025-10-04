@@ -15,6 +15,7 @@ export interface GeneralSettings {
   initialZoomLevel?: number;
   showZoomLevel?: boolean;
   overlays?: Record<string, boolean>;
+  maxSearchResults?: number;
 }
 
 export const DEFAULT_ZOOM_LEVEL = 13;

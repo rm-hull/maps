@@ -46,7 +46,7 @@ interface Result {
 
 export interface Response {
   header: Header;
-  results: Result[];
+  results?: Result[];
 }
 
 export type BritishNationalGrid = [number, number];

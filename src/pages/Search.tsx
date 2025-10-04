@@ -25,7 +25,7 @@ export function Search() {
     );
   }
 
-  if (data.header.totalresults === 0) {
+  if (data.header.totalresults === 0 || !data.results) {
     return <Notice header={"No results for: " + query} />;
   }
 
