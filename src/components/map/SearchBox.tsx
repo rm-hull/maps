@@ -1,6 +1,8 @@
+import { greenMarker } from "@/icons";
 import { Collapsible, Input, InputGroup, useControllableState, useDisclosure } from "@chakra-ui/react";
+import { LatLng } from "leaflet";
 import { type ChangeEvent, useEffect, useState } from "react";
-import { useMapEvent } from "react-leaflet";
+import { Marker, Popup, useMapEvent } from "react-leaflet";
 import { useKeyPressEvent } from "react-use";
 import { useFocus } from "../../hooks/useFocus";
 import { find } from "../../services/osdatahub";
@@ -8,6 +10,7 @@ import { toLatLng } from "../../services/osdatahub/helpers";
 import { type SearchState, StateIcon } from "../StateIcon";
 import { useColorModeValue } from "../ui/color-mode";
 import { Control } from "./Control";
+import { NearestInfo } from "./NearestInfo";
 
 export function SearchBox() {
   const { open, onOpen, onClose } = useDisclosure();
@@ -15,6 +18,7 @@ export function SearchBox() {
   const bg = useColorModeValue("white", "var(--chakra-colors-gray-900)");
   const [value, setValue] = useControllableState({ defaultValue: "" });
   const [searching, setSearching] = useState<SearchState>();
+  const [position, setPosition] = useState<LatLng | undefined>();
   const map = useMapEvent("moveend", () => {
     if (searching === "busy") {
       setSearching("ok");
@@ -36,6 +40,7 @@ export function SearchBox() {
     e.preventDefault();
     setValue("");
     setSearching(undefined);
+    setPosition(undefined);
     onClose();
   };
 
@@ -50,6 +55,7 @@ export function SearchBox() {
 
       const { geometryX, geometryY } = data.results[0].gazetteerEntry;
       const latlng = toLatLng([geometryX, geometryY]);
+      setPosition(latlng);
       map.flyTo(latlng, map.getZoom());
     } catch (e) {
       setSearching("error");
@@ -85,6 +91,18 @@ export function SearchBox() {
               onChange={handleChange}
             />
           </InputGroup>
+          {position && (
+            <Marker position={position} icon={greenMarker}>
+              <NearestInfo
+                latLng={position}
+                render={(children) => (
+                  <Popup position={position} autoClose={false} closeButton={false}>
+                    {children}
+                  </Popup>
+                )}
+              />
+            </Marker>
+          )}
         </Collapsible.Content>
       </Collapsible.Root>
     </Control>

@@ -17,7 +17,7 @@ export function PointOfInterest() {
     <NearestInfo
       latLng={position}
       render={(children) => (
-        <Popup position={position} autoClose={false}>
+        <Popup position={position} autoClose={false} closeButton={false}>
           {children}
         </Popup>
       )}
