@@ -87,7 +87,7 @@ export function NearestInfo({ latLng, altitude, heading, accuracy, timestamp, re
     return null;
   }
 
-  if ((data.header.totalresults ?? 0) === 0) {
+  if (data.header.totalresults === 0 || !data.results) {
     return render(
       <Table.Root size="sm">
         <Table.Body>

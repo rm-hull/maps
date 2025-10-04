@@ -1,3 +1,4 @@
+import { useGeneralSettings } from "@/hooks/useGeneralSettings";
 import { greenMarker } from "@/icons";
 import { Collapsible, Input, InputGroup, useControllableState, useDisclosure } from "@chakra-ui/react";
 import { LatLng } from "leaflet";
@@ -7,18 +8,22 @@ import { useKeyPressEvent } from "react-use";
 import { useFocus } from "../../hooks/useFocus";
 import { find } from "../../services/osdatahub";
 import { toLatLng } from "../../services/osdatahub/helpers";
+import { type Response, type GazetteerEntry } from "../../services/osdatahub/types.d";
 import { type SearchState, StateIcon } from "../StateIcon";
 import { useColorModeValue } from "../ui/color-mode";
 import { Control } from "./Control";
 import { NearestInfo } from "./NearestInfo";
+import { SearchResults } from "./SearchResults";
 
 export function SearchBox() {
+  const { settings } = useGeneralSettings();
   const { open, onOpen, onClose } = useDisclosure();
   const [inputRef, setInputFocus] = useFocus();
   const bg = useColorModeValue("white", "var(--chakra-colors-gray-900)");
   const [value, setValue] = useControllableState({ defaultValue: "" });
   const [searching, setSearching] = useState<SearchState>();
   const [position, setPosition] = useState<LatLng | undefined>();
+  const [response, setResponse] = useState<Response | undefined>();
   const map = useMapEvent("moveend", () => {
     if (searching === "busy") {
       setSearching("ok");
@@ -31,36 +36,57 @@ export function SearchBox() {
     }
   }, [open, setInputFocus]);
 
-  const handleChange = (e: ChangeEvent<HTMLInputElement>): void => {
+  const resetSearch = (): void => {
+    setPosition(undefined);
     setSearching(undefined);
+    setResponse(undefined);
+  };
+
+  const handleChange = (e: ChangeEvent<HTMLInputElement>): void => {
+    resetSearch();
     setValue(e.target.value);
   };
 
   const handleCancel = (e: { preventDefault: () => void }): void => {
     e.preventDefault();
     setValue("");
-    setSearching(undefined);
-    setPosition(undefined);
+    resetSearch();
     onClose();
   };
 
   const handleSearch = async (): Promise<void> => {
+    if (!value.trim()) {
+      return;
+    }
+
     try {
       setSearching("busy");
-      const data = await find(value, 1);
-      if (data.header.totalresults === 0) {
+      const data = await find(value, settings?.maxSearchResults ?? 5);
+      if (data.header.totalresults === 0 || !data.results) {
         setSearching("not-found");
+        setResponse(undefined);
         return;
       }
 
-      const { geometryX, geometryY } = data.results[0].gazetteerEntry;
-      const latlng = toLatLng([geometryX, geometryY]);
-      setPosition(latlng);
-      map.flyTo(latlng, map.getZoom());
+      if (data.header.totalresults > 1) {
+        setSearching("multiple");
+        setResponse(data);
+        return;
+      }
+
+      handleSelect(data.results[0].gazetteerEntry);
     } catch (e) {
       setSearching("error");
       console.error(e);
     }
+  };
+
+  const handleSelect = ({ geometryX, geometryY }: GazetteerEntry) => {
+    const latlng = toLatLng([geometryX, geometryY]);
+    setPosition(latlng);
+    setResponse(undefined);
+    map.flyTo(latlng, map.getZoom());
+    setSearching("ok");
   };
 
   useKeyPressEvent("/", onOpen);
@@ -73,6 +99,7 @@ export function SearchBox() {
     <Control position="bottomright" prepend>
       <Collapsible.Root open={open}>
         <Collapsible.Content p="4px">
+          {response?.results && <SearchResults response={response} onSelect={handleSelect} />}
           <InputGroup startElement={<StateIcon state={searching} />} startElementProps={{ pointerEvents: "none" }}>
             <Input
               id="search"
