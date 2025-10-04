@@ -96,7 +96,7 @@ export function SearchBox() {
               <NearestInfo
                 latLng={position}
                 render={(children) => (
-                  <Popup position={position} autoClose={false} closeButton={false}>
+                  <Popup autoClose={false} closeButton={false}>
                     {children}
                   </Popup>
                 )}
