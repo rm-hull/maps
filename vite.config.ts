@@ -1,7 +1,7 @@
 /// <reference types="vitest" />
 // import { defineConfig } from "vitest/config";
-import react from "@vitejs/plugin-react";
 import { execSync } from "child_process";
+import react from "@vitejs/plugin-react";
 import { defineConfig } from "vite";
 import tsconfigPaths from "vite-tsconfig-paths";
 
@@ -11,7 +11,10 @@ export default defineConfig(() => {
   process.env.VITE_GIT_COMMIT_HASH = execSync("git describe --always --dirty").toString().trimEnd();
 
   return {
-    plugins: [react({babel: {plugins: ["babel-plugin-react-compiler"]}}), tsconfigPaths()],
+    plugins: [react({ babel: { plugins: ["babel-plugin-react-compiler"] } }), tsconfigPaths()],
     base: "/maps",
+    build: {
+      sourcemap: true,
+    },
   };
 });
