@@ -6118,6 +6118,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"eslint-plugin-react-perf@npm:^3.3.3":
+  version: 3.3.3
+  resolution: "eslint-plugin-react-perf@npm:3.3.3"
+  peerDependencies:
+    eslint: ^3.0.0 || ^4.0.0 || ^5.0.0 || ^6.0.0 || ^7.0.0 || ^8.0.0 || ^9.0.0
+  checksum: 10/fc3446aa785714a1d6d06a52c0e6a28ca41c498185f0d3d7154c312d3d8b74059cb5c6ece4b2babb5cc0b3ad350870c84c098122c30a4d70098b58b819da555f
+  languageName: node
+  linkType: hard
+
 "eslint-plugin-react-refresh@npm:^0.4.23":
   version: 0.4.23
   resolution: "eslint-plugin-react-refresh@npm:0.4.23"
@@ -6175,6 +6184,19 @@ __metadata:
   peerDependencies:
     eslint: ^8.57.0 || ^9.0.0
   checksum: 10/25be8a202879220213a5b15204ab85e82e8c57d3c68ba6e9f946d122b39c80b646c198968ad5a9990def9e3e42a0a09dcdf1256a7e9d58c06170bd9a869ad956
+  languageName: node
+  linkType: hard
+
+"eslint-plugin-unused-imports@npm:^4.2.0":
+  version: 4.2.0
+  resolution: "eslint-plugin-unused-imports@npm:4.2.0"
+  peerDependencies:
+    "@typescript-eslint/eslint-plugin": ^8.0.0-0 || ^7.0.0 || ^6.0.0 || ^5.0.0
+    eslint: ^9.0.0 || ^8.0.0
+  peerDependenciesMeta:
+    "@typescript-eslint/eslint-plugin":
+      optional: true
+  checksum: 10/99285bd61a46ad5eaacd54525c04564feed3529dc2ae7800c736b7f4f011daa370133adb481677ad840f020681c0f409f3edfe3bc8f9f234c42bf4674bc4b576
   languageName: node
   linkType: hard
 
@@ -7813,8 +7835,10 @@ __metadata:
     eslint-plugin-react: "npm:^7.37.5"
     eslint-plugin-react-compiler: "npm:19.1.0-rc.2"
     eslint-plugin-react-hooks: "npm:^6.1.1"
+    eslint-plugin-react-perf: "npm:^3.3.3"
     eslint-plugin-react-refresh: "npm:^0.4.23"
     eslint-plugin-testing-library: "npm:^7.11.0"
+    eslint-plugin-unused-imports: "npm:^4.2.0"
     globals: "npm:^16.4.0"
     jotai: "npm:^2.15.0"
     leaflet: "npm:^1.9.4"

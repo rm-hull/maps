@@ -6,14 +6,14 @@ This is a web application that displays UK Ordnance Survey maps. It is built wit
 
 ### Key Technologies:
 
-*   **Frontend Framework:** React
-*   **Language:** TypeScript
-*   **Build Tool:** Vite
-*   **Package Manager:** Yarn
-*   **Mapping Library:** Leaflet.js
-*   **UI Components:** Chakra UI
-*   **Data Fetching:** react-query
-*   **Routing:** react-router-dom
+- **Frontend Framework:** React
+- **Language:** TypeScript
+- **Build Tool:** Vite
+- **Package Manager:** Yarn
+- **Mapping Library:** Leaflet.js
+- **UI Components:** Chakra UI
+- **Data Fetching:** react-query
+- **Routing:** react-router-dom
 
 ## Building and Running
 
@@ -30,36 +30,36 @@ You can obtain these API keys by creating accounts on the [OS DataHub](https://o
 
 ### Commands:
 
-*   **Install dependencies:**
-    ```bash
-    yarn install
-    ```
-*   **Run the development server:**
-    ```bash
-    yarn dev
-    ```
-*   **Build for production:**
-    ```bash
-    yarn build
-    ```
-*   **Run tests:**
-    ```bash
-    yarn test
-    ```
-*   **Lint the code:**
-    ```bash
-    yarn lint
-    ```
-*   **Preview the production build:**
-    ```bash
-    yarn preview
-    ```
+- **Install dependencies:**
+  ```bash
+  yarn install
+  ```
+- **Run the development server:**
+  ```bash
+  yarn dev
+  ```
+- **Build for production:**
+  ```bash
+  yarn build
+  ```
+- **Run tests:**
+  ```bash
+  yarn test
+  ```
+- **Lint the code:**
+  ```bash
+  yarn lint
+  ```
+- **Preview the production build:**
+  ```bash
+  yarn preview
+  ```
 
 ## Development Conventions
 
-*   The project uses [Vite](https://vitejs.dev/) for development and building.
-*   [ESLint](https://eslint.org/) is used for linting the code. The configuration can be found in `eslint.config.js`.
-*   [Prettier](https://prettier.io/) is used for code formatting. The configuration can be found in `.prettierrc`.
-*   The project uses [Chakra UI](https://chakra-ui.com/) for UI components.
-*   The project uses [Vitest](https://vitest.dev/) for testing.
-*   The project follows the conventional commits specification for commit messages.
+- The project uses [Vite](https://vitejs.dev/) for development and building.
+- [ESLint](https://eslint.org/) is used for linting the code. The configuration can be found in `eslint.config.js`.
+- [Prettier](https://prettier.io/) is used for code formatting. The configuration can be found in `.prettierrc`.
+- The project uses [Chakra UI](https://chakra-ui.com/) for UI components.
+- The project uses [Vitest](https://vitest.dev/) for testing.
+- The project follows the conventional commits specification for commit messages.

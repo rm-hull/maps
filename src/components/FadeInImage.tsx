@@ -55,6 +55,9 @@ export function FadeInImage({ loader, src, alt, height, attribution, ...rest }: 
     return null;
   }, [error, isLoaded, imageDetails.src]);
 
+  const setLoadedFinished = useCallback(() => setLoaded(true), []);
+  const setErrorOccurred = useCallback(() => setError(true), []);
+
   return (
     <Box position="relative" w="full" h={height} {...rest}>
       <Center position="absolute" top="0" left="0" w="100%" h="100%">
@@ -63,8 +66,8 @@ export function FadeInImage({ loader, src, alt, height, attribution, ...rest }: 
       <Image
         src={imageDetails?.src}
         alt={imageDetails?.alt}
-        onLoad={() => setLoaded(true)}
-        onError={() => setError(true)}
+        onLoad={setLoadedFinished}
+        onError={setErrorOccurred}
         width="full"
         height="full"
         objectFit="cover"

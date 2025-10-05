@@ -1,14 +1,14 @@
 import { Box, Listbox, createListCollection, Text, VStack } from "@chakra-ui/react";
-import { GazetteerEntry, type Response } from "../../services/osdatahub/types.d";
+import { GazetteerEntry, type Response } from "../../../services/osdatahub/types";
 import { SearchIcon } from "./SearchIcon";
+
+function dedupe(value: string | undefined, index: number, array: (string | undefined)[]): boolean {
+  return array.indexOf(value) === index;
+}
 
 interface SearchResponseProps {
   response: Response;
   onSelect: (gazetteerEntry: GazetteerEntry) => void;
-}
-
-function dedupe(value: string | undefined, index: number, array: (string | undefined)[]): boolean {
-  return array.indexOf(value) === index;
 }
 
 export function SearchResults({ response, onSelect }: SearchResponseProps) {

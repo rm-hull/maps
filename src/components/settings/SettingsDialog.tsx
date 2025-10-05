@@ -40,7 +40,7 @@ export function SettingsDialog({ children }: PropsWithChildren) {
                   <About />
                 </Tabs.Content>
                 <Tabs.Content value="license">
-                  <License showHeading={false}/>
+                  <License showHeading={false} />
                 </Tabs.Content>
                 <Tabs.Content value="tracks">
                   <TracksForm />

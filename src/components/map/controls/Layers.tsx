@@ -158,6 +158,8 @@ export function Layers({ defaultLayer }: LayersProps) {
     }
   }, []);
 
+  const expandMenu = useCallback(() => setExpanded(true), []);
+
   return (
     <Control position="topright">
       <Box position="relative">
@@ -188,7 +190,7 @@ export function Layers({ defaultLayer }: LayersProps) {
                 color="rgba(0,0,0,0.5)"
                 borderRadius={5}
                 size="lg"
-                onMouseOver={() => setExpanded(true)}
+                onMouseOver={expandMenu}
               >
                 <IoLayersSharp />
               </Button>

@@ -29,7 +29,6 @@ jobs:
         run: yarn install
 
       - name: Lint
-        continue-on-error: true
         run: yarn lint
 
       - name: Test

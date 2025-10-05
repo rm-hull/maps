@@ -1,3 +1,9 @@
+// ESLint Flat Config for TypeScript + React
+// Ensure you have installed:
+//   - eslint-import-resolver-typescript
+//   - prettier
+//   - all listed plugins
+// This config uses Flat Config and covers recommended rules for JS, TS, React, and Prettier integration.
 import js from "@eslint/js";
 import eslintConfigPrettier from "eslint-config-prettier";
 import importPlugin from "eslint-plugin-import";
@@ -7,9 +13,13 @@ import reactHooks from "eslint-plugin-react-hooks";
 import reactRefresh from "eslint-plugin-react-refresh";
 import globals from "globals";
 import tseslint from "typescript-eslint";
+import reactPerf from "eslint-plugin-react-perf";
+import unusedImports from "eslint-plugin-unused-imports";
 
 export default tseslint.config(
-  { ignores: ["dist", "coverage", ".yarn", ".pnp*"] },
+  {
+    ignores: ["dist", "coverage", ".yarn", ".pnp*", "node_modules", "build", "out"],
+  },
   {
     extends: [
       js.configs.recommended,
@@ -36,6 +46,8 @@ export default tseslint.config(
       react: react,
       "react-hooks": reactHooks,
       "react-refresh": reactRefresh,
+      "react-perf": reactPerf,
+      "unused-imports": unusedImports,
     },
     rules: {
       ...reactHooks.configs.recommended.rules,
@@ -51,12 +63,21 @@ export default tseslint.config(
           },
         },
       ],
+      "react-perf/jsx-no-new-function-as-prop": "warn",
+      "unused-imports/no-unused-imports": "warn",
+      "unused-imports/no-unused-vars": [
+        "warn",
+        { vars: "all", varsIgnorePattern: "^_", args: "after-used", argsIgnorePattern: "^_" },
+      ],
     },
     settings: {
+      react: { version: "detect" },
       "import/resolver": {
-        // You will also need to install and configure the TypeScript resolver
-        // See also https://github.com/import-js/eslint-import-resolver-typescript#configuration
-        typescript: true,
+        // TypeScript resolver: ensure eslint-import-resolver-typescript is installed
+        typescript: {
+          alwaysTryTypes: true,
+          project: ["./tsconfig.json"],
+        },
         node: true,
       },
     },

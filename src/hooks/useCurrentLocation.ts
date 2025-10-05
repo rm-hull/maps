@@ -1,5 +1,5 @@
 import { type LatLng } from "leaflet";
-import { type MouseEvent, useState } from "react";
+import { type MouseEvent, useCallback, useState } from "react";
 import { useMapEvents } from "react-leaflet";
 
 interface LocationDetails {
@@ -54,7 +54,7 @@ export function useCurrentLocation(duration: number = 180_000): UseCurrentLocati
     },
   });
 
-  const activate = (event?: MouseEvent<HTMLButtonElement>): void => {
+  const activate = useCallback((event?: MouseEvent<HTMLButtonElement>): void => {
     event?.stopPropagation();
     event?.preventDefault();
 
@@ -72,7 +72,7 @@ export function useCurrentLocation(duration: number = 180_000): UseCurrentLocati
       active: true,
       cancelTimerId: timerId,
     }));
-  };
+  }, []);
 
   return { activate, location: locationDetails };
 }
