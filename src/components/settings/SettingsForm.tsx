@@ -21,35 +21,50 @@ import { CustomSearch } from "./CustomSearch";
 export function SettingsForm() {
   const { settings, updateSettings } = useGeneralSettings();
 
-  const handleUpdateInitialLocation = useCallback((details: RadioGroupValueChangeDetails): void => {
-    updateSettings({ ...settings, initialLocation: details.value as InitialLocation });
-  }, []);
+  const handleUpdateInitialLocation = useCallback(
+    (details: RadioGroupValueChangeDetails): void => {
+      updateSettings({ ...settings, initialLocation: details.value as InitialLocation });
+    },
+    [settings]
+  );
 
-  const handleUpdateMapStyle = useCallback((details: ListboxValueChangeDetails): void => {
-    updateSettings({ ...settings, mapStyle: details.items[0] as string });
-  }, []);
+  const handleUpdateMapStyle = useCallback(
+    (details: ListboxValueChangeDetails): void => {
+      updateSettings({ ...settings, mapStyle: details.value[0] });
+    },
+    [settings]
+  );
 
-  const handleUpdateCustomSearch = useCallback((latLng: LatLng, searchTerm: string): void => {
-    updateSettings({
-      ...settings,
-      customLocation: {
-        latLng: [latLng.lat, latLng.lng], // note Leaflet's LatLngTuple format
-        searchTerm,
-      },
-    });
-  }, []);
+  const handleUpdateCustomSearch = useCallback(
+    (latLng: LatLng, searchTerm: string): void => {
+      updateSettings({
+        ...settings,
+        customLocation: {
+          latLng: [latLng.lat, latLng.lng], // note Leaflet's LatLngTuple format
+          searchTerm,
+        },
+      });
+    },
+    [settings]
+  );
 
-  const handleUpdateZoomLevel = useCallback((details: SliderValueChangeDetails): void => {
-    updateSettings({ ...settings, initialZoomLevel: details.value[0] });
-  }, []);
+  const handleUpdateZoomLevel = useCallback(
+    (details: SliderValueChangeDetails): void => {
+      updateSettings({ ...settings, initialZoomLevel: details.value[0] });
+    },
+    [settings]
+  );
 
   const handleUpdateZoomControl = useCallback((): void => {
     updateSettings({ ...settings, showZoomLevel: !settings?.showZoomLevel });
-  }, []);
+  }, [settings]);
 
-  const handleUpdateMaxSearchResults = useCallback((details: NumberInputValueChangeDetails): void => {
-    updateSettings({ ...settings, maxSearchResults: details.valueAsNumber });
-  }, []);
+  const handleUpdateMaxSearchResults = useCallback(
+    (details: NumberInputValueChangeDetails): void => {
+      updateSettings({ ...settings, maxSearchResults: details.valueAsNumber });
+    },
+    [settings]
+  );
 
   const zoomLevel = settings?.initialZoomLevel ?? DEFAULT_ZOOM_LEVEL;
 
