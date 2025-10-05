@@ -1,3 +1,4 @@
+import { useColorModeValue } from "@/components/ui/color-mode";
 import { ButtonGroup, HStack, IconButton, Stack, Text } from "@chakra-ui/react";
 import * as L from "leaflet";
 import { useCallback, useEffect, useMemo, useState } from "react";
@@ -192,17 +193,14 @@ export function WeatherLayer({ url: urlTemplate, opacity = 0.6, animate = false,
     return dateTimeFormatter.format(date);
   }, [today, index]);
 
+  const bg = useColorModeValue("whiteAlpha.700", "blackAlpha.700");
+  const fg = useColorModeValue("gray.600", "gray.300");
+
   return (
     <>
       <Control position="bottomleft">
-        <Stack
-          backgroundColor="whiteAlpha.700"
-          color="gray.600"
-          p={1}
-          borderRadius={5}
-          direction={{ base: "column", md: "row" }}
-        >
-          <Scale label="Rain (mm/h):" values={scale2} />
+        <Stack backgroundColor={bg} color={fg} p={1} borderRadius={5} direction={{ base: "column", md: "row" }}>
+          <Scale label="Rain (mm/h):" values={scale2} color={fg} />
           <HStack>
             <Text fontSize="xs" fontWeight="bold" width="150px" textAlign="right">
               {currentTime}

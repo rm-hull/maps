@@ -1,5 +1,5 @@
+import { ControlButton } from "@/components/ControlButton";
 import { DEFAULT_GPS_ACTIVE_DURATION, useGeneralSettings } from "@/hooks/useGeneralSettings";
-import { Button } from "@chakra-ui/react";
 import { useEffect } from "react";
 import { IoMdLocate } from "react-icons/io";
 import { Circle, Marker } from "react-leaflet";
@@ -50,20 +50,9 @@ export function CurrentLocation({ active }: CurrentLocationProps) {
         </>
       )}
       <Control prepend position="topright">
-        <Button
-          background="white"
-          variant="outline"
-          onClick={activate}
-          padding={0}
-          borderWidth={2}
-          borderColor="rgba(0,0,0,0.2)"
-          fontSize="1.5rem"
-          color={location.active ? "rgba(240,0,0,0.6)" : "rgba(0,0,0,0.5)"}
-          borderRadius={5}
-          size="lg"
-        >
+        <ControlButton onClick={activate} color={location.active && "rgba(240,0,0,0.6)"}>
           <IoMdLocate />
-        </Button>
+        </ControlButton>
       </Control>
     </>
   );
