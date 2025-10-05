@@ -2,14 +2,18 @@ import {
   Field,
   HStack,
   Listbox,
+  ListboxValueChangeDetails,
   NumberInput,
   NumberInputValueChangeDetails,
   RadioGroup,
+  RadioGroupValueChangeDetails,
   Slider,
+  SliderValueChangeDetails,
   Switch,
   VStack,
 } from "@chakra-ui/react";
 import { type LatLng } from "leaflet";
+import { useCallback } from "react";
 import { baseLayers } from "../../config/layer";
 import { DEFAULT_ZOOM_LEVEL, type InitialLocation, useGeneralSettings } from "../../hooks/useGeneralSettings";
 import { CustomSearch } from "./CustomSearch";
@@ -17,15 +21,15 @@ import { CustomSearch } from "./CustomSearch";
 export function SettingsForm() {
   const { settings, updateSettings } = useGeneralSettings();
 
-  const handleUpdateInitialLocation = (initialLocation: InitialLocation): void => {
-    updateSettings({ ...settings, initialLocation });
-  };
+  const handleUpdateInitialLocation = useCallback((details: RadioGroupValueChangeDetails): void => {
+    updateSettings({ ...settings, initialLocation: details.value as InitialLocation });
+  }, []);
 
-  const handleUpdateMapStyle = (selected: string[]): void => {
-    updateSettings({ ...settings, mapStyle: selected[0] });
-  };
+  const handleUpdateMapStyle = useCallback((details: ListboxValueChangeDetails): void => {
+    updateSettings({ ...settings, mapStyle: details.items[0] as string });
+  }, []);
 
-  const handleUpdateCustomSearch = (latLng: LatLng, searchTerm: string): void => {
+  const handleUpdateCustomSearch = useCallback((latLng: LatLng, searchTerm: string): void => {
     updateSettings({
       ...settings,
       customLocation: {
@@ -33,19 +37,19 @@ export function SettingsForm() {
         searchTerm,
       },
     });
-  };
+  }, []);
 
-  const handleUpdateZoomLevel = (zoomLevel: number): void => {
-    updateSettings({ ...settings, initialZoomLevel: zoomLevel });
-  };
+  const handleUpdateZoomLevel = useCallback((details: SliderValueChangeDetails): void => {
+    updateSettings({ ...settings, initialZoomLevel: details.value[0] });
+  }, []);
 
-  const handleUpdateZoomControl = (): void => {
+  const handleUpdateZoomControl = useCallback((): void => {
     updateSettings({ ...settings, showZoomLevel: !settings?.showZoomLevel });
-  };
+  }, []);
 
-  const handleUpdateMaxSearchResults = (details: NumberInputValueChangeDetails): void => {
+  const handleUpdateMaxSearchResults = useCallback((details: NumberInputValueChangeDetails): void => {
     updateSettings({ ...settings, maxSearchResults: details.valueAsNumber });
-  };
+  }, []);
 
   const zoomLevel = settings?.initialZoomLevel ?? DEFAULT_ZOOM_LEVEL;
 
@@ -54,10 +58,7 @@ export function SettingsForm() {
       <Field.Root>
         <HStack alignItems="start" width="full">
           <Field.Label width="100px">Initial location:</Field.Label>
-          <RadioGroup.Root
-            onValueChange={(e) => handleUpdateInitialLocation(e.value as InitialLocation)}
-            value={settings?.initialLocation}
-          >
+          <RadioGroup.Root onValueChange={handleUpdateInitialLocation} value={settings?.initialLocation}>
             <VStack align="left">
               <RadioGroup.Item value="default">
                 <RadioGroup.ItemHiddenInput />
@@ -94,7 +95,7 @@ export function SettingsForm() {
           <Listbox.Root
             collection={baseLayers}
             value={[settings?.mapStyle ?? "Leisure"]}
-            onValueChange={(e) => handleUpdateMapStyle(e.value)}
+            onValueChange={handleUpdateMapStyle}
           >
             <Listbox.Content maxHeight={140} divideY="1px">
               {baseLayers.group().map(([provider, layers]) => (
@@ -114,13 +115,7 @@ export function SettingsForm() {
       </Field.Root>
 
       <Field.Root>
-        <Slider.Root
-          defaultValue={[zoomLevel]}
-          min={7}
-          max={18}
-          width="full"
-          onValueChange={(e) => handleUpdateZoomLevel(e.value[0])}
-        >
+        <Slider.Root defaultValue={[zoomLevel]} min={7} max={18} width="full" onValueChange={handleUpdateZoomLevel}>
           <HStack display="flex" justifyContent="space-between">
             <HStack gap={2}>
               <Slider.Label width="100px">Zoom level:</Slider.Label>

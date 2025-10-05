@@ -1,12 +1,13 @@
 import { Button } from "@chakra-ui/react";
 import { useEffect } from "react";
 import { IoMdLocate } from "react-icons/io";
-import { Circle, Marker, Popup } from "react-leaflet";
+import { Circle, Marker } from "react-leaflet";
 import { useCurrentLocation } from "../../../hooks/useCurrentLocation";
 import { useErrorToast } from "../../../hooks/useErrorToast";
 import { locateIcon } from "../../../icons";
 import { Control } from "../Control";
 import { NearestInfo } from "../NearestInfo";
+import { PopupPassthrough } from "../PopupPassthrough";
 
 interface CurrentLocationProps {
   active?: boolean;
@@ -40,11 +41,7 @@ export function CurrentLocation({ active }: CurrentLocationProps) {
               latLng={location.position}
               accuracy={location.accuracy}
               timestamp={location.timestamp}
-              render={(children) => (
-                <Popup autoClose={false} closeButton={false}>
-                  {children}
-                </Popup>
-              )}
+              render={PopupPassthrough}
             />
           </Marker>
         </>

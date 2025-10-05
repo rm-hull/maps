@@ -29,7 +29,7 @@ jobs:
         run: yarn install
 
       - name: Lint
-        run: yarn lint
+        run: yarn style:lint
 
       - name: Test
         run: yarn test:ci

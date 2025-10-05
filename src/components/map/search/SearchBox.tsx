@@ -2,8 +2,8 @@ import { useGeneralSettings } from "@/hooks/useGeneralSettings";
 import { greenMarker } from "@/icons";
 import { Collapsible, Input, InputGroup, useControllableState, useDisclosure } from "@chakra-ui/react";
 import { LatLng } from "leaflet";
-import { type ChangeEvent, useEffect, useState } from "react";
-import { Marker, Popup, useMapEvent } from "react-leaflet";
+import { type ChangeEvent, useCallback, useEffect, useState } from "react";
+import { Marker, useMapEvent } from "react-leaflet";
 import { useKeyPressEvent } from "react-use";
 import { useFocus } from "../../../hooks/useFocus";
 import { find } from "../../../services/osdatahub";
@@ -13,6 +13,7 @@ import { type SearchState, StateIcon } from "../../StateIcon";
 import { useColorModeValue } from "../../ui/color-mode";
 import { Control } from "../Control";
 import { NearestInfo } from "../NearestInfo";
+import { PopupPassthrough } from "../PopupPassthrough";
 import { SearchResults } from "./SearchResults";
 
 export function SearchBox() {
@@ -42,10 +43,10 @@ export function SearchBox() {
     setResponse(undefined);
   };
 
-  const handleChange = (e: ChangeEvent<HTMLInputElement>): void => {
+  const handleChange = useCallback((e: ChangeEvent<HTMLInputElement>): void => {
     resetSearch();
     setValue(e.target.value);
-  };
+  }, []);
 
   const handleCancel = (e: { preventDefault: () => void }): void => {
     e.preventDefault();
@@ -81,13 +82,13 @@ export function SearchBox() {
     }
   };
 
-  const handleSelect = ({ geometryX, geometryY }: GazetteerEntry) => {
+  const handleSelect = useCallback(({ geometryX, geometryY }: GazetteerEntry) => {
     const latlng = toLatLng([geometryX, geometryY]);
     setPosition(latlng);
     setResponse(undefined);
     map.flyTo(latlng, map.getZoom());
     setSearching("ok");
-  };
+  }, []);
 
   useKeyPressEvent("/", onOpen);
   useKeyPressEvent("Enter", () => {
@@ -120,14 +121,7 @@ export function SearchBox() {
           </InputGroup>
           {position && (
             <Marker position={position} icon={greenMarker}>
-              <NearestInfo
-                latLng={position}
-                render={(children) => (
-                  <Popup autoClose={false} closeButton={false}>
-                    {children}
-                  </Popup>
-                )}
-              />
+              <NearestInfo latLng={position} render={PopupPassthrough} />
             </Marker>
           )}
         </Collapsible.Content>

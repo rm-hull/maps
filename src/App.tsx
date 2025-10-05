@@ -9,4 +9,4 @@ export function App() {
       <Route path="/:query" element={<Search />} />
     </Routes>
   );
-};
+}
