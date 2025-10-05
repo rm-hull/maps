@@ -16,9 +16,11 @@ export interface GeneralSettings {
   showZoomLevel?: boolean;
   overlays?: Record<string, boolean>;
   maxSearchResults?: number;
+  gpsActiveDuration?: number;
 }
 
 export const DEFAULT_ZOOM_LEVEL = 13;
+export const DEFAULT_GPS_ACTIVE_DURATION = 180_000; // 3 minutes
 
 type UseGeneralSettingsReturnType = {
   settings: GeneralSettings | undefined;

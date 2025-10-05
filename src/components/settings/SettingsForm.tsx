@@ -15,7 +15,12 @@ import {
 import { type LatLng } from "leaflet";
 import { useCallback } from "react";
 import { baseLayers } from "../../config/layer";
-import { DEFAULT_ZOOM_LEVEL, type InitialLocation, useGeneralSettings } from "../../hooks/useGeneralSettings";
+import {
+  DEFAULT_GPS_ACTIVE_DURATION,
+  DEFAULT_ZOOM_LEVEL,
+  type InitialLocation,
+  useGeneralSettings,
+} from "../../hooks/useGeneralSettings";
 import { CustomSearch } from "./CustomSearch";
 
 export function SettingsForm() {
@@ -62,6 +67,13 @@ export function SettingsForm() {
   const handleUpdateMaxSearchResults = useCallback(
     (details: NumberInputValueChangeDetails): void => {
       updateSettings({ ...settings, maxSearchResults: details.valueAsNumber });
+    },
+    [settings]
+  );
+
+  const handleUpdateGpsActiveSeconds = useCallback(
+    (details: NumberInputValueChangeDetails): void => {
+      updateSettings({ ...settings, gpsActiveDuration: details.valueAsNumber * 1000 });
     },
     [settings]
   );
@@ -172,10 +184,34 @@ export function SettingsForm() {
                 <NumberInput.IncrementTrigger />
                 <NumberInput.DecrementTrigger />
               </NumberInput.Control>
-              <NumberInput.Scrubber />
+              {/* <NumberInput.Scrubber /> */}
               <NumberInput.Input />
             </NumberInput.Root>
             <Field.HelperText>When searching, this will limit maximum number of results to show.</Field.HelperText>
+          </VStack>
+        </HStack>
+      </Field.Root>
+
+      <Field.Root>
+        <HStack alignItems="start" width="full">
+          <Field.Label width="100px" mt={2}>
+            GPS timeout:
+          </Field.Label>
+          <VStack alignItems="start">
+            <NumberInput.Root
+              size="sm"
+              value={((settings?.gpsActiveDuration ?? DEFAULT_GPS_ACTIVE_DURATION) / 1000).toString()}
+              onValueChange={handleUpdateGpsActiveSeconds}
+              min={10}
+              max={3600}
+            >
+              <NumberInput.Control>
+                <NumberInput.IncrementTrigger />
+                <NumberInput.DecrementTrigger />
+              </NumberInput.Control>
+              <NumberInput.Input />
+            </NumberInput.Root>
+            <Field.HelperText>Determines how many seconds the GPS beacon will stay active for.</Field.HelperText>
           </VStack>
         </HStack>
       </Field.Root>
