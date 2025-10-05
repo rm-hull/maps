@@ -25,6 +25,7 @@ export function CurrentLocation({ active }: CurrentLocationProps) {
 
   useErrorToast("gps-error", "Error determining GPS location", location.error);
 
+  const locationIsActive = location.active && !location.pending;
   return (
     <>
       {location.position !== undefined && (
@@ -37,7 +38,7 @@ export function CurrentLocation({ active }: CurrentLocationProps) {
           />
           <Marker
             position={location.position}
-            icon={locateIcon(`rgba(240,0,0,${location.active && !location.pending ? 0.6 : 0.4})`)}
+            icon={locateIcon(`rgba(240,0,0,${locationIsActive ? 0.6 : 0.3})`, locationIsActive ? "pulse" : "")}
           >
             <NearestInfo
               latLng={location.position}
