@@ -1,3 +1,5 @@
+import { useErrorToast } from "@/hooks/useErrorToast";
+import { useFind } from "@/hooks/useFind";
 import { useGeneralSettings } from "@/hooks/useGeneralSettings";
 import { greenMarker } from "@/icons";
 import { Collapsible, Input, InputGroup, useControllableState, useDisclosure } from "@chakra-ui/react";
@@ -6,7 +8,6 @@ import { type ChangeEvent, useCallback, useEffect, useState } from "react";
 import { Marker, useMapEvent } from "react-leaflet";
 import { useKeyPressEvent } from "react-use";
 import { useFocus } from "../../../hooks/useFocus";
-import { find } from "../../../services/osdatahub";
 import { toLatLng } from "../../../services/osdatahub/helpers";
 import { type Response, type GazetteerEntry } from "../../../services/osdatahub/types";
 import { type SearchState, StateIcon } from "../../StateIcon";
@@ -25,6 +26,11 @@ export function SearchBox() {
   const [searching, setSearching] = useState<SearchState>();
   const [position, setPosition] = useState<LatLng | undefined>();
   const [response, setResponse] = useState<Response | undefined>();
+  const [searchQuery, setSearchQuery] = useState<string>("");
+  const { data, error, isLoading } = useFind(searchQuery, settings?.maxSearchResults ?? 5);
+
+  useErrorToast("search-error", "Error fetching search results", error);
+
   const map = useMapEvent("moveend", () => {
     if (searching === "busy") {
       setSearching("ok");
@@ -37,63 +43,75 @@ export function SearchBox() {
     }
   }, [open, setInputFocus]);
 
-  const resetSearch = (): void => {
+  const resetSearch = useCallback((): void => {
     setPosition(undefined);
     setSearching(undefined);
     setResponse(undefined);
-  };
+    setSearchQuery("");
+  }, []);
 
   const handleChange = useCallback((e: ChangeEvent<HTMLInputElement>): void => {
     resetSearch();
     setValue(e.target.value);
   }, []);
 
-  const handleCancel = (e: { preventDefault: () => void }): void => {
+  const handleCancel = useCallback((e: { preventDefault: () => void }): void => {
     e.preventDefault();
     setValue("");
     resetSearch();
     onClose();
-  };
+  }, []);
 
-  const handleSearch = async (): Promise<void> => {
+  const handleSearch = useCallback((): void => {
     if (!value.trim()) {
       return;
     }
+    setSearchQuery(value);
+  }, [value]);
 
-    try {
+  const handleSelect = useCallback(
+    ({ geometryX, geometryY }: GazetteerEntry) => {
+      const latlng = toLatLng([geometryX, geometryY]);
+      setPosition(latlng);
+      setResponse(undefined);
+      map.flyTo(latlng, map.getZoom());
+      setSearching("ok");
+    },
+    [map]
+  );
+
+  useEffect(() => {
+    if (isLoading) {
       setSearching("busy");
-      const data = await find(value, settings?.maxSearchResults ?? 5);
-      if (data.header.totalresults === 0 || !data.results) {
-        setSearching("not-found");
-        setResponse(undefined);
-        return;
-      }
-
-      if (data.header.totalresults > 1) {
-        setSearching("multiple");
-        setResponse(data);
-        return;
-      }
-
-      handleSelect(data.results[0].gazetteerEntry);
-    } catch (e) {
-      setSearching("error");
-      console.error(e);
+      return;
     }
-  };
 
-  const handleSelect = useCallback(({ geometryX, geometryY }: GazetteerEntry) => {
-    const latlng = toLatLng([geometryX, geometryY]);
-    setPosition(latlng);
-    setResponse(undefined);
-    map.flyTo(latlng, map.getZoom());
-    setSearching("ok");
-  }, []);
+    if (error) {
+      setSearching("error");
+      return;
+    }
+
+    if (!data || !searchQuery) {
+      return;
+    }
+
+    if (data.header.totalresults === 0 || !data.results) {
+      setSearching("not-found");
+      setResponse(undefined);
+      return;
+    }
+
+    if (data.header.totalresults > 1) {
+      setSearching("multiple");
+      setResponse(data);
+      return;
+    }
+
+    handleSelect(data.results[0].gazetteerEntry);
+  }, [data, error, isLoading, searchQuery, handleSelect]);
 
   useKeyPressEvent("/", onOpen);
-  useKeyPressEvent("Enter", () => {
-    handleSearch().catch(console.error);
-  });
+  useKeyPressEvent("Enter", handleSearch);
   useKeyPressEvent("Escape", handleCancel);
 
   return (
@@ -108,7 +126,7 @@ export function SearchBox() {
               borderWidth={2}
               borderColor="rgba(0,0,0,0.2)"
               // focusBorderColor="rgba(0,0,0,0.2)"
-              readOnly={searching === "busy"}
+              readOnly={isLoading}
               autoComplete="off"
               autoCapitalize="off"
               width={500}

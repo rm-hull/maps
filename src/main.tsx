@@ -9,6 +9,7 @@ import { BrowserRouter as Router } from "react-router-dom";
 import { App } from "./App";
 import { ErrorFallback } from "./components/ErrorFallback";
 import { Provider } from "./components/ui/provider";
+import { Toaster } from "./components/ui/toaster";
 import { reportWebVitals } from "./reportWebVitals";
 import "react-leaflet-cluster/dist/assets/MarkerCluster.css";
 import "react-leaflet-cluster/dist/assets/MarkerCluster.Default.css";
@@ -31,6 +32,7 @@ root.render(
     <Provider>
       <Router basename="/maps">
         <ErrorBoundary FallbackComponent={ErrorFallback}>
+          <Toaster />
           <App />
         </ErrorBoundary>
       </Router>
