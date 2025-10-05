@@ -108,7 +108,7 @@ export function SearchBox() {
     }
 
     handleSelect(data.results[0].gazetteerEntry);
-  }, [data, error, isLoading, searchQuery]);
+  }, [data, error, isLoading, searchQuery, handleSelect]);
 
   useKeyPressEvent("/", onOpen);
   useKeyPressEvent("Enter", handleSearch);
