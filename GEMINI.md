@@ -4,16 +4,28 @@
 
 This is a web application that displays UK Ordnance Survey maps. It is built with React, TypeScript, and Vite. It uses Leaflet.js for rendering maps and Chakra UI for the user interface. The application allows users to view maps, search for locations, and display points of interest.
 
+### Project Structure
+
+- `src/components`: Contains reusable React components, organized by feature (e.g., `map`, `settings`).
+- `src/hooks`: Custom React hooks for managing state and side effects (e.g., `useCurrentLocation`, `useGpsRoutes`).
+- `src/pages`: Top-level page components that correspond to routes.
+- `src/services`: Modules for interacting with external APIs (e.g., OS DataHub, Geograph).
+- `src/config`: Application configuration, such as map layer definitions.
+- `src/icons`: SVG icons and Leaflet marker definitions.
+- `src/utils`: Utility functions.
+
 ### Key Technologies:
 
 - **Frontend Framework:** React
 - **Language:** TypeScript
 - **Build Tool:** Vite
 - **Package Manager:** Yarn
-- **Mapping Library:** Leaflet.js
+- **Mapping Library:** Leaflet.js, React-Leaflet, maplibre-gl
 - **UI Components:** Chakra UI
+- **State Management:** Jotai
 - **Data Fetching:** react-query
 - **Routing:** react-router-dom
+- **Testing:** Vitest, React Testing Library
 
 ## Building and Running
 

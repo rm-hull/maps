@@ -1,62 +1,88 @@
-# Maps
+# UK Ordnance Survey Maps
 
-UK Ordance Survey maps, supporting multiple styles and points of interest. By default, visiting https://www.destructuring-bind.org/maps/ will center on Ambleside (for no particular reason). If you want to start (or sniff around) at a particular town or postcode, add it to the URL, e.g. https://www.destructuring-bind.org/maps/Nottingham or https://www.destructuring-bind.org/maps/PH1+1BD
+This is a web application that displays UK Ordnance Survey (OS) maps, supporting multiple map styles, points of interest, and GPS track integration.
 
-![maps-leisure](./doc/screenshots/maps_leisure.webp)
+- **Live Site:** https://www.destructuring-bind.org/maps/
 
-![maps-roads](./doc/screenshots/maps_roads.webp)
+By default, the map will center on Ambleside. You can specify a starting location by adding a town name or postcode to the URL, for example:
 
-## Runing it locally
+- https://www.destructuring-bind.org/maps/Nottingham
+- https://www.destructuring-bind.org/maps/PH1+1BD
 
-Create an `.env` file in the root folder, with the following keys:
+![Leisure Map](./doc/screenshots/maps_leisure.webp)
+_Leisure Map Style_
 
-```env
-REACT_APP_OS_DATAHUB_API_KEY=<your OS Datahub API key here>
-REACT_APP_GEOGRAPH_API_KEY=<your Geograph API key here>
-```
+![Roads Map](./doc/screenshots/maps_roads.webp)
+_Roads Map Style_
 
-You will need to sign up for accounts on the [OS DataHub](https://osdatahub.os.uk/)
-and [Geograph UK](https://www.geograph.org.uk/) and obtain API keys.
+## Features
 
-Then `yarn install` to pull in all the dependencies, while `yarn start` will run the app
-in development mode. Open http://localhost:3000 to view it in the browser.
+*   **Multiple Map Styles:** Switch between different OS map styles, including Leisure and Roads.
+*   **Location Search:** Search for towns and postcodes across the UK.
+*   **Points of Interest:** Display photos from [Geograph](https://www.geograph.org.uk/) as points of interest on the map.
+*   **GPS Tracking:** Show your current location on the map.
+*   **GPS Route Display:** Load and display GPS tracks from GPX and KML files.
+*   **Measurement Tool:** Measure distances on the map.
 
-The page will reload if you make edits. You will also see any lint errors
-in the console.
+## Key Technologies
 
-## Hosting yourself
+*   **Framework:** React
+*   **Language:** TypeScript
+*   **Build Tool:** Vite
+*   **Mapping:** Leaflet.js, React-Leaflet, maplibre-gl
+*   **UI:** Chakra UI
+*   **State Management:** Jotai
+*   **Data Fetching:** React Query
 
-Fork the repo, and Github actions will/should deploy the app to Github pages. You will almost
-certainly have to manually edit your settings to deploy from the `gh-pages` branch:
+## Running Locally
 
-![github-pages](./doc/screenshots/github_pages.webp)
+To run the application locally, follow these steps:
 
-And then, create secrets from the API keys:
+1.  **Clone the repository:**
+    ```bash
+    git clone https://github.com/r-hull/maps.git
+    cd maps
+    ```
 
-![github-secrets](./doc/screenshots/github_secrets.webp)
+2.  **Create an environment file:**
+
+    Create a `.env` file in the root of the project with the following content:
+
+    ```env
+    VITE_OS_DATAHUB_API_KEY=<your OS Datahub API key here>
+    VITE_GEOGRAPH_API_KEY=<your Geograph API key here>
+    ```
+
+    You will need to sign up for free accounts on the [OS DataHub](https://osdatahub.os.uk/) and [Geograph UK](https://www.geograph.org.uk/) to obtain these API keys.
+
+3.  **Install dependencies:**
+    ```bash
+    yarn install
+    ```
+
+4.  **Run the development server:**
+    ```bash
+    yarn dev
+    ```
+
+    The application will be available at http://localhost:5173 (or the next available port).
+
+## Hosting Yourself
+
+This project includes a GitHub Actions workflow to automatically deploy the application to GitHub Pages.
+
+1.  **Fork the repository.**
+2.  **Enable GitHub Pages:** In your repository settings, under "Pages", set the source to "GitHub Actions".
+3.  **Create repository secrets:** In your repository settings, under "Secrets and variables" > "Actions", create the following secrets:
+    *   `VITE_OS_DATAHUB_API_KEY`: Your OS Datahub API key.
+    *   `VITE_GEOGRAPH_API_KEY`: Your Geograph API key.
+
+The workflow will then build and deploy the application automatically.
 
 ## Attribution
 
-Leaflet markers sourced from https://github.com/pointhi/leaflet-color-markers.
+*   Leaflet marker icons sourced from [pointhi/leaflet-color-markers](https://github.com/pointhi/leaflet-color-markers).
 
-## MIT License
+## License
 
-Copyright (c) 2021 Richard Hull
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
+This project is licensed under the MIT License. See the [LICENSE.md](LICENSE.md) file for details.
