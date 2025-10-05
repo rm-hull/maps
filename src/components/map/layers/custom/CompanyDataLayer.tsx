@@ -140,7 +140,6 @@ function CompanyListPopup({ companies }: CompanyListPopupProps) {
                       <DataList.Item
                         key={index}
                         fontSize="xs"
-                        // color={fgSecondary}
                         alignItems="start"
                         lineHeight={1.4}
                         borderLeftWidth={2}

@@ -50,7 +50,7 @@ export function CurrentLocation({ active }: CurrentLocationProps) {
         </>
       )}
       <Control prepend position="topright">
-        <ControlButton onClick={activate} color={location.active && "rgba(240,0,0,0.6)"}>
+        <ControlButton onClick={activate} color={location.active ? "rgba(240,0,0,0.6)" : undefined}>
           <IoMdLocate />
         </ControlButton>
       </Control>

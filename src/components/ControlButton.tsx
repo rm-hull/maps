@@ -4,7 +4,7 @@ import { useColorModeValue } from "./ui/color-mode";
 import { Tooltip } from "./ui/tooltip";
 
 interface ControlButtonProps {
-  color?: string | false;
+  color?: string;
   onClick?: MouseEventHandler<HTMLButtonElement>;
   onMouseOver?: MouseEventHandler<HTMLButtonElement>;
   onMouseEnter?: MouseEventHandler<HTMLButtonElement>;
@@ -34,7 +34,7 @@ export function ControlButton({
       borderWidth={2}
       borderColor={borderColor}
       fontSize="1.5rem"
-      color={color || defaultColor}
+      color={color ?? defaultColor}
       borderRadius={5}
       size="lg"
     >

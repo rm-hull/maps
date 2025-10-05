@@ -6,7 +6,7 @@ type ScaleProps = {
   color?: string;
 };
 
-export function Scale({ label, values, color: fgColor = "gray.600" }: ScaleProps) {
+export function Scale({ label, values, color: fgColor }: ScaleProps) {
   return (
     <HStack color={fgColor}>
       {label}
