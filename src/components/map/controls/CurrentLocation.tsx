@@ -1,3 +1,4 @@
+import { DEFAULT_GPS_ACTIVE_DURATION, useGeneralSettings } from "@/hooks/useGeneralSettings";
 import { Button } from "@chakra-ui/react";
 import { useEffect } from "react";
 import { IoMdLocate } from "react-icons/io";
@@ -14,7 +15,8 @@ interface CurrentLocationProps {
 }
 
 export function CurrentLocation({ active }: CurrentLocationProps) {
-  const { activate, location } = useCurrentLocation();
+  const { settings } = useGeneralSettings();
+  const { activate, location } = useCurrentLocation(settings?.gpsActiveDuration ?? DEFAULT_GPS_ACTIVE_DURATION);
   useEffect(() => {
     if (active === true) {
       activate();
