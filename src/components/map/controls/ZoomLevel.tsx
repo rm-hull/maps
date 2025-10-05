@@ -1,3 +1,4 @@
+import { useColorModeValue } from "@/components/ui/color-mode";
 import { Box } from "@chakra-ui/react";
 import { useState } from "react";
 import { useMap, useMapEvents } from "react-leaflet";
@@ -6,6 +7,10 @@ import { Control } from "../Control";
 
 export function ZoomLevel() {
   const { settings } = useGeneralSettings();
+  const fgColor = useColorModeValue("gray.700", "gray.300");
+  const bgColor = useColorModeValue("white", "gray.800");
+  const borderColor = useColorModeValue("rgba(0,0,0,0.2)", "rgba(255,255,255,0.2)");
+
   const map = useMap();
   const [zoom, setZoom] = useState(map.getZoom());
   useMapEvents({
@@ -18,15 +23,16 @@ export function ZoomLevel() {
     <Control position="topleft">
       {settings?.showZoomLevel && (
         <Box
-          background="white"
+          color={fgColor}
+          background={bgColor}
           padding={0}
           borderWidth={2}
-          borderColor="rgba(0,0,0,0.2)"
+          borderColor={borderColor}
           fontSize="1.2rem"
           fontWeight="bold"
-          borderRadius={5}
-          width={9}
-          height={9}
+          borderRadius={4}
+          width="35px"
+          height="35px"
           justifyContent="center"
           alignItems="center"
           display="flex"

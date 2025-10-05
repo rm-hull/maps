@@ -1,4 +1,6 @@
-import { Accordion, Box, Button, Link, Text, VStack, Checkbox, Collapsible } from "@chakra-ui/react";
+import { ControlButton } from "@/components/ControlButton";
+import { useColorModeValue } from "@/components/ui/color-mode";
+import { Accordion, Box, Link, Text, VStack, Checkbox, Collapsible } from "@chakra-ui/react";
 import * as L from "leaflet";
 import { useCallback, useState, useRef } from "react";
 import { IoLayersSharp } from "react-icons/io5";
@@ -54,13 +56,19 @@ type BaseLayerAccordionProps = {
 };
 
 function BaseLayerAccordion({ onLayerChanged, selectedLayer }: BaseLayerAccordionProps) {
+  const handleLayerChange = useCallback((layer: LayerOption) => () => onLayerChanged(layer), [onLayerChanged]);
+
+  const bgColor = useColorModeValue("white", "var(--chakra-colors-gray-800)");
+  const borderColor = useColorModeValue("rgba(0,0,0,0.2)", "rgba(255,255,255,0.2)");
+  const defaultColor = useColorModeValue("rgba(0,0,0,0.5)", "rgba(255,255,255,0.5)");
+
   return (
     <Box
-      background="white"
+      background={bgColor}
       padding={0}
       borderWidth={2}
-      borderColor="rgba(0,0,0,0.2)"
-      color="rgba(0,0,0,0.5)"
+      borderColor={borderColor}
+      color={defaultColor}
       borderRadius={5}
       width={220}
     >
@@ -77,7 +85,7 @@ function BaseLayerAccordion({ onLayerChanged, selectedLayer }: BaseLayerAccordio
               <Accordion.ItemBody padding={2} maxHeight={200} overflowY="auto">
                 {layers.map((layer) => (
                   <Box key={layer.name} display="inline-block" marginRight={2}>
-                    <Link onClick={() => onLayerChanged(layer)}>
+                    <Link onClick={handleLayerChange(layer)}>
                       <Text fontSize={14} fontWeight={layer === selectedLayer ? "bold" : "default"}>
                         {layer.name}
                       </Text>
@@ -180,20 +188,9 @@ export function Layers({ defaultLayer }: LayersProps) {
         <Collapsible.Root open={!expanded} unmountOnExit>
           <Collapsible.Content>
             <Box position="absolute" top={0} right={11} width="100%">
-              <Button
-                background="white"
-                variant="outline"
-                padding={0}
-                borderWidth={2}
-                borderColor="rgba(0,0,0,0.2)"
-                fontSize="1.5rem"
-                color="rgba(0,0,0,0.5)"
-                borderRadius={5}
-                size="lg"
-                onMouseOver={expandMenu}
-              >
+              <ControlButton onMouseEnter={expandMenu}>
                 <IoLayersSharp />
-              </Button>
+              </ControlButton>
             </Box>
           </Collapsible.Content>
         </Collapsible.Root>

@@ -1,3 +1,4 @@
+import { useColorModeValue } from "@/components/ui/color-mode";
 import { Tooltip } from "@/components/ui/tooltip";
 import { Badge, DataList, HStack, Heading, Link, List, ListItem, Text } from "@chakra-ui/react";
 import { type LatLngBounds } from "leaflet";
@@ -86,9 +87,10 @@ function Overdue({ isOverdue, dueDate, label }: OverdueProps) {
     return null;
   }
 
+  const fg = useColorModeValue("red.700", "red.400");
   return (
     <Tooltip content={`Due: ${dueDate?.toDateString()}`}>
-      <HStack display="inline-flex" gap={1} color="red.700" fontWeight="bold" cursor="help">
+      <HStack display="inline-flex" gap={1} color={fg} fontWeight="bold" cursor="help">
         <FaExclamationCircle /> {label} overdue
       </HStack>
     </Tooltip>
@@ -100,11 +102,13 @@ interface CompanyListPopupProps {
 }
 
 function CompanyListPopup({ companies }: CompanyListPopupProps) {
+  const borderColor = useColorModeValue("gray.200", "gray.800");
+  const fgSecondary = useColorModeValue("gray.700", "gray.300");
   return (
     <Popup maxWidth={400} closeButton={false}>
-      <List.Root gap={1} maxHeight={300} overflowY="auto">
+      <List.Root padding={1} gap={1} maxHeight={300} overflowY="auto">
         {companies.toSorted(byAddressLine1).map((company) => (
-          <ListItem key={company.company_number} p={2} borderBottom="1px solid" borderColor="gray.200">
+          <ListItem key={company.company_number} p={2} borderBottom="1px solid" borderColor={borderColor}>
             <HStack gap={2} alignItems="start" justifyContent="space-between">
               <Heading size="sm" truncate>
                 <Link asChild target="_blank" rel="noreferrer" outlineOffset={0}>
@@ -119,11 +123,11 @@ function CompanyListPopup({ companies }: CompanyListPopupProps) {
                 {company.company_status}
               </Badge>
             </HStack>
-            <Text fontSize="sm" truncate textTransform="capitalize">
+            <Text fontSize="sm" truncate textTransform="capitalize" color={fgSecondary}>
               {company.incorporation_date.toLocaleDateString("en-GB")} | {company.company_category} |{" "}
               {company.accounts_account_category.toLowerCase()}
             </Text>
-            <Text fontSize="xs" color="gray.600">
+            <Text fontSize="xs" color={fgSecondary}>
               {address(company)}
             </Text>
             {company.sic_code_1 !== "None Supplied" && (
@@ -136,14 +140,13 @@ function CompanyListPopup({ companies }: CompanyListPopupProps) {
                       <DataList.Item
                         key={index}
                         fontSize="xs"
-                        color="gray.600"
                         alignItems="start"
                         lineHeight={1.4}
                         borderLeftWidth={2}
                         ml={2}
                         gap={0}
                       >
-                        <DataList.ItemLabel width="50px" minWidth="initial" pl={1}>
+                        <DataList.ItemLabel width="48px" minWidth="initial" pl={1}>
                           {code} -
                         </DataList.ItemLabel>
                         <DataList.ItemValue>{descr}</DataList.ItemValue>
