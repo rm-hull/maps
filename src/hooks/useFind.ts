@@ -12,5 +12,6 @@ interface UseFindReturnType {
 export function useFind(query: string, maxResults = 1): UseFindReturnType {
   return useQuery<Response, AxiosError>(["find", query, maxResults], () => find(query, maxResults), {
     staleTime: Infinity,
+    enabled: !!query,
   });
 }
