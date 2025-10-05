@@ -13,7 +13,7 @@ import { Settings } from "./controls/Settings";
 import { ZoomLevel } from "./controls/ZoomLevel";
 import { CustomOverlays } from "./CustomOverlays";
 import { PointOfInterest } from "./PointOfInterest";
-import { SearchBox } from "./SearchBox";
+import { SearchBox } from "./search/SearchBox";
 import { Tracks } from "./Tracks";
 
 interface OSMapProps {

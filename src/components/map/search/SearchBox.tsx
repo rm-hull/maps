@@ -5,14 +5,14 @@ import { LatLng } from "leaflet";
 import { type ChangeEvent, useEffect, useState } from "react";
 import { Marker, Popup, useMapEvent } from "react-leaflet";
 import { useKeyPressEvent } from "react-use";
-import { useFocus } from "../../hooks/useFocus";
-import { find } from "../../services/osdatahub";
-import { toLatLng } from "../../services/osdatahub/helpers";
-import { type Response, type GazetteerEntry } from "../../services/osdatahub/types.d";
-import { type SearchState, StateIcon } from "../StateIcon";
-import { useColorModeValue } from "../ui/color-mode";
-import { Control } from "./Control";
-import { NearestInfo } from "./NearestInfo";
+import { useFocus } from "../../../hooks/useFocus";
+import { find } from "../../../services/osdatahub";
+import { toLatLng } from "../../../services/osdatahub/helpers";
+import { type Response, type GazetteerEntry } from "../../../services/osdatahub/types";
+import { type SearchState, StateIcon } from "../../StateIcon";
+import { useColorModeValue } from "../../ui/color-mode";
+import { Control } from "../Control";
+import { NearestInfo } from "../NearestInfo";
 import { SearchResults } from "./SearchResults";
 
 export function SearchBox() {

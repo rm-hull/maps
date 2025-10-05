@@ -1,7 +1,7 @@
 import { type AxiosError } from "axios";
 import { useQuery } from "react-query";
 import { find } from "../services/osdatahub";
-import { type Response } from "../services/osdatahub/types.d";
+import { type Response } from "../services/osdatahub/types";
 
 interface UseFindReturnType {
   data?: Response;
