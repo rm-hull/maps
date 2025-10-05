@@ -29,6 +29,7 @@
     "react-query": "^3.39.3",
     "react-router-dom": "^7.9.3",
     "react-use": "^17.6.0",
+    "source-map-js": "^1.2.1",
     "web-vitals": "^5.1.0"
   },
   "devDependencies": {

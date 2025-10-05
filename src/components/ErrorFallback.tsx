@@ -1,10 +1,13 @@
-import { Alert, Code, Container, Heading } from "@chakra-ui/react";
+import { useReadableStack } from "@/hooks/useReadableStack";
+import { Alert, Code, Container, Heading, Span } from "@chakra-ui/react";
 
 interface ErrorFallbackProps {
   error: Error;
 }
 
 export function ErrorFallback({ error }: ErrorFallbackProps) {
+  const { stack, loading } = useReadableStack(error);
+
   return (
     <Container maxWidth="container.lg">
       <Alert.Root status="error">
@@ -14,9 +17,12 @@ export function ErrorFallback({ error }: ErrorFallbackProps) {
       </Alert.Root>
 
       <Container m={5}>
-        <Heading size="sm">Stack trace</Heading>
+        <Heading size="sm">
+          Stack trace
+          {loading && <Span color="gray.500"> (resolving source maps…)</Span>}
+        </Heading>
         <Code background="none">
-          <pre>{error.stack}</pre>
+          <pre>{stack}</pre>
         </Code>
       </Container>
     </Container>
