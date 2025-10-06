@@ -7,6 +7,36 @@ import { GeographLayer } from "../components/map/layers/custom/GeographLayer";
 import { GpsRoutesLayer } from "../components/map/layers/custom/GpsRoutesLayer";
 import { PostcodePolygonsLayer } from "../components/map/layers/custom/PostcodePolygonsLayer";
 import { WeatherLayer } from "../components/map/layers/custom/WeatherLayer";
+import { Scale } from "../components/map/Scale";
+
+const scale2 = [
+  { color: "#FFFFFF00", value: "0" },
+  { color: "#80FFFF" },
+  { color: "#00FFFF", value: "0.2" },
+  { color: "#00C0FF" },
+  { color: "#0080FF", value: "1" },
+  { color: "#0040FF" },
+  { color: "#0000FF", value: "3" },
+  { color: "#0040C0" },
+  { color: "#008080", value: "5" },
+  { color: "#00C040" },
+  { color: "#00FF00", value: "7" },
+  { color: "#40FF00" },
+  { color: "#80FF00", value: "9" },
+  { color: "#C0FF00" },
+  { color: "#FFFF00", value: "15" },
+  { color: "#FFC000" },
+  { color: "#FF8000", value: "25" },
+  { color: "#FF6000" },
+  { color: "#FF4000", value: "35" },
+  { color: "#FF2000" },
+  { color: "#FF0000", value: "45" },
+  { color: "#C00000" },
+  { color: "#800000", value: "55" },
+  { color: "#800020" },
+  { color: "#800040" },
+  { color: "#800080", value: "150" },
+];
 
 export type Tile = {
   type: "raster" | "vector";
@@ -300,6 +330,17 @@ export const OVERLAYS: Record<string, Overlay> = {
       <WeatherLayer
         url="https://api.destructuring-bind.org/v1/metoffice/datahub/total_precipitation_rate/{y}/{m}/{d}/{h}.png"
         zIndex={660}
+        scale={<Scale label="Rain (mm/h):" values={scale2} />}
+      />
+    ),
+  },
+  "MetOffice Cloud Cover": {
+    minZoom: 6,
+    component: () => (
+      <WeatherLayer
+        url="https://api.destructuring-bind.org/v1/metoffice/datahub/cloud_amount_total/{y}/{m}/{d}/{h}.png"
+        zIndex={659}
+        opacity={0.8}
       />
     ),
   },

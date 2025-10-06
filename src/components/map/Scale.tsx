@@ -1,4 +1,5 @@
 import { Box, HStack, Text, VStack } from "@chakra-ui/react";
+import { useColorModeValue } from "../ui/color-mode";
 
 type ScaleProps = {
   label: string;
@@ -6,7 +7,8 @@ type ScaleProps = {
   color?: string;
 };
 
-export function Scale({ label, values, color: fgColor }: ScaleProps) {
+export function Scale({ label, values }: ScaleProps) {
+  const fgColor = useColorModeValue("gray.600", "gray.300");
   return (
     <HStack color={fgColor}>
       {label}
