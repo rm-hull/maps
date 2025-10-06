@@ -1,6 +1,5 @@
 import { type LatLngBounds } from "leaflet";
 import { Marker } from "react-leaflet";
-import MarkerClusterGroup from "react-leaflet-cluster";
 import { useCachedQuery } from "../../../../hooks/useCachedQuery";
 import { useErrorToast } from "../../../../hooks/useErrorToast";
 import { useGpsRoutes } from "../../../../hooks/useGpsRoutes";
@@ -16,7 +15,7 @@ export function GpsRoutesLayer({ bounds }: GpsRoutesLayerProps) {
   useErrorToast("gps-routes-error", "Error loading GPS routes", error);
 
   return (
-    <MarkerClusterGroup chunkedLoading showCoverageOnHover={false} removeOutsideVisibleBounds>
+    <>
       {data?.hits.map((result) => (
         <Marker key={result.objectID} position={[result._geoloc.lat, result._geoloc.lng]} icon={violetMarker}>
           <ResultPopup
@@ -28,6 +27,6 @@ export function GpsRoutesLayer({ bounds }: GpsRoutesLayerProps) {
           />
         </Marker>
       ))}
-    </MarkerClusterGroup>
+    </>
   );
 }

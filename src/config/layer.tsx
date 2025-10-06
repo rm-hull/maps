@@ -1,11 +1,8 @@
 import { createListCollection } from "@chakra-ui/react";
 import { LatLngBounds } from "leaflet";
 import { TileLayer, WMSTileLayer } from "react-leaflet";
-import { CompanyDataLayer } from "../components/map/layers/custom/CompanyDataLayer";
-import { GeodsPointsOfInterestLayer } from "../components/map/layers/custom/GeodsPointsOfInterestLayer";
-import { GeographLayer } from "../components/map/layers/custom/GeographLayer";
-import { GpsRoutesLayer } from "../components/map/layers/custom/GpsRoutesLayer";
 import { PostcodePolygonsLayer } from "../components/map/layers/custom/PostcodePolygonsLayer";
+import { UnifiedClusterLayer } from "../components/map/layers/custom/UnifiedClusterLayer";
 import { WeatherLayer } from "../components/map/layers/custom/WeatherLayer";
 
 export type Tile = {
@@ -191,10 +188,7 @@ const BASE_LAYERS: LayerOption[] = [
 ];
 
 export const OVERLAYS: Record<string, Overlay> = {
-  "GPS Routes": { minZoom: 10, component: GpsRoutesLayer },
-  Geograph: { minZoom: 16, component: GeographLayer },
-  "GeoDS POI": { minZoom: 14, component: GeodsPointsOfInterestLayer },
-  "Company Data": { minZoom: 16, component: CompanyDataLayer },
+  "Clustered Markers": { minZoom: 6, component: UnifiedClusterLayer },
   Postcodes: { minZoom: 11, component: PostcodePolygonsLayer },
   "Waymarked Hiking Trails": {
     minZoom: 6,

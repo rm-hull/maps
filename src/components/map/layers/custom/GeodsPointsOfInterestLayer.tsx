@@ -1,7 +1,6 @@
 import { Icon, type LatLngBounds } from "leaflet";
 import { useMemo } from "react";
 import { Marker } from "react-leaflet";
-import MarkerClusterGroup from "react-leaflet-cluster";
 import { useCachedQuery } from "../../../../hooks/useCachedQuery";
 import { useErrorToast } from "../../../../hooks/useErrorToast";
 import { useGeodsPOI } from "../../../../hooks/useGeodsPOI";
@@ -37,7 +36,7 @@ export function GeodsPointsOfInterestLayer({ bounds }: GeodsPointsOfInterestLaye
   }, []);
 
   return (
-    <MarkerClusterGroup chunkedLoading showCoverageOnHover={false} removeOutsideVisibleBounds>
+    <>
       {data?.results?.map((result) => (
         <Marker key={result.id} position={[result.lat, result.long]} icon={categoryIcon(result.categories?.[0])}>
           <ResultPopup
@@ -51,7 +50,7 @@ export function GeodsPointsOfInterestLayer({ bounds }: GeodsPointsOfInterestLaye
           />
         </Marker>
       ))}
-    </MarkerClusterGroup>
+    </>
   );
 }
 
