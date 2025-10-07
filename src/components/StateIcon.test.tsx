@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-unsafe-call */
+ 
 import { render } from "../test/utils";
 import { StateIcon } from "./StateIcon";
 
