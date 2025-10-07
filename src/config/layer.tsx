@@ -9,7 +9,7 @@ import { PostcodePolygonsLayer } from "../components/map/layers/custom/PostcodeP
 import { WeatherLayer } from "../components/map/layers/custom/WeatherLayer";
 import { Scale } from "../components/map/Scale";
 
-const scale2 = [
+const RAIN_RATE_SCALE = [
   { color: "#FFFFFF00", value: "0" },
   { color: "#80FFFF" },
   { color: "#00FFFF", value: "0.2" },
