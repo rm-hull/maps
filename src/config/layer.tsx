@@ -330,7 +330,7 @@ export const OVERLAYS: Record<string, Overlay> = {
       <WeatherLayer
         url="https://api.destructuring-bind.org/v1/metoffice/datahub/total_precipitation_rate/{y}/{m}/{d}/{h}.png"
         zIndex={660}
-        scale={<Scale label="Rain (mm/h):" values={scale2} />}
+        scale={<Scale label="Rain (mm/h):" values={RAIN_RATE_SCALE} />}
       />
     ),
   },
