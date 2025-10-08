@@ -1,22 +1,29 @@
-/* eslint-disable @typescript-eslint/no-unsafe-return */
 import { vi } from "vitest";
 import { render, screen } from "../test/utils";
 import { Search } from "./Search";
 
 // Mock useParams
-const mockUseParams = vi.fn();
+const mockUseParams = vi.fn<() => { query?: string }>();
 vi.mock("react-router-dom", async () => {
   const actual = await vi.importActual<typeof import("react-router-dom")>("react-router-dom");
   return {
     ...actual,
-    useParams: () => mockUseParams(),
+    useParams: (): { query?: string } => mockUseParams(),
   };
 });
 
 // Mock useFind hook
-const mockUseFind = vi.fn();
+interface FindResult {
+  data?: {
+    header?: { totalresults: number };
+    results?: Array<{ gazetteerEntry: { geometryX: number; geometryY: number } }> | null;
+  };
+  isLoading: boolean;
+  error: Error | null;
+}
+const mockUseFind = vi.fn<(query: string, limit: number) => FindResult>();
 vi.mock("../hooks/useFind", () => ({
-  useFind: (query: string, limit: number) => mockUseFind(query, limit),
+  useFind: (query: string, limit: number): FindResult => mockUseFind(query, limit),
 }));
 
 // Mock Home component

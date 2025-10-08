@@ -1,42 +1,50 @@
-/* eslint-disable @typescript-eslint/no-unsafe-return */
-/* eslint-disable @typescript-eslint/no-unsafe-member-access */
-/* eslint-disable @typescript-eslint/no-explicit-any */
-/* eslint-disable @typescript-eslint/no-unsafe-call */
 import { useCallback } from "react";
 import { vi } from "vitest";
+import { GazetteerEntry, Response as SearchResponse } from "../../../services/osdatahub/types";
 import { render, screen } from "../../../test/utils";
 import { SearchBox } from "./SearchBox";
 
 // Mock hooks
-const mockUseFind = vi.fn();
+const mockUseFind =
+  vi.fn<
+    (query: string, limit: number) => { data: SearchResponse | undefined; error: Error | null; isLoading: boolean }
+  >();
 vi.mock("@/hooks/useFind", () => ({
-  useFind: vi.fn((query: string, limit: number) => mockUseFind(query, limit)),
+  useFind: (
+    query: string,
+    limit: number
+  ): { data: SearchResponse | undefined; error: Error | null; isLoading: boolean } => mockUseFind(query, limit),
 }));
 
 vi.mock("@/hooks/useErrorToast", () => ({
-  useErrorToast: vi.fn(),
+  useErrorToast: vi.fn(() => {}),
 }));
 
-const mockUseGeneralSettings = vi.fn();
+interface GeneralSettings {
+  settings: { maxSearchResults: number };
+}
+
+const mockUseGeneralSettings = vi.fn<() => GeneralSettings>();
 vi.mock("@/hooks/useGeneralSettings", () => ({
-  useGeneralSettings: vi.fn(() => mockUseGeneralSettings()),
+  useGeneralSettings: (): GeneralSettings => mockUseGeneralSettings(),
 }));
 
-const mockUseFocus = vi.fn();
+const mockUseFocus = vi.fn<() => [React.MutableRefObject<HTMLElement | null>, () => void]>();
 vi.mock("../../../hooks/useFocus", () => ({
-  useFocus: vi.fn(() => mockUseFocus()),
+  useFocus: (): [React.MutableRefObject<HTMLElement | null>, () => void] => mockUseFocus(),
 }));
 
 // Mock react-leaflet
-const mockUseMapEvent = vi.fn();
+const mockUseMapEvent = vi.fn<(event: string, handler: () => void) => { flyTo: () => void; getZoom: () => number }>();
 vi.mock("react-leaflet", () => ({
   Marker: ({ children }: { children: React.ReactNode }) => <div data-testid="marker">{children}</div>,
-  useMapEvent: (event: string, handler: () => void) => mockUseMapEvent(event, handler),
+  useMapEvent: (event: string, handler: () => void): { flyTo: () => void; getZoom: () => number } =>
+    mockUseMapEvent(event, handler),
 }));
 
 // Mock react-use
 vi.mock("react-use", () => ({
-  useKeyPressEvent: vi.fn(),
+  useKeyPressEvent: vi.fn(() => {}),
 }));
 
 // Mock components
@@ -53,9 +61,9 @@ vi.mock("../PopupPassthrough", () => ({
 }));
 
 vi.mock("./SearchResults", () => ({
-  SearchResults: ({ response, onSelect }: any) => {
+  SearchResults: ({ response, onSelect }: { response: SearchResponse; onSelect: (entry: GazetteerEntry) => void }) => {
     const handleSelect = useCallback(() => {
-      onSelect(response.results[0].gazetteerEntry);
+      onSelect(response.results![0].gazetteerEntry);
     }, [response, onSelect]);
     return (
       <div data-testid="search-results">
@@ -118,7 +126,7 @@ describe("SearchBox", () => {
 
   it("should display search results when multiple results found", () => {
     const mockData = {
-      header: { totalresults: 2 },
+      header: { totalresults: 2 } as SearchResponse["header"],
       results: [
         {
           gazetteerEntry: {
@@ -127,7 +135,7 @@ describe("SearchBox", () => {
             localType: "City",
             geometryX: 530000,
             geometryY: 180000,
-          },
+          } as GazetteerEntry,
         },
         {
           gazetteerEntry: {
@@ -136,10 +144,10 @@ describe("SearchBox", () => {
             localType: "Railway Station",
             geometryX: 532000,
             geometryY: 181000,
-          },
+          } as GazetteerEntry,
         },
       ],
-    };
+    } as SearchResponse;
 
     mockUseFind.mockReturnValue({
       data: mockData,
@@ -170,9 +178,9 @@ describe("SearchBox", () => {
   it("should handle no results found", () => {
     mockUseFind.mockReturnValue({
       data: {
-        header: { totalresults: 0 },
-        results: null,
-      },
+        header: { totalresults: 0 } as SearchResponse["header"],
+        results: undefined,
+      } as SearchResponse,
       error: null,
       isLoading: false,
     });
@@ -193,7 +201,7 @@ describe("SearchBox", () => {
   });
 
   it("should default to 5 results if settings not available", () => {
-    mockUseGeneralSettings.mockReturnValue({ settings: null });
+    mockUseGeneralSettings.mockReturnValue({ settings: null as unknown as { maxSearchResults: number } });
 
     render(<SearchBox />);
 
