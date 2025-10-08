@@ -2,22 +2,23 @@ import { vi } from "vitest";
 import { act, render, screen } from "../../../test/utils";
 import { ZoomLevel } from "./ZoomLevel";
 
-// Mock hooks
-const mockUseMap = vi.fn<[], { getZoom: () => number }>();
-const mockUseMapEvents = vi.fn<[LeafletEvents], void>();
-
 type LeafletEvents = {
   zoomend?: () => void;
 };
 
+// Mock hooks
+const mockUseMap = vi.fn<[], { getZoom: () => number }>();
+const mockUseMapEvents = vi.fn<[LeafletEvents], void>();
+
 vi.mock("react-leaflet", () => ({
-  useMap: mockUseMap,
-  useMapEvents: mockUseMapEvents,
+  useMap: (): { getZoom: () => number } => mockUseMap() as { getZoom: () => number },
+  useMapEvents: (events: LeafletEvents): void => mockUseMapEvents(events) as void,
 }));
 
 const mockUseGeneralSettings = vi.fn<[], { settings?: { showZoomLevel: boolean } }>();
 vi.mock("../../../hooks/useGeneralSettings", () => ({
-  useGeneralSettings: mockUseGeneralSettings,
+  useGeneralSettings: (): { settings?: { showZoomLevel: boolean } } =>
+    mockUseGeneralSettings() as { settings?: { showZoomLevel: boolean } },
 }));
 
 vi.mock("@/components/ui/color-mode", () => ({
@@ -100,7 +101,7 @@ describe("ZoomLevel", () => {
 
     expect(mockUseMapEvents).toHaveBeenCalledWith(
       expect.objectContaining({
-        zoomend: expect.any(Function),
+        zoomend: expect.any(Function) as () => void,
       })
     );
   });
