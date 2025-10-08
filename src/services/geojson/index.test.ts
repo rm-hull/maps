@@ -24,7 +24,7 @@ describe("geojson service", () => {
         </gpx>`;
 
       const mockGeoJSON = {
-        type: "FeatureCollection",
+        type: "FeatureCollection" as const,
         features: [],
       };
 
@@ -53,7 +53,7 @@ describe("geojson service", () => {
         </kml>`;
 
       const mockGeoJSON = {
-        type: "FeatureCollection",
+        type: "FeatureCollection" as const,
         features: [],
       };
 
