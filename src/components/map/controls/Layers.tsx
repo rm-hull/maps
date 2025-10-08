@@ -5,7 +5,7 @@ import * as L from "leaflet";
 import { useCallback, useState, useRef } from "react";
 import { IoLayersSharp } from "react-icons/io5";
 import { useMap } from "react-leaflet";
-import { baseLayers, LayerOption, type Tile, OVERLAYS } from "../../../config/layer";
+import { baseLayers, LayerOption, type Tile, type Overlay, OVERLAYS } from "../../../config/layer";
 import { useGeneralSettings } from "../../../hooks/useGeneralSettings";
 import { Control } from "../Control";
 import "@maplibre/maplibre-gl-leaflet";
@@ -49,7 +49,7 @@ function OverlaySelector() {
 
 type OverlayCheckboxProps = {
   name: string;
-  cfg: LayerOption["tiles"][number];
+  cfg: Overlay;
   zoom: number;
   maxZoom: number;
   isChecked: boolean;

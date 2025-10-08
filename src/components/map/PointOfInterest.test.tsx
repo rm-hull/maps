@@ -1,4 +1,3 @@
- 
 import { LatLng } from "leaflet";
 import { vi } from "vitest";
 import { render } from "../../test/utils";
@@ -6,7 +5,7 @@ import { PointOfInterest } from "./PointOfInterest";
 
 const { mockUseMapEvent } = vi.hoisted(() => {
   return {
-    mockUseMapEvent: vi.fn<[string, (event: { latlng: LatLng }) => void], void>(),
+    mockUseMapEvent: vi.fn<(eventType: string, handler: (event: { latlng: LatLng }) => void) => void>(),
   };
 });
 
@@ -50,5 +49,4 @@ describe("PointOfInterest", () => {
 
     expect(mockUseMapEvent).toHaveBeenCalledWith("contextmenu", expect.any(Function));
   });
-
 });

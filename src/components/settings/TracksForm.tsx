@@ -11,14 +11,9 @@ const CORS_PROXY = import.meta.env.VITE_CORS_PROXY as string;
 export function TracksForm() {
   const [type, setType] = useState<SupportedMimeTypes>(SupportedMimeTypes.GPX);
   const [url, setUrl] = useState<string>("");
-  const [useCorsProxy, setUseCorsProxy] = useState<boolean | "indeterminate">(
-    false
-  );
+  const [useCorsProxy, setUseCorsProxy] = useState<boolean | "indeterminate">(false);
   const queryClient = useQueryClient();
-  const { isLoading, status, refetch, error } = useGeoJSON(
-    useCorsProxy ? `${CORS_PROXY}${url}` : url,
-    type
-  );
+  const { isLoading, status, refetch, error } = useGeoJSON(useCorsProxy ? `${CORS_PROXY}${url}` : url, type);
 
   useEffect(() => {
     queryClient.removeQueries(["geojson"]);
@@ -37,8 +32,10 @@ export function TracksForm() {
     [queryClient]
   );
 
-  const handleTypeChange = useCallback((value: string) => {
-    setType(value as SupportedMimeTypes);
+  const handleTypeChange = useCallback((details: { value: string | null }) => {
+    if (details.value) {
+      setType(details.value as SupportedMimeTypes);
+    }
   }, []);
 
   const handleClick = useCallback(() => {
@@ -48,12 +45,9 @@ export function TracksForm() {
       .catch(console.error);
   }, [queryClient, refetch]);
 
-  const handleProxyChange = useCallback(
-    (e: { checked: boolean | "indeterminate" }) => {
-      setUseCorsProxy(e.checked);
-    },
-    []
-  );
+  const handleProxyChange = useCallback((e: { checked: boolean | "indeterminate" }) => {
+    setUseCorsProxy(e.checked);
+  }, []);
 
   const state = fromReactQuery(status);
 
@@ -64,11 +58,7 @@ export function TracksForm() {
           <Field.Label width="40px" htmlFor="type" mb={0}>
             Type:
           </Field.Label>
-          <RadioGroup.Root
-            id="type"
-            onValueChange={handleTypeChange}
-            value={type}
-          >
+          <RadioGroup.Root id="type" onValueChange={handleTypeChange} value={type}>
             <HStack align="left">
               <RadioGroup.Item value={SupportedMimeTypes.KML}>
                 <RadioGroup.ItemHiddenInput />

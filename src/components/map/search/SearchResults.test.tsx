@@ -64,9 +64,7 @@ describe("SearchResults", () => {
 
   it("should call onSelect when item is clicked", async () => {
     const onSelect = vi.fn();
-    const { container } = render(
-      <SearchResults response={mockResponse} onSelect={onSelect} />
-    );
+    const { container } = render(<SearchResults response={mockResponse} onSelect={onSelect} />);
 
     // Find the first list item and click it
     const firstItem = container.querySelector('[role="option"]');

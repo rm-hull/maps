@@ -4,7 +4,7 @@ import { useFocus } from "./useFocus";
 
 describe("useFocus", () => {
   it("should return a ref and a focus function", () => {
-    const { result } = renderHook(() => useFocus<HTMLInputElement>());
+    const { result } = renderHook(() => useFocus());
 
     const [ref, setFocus] = result.current;
 
@@ -13,7 +13,7 @@ describe("useFocus", () => {
   });
 
   it("should focus the input element when setFocus is called", () => {
-    const { result } = renderHook(() => useFocus<HTMLInputElement>());
+    const { result } = renderHook(() => useFocus());
 
     const [ref, setFocus] = result.current;
 
@@ -34,7 +34,7 @@ describe("useFocus", () => {
   });
 
   it("should not throw error when ref.current is null", () => {
-    const { result } = renderHook(() => useFocus<HTMLInputElement>());
+    const { result } = renderHook(() => useFocus());
 
     const [, setFocus] = result.current;
 
@@ -43,7 +43,7 @@ describe("useFocus", () => {
   });
 
   it("should maintain the same ref across renders", () => {
-    const { result, rerender } = renderHook(() => useFocus<HTMLInputElement>());
+    const { result, rerender } = renderHook(() => useFocus());
 
     const [ref1] = result.current;
     rerender();

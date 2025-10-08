@@ -7,15 +7,15 @@ type LeafletEvents = {
 };
 
 // Mock hooks
-const mockUseMap = vi.fn<[], { getZoom: () => number }>();
-const mockUseMapEvents = vi.fn<[LeafletEvents], void>();
+const mockUseMap = vi.fn<() => { getZoom: () => number }>();
+const mockUseMapEvents = vi.fn<(events: LeafletEvents) => void>();
 
 vi.mock("react-leaflet", () => ({
   useMap: (): { getZoom: () => number } => mockUseMap() as { getZoom: () => number },
-  useMapEvents: (events: LeafletEvents): void => mockUseMapEvents(events) as void,
+  useMapEvents: (events: LeafletEvents): void => mockUseMapEvents(events),
 }));
 
-const mockUseGeneralSettings = vi.fn<[], { settings?: { showZoomLevel: boolean } }>();
+const mockUseGeneralSettings = vi.fn<() => { settings?: { showZoomLevel: boolean } }>();
 vi.mock("../../../hooks/useGeneralSettings", () => ({
   useGeneralSettings: (): { settings?: { showZoomLevel: boolean } } =>
     mockUseGeneralSettings() as { settings?: { showZoomLevel: boolean } },
@@ -36,7 +36,7 @@ describe("ZoomLevel", () => {
     mockUseMap.mockReturnValue({
       getZoom: () => 10,
     });
-    mockUseMapEvents.mockReturnValue(null);
+    mockUseMapEvents.mockReturnValue(undefined);
   });
 
   it("should render zoom level when showZoomLevel setting is true", () => {
@@ -122,7 +122,7 @@ describe("ZoomLevel", () => {
     mockUseMap.mockReturnValue({ getZoom: () => 12 });
     if (capturedEvents?.zoomend) {
       act(() => {
-        capturedEvents.zoomend();
+        capturedEvents!.zoomend!();
       });
     }
 

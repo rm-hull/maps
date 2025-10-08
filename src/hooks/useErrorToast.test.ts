@@ -102,7 +102,7 @@ describe("useErrorToast", () => {
     const { rerender } = renderHook(
       ({ error }: { error: Error | null }) => useErrorToast("test-id", "Test Title", error),
       {
-        initialProps: { error },
+        initialProps: { error: error as Error | null },
       }
     );
 
