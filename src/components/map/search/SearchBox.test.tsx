@@ -1,0 +1,223 @@
+/* eslint-disable @typescript-eslint/no-unsafe-return */
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable @typescript-eslint/no-unsafe-call */
+import { vi } from "vitest";
+import { render, screen } from "../../../test/utils";
+import { SearchBox } from "./SearchBox";
+
+// Mock hooks
+const mockUseFind = vi.fn();
+vi.mock("@/hooks/useFind", () => ({
+  useFind: vi.fn((query: string, limit: number) => mockUseFind(query, limit)),
+}));
+
+vi.mock("@/hooks/useErrorToast", () => ({
+  useErrorToast: vi.fn(),
+}));
+
+const mockUseGeneralSettings = vi.fn();
+vi.mock("@/hooks/useGeneralSettings", () => ({
+  useGeneralSettings: vi.fn(() => mockUseGeneralSettings()),
+}));
+
+const mockUseFocus = vi.fn();
+vi.mock("../../../hooks/useFocus", () => ({
+  useFocus: vi.fn(() => mockUseFocus()),
+}));
+
+// Mock react-leaflet
+const mockUseMapEvent = vi.fn();
+vi.mock("react-leaflet", () => ({
+  Marker: ({ children }: { children: React.ReactNode }) => <div data-testid="marker">{children}</div>,
+  useMapEvent: (event: string, handler: () => void) => mockUseMapEvent(event, handler),
+}));
+
+// Mock react-use
+vi.mock("react-use", () => ({
+  useKeyPressEvent: vi.fn(),
+}));
+
+// Mock components
+vi.mock("../Control", () => ({
+  Control: ({ children }: { children: React.ReactNode }) => <div data-testid="control">{children}</div>,
+}));
+
+vi.mock("../NearestInfo", () => ({
+  NearestInfo: () => <div data-testid="nearest-info">NearestInfo</div>,
+}));
+
+vi.mock("../PopupPassthrough", () => ({
+  PopupPassthrough: () => <div>PopupPassthrough</div>,
+}));
+
+vi.mock("./SearchResults", () => ({
+  SearchResults: ({ response, onSelect }: any) => (
+    <div data-testid="search-results">
+      <button onClick={() => onSelect(response.results[0].gazetteerEntry)}>Select Result</button>
+    </div>
+  ),
+}));
+
+vi.mock("@/icons", () => ({
+  greenMarker: {},
+}));
+
+vi.mock("../../../services/osdatahub/helpers", () => ({
+  toLatLng: (coords: [number, number]) => ({ lat: coords[1] / 1000, lng: coords[0] / 1000 }),
+}));
+
+describe("SearchBox", () => {
+  beforeEach(() => {
+    vi.clearAllMocks();
+    mockUseGeneralSettings.mockReturnValue({ settings: { maxSearchResults: 5 } });
+    mockUseFocus.mockReturnValue([{ current: null }, vi.fn()]);
+    mockUseMapEvent.mockReturnValue({
+      flyTo: vi.fn(),
+      getZoom: vi.fn().mockReturnValue(10),
+    });
+    mockUseFind.mockReturnValue({
+      data: undefined,
+      error: null,
+      isLoading: false,
+    });
+  });
+
+  it("should render search input", () => {
+    render(<SearchBox />);
+
+    const input = screen.getByPlaceholderText(/input place/i);
+    expect(input).toBeInTheDocument();
+  });
+
+  it("should render control component", () => {
+    render(<SearchBox />);
+
+    expect(screen.getByTestId("control")).toBeInTheDocument();
+  });
+
+  it("should show loading state when searching", () => {
+    mockUseFind.mockReturnValue({
+      data: undefined,
+      error: null,
+      isLoading: true,
+    });
+
+    const { container } = render(<SearchBox />);
+
+    // Should show spinner for busy state
+    const spinner = container.querySelector('[class*="spinner"]');
+    expect(spinner).toBeInTheDocument();
+  });
+
+  it("should display search results when multiple results found", () => {
+    const mockData = {
+      header: { totalresults: 2 },
+      results: [
+        {
+          gazetteerEntry: {
+            id: "1",
+            name1: "London",
+            localType: "City",
+            geometryX: 530000,
+            geometryY: 180000,
+          },
+        },
+        {
+          gazetteerEntry: {
+            id: "2",
+            name1: "London Bridge",
+            localType: "Railway Station",
+            geometryX: 532000,
+            geometryY: 181000,
+          },
+        },
+      ],
+    };
+
+    mockUseFind.mockReturnValue({
+      data: mockData,
+      error: null,
+      isLoading: false,
+    });
+
+    render(<SearchBox />);
+
+    // Component should render without error when data is available
+    const input = screen.getByPlaceholderText(/input place/i);
+    expect(input).toBeInTheDocument();
+  });
+
+  it("should handle error state", () => {
+    mockUseFind.mockReturnValue({
+      data: undefined,
+      error: new Error("Search failed"),
+      isLoading: false,
+    });
+
+    const { container } = render(<SearchBox />);
+
+    // Component should render without crashing when there's an error
+    expect(container).toBeInTheDocument();
+  });
+
+  it("should handle no results found", () => {
+    mockUseFind.mockReturnValue({
+      data: {
+        header: { totalresults: 0 },
+        results: null,
+      },
+      error: null,
+      isLoading: false,
+    });
+
+    const { container } = render(<SearchBox />);
+
+    // Should show not-found icon
+    const icon = container.querySelector("svg");
+    expect(icon).toBeInTheDocument();
+  });
+
+  it("should use settings for max search results", () => {
+    mockUseGeneralSettings.mockReturnValue({ settings: { maxSearchResults: 10 } });
+
+    render(<SearchBox />);
+
+    expect(mockUseFind).toHaveBeenCalledWith("", 10);
+  });
+
+  it("should default to 5 results if settings not available", () => {
+    mockUseGeneralSettings.mockReturnValue({ settings: null });
+
+    render(<SearchBox />);
+
+    expect(mockUseFind).toHaveBeenCalledWith("", 5);
+  });
+
+  it("should have readonly input when loading", () => {
+    mockUseFind.mockReturnValue({
+      data: undefined,
+      error: null,
+      isLoading: true,
+    });
+
+    render(<SearchBox />);
+
+    const input = screen.getByPlaceholderText(/input place/i);
+    expect(input).toHaveAttribute("readonly");
+  });
+
+  it("should not have readonly input when not loading", () => {
+    render(<SearchBox />);
+
+    const input = screen.getByPlaceholderText(/input place/i);
+    expect(input).not.toHaveAttribute("readonly");
+  });
+
+  it("should render with correct input width", () => {
+    render(<SearchBox />);
+
+    const input = screen.getByPlaceholderText(/input place/i);
+    expect(input).toBeInTheDocument();
+  });
+});

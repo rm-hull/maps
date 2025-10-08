@@ -23,7 +23,7 @@ export default defineConfig(() => {
         provider: "v8",
         reporter: ["text", "json", "html", "lcov"],
         include: ["src/**/*.{ts,tsx}"],
-        exclude: ["src/**/*.spec.{ts,tsx}", "src/test/**"],
+        exclude: ["src/**/*.spec.{ts,tsx}", "src/test/**", "**/*.d.ts"],
       },
     },
   };

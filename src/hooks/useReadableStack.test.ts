@@ -1,3 +1,6 @@
+/* eslint-disable @typescript-eslint/no-unsafe-call */
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
 import { renderHook, waitFor } from "@testing-library/react";
 import { beforeEach, vi } from "vitest";
 import { useReadableStack } from "./useReadableStack";
