@@ -22,7 +22,7 @@ interface MatchMediaMock {
 Object.defineProperty(window, "matchMedia", {
   writable: true,
   value: vi.fn().mockImplementation(
-    (query): MatchMediaMock => ({
+    (query: string): MatchMediaMock => ({
       matches: false,
       media: query,
       onchange: null,

@@ -33,7 +33,7 @@ describe("ZoomLevel", () => {
   beforeEach(() => {
     vi.clearAllMocks();
     mockUseMap.mockReturnValue({
-      getZoom: vi.fn(() => 10),
+      getZoom: () => 10,
     });
     mockUseMapEvents.mockReturnValue(null);
   });
@@ -80,7 +80,7 @@ describe("ZoomLevel", () => {
 
   it("should display correct zoom level", () => {
     mockUseMap.mockReturnValue({
-      getZoom: vi.fn(() => 15),
+      getZoom: () => 15,
     });
     mockUseGeneralSettings.mockReturnValue({
       settings: { showZoomLevel: true },
@@ -111,11 +111,6 @@ describe("ZoomLevel", () => {
       capturedEvents = events;
     });
 
-    const getZoomMock = vi.fn(() => 10);
-    mockUseMap.mockReturnValue({
-      getZoom: getZoomMock,
-    });
-
     mockUseGeneralSettings.mockReturnValue({
       settings: { showZoomLevel: true },
     });
@@ -123,13 +118,13 @@ describe("ZoomLevel", () => {
     render(<ZoomLevel />);
 
     // Simulate zoom change
-    getZoomMock.mockReturnValue(12);
+    mockUseMap.mockReturnValue({ getZoom: () => 12 });
     if (capturedEvents?.zoomend) {
       act(() => {
         capturedEvents.zoomend();
       });
     }
 
-    expect(getZoomMock).toHaveBeenCalled();
+    expect(mockUseMap).toHaveBeenCalled();
   });
 });
