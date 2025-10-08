@@ -1,6 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-/* eslint-disable @typescript-eslint/no-unsafe-call */
-/* eslint-disable @typescript-eslint/no-unsafe-member-access */
 import { vi } from "vitest";
 import { render, screen } from "../test/utils";
 import { ErrorFallback } from "./ErrorFallback";
@@ -45,7 +42,7 @@ describe("ErrorFallback", () => {
     const useReadableStackModule = await import("@/hooks/useReadableStack");
     const { useReadableStack } = useReadableStackModule;
 
-    (useReadableStack as any).mockReturnValueOnce({
+    vi.mocked(useReadableStack).mockReturnValueOnce({
       stack: "Loading...",
       loading: true,
     });

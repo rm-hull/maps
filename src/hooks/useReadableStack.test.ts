@@ -1,6 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unsafe-call */
-/* eslint-disable @typescript-eslint/no-explicit-any */
-/* eslint-disable @typescript-eslint/no-unsafe-member-access */
 import { renderHook, waitFor } from "@testing-library/react";
 import { beforeEach, vi } from "vitest";
 import { useReadableStack } from "./useReadableStack";
@@ -32,7 +29,7 @@ describe("useReadableStack", () => {
     error.stack = "Error: Test error\n    at (http://example.com/app.js:1:1)";
 
     // Mock fetch to never resolve
-    (global.fetch as any).mockImplementation(
+    vi.mocked(global.fetch).mockImplementation(
       () =>
         new Promise(() => {
           // Never resolves
@@ -58,7 +55,7 @@ describe("useReadableStack", () => {
     const error = new Error("Test error");
     error.stack = "Error: Test error\n    at (http://example.com/app.js:1:1)";
 
-    (global.fetch as any).mockRejectedValue(new Error("Fetch failed"));
+    vi.mocked(global.fetch).mockRejectedValue(new Error("Fetch failed"));
 
     const consoleErrorSpy = vi.spyOn(console, "error").mockImplementation(() => {});
 
@@ -77,7 +74,7 @@ describe("useReadableStack", () => {
     const error = new Error("Test error");
     error.stack = "Error: Test error\n    at (http://example.com/app.js:1:1)";
 
-    (global.fetch as any).mockImplementation(
+    vi.mocked(global.fetch).mockImplementation(
       () =>
         new Promise(() => {
           // Never resolves

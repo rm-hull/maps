@@ -1,13 +1,11 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-/* eslint-disable @typescript-eslint/no-unsafe-member-access */
-/* eslint-disable @typescript-eslint/no-unsafe-call */
-/* eslint-disable @typescript-eslint/unbound-method */
-import axios from "axios";
+import axios, { type AxiosResponse } from "axios";
 import { beforeEach, vi } from "vitest";
 import { fetchGeoJSON, SupportedMimeTypes } from "./index";
 
 vi.mock("axios");
 vi.mock("@tmcw/togeojson");
+
+const mockedAxios = vi.mocked(axios, true);
 
 describe("geojson service", () => {
   beforeEach(() => {
@@ -30,14 +28,15 @@ describe("geojson service", () => {
         features: [],
       };
 
-      (axios.get as any).mockResolvedValue({ data: mockGPXData });
+      mockedAxios.get.mockResolvedValue({ data: mockGPXData } as AxiosResponse);
 
       const { gpx } = await import("@tmcw/togeojson");
-      (gpx as any).mockReturnValue(mockGeoJSON);
+      vi.mocked(gpx).mockReturnValue(mockGeoJSON);
 
       const result = await fetchGeoJSON("http://example.com/test.gpx", SupportedMimeTypes.GPX);
 
-      expect(axios.get).toHaveBeenCalledWith("http://example.com/test.gpx");
+      // eslint-disable-next-line @typescript-eslint/unbound-method -- axios.get is a mocked method
+      expect(mockedAxios.get).toHaveBeenCalledWith("http://example.com/test.gpx");
       expect(result).toEqual(mockGeoJSON);
     });
 
@@ -58,19 +57,20 @@ describe("geojson service", () => {
         features: [],
       };
 
-      (axios.get as any).mockResolvedValue({ data: mockKMLData });
+      mockedAxios.get.mockResolvedValue({ data: mockKMLData });
 
       const { kml } = await import("@tmcw/togeojson");
-      (kml as any).mockReturnValue(mockGeoJSON);
+      vi.mocked(kml).mockReturnValue(mockGeoJSON);
 
       const result = await fetchGeoJSON("http://example.com/test.kml", SupportedMimeTypes.KML);
 
-      expect(axios.get).toHaveBeenCalledWith("http://example.com/test.kml");
+      // eslint-disable-next-line @typescript-eslint/unbound-method -- axios.get is a mocked method
+      expect(mockedAxios.get).toHaveBeenCalledWith("http://example.com/test.kml");
       expect(result).toEqual(mockGeoJSON);
     });
 
     it("should handle axios errors", async () => {
-      (axios.get as any).mockRejectedValue(new Error("Network error"));
+      mockedAxios.get.mockRejectedValue(new Error("Network error"));
 
       await expect(fetchGeoJSON("http://example.com/test.gpx", SupportedMimeTypes.GPX)).rejects.toThrow(
         "Network error"
@@ -80,10 +80,10 @@ describe("geojson service", () => {
     it("should handle invalid XML", async () => {
       const invalidXML = "not valid xml";
 
-      (axios.get as any).mockResolvedValue({ data: invalidXML });
+      mockedAxios.get.mockResolvedValue({ data: invalidXML });
 
       const { gpx } = await import("@tmcw/togeojson");
-      (gpx as any).mockImplementation(() => {
+      vi.mocked(gpx).mockImplementation(() => {
         throw new Error("Invalid XML");
       });
 
