@@ -4,7 +4,7 @@ import { useFocus } from "./useFocus";
 
 describe("useFocus", () => {
   it("should return a ref and a focus function", () => {
-    const { result } = renderHook(() => useFocus());
+    const { result } = renderHook(() => useFocus<HTMLInputElement>());
 
     const [ref, setFocus] = result.current;
 
@@ -13,28 +13,28 @@ describe("useFocus", () => {
   });
 
   it("should focus the input element when setFocus is called", () => {
-    const { result } = renderHook(() => useFocus());
+    const { result } = renderHook(() => useFocus<HTMLInputElement>());
 
     const [ref, setFocus] = result.current;
 
     // Create a mock input element
     const mockInput = document.createElement("input");
-    mockInput.focus = vi.fn();
+    const focusSpy = vi.spyOn(mockInput, "focus");
 
     // Assign the mock element to the ref
     if (ref && "current" in ref) {
-      (ref as any).current = mockInput;
+      (ref as React.MutableRefObject<HTMLInputElement>).current = mockInput;
     }
 
     // Call setFocus
     setFocus();
 
     // Verify focus was called
-    expect(mockInput.focus).toHaveBeenCalledTimes(1);
+    expect(focusSpy).toHaveBeenCalledTimes(1);
   });
 
   it("should not throw error when ref.current is null", () => {
-    const { result } = renderHook(() => useFocus());
+    const { result } = renderHook(() => useFocus<HTMLInputElement>());
 
     const [, setFocus] = result.current;
 
@@ -43,7 +43,7 @@ describe("useFocus", () => {
   });
 
   it("should maintain the same ref across renders", () => {
-    const { result, rerender } = renderHook(() => useFocus());
+    const { result, rerender } = renderHook(() => useFocus<HTMLInputElement>());
 
     const [ref1] = result.current;
     rerender();

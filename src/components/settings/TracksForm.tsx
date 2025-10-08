@@ -1,5 +1,5 @@
 import { Button, Checkbox, Field, HStack, Input, InputGroup, RadioGroup, VStack } from "@chakra-ui/react";
-import { ChangeEvent, useEffect, useState } from "react";
+import { ChangeEvent, useCallback, useEffect, useState } from "react";
 import { useQueryClient } from "react-query";
 import { useGeoJSON } from "../../hooks/useGeoJSON";
 import { SupportedMimeTypes } from "../../services/geojson";
@@ -11,36 +11,49 @@ const CORS_PROXY = import.meta.env.VITE_CORS_PROXY as string;
 export function TracksForm() {
   const [type, setType] = useState<SupportedMimeTypes>(SupportedMimeTypes.GPX);
   const [url, setUrl] = useState<string>("");
-  const [useCorsProxy, setUseCorsProxy] = useState<boolean | "indeterminate">(false);
+  const [useCorsProxy, setUseCorsProxy] = useState<boolean | "indeterminate">(
+    false
+  );
   const queryClient = useQueryClient();
-  const { isLoading, status, refetch, error } = useGeoJSON(useCorsProxy ? `${CORS_PROXY}${url}` : url, type);
+  const { isLoading, status, refetch, error } = useGeoJSON(
+    useCorsProxy ? `${CORS_PROXY}${url}` : url,
+    type
+  );
 
   useEffect(() => {
     queryClient.removeQueries(["geojson"]);
   }, [queryClient]);
 
-  const handleChange = (event: ChangeEvent<HTMLInputElement>): void => {
-    setUrl(event.target.value);
-    queryClient.removeQueries(["geojson"]);
-    if (event.target.value.endsWith(".kml")) {
-      setType(SupportedMimeTypes.KML);
-    } else if (event.target.value.endsWith(".gpx")) {
-      setType(SupportedMimeTypes.GPX);
-    }
-  };
+  const handleChange = useCallback(
+    (event: ChangeEvent<HTMLInputElement>): void => {
+      setUrl(event.target.value);
+      queryClient.removeQueries(["geojson"]);
+      if (event.target.value.endsWith(".kml")) {
+        setType(SupportedMimeTypes.KML);
+      } else if (event.target.value.endsWith(".gpx")) {
+        setType(SupportedMimeTypes.GPX);
+      }
+    },
+    [queryClient]
+  );
 
-  const handleTypeChange = (type: string | null) => {
-    if (type !== null) {
-      setType(type as SupportedMimeTypes);
-    }
-  };
+  const handleTypeChange = useCallback((value: string) => {
+    setType(value as SupportedMimeTypes);
+  }, []);
 
-  const handleClick = () => {
+  const handleClick = useCallback(() => {
     queryClient
       .invalidateQueries(["geojson"])
       .then(() => refetch())
       .catch(console.error);
-  };
+  }, [queryClient, refetch]);
+
+  const handleProxyChange = useCallback(
+    (e: { checked: boolean | "indeterminate" }) => {
+      setUseCorsProxy(e.checked);
+    },
+    []
+  );
 
   const state = fromReactQuery(status);
 
@@ -51,7 +64,11 @@ export function TracksForm() {
           <Field.Label width="40px" htmlFor="type" mb={0}>
             Type:
           </Field.Label>
-          <RadioGroup.Root id="type" onValueChange={(e) => handleTypeChange(e.value)} value={type}>
+          <RadioGroup.Root
+            id="type"
+            onValueChange={handleTypeChange}
+            value={type}
+          >
             <HStack align="left">
               <RadioGroup.Item value={SupportedMimeTypes.KML}>
                 <RadioGroup.ItemHiddenInput />
@@ -97,7 +114,7 @@ export function TracksForm() {
       </Field.Root>
 
       <Field.Root>
-        <Checkbox.Root onCheckedChange={(e) => setUseCorsProxy(e.checked)} checked={useCorsProxy}>
+        <Checkbox.Root onCheckedChange={handleProxyChange} checked={useCorsProxy}>
           <Checkbox.HiddenInput />
           <Checkbox.Control>
             <Checkbox.Indicator />

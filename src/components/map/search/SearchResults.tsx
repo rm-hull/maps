@@ -55,3 +55,4 @@ export function SearchResults({ response, onSelect }: SearchResponseProps) {
     </Listbox.Root>
   );
 }
+

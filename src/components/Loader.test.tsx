@@ -1,12 +1,10 @@
-import { Suspense } from "react";
+import React, { Suspense } from "react";
 import { render, screen, waitFor } from "../test/utils";
 import { Loader } from "./Loader";
 
 describe("Loader", () => {
   it("should show fallback while content is loading", async () => {
-    const LazyComponent = () => {
-      throw new Promise(() => {}); // Never resolves to test loading state
-    };
+    const LazyComponent = React.lazy(() => new Promise(() => {}));
 
     const { container } = render(
       <Loader>

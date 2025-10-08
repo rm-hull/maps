@@ -43,7 +43,7 @@ describe("FadeInImage", () => {
     expect(container.firstChild).toBeInTheDocument();
   });
 
-  it("should call loader function when provided", () => {
+  it("should call loader function when provided", async () => {
     const mockLoader: ImageLoaderFn = vi.fn().mockResolvedValue({
       src: "loaded.jpg",
       alt: "Loaded Image",
@@ -51,7 +51,7 @@ describe("FadeInImage", () => {
 
     render(<FadeInImage loader={mockLoader} />);
 
-    expect(mockLoader).toHaveBeenCalledTimes(1);
+    await waitFor(() => expect(mockLoader).toHaveBeenCalledTimes(1));
   });
 
   it("should update image when loader resolves", async () => {

@@ -1,13 +1,20 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
+import { type AxiosError } from "axios";
 import { LatLng } from "leaflet";
+import { type UseQueryResult } from "react-query";
 import { vi } from "vitest";
+import { type Response } from "../../services/osdatahub/types";
 import { render, screen } from "../../test/utils";
 import { NearestInfo } from "./NearestInfo";
 
+const { mockUseNearest } = vi.hoisted(() => {
+  return {
+    mockUseNearest: vi.fn<[], UseQueryResult<Response, AxiosError>>(),
+  };
+});
+
 // Mock hooks
-const mockUseNearest = vi.fn();
 vi.mock("../../hooks/useNearest", () => ({
-  useNearest: vi.fn((bng: [number, number]) => mockUseNearest(bng)),
+  useNearest: mockUseNearest,
 }));
 
 vi.mock("@/hooks/useErrorToast", () => ({
@@ -16,11 +23,12 @@ vi.mock("@/hooks/useErrorToast", () => ({
 
 // Mock toBNG helper
 vi.mock("../../services/osdatahub/helpers", () => ({
-  toBNG: vi.fn((latLng: LatLng) => [530000, 180000]),
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  toBNG: vi.fn((_latLng: LatLng) => [530000, 180000]),
 }));
 
 describe("NearestInfo", () => {
-  const mockRender = vi.fn((children, position) => (
+  const mockRender = vi.fn((children, position: LatLng) => (
     <div data-testid="rendered-popup">
       <div data-testid="popup-position">
         {position.lat},{position.lng}

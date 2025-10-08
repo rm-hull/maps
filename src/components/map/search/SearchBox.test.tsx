@@ -2,6 +2,7 @@
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/no-unsafe-call */
+import { useCallback } from "react";
 import { vi } from "vitest";
 import { render, screen } from "../../../test/utils";
 import { SearchBox } from "./SearchBox";
@@ -52,11 +53,16 @@ vi.mock("../PopupPassthrough", () => ({
 }));
 
 vi.mock("./SearchResults", () => ({
-  SearchResults: ({ response, onSelect }: any) => (
-    <div data-testid="search-results">
-      <button onClick={() => onSelect(response.results[0].gazetteerEntry)}>Select Result</button>
-    </div>
-  ),
+  SearchResults: ({ response, onSelect }: any) => {
+    const handleSelect = useCallback(() => {
+      onSelect(response.results[0].gazetteerEntry);
+    }, [response, onSelect]);
+    return (
+      <div data-testid="search-results">
+        <button onClick={handleSelect}>Select Result</button>
+      </div>
+    );
+  },
 }));
 
 vi.mock("@/icons", () => ({

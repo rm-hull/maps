@@ -1,24 +1,27 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { vi } from "vitest";
-import { render, screen } from "../../../test/utils";
+import { act, render, screen } from "../../../test/utils";
 import { ZoomLevel } from "./ZoomLevel";
 
 // Mock hooks
-const mockUseMap = vi.fn();
-const mockUseMapEvents = vi.fn();
+const mockUseMap = vi.fn<[], { getZoom: () => number }>();
+const mockUseMapEvents = vi.fn<[LeafletEvents], void>();
+
+type LeafletEvents = {
+  zoomend?: () => void;
+};
 
 vi.mock("react-leaflet", () => ({
-  useMap: () => mockUseMap(),
-  useMapEvents: (events: any) => mockUseMapEvents(events),
+  useMap: mockUseMap,
+  useMapEvents: mockUseMapEvents,
 }));
 
-const mockUseGeneralSettings = vi.fn();
+const mockUseGeneralSettings = vi.fn<[], { settings?: { showZoomLevel: boolean } }>();
 vi.mock("../../../hooks/useGeneralSettings", () => ({
-  useGeneralSettings: () => mockUseGeneralSettings(),
+  useGeneralSettings: mockUseGeneralSettings,
 }));
 
 vi.mock("@/components/ui/color-mode", () => ({
-  useColorModeValue: vi.fn((light: string, dark: string) => light),
+  useColorModeValue: vi.fn((light: string) => light),
 }));
 
 // Mock Control component
@@ -103,10 +106,9 @@ describe("ZoomLevel", () => {
   });
 
   it("should update zoom level on zoomend event", () => {
-    let capturedEvents: any;
-    mockUseMapEvents.mockImplementation((events: any) => {
+    let capturedEvents: LeafletEvents | undefined;
+    mockUseMapEvents.mockImplementation((events: LeafletEvents) => {
       capturedEvents = events;
-      return null;
     });
 
     const getZoomMock = vi.fn(() => 10);
@@ -122,7 +124,11 @@ describe("ZoomLevel", () => {
 
     // Simulate zoom change
     getZoomMock.mockReturnValue(12);
-    capturedEvents.zoomend();
+    if (capturedEvents?.zoomend) {
+      act(() => {
+        capturedEvents.zoomend();
+      });
+    }
 
     expect(getZoomMock).toHaveBeenCalled();
   });

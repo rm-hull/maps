@@ -60,6 +60,8 @@ describe("useReadableStack", () => {
 
     (global.fetch as any).mockRejectedValue(new Error("Fetch failed"));
 
+    const consoleErrorSpy = vi.spyOn(console, "error").mockImplementation(() => {});
+
     const { result } = renderHook(() => useReadableStack(error));
 
     await waitFor(() => {
@@ -67,6 +69,8 @@ describe("useReadableStack", () => {
     });
 
     expect(result.current.stack).toBe(error.stack);
+
+    consoleErrorSpy.mockRestore();
   });
 
   it("should cleanup on unmount", () => {

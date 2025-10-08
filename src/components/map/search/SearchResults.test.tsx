@@ -1,7 +1,6 @@
- 
-/* eslint-disable @typescript-eslint/no-explicit-any */
+import userEvent from "@testing-library/user-event";
 import { vi } from "vitest";
-import type { Response } from "../../../services/osdatahub/types";
+import type { Response, GazetteerEntry } from "../../../services/osdatahub/types";
 import { render, screen } from "../../../test/utils";
 import { SearchResults } from "./SearchResults";
 
@@ -17,39 +16,6 @@ const mockResponse: Response = {
   results: [
     {
       gazetteerEntry: {
-        uprn: "123",
-        address: "Test Address 1",
-        building_number: "1",
-        thoroughfare_name: "Test Street",
-        post_town: "London",
-        postcode: "SW1A 1AA",
-        rpc: "1",
-        x_coordinate: 530000,
-        y_coordinate: 180000,
-        status: "approved",
-        logical_status_code: "1",
-        classification_code: "RD",
-        classification_code_description: "Dwelling",
-        local_custodian_code: 5900,
-        local_custodian_code_description: "CITY OF WESTMINSTER",
-        country: "England",
-        country_code: "E",
-        postal_address_code: "D",
-        postal_address_code_description: "A record which is linked to PAF",
-        blpu_state_code: "2",
-        blpu_state_code_description: "In use",
-        topography_layer_toid: "osgb1000000000000001",
-        parent_uprn: "456",
-        last_update_date: "10/02/2016",
-        entry_date: "19/03/2001",
-        legal_name: "Test Legal Name",
-        blpu_state_date: "01/01/2000",
-        language: "EN",
-        match: 1.0,
-        match_description: "EXACT",
-        delivery_point_suffix: "1A",
-      },
-      gazetteerEntry: {
         id: "1",
         name1: "London",
         localType: "City",
@@ -60,42 +26,9 @@ const mockResponse: Response = {
         countyUnitary: "Greater London",
         country: "England",
         postcodeDistrict: "SW1",
-      } as any,
+      } as GazetteerEntry,
     },
     {
-      gazetteerEntry: {
-        uprn: "789",
-        address: "Test Address 2",
-        building_number: "2",
-        thoroughfare_name: "Another Street",
-        post_town: "London",
-        postcode: "EC1A 1AA",
-        rpc: "1",
-        x_coordinate: 532000,
-        y_coordinate: 182000,
-        status: "approved",
-        logical_status_code: "1",
-        classification_code: "RD",
-        classification_code_description: "Dwelling",
-        local_custodian_code: 5900,
-        local_custodian_code_description: "CITY OF WESTMINSTER",
-        country: "England",
-        country_code: "E",
-        postal_address_code: "D",
-        postal_address_code_description: "A record which is linked to PAF",
-        blpu_state_code: "2",
-        blpu_state_code_description: "In use",
-        topography_layer_toid: "osgb1000000000000002",
-        parent_uprn: "457",
-        last_update_date: "10/02/2016",
-        entry_date: "19/03/2001",
-        legal_name: "Test Legal Name 2",
-        blpu_state_date: "01/01/2000",
-        language: "EN",
-        match: 1.0,
-        match_description: "EXACT",
-        delivery_point_suffix: "1B",
-      },
       gazetteerEntry: {
         id: "2",
         name1: "City of London",
@@ -107,7 +40,7 @@ const mockResponse: Response = {
         countyUnitary: "Greater London",
         country: "England",
         postcodeDistrict: "EC1",
-      } as any,
+      } as GazetteerEntry,
     },
   ],
 };
@@ -129,16 +62,18 @@ describe("SearchResults", () => {
     expect(screen.getByText("Town")).toBeInTheDocument();
   });
 
-  it("should call onSelect when item is clicked", () => {
+  it("should call onSelect when item is clicked", async () => {
     const onSelect = vi.fn();
-    const { container } = render(<SearchResults response={mockResponse} onSelect={onSelect} />);
+    const { container } = render(
+      <SearchResults response={mockResponse} onSelect={onSelect} />
+    );
 
     // Find the first list item and click it
     const firstItem = container.querySelector('[role="option"]');
     expect(firstItem).toBeInTheDocument();
 
     if (firstItem) {
-      (firstItem as HTMLElement).click();
+      await userEvent.click(firstItem as HTMLElement);
       expect(onSelect).toHaveBeenCalledWith(mockResponse.results?.[0].gazetteerEntry);
     }
   });
@@ -168,7 +103,7 @@ describe("SearchResults", () => {
             countyUnitary: "Greater London",
             country: "England",
             postcodeDistrict: "SW1",
-          } as any,
+          } as GazetteerEntry,
         },
       ],
     };
@@ -207,7 +142,7 @@ describe("SearchResults", () => {
             geometryX: 530000,
             geometryY: 180000,
             country: "England",
-          } as any,
+          } as GazetteerEntry,
         },
       ],
     };
