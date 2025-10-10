@@ -1,6 +1,6 @@
+import { type UseQueryResult } from "@tanstack/react-query";
 import { type AxiosError } from "axios";
 import { LatLng } from "leaflet";
-import { type UseQueryResult } from "react-query";
 import { vi } from "vitest";
 import { type GazetteerEntry, type Response } from "../../services/osdatahub/types";
 import { render, screen } from "../../test/utils";

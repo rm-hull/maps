@@ -6,12 +6,8 @@ describe("queryStatus", () => {
       expect(fromReactQuery("error")).toBe("error");
     });
 
-    it("should convert idle status to undefined state", () => {
-      expect(fromReactQuery("idle")).toBeUndefined();
-    });
-
     it("should convert loading status to busy state", () => {
-      expect(fromReactQuery("loading")).toBe("busy");
+      expect(fromReactQuery("pending")).toBe("busy");
     });
 
     it("should convert success status to ok state", () => {

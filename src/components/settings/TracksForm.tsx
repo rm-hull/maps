@@ -1,6 +1,6 @@
 import { Button, Checkbox, Field, HStack, Input, InputGroup, RadioGroup, VStack } from "@chakra-ui/react";
+import { useQueryClient } from "@tanstack/react-query";
 import { ChangeEvent, useCallback, useEffect, useState } from "react";
-import { useQueryClient } from "react-query";
 import { useGeoJSON } from "../../hooks/useGeoJSON";
 import { SupportedMimeTypes } from "../../services/geojson";
 import { fromReactQuery } from "../../utils/queryStatus";
@@ -16,13 +16,13 @@ export function TracksForm() {
   const { isLoading, status, refetch, error } = useGeoJSON(useCorsProxy ? `${CORS_PROXY}${url}` : url, type);
 
   useEffect(() => {
-    queryClient.removeQueries(["geojson"]);
+    queryClient.removeQueries({ queryKey: ["geojson"] });
   }, [queryClient]);
 
   const handleChange = useCallback(
     (event: ChangeEvent<HTMLInputElement>): void => {
       setUrl(event.target.value);
-      queryClient.removeQueries(["geojson"]);
+      queryClient.removeQueries({ queryKey: ["geojson"] });
       if (event.target.value.endsWith(".kml")) {
         setType(SupportedMimeTypes.KML);
       } else if (event.target.value.endsWith(".gpx")) {
@@ -40,7 +40,7 @@ export function TracksForm() {
 
   const handleClick = useCallback(() => {
     queryClient
-      .invalidateQueries(["geojson"])
+      .invalidateQueries({ queryKey: ["geojson"] })
       .then(() => refetch())
       .catch(console.error);
   }, [queryClient, refetch]);
