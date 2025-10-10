@@ -15,6 +15,7 @@ import globals from "globals";
 import tseslint from "typescript-eslint";
 import reactPerf from "eslint-plugin-react-perf";
 import unusedImports from "eslint-plugin-unused-imports";
+import reactCompiler from "eslint-plugin-react-compiler";
 
 export default tseslint.config(
   {
@@ -44,6 +45,7 @@ export default tseslint.config(
     files: ["**/*.{ts,tsx}"],
     plugins: {
       react: react,
+      "react-compiler": reactCompiler,
       "react-hooks": reactHooks,
       "react-refresh": reactRefresh,
       "react-perf": reactPerf,
@@ -52,6 +54,7 @@ export default tseslint.config(
     rules: {
       ...reactHooks.configs.recommended.rules,
       "react-refresh/only-export-components": ["warn", { allowConstantExport: true }],
+      "react-compiler/react-compiler": "error",
       "import/order": [
         "error",
         {

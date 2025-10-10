@@ -22,7 +22,7 @@ async function decodeStackTrace(stack: string): Promise<string> {
     const [, url, lineNum, colNum] = match;
 
     try {
-      const cleanUrl = url.split('?')[0].split('#')[0];
+      const cleanUrl = url.split("?")[0].split("#")[0];
       const mapUrl = `${cleanUrl}.map`;
       let rawMap = sourceMapCache.get(mapUrl);
       if (!rawMap) {
