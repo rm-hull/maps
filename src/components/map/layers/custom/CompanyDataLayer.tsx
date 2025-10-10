@@ -83,11 +83,11 @@ interface OverdueProps {
 }
 
 function Overdue({ isOverdue, dueDate, label }: OverdueProps) {
+  const fg = useColorModeValue("red.700", "red.400");
   if (!isOverdue) {
     return null;
   }
 
-  const fg = useColorModeValue("red.700", "red.400");
   return (
     <Tooltip content={`Due: ${dueDate?.toDateString()}`}>
       <HStack display="inline-flex" gap={1} color={fg} fontWeight="bold" cursor="help">
