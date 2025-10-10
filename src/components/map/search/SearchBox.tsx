@@ -53,14 +53,14 @@ export function SearchBox() {
   const handleChange = useCallback((e: ChangeEvent<HTMLInputElement>): void => {
     resetSearch();
     setValue(e.target.value);
-  }, []);
+  }, [resetSearch, setValue]);
 
   const handleCancel = useCallback((e: { preventDefault: () => void }): void => {
     e.preventDefault();
     setValue("");
     resetSearch();
     onClose();
-  }, []);
+  }, [onClose, resetSearch, setValue]);
 
   const handleSearch = useCallback((): void => {
     if (!value.trim()) {

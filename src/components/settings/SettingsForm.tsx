@@ -30,14 +30,14 @@ export function SettingsForm() {
     (details: RadioGroupValueChangeDetails): void => {
       updateSettings({ ...settings, initialLocation: details.value as InitialLocation });
     },
-    [settings]
+    [settings, updateSettings]
   );
 
   const handleUpdateMapStyle = useCallback(
     (details: ListboxValueChangeDetails): void => {
       updateSettings({ ...settings, mapStyle: details.value[0] });
     },
-    [settings]
+    [settings, updateSettings]
   );
 
   const handleUpdateCustomSearch = useCallback(
@@ -50,32 +50,32 @@ export function SettingsForm() {
         },
       });
     },
-    [settings]
+    [settings, updateSettings]
   );
 
   const handleUpdateZoomLevel = useCallback(
     (details: SliderValueChangeDetails): void => {
       updateSettings({ ...settings, initialZoomLevel: details.value[0] });
     },
-    [settings]
+    [settings, updateSettings]
   );
 
   const handleUpdateZoomControl = useCallback((): void => {
     updateSettings({ ...settings, showZoomLevel: !settings?.showZoomLevel });
-  }, [settings]);
+  }, [settings, updateSettings]);
 
   const handleUpdateMaxSearchResults = useCallback(
     (details: NumberInputValueChangeDetails): void => {
       updateSettings({ ...settings, maxSearchResults: details.valueAsNumber });
     },
-    [settings]
+    [settings, updateSettings]
   );
 
   const handleUpdateGpsActiveSeconds = useCallback(
     (details: NumberInputValueChangeDetails): void => {
       updateSettings({ ...settings, gpsActiveDuration: details.valueAsNumber * 1000 });
     },
-    [settings]
+    [settings, updateSettings]
   );
 
   const zoomLevel = settings?.initialZoomLevel ?? DEFAULT_ZOOM_LEVEL;
