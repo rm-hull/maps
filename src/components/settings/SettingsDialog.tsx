@@ -1,12 +1,12 @@
 import {
   Button,
-  CloseButton,
   Dialog,
   Portal,
   // ModalCloseButton,
   Tabs,
 } from "@chakra-ui/react";
 import { PropsWithChildren } from "react";
+import { ColorModeButton } from "../ui/color-mode";
 import { About } from "./About";
 import { License } from "./License";
 import { SettingsForm } from "./SettingsForm";
@@ -22,13 +22,14 @@ export function SettingsDialog({ children }: PropsWithChildren) {
           <Dialog.Content>
             <Tabs.Root colorPalette="blue" defaultValue="settings">
               <Dialog.Header>
-                <Dialog.Title width="100%">
-                  <Tabs.List>
+                <Dialog.Title width="100%" display="flex">
+                  <Tabs.List width="100%">
                     <Tabs.Trigger value="settings">Settings</Tabs.Trigger>
                     <Tabs.Trigger value="about">About</Tabs.Trigger>
                     <Tabs.Trigger value="license">MIT License</Tabs.Trigger>
                     <Tabs.Trigger value="tracks">Tracks</Tabs.Trigger>
                   </Tabs.List>
+                  <ColorModeButton position="absolute" right={6} />
                 </Dialog.Title>
               </Dialog.Header>
 
@@ -40,7 +41,7 @@ export function SettingsDialog({ children }: PropsWithChildren) {
                   <About />
                 </Tabs.Content>
                 <Tabs.Content value="license">
-                  <License showHeading={false}/>
+                  <License showHeading={false} />
                 </Tabs.Content>
                 <Tabs.Content value="tracks">
                   <TracksForm />
@@ -52,10 +53,6 @@ export function SettingsDialog({ children }: PropsWithChildren) {
                   <Button variant="subtle">Close</Button>
                 </Dialog.ActionTrigger>
               </Dialog.Footer>
-
-              <Dialog.CloseTrigger asChild>
-                <CloseButton size="sm" />
-              </Dialog.CloseTrigger>
             </Tabs.Root>
           </Dialog.Content>
         </Dialog.Positioner>

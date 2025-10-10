@@ -1,37 +1,82 @@
-import { Field, HStack, Listbox, RadioGroup, Slider, Switch, VStack } from "@chakra-ui/react";
+import {
+  Field,
+  HStack,
+  Listbox,
+  ListboxValueChangeDetails,
+  NumberInput,
+  NumberInputValueChangeDetails,
+  RadioGroup,
+  RadioGroupValueChangeDetails,
+  Slider,
+  SliderValueChangeDetails,
+  Switch,
+  VStack,
+} from "@chakra-ui/react";
 import { type LatLng } from "leaflet";
+import { useCallback } from "react";
 import { baseLayers } from "../../config/layer";
-import { DEFAULT_ZOOM_LEVEL, type InitialLocation, useGeneralSettings } from "../../hooks/useGeneralSettings";
+import {
+  DEFAULT_GPS_ACTIVE_DURATION,
+  DEFAULT_ZOOM_LEVEL,
+  type InitialLocation,
+  useGeneralSettings,
+} from "../../hooks/useGeneralSettings";
 import { CustomSearch } from "./CustomSearch";
 
 export function SettingsForm() {
   const { settings, updateSettings } = useGeneralSettings();
 
-  const handleUpdateInitialLocation = (initialLocation: InitialLocation): void => {
-    updateSettings({ ...settings, initialLocation });
-  };
+  const handleUpdateInitialLocation = useCallback(
+    (details: RadioGroupValueChangeDetails): void => {
+      updateSettings({ ...settings, initialLocation: details.value as InitialLocation });
+    },
+    [settings]
+  );
 
-  const handleUpdateMapStyle = (selected: string[]): void => {
-    updateSettings({ ...settings, mapStyle: selected[0] });
-  };
+  const handleUpdateMapStyle = useCallback(
+    (details: ListboxValueChangeDetails): void => {
+      updateSettings({ ...settings, mapStyle: details.value[0] });
+    },
+    [settings]
+  );
 
-  const handleUpdateCustomSearch = (latLng: LatLng, searchTerm: string): void => {
-    updateSettings({
-      ...settings,
-      customLocation: {
-        latLng: [latLng.lat, latLng.lng], // note Leaflet's LatLngTuple format
-        searchTerm,
-      },
-    });
-  };
+  const handleUpdateCustomSearch = useCallback(
+    (latLng: LatLng, searchTerm: string): void => {
+      updateSettings({
+        ...settings,
+        customLocation: {
+          latLng: [latLng.lat, latLng.lng], // note Leaflet's LatLngTuple format
+          searchTerm,
+        },
+      });
+    },
+    [settings]
+  );
 
-  const handleUpdateZoomLevel = (zoomLevel: number): void => {
-    updateSettings({ ...settings, initialZoomLevel: zoomLevel });
-  };
+  const handleUpdateZoomLevel = useCallback(
+    (details: SliderValueChangeDetails): void => {
+      updateSettings({ ...settings, initialZoomLevel: details.value[0] });
+    },
+    [settings]
+  );
 
-  const handleUpdateZoomControl = (): void => {
+  const handleUpdateZoomControl = useCallback((): void => {
     updateSettings({ ...settings, showZoomLevel: !settings?.showZoomLevel });
-  };
+  }, [settings]);
+
+  const handleUpdateMaxSearchResults = useCallback(
+    (details: NumberInputValueChangeDetails): void => {
+      updateSettings({ ...settings, maxSearchResults: details.valueAsNumber });
+    },
+    [settings]
+  );
+
+  const handleUpdateGpsActiveSeconds = useCallback(
+    (details: NumberInputValueChangeDetails): void => {
+      updateSettings({ ...settings, gpsActiveDuration: details.valueAsNumber * 1000 });
+    },
+    [settings]
+  );
 
   const zoomLevel = settings?.initialZoomLevel ?? DEFAULT_ZOOM_LEVEL;
 
@@ -40,10 +85,7 @@ export function SettingsForm() {
       <Field.Root>
         <HStack alignItems="start" width="full">
           <Field.Label width="100px">Initial location:</Field.Label>
-          <RadioGroup.Root
-            onValueChange={(e) => handleUpdateInitialLocation(e.value as InitialLocation)}
-            value={settings?.initialLocation}
-          >
+          <RadioGroup.Root onValueChange={handleUpdateInitialLocation} value={settings?.initialLocation}>
             <VStack align="left">
               <RadioGroup.Item value="default">
                 <RadioGroup.ItemHiddenInput />
@@ -74,11 +116,13 @@ export function SettingsForm() {
 
       <Field.Root>
         <HStack alignItems="start" width="full">
-          <Field.Label width="120px">Map style:</Field.Label>
+          <Field.Label width="120px" mt={2}>
+            Map style:
+          </Field.Label>
           <Listbox.Root
             collection={baseLayers}
             value={[settings?.mapStyle ?? "Leisure"]}
-            onValueChange={(e) => handleUpdateMapStyle(e.value)}
+            onValueChange={handleUpdateMapStyle}
           >
             <Listbox.Content maxHeight={140} divideY="1px">
               {baseLayers.group().map(([provider, layers]) => (
@@ -98,13 +142,7 @@ export function SettingsForm() {
       </Field.Root>
 
       <Field.Root>
-        <Slider.Root
-          defaultValue={[zoomLevel]}
-          min={7}
-          max={18}
-          width="full"
-          onValueChange={(e) => handleUpdateZoomLevel(e.value[0])}
-        >
+        <Slider.Root defaultValue={[zoomLevel]} min={7} max={18} width="full" onValueChange={handleUpdateZoomLevel}>
           <HStack display="flex" justifyContent="space-between">
             <HStack gap={2}>
               <Slider.Label width="100px">Zoom level:</Slider.Label>
@@ -127,6 +165,55 @@ export function SettingsForm() {
             <Slider.Thumbs />
           </Slider.Control>
         </Slider.Root>
+      </Field.Root>
+
+      <Field.Root>
+        <HStack alignItems="start" width="full">
+          <Field.Label width="100px" mt={2}>
+            Max results:
+          </Field.Label>
+          <VStack alignItems="start">
+            <NumberInput.Root
+              size="sm"
+              value={settings?.maxSearchResults?.toString() ?? "5"}
+              onValueChange={handleUpdateMaxSearchResults}
+              min={1}
+              max={10}
+            >
+              <NumberInput.Control>
+                <NumberInput.IncrementTrigger />
+                <NumberInput.DecrementTrigger />
+              </NumberInput.Control>
+              {/* <NumberInput.Scrubber /> */}
+              <NumberInput.Input />
+            </NumberInput.Root>
+            <Field.HelperText>When searching, this will limit maximum number of results to show.</Field.HelperText>
+          </VStack>
+        </HStack>
+      </Field.Root>
+
+      <Field.Root>
+        <HStack alignItems="start" width="full">
+          <Field.Label width="100px" mt={2}>
+            GPS timeout:
+          </Field.Label>
+          <VStack alignItems="start">
+            <NumberInput.Root
+              size="sm"
+              value={((settings?.gpsActiveDuration ?? DEFAULT_GPS_ACTIVE_DURATION) / 1000).toString()}
+              onValueChange={handleUpdateGpsActiveSeconds}
+              min={10}
+              max={3600}
+            >
+              <NumberInput.Control>
+                <NumberInput.IncrementTrigger />
+                <NumberInput.DecrementTrigger />
+              </NumberInput.Control>
+              <NumberInput.Input />
+            </NumberInput.Root>
+            <Field.HelperText>Determines how many seconds the GPS beacon will stay active for.</Field.HelperText>
+          </VStack>
+        </HStack>
       </Field.Root>
     </VStack>
   );

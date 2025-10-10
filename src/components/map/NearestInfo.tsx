@@ -1,9 +1,9 @@
+import { useErrorToast } from "@/hooks/useErrorToast";
 import { Table } from "@chakra-ui/react";
 import { type LatLng } from "leaflet";
-import { type JSX, useEffect } from "react";
+import { type JSX, ReactNode } from "react";
 import { useNearest } from "../../hooks/useNearest";
 import { toBNG } from "../../services/osdatahub/helpers";
-import { toaster } from "../ui/toaster";
 
 interface GPSProps {
   latLng: LatLng;
@@ -63,37 +63,27 @@ function GPS({ latLng, altitude, heading, accuracy, timestamp }: GPSProps) {
 }
 
 type NearestInfoProps = GPSProps & {
-  render: (children: JSX.Element) => JSX.Element;
+  render: (children: ReactNode | undefined, position: LatLng) => JSX.Element;
 };
 
 export function NearestInfo({ latLng, altitude, heading, accuracy, timestamp, render }: NearestInfoProps) {
   const bng = toBNG(latLng);
   const { data, status, error } = useNearest(bng);
 
-  useEffect(() => {
-    if (error) {
-      toaster.create({
-        id: "nearest-error",
-        title: "Error fetching nearest location",
-        description: error.message,
-        type: "error",
-        duration: 9000,
-        closable: true,
-      });
-    }
-  }, [error]);
+  useErrorToast("nearest-error", "Error fetching nearest location", error);
 
   if (data === undefined || status !== "success") {
     return null;
   }
 
-  if ((data.header.totalresults ?? 0) === 0) {
+  if (data.header.totalresults === 0 || !data.results) {
     return render(
       <Table.Root size="sm">
         <Table.Body>
           <GPS latLng={latLng} altitude={altitude} heading={heading} accuracy={accuracy} timestamp={timestamp} />
         </Table.Body>
-      </Table.Root>
+      </Table.Root>,
+      latLng
     );
   }
 
@@ -119,6 +109,7 @@ export function NearestInfo({ latLng, altitude, heading, accuracy, timestamp, re
         </Table.Row>
         <GPS latLng={latLng} altitude={altitude} heading={heading} accuracy={accuracy} timestamp={timestamp} />
       </Table.Body>
-    </Table.Root>
+    </Table.Root>,
+    latLng
   );
 }

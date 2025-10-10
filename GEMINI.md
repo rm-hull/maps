@@ -4,16 +4,28 @@
 
 This is a web application that displays UK Ordnance Survey maps. It is built with React, TypeScript, and Vite. It uses Leaflet.js for rendering maps and Chakra UI for the user interface. The application allows users to view maps, search for locations, and display points of interest.
 
+### Project Structure
+
+- `src/components`: Contains reusable React components, organized by feature (e.g., `map`, `settings`).
+- `src/hooks`: Custom React hooks for managing state and side effects (e.g., `useCurrentLocation`, `useGpsRoutes`).
+- `src/pages`: Top-level page components that correspond to routes.
+- `src/services`: Modules for interacting with external APIs (e.g., OS DataHub, Geograph).
+- `src/config`: Application configuration, such as map layer definitions.
+- `src/icons`: SVG icons and Leaflet marker definitions.
+- `src/utils`: Utility functions.
+
 ### Key Technologies:
 
-*   **Frontend Framework:** React
-*   **Language:** TypeScript
-*   **Build Tool:** Vite
-*   **Package Manager:** Yarn
-*   **Mapping Library:** Leaflet.js
-*   **UI Components:** Chakra UI
-*   **Data Fetching:** react-query
-*   **Routing:** react-router-dom
+- **Frontend Framework:** React
+- **Language:** TypeScript
+- **Build Tool:** Vite
+- **Package Manager:** Yarn
+- **Mapping Library:** Leaflet.js, React-Leaflet, maplibre-gl
+- **UI Components:** Chakra UI
+- **State Management:** Jotai
+- **Data Fetching:** react-query
+- **Routing:** react-router-dom
+- **Testing:** Vitest, React Testing Library
 
 ## Building and Running
 
@@ -30,36 +42,36 @@ You can obtain these API keys by creating accounts on the [OS DataHub](https://o
 
 ### Commands:
 
-*   **Install dependencies:**
-    ```bash
-    yarn install
-    ```
-*   **Run the development server:**
-    ```bash
-    yarn dev
-    ```
-*   **Build for production:**
-    ```bash
-    yarn build
-    ```
-*   **Run tests:**
-    ```bash
-    yarn test
-    ```
-*   **Lint the code:**
-    ```bash
-    yarn lint
-    ```
-*   **Preview the production build:**
-    ```bash
-    yarn preview
-    ```
+- **Install dependencies:**
+  ```bash
+  yarn install
+  ```
+- **Run the development server:**
+  ```bash
+  yarn dev
+  ```
+- **Build for production:**
+  ```bash
+  yarn build
+  ```
+- **Run tests:**
+  ```bash
+  yarn test
+  ```
+- **Lint the code:**
+  ```bash
+  yarn lint
+  ```
+- **Preview the production build:**
+  ```bash
+  yarn preview
+  ```
 
 ## Development Conventions
 
-*   The project uses [Vite](https://vitejs.dev/) for development and building.
-*   [ESLint](https://eslint.org/) is used for linting the code. The configuration can be found in `eslint.config.js`.
-*   [Prettier](https://prettier.io/) is used for code formatting. The configuration can be found in `.prettierrc`.
-*   The project uses [Chakra UI](https://chakra-ui.com/) for UI components.
-*   The project uses [Vitest](https://vitest.dev/) for testing.
-*   The project follows the conventional commits specification for commit messages.
+- The project uses [Vite](https://vitejs.dev/) for development and building.
+- [ESLint](https://eslint.org/) is used for linting the code. The configuration can be found in `eslint.config.js`.
+- [Prettier](https://prettier.io/) is used for code formatting. The configuration can be found in `.prettierrc`.
+- The project uses [Chakra UI](https://chakra-ui.com/) for UI components.
+- The project uses [Vitest](https://vitest.dev/) for testing.
+- The project follows the conventional commits specification for commit messages.

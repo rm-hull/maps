@@ -1,31 +1,31 @@
-import { Button } from "@chakra-ui/react";
+import { ControlButton } from "@/components/ControlButton";
+import { DEFAULT_GPS_ACTIVE_DURATION, useGeneralSettings } from "@/hooks/useGeneralSettings";
 import { useEffect } from "react";
 import { IoMdLocate } from "react-icons/io";
-import { Circle, Marker, Popup } from "react-leaflet";
+import { Circle, Marker } from "react-leaflet";
 import { useCurrentLocation } from "../../../hooks/useCurrentLocation";
 import { useErrorToast } from "../../../hooks/useErrorToast";
 import { locateIcon } from "../../../icons";
 import { Control } from "../Control";
 import { NearestInfo } from "../NearestInfo";
+import { PopupPassthrough } from "../PopupPassthrough";
 
 interface CurrentLocationProps {
   active?: boolean;
 }
 
 export function CurrentLocation({ active }: CurrentLocationProps) {
-  const { activate, location } = useCurrentLocation();
-  useEffect(
-    () => {
-      if (active === true) {
-        activate();
-      }
-    },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    []
-  );
+  const { settings } = useGeneralSettings();
+  const { activate, location } = useCurrentLocation(settings?.gpsActiveDuration ?? DEFAULT_GPS_ACTIVE_DURATION);
+  useEffect(() => {
+    if (active === true) {
+      activate();
+    }
+  }, [active]);
 
   useErrorToast("gps-error", "Error determining GPS location", location.error);
 
+  const locationIsActive = location.active && !location.pending;
   return (
     <>
       {location.position !== undefined && (
@@ -38,32 +38,21 @@ export function CurrentLocation({ active }: CurrentLocationProps) {
           />
           <Marker
             position={location.position}
-            icon={locateIcon(`rgba(240,0,0,${location.active && !location.pending ? 0.6 : 0.4})`)}
+            icon={locateIcon(`rgba(240,0,0,${locationIsActive ? 0.6 : 0.3})`, locationIsActive ? "pulse" : "")}
           >
             <NearestInfo
               latLng={location.position}
               accuracy={location.accuracy}
               timestamp={location.timestamp}
-              render={(children) => <Popup autoClose={false}>{children}</Popup>}
+              render={PopupPassthrough}
             />
           </Marker>
         </>
       )}
       <Control prepend position="topright">
-        <Button
-          background="white"
-          variant="outline"
-          onClick={activate}
-          padding={0}
-          borderWidth={2}
-          borderColor="rgba(0,0,0,0.2)"
-          fontSize="1.5rem"
-          color={location.active ? "rgba(240,0,0,0.6)" : "rgba(0,0,0,0.5)"}
-          borderRadius={5}
-          size="lg"
-        >
+        <ControlButton onClick={activate} color={location.active ? "rgba(240,0,0,0.6)" : undefined}>
           <IoMdLocate />
-        </Button>
+        </ControlButton>
       </Control>
     </>
   );

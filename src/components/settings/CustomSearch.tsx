@@ -24,7 +24,7 @@ export function CustomSearch({ disabled = false, searchTerm = "", onUpdate }: Cu
     try {
       setSearching("busy");
       const data = await find(value, 1);
-      if (data.header.totalresults === 0) {
+      if (data.header.totalresults === 0 || !data.results) {
         setSearching("not-found");
         return;
       }
