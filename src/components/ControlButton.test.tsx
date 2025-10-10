@@ -50,7 +50,8 @@ describe("ControlButton", () => {
     render(<ControlButton color="red">Colored Button</ControlButton>);
 
     const button = screen.getByRole("button", { name: /colored button/i });
-    expect(button).toBeInTheDocument();
+    expect(button).toHaveStyle({ color: "red" });
+  });
   });
 
   it("should render with tooltip when provided", () => {
