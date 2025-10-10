@@ -1,5 +1,5 @@
+import { UseQueryResult } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
-import { UseQueryResult } from "react-query";
 
 export function useCachedQuery<TData, TError>(queryResult: UseQueryResult<TData, TError>) {
   const [cache, setCache] = useState<TData>();
