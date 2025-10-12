@@ -15,16 +15,18 @@ describe("useReadableStack", () => {
     expect(result.current.loading).toBe(false);
   });
 
-  it("should return original stack immediately", () => {
+  it("should return original stack immediately", async () => {
     const error = new Error("Test error");
     error.stack = "Error: Test error\n    at test.js:1:1";
 
     const { result } = renderHook(() => useReadableStack(error));
 
-    expect(result.current.stack).toBe(error.stack);
+    await waitFor(() => {
+      expect(result.current.stack).toBe(error.stack);
+    });
   });
 
-  it("should set loading to true while decoding", () => {
+  it("should set loading to true while decoding", async () => {
     const error = new Error("Test error");
     error.stack = "Error: Test error\n    at (http://example.com/app.js:1:1)";
 
@@ -38,7 +40,9 @@ describe("useReadableStack", () => {
 
     const { result } = renderHook(() => useReadableStack(error));
 
-    expect(result.current.loading).toBe(true);
+    await waitFor(() => {
+      expect(result.current.loading).toBe(true);
+    });
   });
 
   it("should handle error without stack gracefully", () => {
@@ -63,9 +67,8 @@ describe("useReadableStack", () => {
 
     await waitFor(() => {
       expect(result.current.loading).toBe(false);
+      expect(result.current.stack).toBe(error.stack);
     });
-
-    expect(result.current.stack).toBe(error.stack);
 
     consoleErrorSpy.mockRestore();
   });
@@ -87,7 +90,7 @@ describe("useReadableStack", () => {
     expect(() => unmount()).not.toThrow();
   });
 
-  it("should update when error changes", () => {
+  it("should update when error changes", async () => {
     const error1 = new Error("Error 1");
     error1.stack = "Stack 1";
 
@@ -98,10 +101,14 @@ describe("useReadableStack", () => {
       initialProps: { error: error1 },
     });
 
-    expect(result.current.stack).toBe("Stack 1");
+    await waitFor(() => {
+      expect(result.current.stack).toBe("Stack 1");
+    });
 
     rerender({ error: error2 });
 
-    expect(result.current.stack).toBe("Stack 2");
+    await waitFor(() => {
+      expect(result.current.stack).toBe("Stack 2");
+    });
   });
 });

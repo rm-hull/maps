@@ -17,7 +17,7 @@ export function StateIcon({ state }: StateIconProps) {
     case "multiple":
       return <FiCrosshair color="purple" />;
     case "busy":
-      return <Spinner size="xs" color="blue.600" colorPalette="blue" />;
+      return <Spinner size="xs" color="blue.600" colorPalette="blue" data-testid="spinner" />;
     default:
       return <FiSearch />;
   }
