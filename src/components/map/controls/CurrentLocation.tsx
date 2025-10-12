@@ -21,7 +21,7 @@ export function CurrentLocation({ active }: CurrentLocationProps) {
     if (active === true) {
       activate();
     }
-  }, [active]);
+  }, [active, activate]);
 
   useErrorToast("gps-error", "Error determining GPS location", location.error);
 

@@ -50,17 +50,23 @@ export function SearchBox() {
     setSearchQuery("");
   }, []);
 
-  const handleChange = useCallback((e: ChangeEvent<HTMLInputElement>): void => {
-    resetSearch();
-    setValue(e.target.value);
-  }, [resetSearch, setValue]);
+  const handleChange = useCallback(
+    (e: ChangeEvent<HTMLInputElement>): void => {
+      resetSearch();
+      setValue(e.target.value);
+    },
+    [resetSearch, setValue]
+  );
 
-  const handleCancel = useCallback((e: { preventDefault: () => void }): void => {
-    e.preventDefault();
-    setValue("");
-    resetSearch();
-    onClose();
-  }, [onClose, resetSearch, setValue]);
+  const handleCancel = useCallback(
+    (e: KeyboardEvent) => {
+      e.preventDefault();
+      setValue("");
+      resetSearch();
+      onClose();
+    },
+    [onClose, resetSearch, setValue]
+  );
 
   const handleSearch = useCallback((): void => {
     if (!value.trim()) {
@@ -81,33 +87,35 @@ export function SearchBox() {
   );
 
   useEffect(() => {
-    if (isLoading) {
-      setSearching("busy");
-      return;
-    }
+    queueMicrotask(() => {
+      if (isLoading) {
+        setSearching("busy");
+        return;
+      }
 
-    if (error) {
-      setSearching("error");
-      return;
-    }
+      if (error) {
+        setSearching("error");
+        return;
+      }
 
-    if (!data || !searchQuery) {
-      return;
-    }
+      if (!data || !searchQuery) {
+        return;
+      }
 
-    if (data.header.totalresults === 0 || !data.results) {
-      setSearching("not-found");
-      setResponse(undefined);
-      return;
-    }
+      if (data.header.totalresults === 0 || !data.results) {
+        setSearching("not-found");
+        setResponse(undefined);
+        return;
+      }
 
-    if (data.header.totalresults > 1) {
-      setSearching("multiple");
-      setResponse(data);
-      return;
-    }
+      if (data.header.totalresults > 1) {
+        setSearching("multiple");
+        setResponse(data);
+        return;
+      }
 
-    handleSelect(data.results[0].gazetteerEntry);
+      handleSelect(data.results[0].gazetteerEntry);
+    });
   }, [data, error, isLoading, searchQuery, handleSelect]);
 
   useKeyPressEvent("/", onOpen);

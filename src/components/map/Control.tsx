@@ -1,5 +1,5 @@
 import L from "leaflet";
-import { HTMLAttributes, PropsWithChildren, useEffect, useRef, useState } from "react";
+import { HTMLAttributes, PropsWithChildren, useEffect, useMemo, useRef } from "react";
 import { createPortal } from "react-dom";
 import { useMap } from "react-leaflet";
 
@@ -17,16 +17,16 @@ const POSITION_CLASSES = {
 };
 
 export const Control = ({ position, container, children, prepend }: PropsWithChildren<ControlProps>) => {
-  const [portalRoot, setPortalRoot] = useState<HTMLElement | null>(null);
   const positionClass = POSITION_CLASSES[position];
   const controlContainerRef = useRef<HTMLDivElement | null>(null);
   const map = useMap();
 
-  useEffect(() => {
+  // Compute the portal root from the map container
+  const portalRoot = useMemo(() => {
     const mapContainer = map.getContainer();
     const targetDiv = mapContainer.getElementsByClassName(positionClass)[0] as HTMLElement;
-    setPortalRoot(targetDiv || null);
-  }, [positionClass, map]);
+    return targetDiv || null;
+  }, [map, positionClass]);
 
   // Move the event disabling to happen AFTER the portal renders
   useEffect(() => {

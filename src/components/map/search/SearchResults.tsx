@@ -1,5 +1,5 @@
 import { Box, Listbox, createListCollection, Text, VStack } from "@chakra-ui/react";
-import { useCallback } from "react";
+import { ReactNode, useCallback } from "react";
 import { GazetteerEntry, type Response } from "../../../services/osdatahub/types";
 import { SearchIcon } from "./SearchIcon";
 
@@ -16,14 +16,17 @@ type SearchResultItemType = {
   label: string;
   value: string;
   type: string;
-  icon: JSX.Element;
+  icon: ReactNode;
   data: GazetteerEntry;
 };
 
-function SearchResultItem({ item, onSelect }: { item: SearchResultItemType; onSelect: (gazetteerEntry: GazetteerEntry) => void }) {
-  const handleClick = useCallback(() => {
-    onSelect(item.data);
-  }, [item.data, onSelect]);
+type SearchResultItemProps = {
+  item: SearchResultItemType;
+  onSelect: (gazetteerEntry: GazetteerEntry) => void;
+};
+
+function SearchResultItem({ item, onSelect }: SearchResultItemProps) {
+  const handleClick = useCallback(() => onSelect(item.data), [item.data, onSelect]);
 
   return (
     <Listbox.Item item={item} onClick={handleClick}>
@@ -63,7 +66,7 @@ export function SearchResults({ response, onSelect }: SearchResponseProps) {
             type: result.gazetteerEntry.localType,
             icon: <SearchIcon localType={result.gazetteerEntry.localType} />,
             data: result.gazetteerEntry,
-          } as SearchResultItemType)
+          }) as SearchResultItemType
       ) ?? [],
   });
 
