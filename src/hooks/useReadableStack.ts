@@ -61,8 +61,13 @@ export function useReadableStack(error: Error | null) {
     if (!error?.stack) return;
 
     let cancelled = false;
-    setStack(error.stack);
-    setLoading(true);
+
+    queueMicrotask(() => {
+      if (!cancelled) {
+        setStack(error.stack);
+        setLoading(true);
+      }
+    });
 
     // eslint-disable-next-line promise/catch-or-return, promise/no-promise-in-callback
     decodeStackTrace(error.stack)

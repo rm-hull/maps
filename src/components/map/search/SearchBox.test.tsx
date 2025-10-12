@@ -1,7 +1,7 @@
 import { useCallback } from "react";
 import { vi } from "vitest";
 import { GazetteerEntry, Response as SearchResponse } from "../../../services/osdatahub/types";
-import { render, screen } from "../../../test/utils";
+import { fireEvent, render, screen, waitFor } from "../../../test/utils";
 import { SearchBox } from "./SearchBox";
 
 // Mock hooks
@@ -110,7 +110,7 @@ describe("SearchBox", () => {
     expect(screen.getByTestId("control")).toBeInTheDocument();
   });
 
-  it("should show loading state when searching", () => {
+  it("should show loading state when searching", async () => {
     mockUseFind.mockReturnValue({
       data: undefined,
       error: null,
@@ -119,9 +119,13 @@ describe("SearchBox", () => {
 
     const { container } = render(<SearchBox />);
 
-    // Should show spinner for busy state
-    const spinner = container.querySelector('[class*="spinner"]');
-    expect(spinner).toBeInTheDocument();
+    // Simulate '/' key press to open the search box
+    fireEvent.keyPress(container, { key: "/", code: 47, charCode: 47 });
+
+    await waitFor(() => {
+      // Should show spinner for busy state
+      expect(screen.getByTestId("spinner")).toBeInTheDocument();
+    });
   });
 
   it("should display search results when multiple results found", () => {

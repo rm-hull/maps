@@ -173,7 +173,7 @@ export function WeatherLayer({ url: urlTemplate, opacity = 0.6, animate = false,
 
   useEffect(() => {
     if (index === timesteps.length - 1) {
-      setIsRunning(false);
+      queueMicrotask(() => setIsRunning(false));
     }
   }, [index]);
 

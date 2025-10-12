@@ -31,7 +31,7 @@ export function OSMap({ center }: OSMapProps) {
       settings?.initialLocation === "custom" && settings.customLocation && center === undefined
         ? L.latLng(settings.customLocation.latLng)
         : undefined,
-    [settings?.initialLocation, settings?.customLocation, center]
+    [settings, center]
   );
 
   const initialMapStyle = useMemo(() => baseLayers.find(settings?.mapStyle), [settings?.mapStyle]);
