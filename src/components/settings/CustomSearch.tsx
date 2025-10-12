@@ -1,6 +1,6 @@
 import { Button, Input, InputGroup } from "@chakra-ui/react";
 import { type LatLng } from "leaflet";
-import { type ChangeEvent, useState } from "react";
+import { type ChangeEvent, useState, useCallback } from "react";
 import { find } from "../../services/osdatahub";
 import { toLatLng } from "../../services/osdatahub/helpers";
 import { type SearchState, StateIcon } from "../StateIcon";
@@ -15,12 +15,12 @@ export function CustomSearch({ disabled = false, searchTerm = "", onUpdate }: Cu
   const [value, setValue] = useState(searchTerm);
   const [searching, setSearching] = useState<SearchState>();
 
-  const handleChange = (event: ChangeEvent<HTMLInputElement>): void => {
+  const handleChange = useCallback((event: ChangeEvent<HTMLInputElement>): void => {
     setValue(event.target.value);
     setSearching(undefined);
-  };
+  }, []);
 
-  const handleCustomSearch = async (): Promise<void> => {
+  const handleCustomSearch = useCallback(async (): Promise<void> => {
     try {
       setSearching("busy");
       const data = await find(value, 1);
@@ -37,7 +37,11 @@ export function CustomSearch({ disabled = false, searchTerm = "", onUpdate }: Cu
       console.log({ err });
       setSearching("error");
     }
-  };
+  }, [onUpdate, value]);
+
+  const handleClick = useCallback(() => {
+    handleCustomSearch().catch(console.error);
+  }, [handleCustomSearch]);
 
   return (
     <InputGroup
@@ -47,9 +51,7 @@ export function CustomSearch({ disabled = false, searchTerm = "", onUpdate }: Cu
           size="xs"
           aria-label="Find location"
           disabled={disabled || searching === "ok"}
-          onClick={() => {
-            handleCustomSearch().catch(console.error);
-          }}
+          onClick={handleClick}
         >
           <StateIcon state={searching} />
         </Button>

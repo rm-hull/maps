@@ -5,7 +5,7 @@ import * as L from "leaflet";
 import { useCallback, useState, useRef } from "react";
 import { IoLayersSharp } from "react-icons/io5";
 import { useMap } from "react-leaflet";
-import { baseLayers, LayerOption, type Tile, OVERLAYS } from "../../../config/layer";
+import { baseLayers, LayerOption, type Tile, type Overlay, OVERLAYS } from "../../../config/layer";
 import { useGeneralSettings } from "../../../hooks/useGeneralSettings";
 import { Control } from "../Control";
 import "@maplibre/maplibre-gl-leaflet";
@@ -13,40 +13,72 @@ import "@maplibre/maplibre-gl-leaflet";
 function OverlaySelector() {
   const map = useMap();
   const { settings, updateSettings } = useGeneralSettings();
-  const handleOverlayChange = (name: string, checked: boolean | "indeterminate") => {
-    if (checked !== "indeterminate") {
-      updateSettings({
-        ...settings,
-        overlays: {
-          ...settings?.overlays,
-          [name]: checked,
-        },
-      });
-    }
-  };
+  const handleOverlayChange = useCallback(
+    (name: string, checked: boolean | "indeterminate") => {
+      if (checked !== "indeterminate") {
+        updateSettings({
+          ...settings,
+          overlays: {
+            ...settings?.overlays,
+            [name]: checked,
+          },
+        });
+      }
+    },
+    [settings, updateSettings]
+  );
 
   const zoom = map.getZoom();
 
   return (
     <VStack align="start" gap={1}>
       {Object.entries(OVERLAYS).map(([name, cfg]) => (
-        <Checkbox.Root
+        <OverlayCheckbox
           key={name}
-          checked={settings?.overlays?.[name] ?? false}
-          onCheckedChange={(e) => handleOverlayChange(name, e.checked)}
-          disabled={zoom > (cfg.maxZoom ?? map.getMaxZoom()) || zoom <= cfg.minZoom}
-          size="sm"
-        >
-          <Checkbox.HiddenInput />
-          <Checkbox.Control>
-            <Checkbox.Indicator />
-          </Checkbox.Control>
-          <Checkbox.Label truncate maxWidth={180}>
-            {name}
-          </Checkbox.Label>
-        </Checkbox.Root>
+          name={name}
+          cfg={cfg}
+          zoom={zoom}
+          isChecked={settings?.overlays?.[name] ?? false}
+          onCheckedChange={handleOverlayChange}
+          maxZoom={map.getMaxZoom()}
+        />
       ))}
     </VStack>
+  );
+}
+
+type OverlayCheckboxProps = {
+  name: string;
+  cfg: Overlay;
+  zoom: number;
+  maxZoom: number;
+  isChecked: boolean;
+  onCheckedChange: (name: string, checked: boolean | "indeterminate") => void;
+};
+
+function OverlayCheckbox({ name, cfg, zoom, maxZoom, isChecked, onCheckedChange }: OverlayCheckboxProps) {
+  const handleCheckedChange = useCallback(
+    (e: { checked: boolean | "indeterminate" }) => {
+      onCheckedChange(name, e.checked);
+    },
+    [name, onCheckedChange]
+  );
+
+  return (
+    <Checkbox.Root
+      checked={isChecked}
+      onCheckedChange={handleCheckedChange}
+      disabled={zoom > (cfg.maxZoom ?? maxZoom) || zoom <= cfg.minZoom}
+      size="sm"
+    >
+      <Checkbox.HiddenInput />
+      <Checkbox.Control>
+        <Checkbox.Indicator />
+      </Checkbox.Control>
+      <Checkbox.Label truncate maxWidth={180}>
+        {name}
+      </Checkbox.Label>
+    </Checkbox.Root>
   );
 }
 
