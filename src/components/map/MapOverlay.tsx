@@ -16,7 +16,8 @@ export const MapOverlay = ({ children, name, className = "" }: PropsWithChildren
     const overlayPane = map.createPane(name);
     overlayPane.style.zIndex = "650"; // Above tiles, below controls
     overlayPane.style.pointerEvents = "none";
-    setPane(overlayPane);
+
+    queueMicrotask(() => setPane(overlayPane));
 
     return () => {
       if (overlayPane && overlayPane.parentNode) {
