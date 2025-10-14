@@ -1,7 +1,7 @@
-import { useColorModeValue } from "@/components/ui/color-mode";
 import { Box } from "@chakra-ui/react";
 import { useState } from "react";
 import { useMap, useMapEvents } from "react-leaflet";
+import { useColorModeValue } from "@/components/ui/color-mode";
 import { useGeneralSettings } from "../../../hooks/useGeneralSettings";
 import { Control } from "../Control";
 

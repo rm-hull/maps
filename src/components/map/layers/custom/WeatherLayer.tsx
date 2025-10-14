@@ -1,10 +1,10 @@
-import { useColorModeValue } from "@/components/ui/color-mode";
 import { ButtonGroup, HStack, IconButton, Stack, Text } from "@chakra-ui/react";
 import * as L from "leaflet";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { IoPlayOutline, IoPlaySkipForwardOutline, IoPauseOutline } from "react-icons/io5";
 import { RxReset } from "react-icons/rx";
 import { ImageOverlay } from "react-leaflet";
+import { useColorModeValue } from "@/components/ui/color-mode";
 import { Control } from "../../Control";
 import { Scale } from "../../Scale";
 

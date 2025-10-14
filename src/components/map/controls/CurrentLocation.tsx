@@ -1,8 +1,8 @@
-import { ControlButton } from "@/components/ControlButton";
-import { DEFAULT_GPS_ACTIVE_DURATION, useGeneralSettings } from "@/hooks/useGeneralSettings";
 import { useEffect } from "react";
 import { IoMdLocate } from "react-icons/io";
 import { Circle, Marker } from "react-leaflet";
+import { ControlButton } from "@/components/ControlButton";
+import { DEFAULT_GPS_ACTIVE_DURATION, useGeneralSettings } from "@/hooks/useGeneralSettings";
 import { useCurrentLocation } from "../../../hooks/useCurrentLocation";
 import { useErrorToast } from "../../../hooks/useErrorToast";
 import { locateIcon } from "../../../icons";
