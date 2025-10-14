@@ -1,10 +1,10 @@
-import { useColorModeValue } from "@/components/ui/color-mode";
-import { Tooltip } from "@/components/ui/tooltip";
 import { Badge, DataList, HStack, Heading, Link, List, ListItem, Text } from "@chakra-ui/react";
 import { type LatLngBounds } from "leaflet";
 import { FaExclamationCircle } from "react-icons/fa";
 import { Marker, Popup } from "react-leaflet";
 import { Link as ReactRouterLink } from "react-router-dom";
+import { useColorModeValue } from "@/components/ui/color-mode";
+import { Tooltip } from "@/components/ui/tooltip";
 import { useCachedQuery } from "../../../../hooks/useCachedQuery";
 import { useCompanyData } from "../../../../hooks/useCompanyData";
 import { useErrorToast } from "../../../../hooks/useErrorToast";
