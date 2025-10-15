@@ -2713,14 +2713,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@tanstack/eslint-plugin-query@npm:^5.91.0":
-  version: 5.91.0
-  resolution: "@tanstack/eslint-plugin-query@npm:5.91.0"
+"@tanstack/eslint-plugin-query@npm:^5.91.1":
+  version: 5.91.1
+  resolution: "@tanstack/eslint-plugin-query@npm:5.91.1"
   dependencies:
     "@typescript-eslint/utils": "npm:^8.44.1"
   peerDependencies:
     eslint: ^8.57.0 || ^9.0.0
-  checksum: 10/e6add8f7a4e219055908863ac78f0c7e6520c1d187db7c9aceede8cc492ac185a33edff00e320cb3cbad526fe4f47bb0b08773a36d78241a854cea5e22dd8c14
+  checksum: 10/946261071960bcf9c092e44b62741280b4d2bc48fb819513f3a7acfe0fdf480edab52425c88f1d2c5c7cd7642c37b459d0ef5aace5f5befda45ff038b540c4c3
   languageName: node
   linkType: hard
 
@@ -7993,7 +7993,7 @@ __metadata:
     "@react-leaflet/core": "npm:^3.0.0"
     "@rm-hull/use-local-storage": "npm:^0.1.0"
     "@stylistic/eslint-plugin": "npm:^5.4.0"
-    "@tanstack/eslint-plugin-query": "npm:^5.91.0"
+    "@tanstack/eslint-plugin-query": "npm:^5.91.1"
     "@tanstack/react-query": "npm:^5.90.2"
     "@tanstack/react-query-devtools": "npm:^5.90.2"
     "@testing-library/dom": "npm:^10.4.1"
