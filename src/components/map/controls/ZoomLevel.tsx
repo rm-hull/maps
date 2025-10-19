@@ -9,7 +9,7 @@ export function ZoomLevel() {
   const { settings } = useGeneralSettings();
   const fgColor = useColorModeValue("gray.700", "gray.300");
   const bgColor = useColorModeValue("white", "gray.800");
-  const borderColor = useColorModeValue("rgba(0,0,0,0.2)", "rgba(255,255,255,0.2)");
+  const borderColor = useColorModeValue("blackAlpha.400", "whiteAlpha.400");
 
   const map = useMap();
   const [zoom, setZoom] = useState(map.getZoom());

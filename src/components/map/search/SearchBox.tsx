@@ -21,7 +21,8 @@ export function SearchBox() {
   const { settings } = useGeneralSettings();
   const { open, onOpen, onClose } = useDisclosure();
   const [inputRef, setInputFocus] = useFocus();
-  const bg = useColorModeValue("white", "var(--chakra-colors-gray-900)");
+  const bg = useColorModeValue("white", "gray.900");
+  const borderColor = useColorModeValue("blackAlpha.400", "whiteAlpha.400");
   const [value, setValue] = useControllableState({ defaultValue: "" });
   const [searching, setSearching] = useState<SearchState>();
   const [position, setPosition] = useState<LatLng | undefined>();
@@ -132,8 +133,8 @@ export function SearchBox() {
               id="search"
               name="search"
               borderWidth={2}
-              borderColor="rgba(0,0,0,0.2)"
-              // focusBorderColor="rgba(0,0,0,0.2)"
+              borderColor={borderColor}
+              focusRing="none"
               readOnly={isLoading}
               autoComplete="off"
               autoCapitalize="off"
