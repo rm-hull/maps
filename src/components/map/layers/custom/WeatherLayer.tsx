@@ -117,7 +117,8 @@ type WeatherLayerProps = {
 };
 
 export function WeatherLayer({ url: urlTemplate, opacity = 0.6, animate = false, scale, zIndex }: WeatherLayerProps) {
-  const [index, setIndex] = useState(getIndexForCurrentTime());
+  const [today, setToday] = useState(getTodayMidnight);
+  const [index, setIndex] = useState(getIndexForCurrentTime);
   const [isRunning, setIsRunning] = useState(animate);
 
   const handleReset = useCallback(() => {
@@ -148,7 +149,28 @@ export function WeatherLayer({ url: urlTemplate, opacity = 0.6, animate = false,
     }
   }, [index]);
 
-  const today = useMemo(() => getTodayMidnight(), []);
+  useEffect(() => {
+    let timeoutId: number | undefined;
+
+    const scheduleNextMidnight = () => {
+      const now = new Date();
+      const nextMidnight = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1);
+      const msUntilNextMidnight = nextMidnight.getTime() - now.getTime();
+
+      timeoutId = window.setTimeout(() => {
+        setToday(getTodayMidnight());
+        scheduleNextMidnight();
+      }, msUntilNextMidnight);
+    };
+
+    scheduleNextMidnight();
+
+    return () => {
+      if (timeoutId !== undefined) {
+        window.clearTimeout(timeoutId);
+      }
+    };
+  }, []);
 
   const url = useMemo(() => {
     return urlTemplate
