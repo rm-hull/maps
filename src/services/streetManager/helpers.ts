@@ -34,17 +34,17 @@ export function getEndDate(event: Event): [Date | undefined, string] {
 export function groupEventsByObjectRef(events: Event[]): Record<string, Event[]> {
   return events.reduce(
     (acc, event) => {
-      const ref =
-        event.work_reference_number ??
-        event.permit_reference_number ??
-        event.activity_reference_number ??
-        event.section_58_reference_number;
+      // Use getObjectRef to ensure consistent reference key generation
+      // and to avoid code duplication.
+      const ref = getObjectRef(event);
+
       if (ref) {
         if (!(ref in acc)) {
           acc[ref] = [];
         }
         acc[ref].push(event);
       }
+
       return acc;
     },
     {} as Record<string, Event[]>
