@@ -343,6 +343,19 @@ export const OVERLAYS: Record<string, Overlay> = {
         url="https://api.destructuring-bind.org/v1/metoffice/datahub/cloud_amount_total/{y}/{m}/{d}/{h}.png"
         zIndex={659}
         opacity={0.8}
+        scale={
+          <Scale
+            label="Cloud Cover (%):"
+            width={30}
+            values={[
+              { color: "#00000000", value: "0" },
+              { color: "#FFFFFF40", value: "25" },
+              { color: "#FFFFFF80", value: "50" },
+              { color: "#FFFFFF8B", value: "75" },
+              { color: "#FFFFFF", value: "100" },
+            ]}
+          />
+        }
       />
     ),
   },

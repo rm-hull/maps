@@ -3,11 +3,11 @@ import { useColorModeValue } from "../ui/color-mode";
 
 type ScaleProps = {
   label: string;
+  width?: number;
   values: { value?: string; color: string }[];
-  color?: string;
 };
 
-export function Scale({ label, values }: ScaleProps) {
+export function Scale({ label, values, width = 12 }: ScaleProps) {
   const fgColor = useColorModeValue("gray.600", "gray.300");
   return (
     <HStack color={fgColor}>
@@ -20,7 +20,7 @@ export function Scale({ label, values }: ScaleProps) {
               borderWidth={1}
               backgroundColor={color}
               margin="-1px"
-              width="12px"
+              width={`${width}px`}
               height="8px"
             />
             <Text fontSize="7.5px" height={3}>
