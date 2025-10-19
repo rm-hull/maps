@@ -1,59 +1,125 @@
-import { Heading, Text, List, Box, VStack, Link, Image, HStack } from "@chakra-ui/react";
-import { PathOptions, type LatLngBounds } from "leaflet";
+import { Heading, VStack, Link, Image, Table, Tabs, Text, Badge } from "@chakra-ui/react";
+import { LatLngBounds, PathOptions } from "leaflet";
 import { Popup } from "react-leaflet";
 import { Link as ReactRouterLink } from "react-router-dom";
+import { formatDate } from "@/utils/dates";
 import { useCachedQuery } from "../../../../hooks/useCachedQuery";
 import { useErrorToast } from "../../../../hooks/useErrorToast";
 import { useStreetManager } from "../../../../hooks/useStreetManager";
 import {
   getCoordinates,
-  getObjectRef,
   getStartDate,
   getEndDate,
   groupEventsByObjectRef,
+  getObjectRef,
 } from "../../../../services/streetManager/helpers";
 import { Event } from "../../../../services/streetManager/types";
 import WktLayer from "../../WktShape";
 
-type EventsPopupProps = {
+type EventDetailProps = {
+  event: Event;
+};
+
+const dateStatus: Record<string, "green" | "blue" | "gray"> = {
+  actual: "green",
+  proposed: "blue",
+  unknown: "gray",
+};
+
+function workCategoryStatus(status?: string) {
+  const lowerStatus = status?.toLowerCase();
+  if (lowerStatus === "minor") return "green";
+  if (lowerStatus === "standard") return "yellow";
+  if (lowerStatus?.startsWith("major")) return "orange";
+  if (lowerStatus?.startsWith("immediate")) return "red";
+  return "gray";
+}
+
+function EventDetail({ event }: EventDetailProps) {
+  const [startDate, startType] = getStartDate(event);
+  const [endDate, endType] = getEndDate(event);
+  return (
+    <VStack p={2} gap={2} alignItems="start" justifyContent="space-between">
+      {event.promoter_website_url && (
+        <Heading size="md" gap={1} display="flex" alignItems="center" width={300}>
+          {event.promoter_logo_url && <Image src={event.promoter_logo_url} height={5} />}
+          <Link asChild target="_blank" rel="noreferrer" outlineOffset={0}>
+            <ReactRouterLink to={event.promoter_website_url}>
+              <Text truncate maxWidth={300}>
+                {event.promoter_organisation}
+              </Text>
+            </ReactRouterLink>
+          </Link>
+        </Heading>
+      )}
+
+      <Table.Root>
+        <Table.Body>
+          <Table.Row>
+            <Table.ColumnHeader>Work Ref</Table.ColumnHeader>
+            <Table.Cell>{getObjectRef(event)}</Table.Cell>
+          </Table.Row>
+          {event.activity_type && (
+            <Table.Row>
+              <Table.ColumnHeader>Activity Type</Table.ColumnHeader>
+              <Table.Cell>{event.activity_type}</Table.Cell>
+            </Table.Row>
+          )}
+          {event.works_location_type && (
+            <Table.Row>
+              <Table.ColumnHeader>Location</Table.ColumnHeader>
+              <Table.Cell>{event.works_location_type}</Table.Cell>
+            </Table.Row>
+          )}
+          {event.work_status && (
+            <Table.Row>
+              <Table.ColumnHeader>Work Status</Table.ColumnHeader>
+              <Table.Cell>
+                {event.work_status}{" "}
+                <Badge colorPalette={workCategoryStatus(event.work_category)}>
+                  {event.work_category?.toLowerCase() ?? "unknown"}
+                </Badge>
+              </Table.Cell>
+            </Table.Row>
+          )}
+          <Table.Row>
+            <Table.ColumnHeader>Start Date</Table.ColumnHeader>
+            <Table.Cell>
+              {formatDate(startDate)} <Badge colorPalette={dateStatus[startType]}>{startType}</Badge>
+            </Table.Cell>
+          </Table.Row>
+          <Table.Row>
+            <Table.ColumnHeader>End Date</Table.ColumnHeader>
+            <Table.Cell>
+              {formatDate(endDate)} <Badge colorPalette={dateStatus[endType]}>{endType}</Badge>
+            </Table.Cell>
+          </Table.Row>
+        </Table.Body>
+      </Table.Root>
+    </VStack>
+  );
+}
+
+type EventTabsProps = {
   events: Event[];
 };
 
-function EventsPopup({ events }: EventsPopupProps) {
+function EventTabs({ events }: EventTabsProps) {
   return (
-    <Popup maxWidth={400} closeButton={false}>
-      <List.Root gap={1} width={400} maxHeight={300} overflowY="auto">
-        {events.map((event) => {
-          const ref = getObjectRef(event);
-          return (
-            <List.Item key={ref} p={2} borderBottom="1px solid" borderColor="gray.200">
-              <VStack gap={2} alignItems="start" justifyContent="space-between">
-                {event.promoter_website_url && <Heading size="md" truncate>
-                  <HStack gap={1}>
-                    {event.promoter_logo_url && <Image src={event.promoter_logo_url} height={5} />}
-                    <Link asChild target="_blank" rel="noreferrer" outlineOffset={0} truncate>
-                      <ReactRouterLink to={event.promoter_website_url}>
-                        {event.promoter_organisation}
-                      </ReactRouterLink>
-                    </Link>
-                  </HStack>
-                </Heading>}
-                <Box p={1} pt={0} color="gray.600" fontSize="sm">
-                  <Text>Ref: {ref}</Text>
-                  <Text>{event.activity_type}</Text>
-                  <Text>
-                    {event.works_location_type} ({event.work_category})
-                  </Text>
-                  <Text>{event.work_status}</Text>
-                  <Text>Start: {getStartDate(event)}</Text>
-                  <Text>End: {getEndDate(event)}</Text>
-                </Box>
-              </VStack>
-            </List.Item>
-          );
-        })}
-      </List.Root>
-    </Popup>
+    <Tabs.Root defaultValue="0">
+      <Tabs.List>
+        {events.map((event, index) => (
+          <Tabs.Trigger key={index} value={index.toString()}>
+            {getObjectRef(event) ?? `Event ${index + 1}`}
+          </Tabs.Trigger>
+        ))}
+      </Tabs.List>
+      {events.map((event, index) => (
+        <Tabs.Content value={index.toString()} key={index}>
+          <EventDetail event={event} />
+        </Tabs.Content>
+      ))}
+    </Tabs.Root>
   );
 }
 
@@ -74,9 +140,11 @@ export function StreetManagerLayer({ bounds }: StreetManagerLayerProps) {
   const { data, error } = useCachedQuery(useStreetManager(bounds));
   useErrorToast("street-manager-error", "Error loading street-manager events", error);
 
-  return Object.entries(groupEventsByObjectRef(data?.results ?? [])).map(([ref, results]) => (
-    <WktLayer key={ref} wkt={getCoordinates(results[0])} pathOptions={defaultStyle}>
-      <EventsPopup events={results} />
+  return Object.entries(groupEventsByObjectRef(data?.results ?? [])).map(([ref, events]) => (
+    <WktLayer key={ref} wkt={getCoordinates(events[0])} pathOptions={defaultStyle}>
+      <Popup maxWidth={500} closeButton={false}>
+        {events.length === 1 ? <EventDetail event={events[0]} /> : <EventTabs events={events} />}
+      </Popup>
     </WktLayer>
   ));
 }

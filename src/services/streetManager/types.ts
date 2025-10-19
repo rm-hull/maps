@@ -45,17 +45,17 @@ export type Event = {
   section_58_extent?: string;
 
   // Dates/times (ISO8601 strings in JSON)
-  proposed_start_date?: string;
-  proposed_end_date?: string;
-  proposed_start_time?: string;
-  proposed_end_time?: string;
-  actual_start_date_time?: string;
-  actual_end_date_time?: string;
-  start_date?: string;
-  start_time?: string;
-  end_date?: string;
-  end_time?: string;
-  current_traffic_management_update_date?: string;
+  proposed_start_date?: Date;
+  proposed_end_date?: Date;
+  proposed_start_time?: Date;
+  proposed_end_time?: Date;
+  actual_start_date_time?: Date;
+  actual_end_date_time?: Date;
+  start_date?: Date;
+  start_time?: Date;
+  end_date?: Date;
+  end_time?: Date;
+  current_traffic_management_update_date?: Date;
 
   // Flags / booleans stored as text
   is_ttro_required?: string;
