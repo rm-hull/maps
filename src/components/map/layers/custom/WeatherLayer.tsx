@@ -150,27 +150,12 @@ export function WeatherLayer({ url: urlTemplate, opacity = 0.6, animate = false,
   }, [index]);
 
   useEffect(() => {
-    let timeoutId: number | undefined;
-
-    const scheduleNextMidnight = () => {
-      const now = new Date();
-      const nextMidnight = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1);
-      const msUntilNextMidnight = nextMidnight.getTime() - now.getTime();
-
-      timeoutId = window.setTimeout(() => {
-        setToday(getTodayMidnight());
-        scheduleNextMidnight();
-      }, msUntilNextMidnight);
-    };
-
-    scheduleNextMidnight();
-
-    return () => {
-      if (timeoutId !== undefined) {
-        window.clearTimeout(timeoutId);
-      }
-    };
-  }, []);
+    const now = new Date();
+    const nextMidnight = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1);
+    const msUntilNextMidnight = nextMidnight.getTime() - now.getTime();
+    const timeoutId = setTimeout(() => setToday(getTodayMidnight()), msUntilNextMidnight);
+    return () => clearTimeout(timeoutId);
+  }, [today]);
 
   const url = useMemo(() => {
     return urlTemplate
