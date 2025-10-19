@@ -1,6 +1,5 @@
 import { LatLngBounds } from "leaflet";
 import { Marker, useMap } from "react-leaflet";
-import MarkerClusterGroup from "react-leaflet-cluster";
 import { useErrorToast } from "../../../../hooks/useErrorToast";
 import { useGeograph } from "../../../../hooks/useGeograph";
 import { blueMarker } from "../../../../icons";
@@ -21,7 +20,7 @@ export function GeographLayer({ bounds }: GeographLayerProps) {
   useErrorToast("geograph-error", "Error loading Geograph images", error);
 
   return (
-    <MarkerClusterGroup chunkedLoading showCoverageOnHover={false} removeOutsideVisibleBounds>
+    <>
       {data?.map((item) => (
         <Marker key={item.guid} position={[parseFloat(item.lat), parseFloat(item.long)]} icon={blueMarker}>
           <ResultPopup
@@ -34,7 +33,7 @@ export function GeographLayer({ bounds }: GeographLayerProps) {
           />
         </Marker>
       ))}
-    </MarkerClusterGroup>
+    </>
   );
 }
 
