@@ -1,19 +1,11 @@
 import { ButtonGroup, HStack, IconButton, Stack, Text } from "@chakra-ui/react";
 import * as L from "leaflet";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { ReactNode, useCallback, useEffect, useMemo, useState } from "react";
 import { IoPlayOutline, IoPlaySkipForwardOutline, IoPauseOutline } from "react-icons/io5";
 import { RxReset } from "react-icons/rx";
 import { ImageOverlay } from "react-leaflet";
 import { useColorModeValue } from "@/components/ui/color-mode";
 import { Control } from "../../Control";
-import { Scale } from "../../Scale";
-
-type WeatherLayerProps = {
-  url: string;
-  opacity?: number;
-  animate?: boolean;
-  zIndex?: number;
-};
 
 const bounds = new L.LatLngBounds(
   [44.2, -25.0], // Southwest corner (lat, lng)
@@ -31,35 +23,6 @@ const dateTimeFormatter = new Intl.DateTimeFormat("en-GB", {
   minute: "2-digit",
   hour12: false,
 });
-
-const scale2 = [
-  { color: "#FFFFFF00", value: "0" },
-  { color: "#80FFFF" },
-  { color: "#00FFFF", value: "0.2" },
-  { color: "#00C0FF" },
-  { color: "#0080FF", value: "1" },
-  { color: "#0040FF" },
-  { color: "#0000FF", value: "3" },
-  { color: "#0040C0" },
-  { color: "#008080", value: "5" },
-  { color: "#00C040" },
-  { color: "#00FF00", value: "7" },
-  { color: "#40FF00" },
-  { color: "#80FF00", value: "9" },
-  { color: "#C0FF00" },
-  { color: "#FFFF00", value: "15" },
-  { color: "#FFC000" },
-  { color: "#FF8000", value: "25" },
-  { color: "#FF6000" },
-  { color: "#FF4000", value: "35" },
-  { color: "#FF2000" },
-  { color: "#FF0000", value: "45" },
-  { color: "#C00000" },
-  { color: "#800000", value: "55" },
-  { color: "#800020" },
-  { color: "#800040" },
-  { color: "#800080", value: "150" },
-];
 
 const timesteps = [
   "00",
@@ -145,7 +108,15 @@ function getIndexForCurrentTime(): number {
   return timesteps.indexOf(zeroPad(new Date().getHours(), 2));
 }
 
-export function WeatherLayer({ url: urlTemplate, opacity = 0.6, animate = false, zIndex }: WeatherLayerProps) {
+type WeatherLayerProps = {
+  url: string;
+  opacity?: number;
+  animate?: boolean;
+  zIndex?: number;
+  scale?: ReactNode;
+};
+
+export function WeatherLayer({ url: urlTemplate, opacity = 0.6, animate = false, scale, zIndex }: WeatherLayerProps) {
   const [index, setIndex] = useState(getIndexForCurrentTime());
   const [isRunning, setIsRunning] = useState(animate);
 
@@ -200,7 +171,7 @@ export function WeatherLayer({ url: urlTemplate, opacity = 0.6, animate = false,
     <>
       <Control position="bottomleft">
         <Stack backgroundColor={bg} color={fg} p={1} borderRadius={5} direction={{ base: "column", md: "row" }}>
-          <Scale label="Rain (mm/h):" values={scale2} color={fg} />
+          {scale}
           <HStack>
             <Text fontSize="xs" fontWeight="bold" width="150px" textAlign="right">
               {currentTime}
