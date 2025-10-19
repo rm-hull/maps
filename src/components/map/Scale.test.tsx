@@ -51,7 +51,7 @@ describe("Scale", () => {
   it("should render with custom foreground color", () => {
     const values = [{ color: "red", value: "0" }];
 
-    render(<Scale label="Test" values={values} color="blue" />);
+    render(<Scale label="Test" values={values} />);
     expect(screen.getByText("Test")).toBeInTheDocument();
   });
 
