@@ -90,9 +90,9 @@ type BaseLayerAccordionProps = {
 function BaseLayerAccordion({ onLayerChanged, selectedLayer }: BaseLayerAccordionProps) {
   const handleLayerChange = useCallback((layer: LayerOption) => () => onLayerChanged(layer), [onLayerChanged]);
 
-  const bgColor = useColorModeValue("white", "var(--chakra-colors-gray-800)");
-  const borderColor = useColorModeValue("rgba(0,0,0,0.2)", "rgba(255,255,255,0.2)");
-  const defaultColor = useColorModeValue("rgba(0,0,0,0.5)", "rgba(255,255,255,0.5)");
+  const bgColor = useColorModeValue("white", "gray.800");
+  const borderColor = useColorModeValue("blackAlpha.400", "whiteAlpha.400");
+  const defaultColor = useColorModeValue("blackAlpha.600", "whiteAlpha.600");
 
   return (
     <Box
