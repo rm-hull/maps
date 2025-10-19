@@ -1,12 +1,12 @@
-import { useErrorToast } from "@/hooks/useErrorToast";
-import { useFind } from "@/hooks/useFind";
-import { useGeneralSettings } from "@/hooks/useGeneralSettings";
-import { greenMarker } from "@/icons";
 import { Collapsible, Input, InputGroup, useControllableState, useDisclosure } from "@chakra-ui/react";
 import { LatLng } from "leaflet";
 import { type ChangeEvent, useCallback, useEffect, useState } from "react";
 import { Marker, useMapEvent } from "react-leaflet";
 import { useKeyPressEvent } from "react-use";
+import { useErrorToast } from "@/hooks/useErrorToast";
+import { useFind } from "@/hooks/useFind";
+import { useGeneralSettings } from "@/hooks/useGeneralSettings";
+import { greenMarker } from "@/icons";
 import { useFocus } from "../../../hooks/useFocus";
 import { toLatLng } from "../../../services/osdatahub/helpers";
 import { type Response, type GazetteerEntry } from "../../../services/osdatahub/types";
