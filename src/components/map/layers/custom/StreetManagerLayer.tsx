@@ -13,7 +13,7 @@ import {
   getObjectRef,
 } from "../../../../services/streetManager/helpers";
 import { Event } from "../../../../services/streetManager/types";
-import WktLayer from "../../WktShape";
+import WktShape from "../../WktShape";
 
 const dateStatus: Record<string, "green" | "blue" | "gray"> = {
   actual: "green",
@@ -138,10 +138,10 @@ export function StreetManagerLayer({ bounds }: StreetManagerLayerProps) {
   useErrorToast("street-manager-error", "Error loading street-manager events", error);
 
   return Object.entries(groupEventsByObjectRef(data?.results ?? [])).map(([ref, events]) => (
-    <WktLayer key={ref} wkt={getCoordinates(events[0])} pathOptions={defaultStyle}>
+    <WktShape key={ref} wkt={getCoordinates(events[0])} pathOptions={defaultStyle}>
       <Popup maxWidth={500} closeButton={false}>
         {events.length === 1 ? <EventDetail event={events[0]} /> : <EventTabs events={events} />}
       </Popup>
-    </WktLayer>
+    </WktShape>
   ));
 }

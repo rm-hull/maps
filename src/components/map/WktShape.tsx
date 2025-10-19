@@ -8,7 +8,7 @@ type WktShapeProps = {
   wkt?: string;
 } & PathProps;
 
-export default function WktLayer({ wkt, children, ...props }: PropsWithChildren<WktShapeProps>) {
+export default function WktShape({ wkt, children, ...props }: PropsWithChildren<WktShapeProps>) {
   if (!wkt) return null;
 
   const geojson = wktToGeoJSON(wkt);
