@@ -1,5 +1,5 @@
 import { Icon, type LatLngBounds } from "leaflet";
-import { useMemo } from "react";
+import { useCallback, useState } from "react";
 import { Marker } from "react-leaflet";
 import MarkerClusterGroup from "react-leaflet-cluster";
 import { useCachedQuery } from "../../../../hooks/useCachedQuery";
@@ -18,9 +18,11 @@ export function GeodsPointsOfInterestLayer({ bounds }: GeodsPointsOfInterestLaye
   const { data, error } = useCachedQuery(useGeodsPOI(bounds));
   useErrorToast("geods-poi-error", "Error loading GeoDS POI", error);
 
-  const imageLoaderMap = useMemo(() => {
-    const cache = new Map<string, ImageLoaderFn>();
-    return (categories?: string[]) => {
+  // Use useState to store the stable Map reference (we mutate its contents, not replace it)
+  const [cache] = useState(() => new Map<string, ImageLoaderFn>());
+
+  const imageLoaderMap = useCallback(
+    (categories?: string[]) => {
       const key = categories?.[0] || "unknown";
       if (!cache.has(key)) {
         cache.set(key, async () => {
@@ -33,8 +35,9 @@ export function GeodsPointsOfInterestLayer({ bounds }: GeodsPointsOfInterestLaye
         });
       }
       return cache.get(key)!;
-    };
-  }, []);
+    },
+    [cache]
+  );
 
   return (
     <MarkerClusterGroup chunkedLoading showCoverageOnHover={false} removeOutsideVisibleBounds>

@@ -1,5 +1,5 @@
-import { useReadableStack } from "@/hooks/useReadableStack";
 import { Alert, Code, Container, Heading, Span } from "@chakra-ui/react";
+import { useReadableStack } from "@/hooks/useReadableStack";
 
 interface ErrorFallbackProps {
   error: Error;

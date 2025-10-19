@@ -6,7 +6,7 @@ export function useCachedQuery<TData, TError>(queryResult: UseQueryResult<TData,
 
   useEffect(() => {
     if (queryResult.isSuccess) {
-      setCache(queryResult.data);
+      queueMicrotask(() => setCache(queryResult.data));
     }
   }, [queryResult.isSuccess, queryResult.data]);
 

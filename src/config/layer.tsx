@@ -6,6 +6,7 @@ import { GeodsPointsOfInterestLayer } from "../components/map/layers/custom/Geod
 import { GeographLayer } from "../components/map/layers/custom/GeographLayer";
 import { GpsRoutesLayer } from "../components/map/layers/custom/GpsRoutesLayer";
 import { PostcodePolygonsLayer } from "../components/map/layers/custom/PostcodePolygonsLayer";
+import { StreetManagerLayer } from "../components/map/layers/custom/StreetManagerLayer";
 import { WeatherLayer } from "../components/map/layers/custom/WeatherLayer";
 import { Scale } from "../components/map/Scale";
 
@@ -226,6 +227,7 @@ export const OVERLAYS: Record<string, Overlay> = {
   "GeoDS POI": { minZoom: 14, component: GeodsPointsOfInterestLayer },
   "Company Data": { minZoom: 16, component: CompanyDataLayer },
   Postcodes: { minZoom: 11, component: PostcodePolygonsLayer },
+  "Street Manager": { minZoom: 15, component: StreetManagerLayer },
   "Waymarked Hiking Trails": {
     minZoom: 6,
     component: () => (

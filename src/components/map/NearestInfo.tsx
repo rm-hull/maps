@@ -1,7 +1,7 @@
-import { useErrorToast } from "@/hooks/useErrorToast";
 import { Table } from "@chakra-ui/react";
 import { type LatLng } from "leaflet";
 import { type JSX, ReactNode } from "react";
+import { useErrorToast } from "@/hooks/useErrorToast";
 import { useNearest } from "../../hooks/useNearest";
 import { toBNG } from "../../services/osdatahub/helpers";
 

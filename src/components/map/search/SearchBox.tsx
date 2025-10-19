@@ -1,12 +1,12 @@
-import { useErrorToast } from "@/hooks/useErrorToast";
-import { useFind } from "@/hooks/useFind";
-import { useGeneralSettings } from "@/hooks/useGeneralSettings";
-import { greenMarker } from "@/icons";
 import { Collapsible, Input, InputGroup, useControllableState, useDisclosure } from "@chakra-ui/react";
 import { LatLng } from "leaflet";
 import { type ChangeEvent, useCallback, useEffect, useState } from "react";
 import { Marker, useMapEvent } from "react-leaflet";
 import { useKeyPressEvent } from "react-use";
+import { useErrorToast } from "@/hooks/useErrorToast";
+import { useFind } from "@/hooks/useFind";
+import { useGeneralSettings } from "@/hooks/useGeneralSettings";
+import { greenMarker } from "@/icons";
 import { useFocus } from "../../../hooks/useFocus";
 import { toLatLng } from "../../../services/osdatahub/helpers";
 import { type Response, type GazetteerEntry } from "../../../services/osdatahub/types";
@@ -50,17 +50,23 @@ export function SearchBox() {
     setSearchQuery("");
   }, []);
 
-  const handleChange = useCallback((e: ChangeEvent<HTMLInputElement>): void => {
-    resetSearch();
-    setValue(e.target.value);
-  }, []);
+  const handleChange = useCallback(
+    (e: ChangeEvent<HTMLInputElement>): void => {
+      resetSearch();
+      setValue(e.target.value);
+    },
+    [resetSearch, setValue]
+  );
 
-  const handleCancel = useCallback((e: { preventDefault: () => void }): void => {
-    e.preventDefault();
-    setValue("");
-    resetSearch();
-    onClose();
-  }, []);
+  const handleCancel = useCallback(
+    (e: KeyboardEvent) => {
+      e.preventDefault();
+      setValue("");
+      resetSearch();
+      onClose();
+    },
+    [onClose, resetSearch, setValue]
+  );
 
   const handleSearch = useCallback((): void => {
     if (!value.trim()) {
@@ -81,33 +87,35 @@ export function SearchBox() {
   );
 
   useEffect(() => {
-    if (isLoading) {
-      setSearching("busy");
-      return;
-    }
+    queueMicrotask(() => {
+      if (isLoading) {
+        setSearching("busy");
+        return;
+      }
 
-    if (error) {
-      setSearching("error");
-      return;
-    }
+      if (error) {
+        setSearching("error");
+        return;
+      }
 
-    if (!data || !searchQuery) {
-      return;
-    }
+      if (!data || !searchQuery) {
+        return;
+      }
 
-    if (data.header.totalresults === 0 || !data.results) {
-      setSearching("not-found");
-      setResponse(undefined);
-      return;
-    }
+      if (data.header.totalresults === 0 || !data.results) {
+        setSearching("not-found");
+        setResponse(undefined);
+        return;
+      }
 
-    if (data.header.totalresults > 1) {
-      setSearching("multiple");
-      setResponse(data);
-      return;
-    }
+      if (data.header.totalresults > 1) {
+        setSearching("multiple");
+        setResponse(data);
+        return;
+      }
 
-    handleSelect(data.results[0].gazetteerEntry);
+      handleSelect(data.results[0].gazetteerEntry);
+    });
   }, [data, error, isLoading, searchQuery, handleSelect]);
 
   useKeyPressEvent("/", onOpen);

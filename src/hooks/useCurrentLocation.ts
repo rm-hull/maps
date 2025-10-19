@@ -54,25 +54,28 @@ export function useCurrentLocation(duration: number = 180_000): UseCurrentLocati
     },
   });
 
-  const activate = useCallback((event?: MouseEvent<HTMLButtonElement>): void => {
-    event?.stopPropagation();
-    event?.preventDefault();
+  const activate = useCallback(
+    (event?: MouseEvent<HTMLButtonElement>): void => {
+      event?.stopPropagation();
+      event?.preventDefault();
 
-    map.locate({ enableHighAccuracy: true, watch: true });
+      map.locate({ enableHighAccuracy: true, watch: true });
 
-    clearTimeout(locationDetails.cancelTimerId);
-    const timerId = setTimeout(() => {
-      map.stopLocate();
-      setLocationDetails((prev) => ({ ...prev, active: false }));
-    }, duration);
+      clearTimeout(locationDetails.cancelTimerId);
+      const timerId = setTimeout(() => {
+        map.stopLocate();
+        setLocationDetails((prev) => ({ ...prev, active: false }));
+      }, duration);
 
-    setLocationDetails((prev) => ({
-      ...prev,
-      pending: true,
-      active: true,
-      cancelTimerId: timerId,
-    }));
-  }, []);
+      setLocationDetails((prev) => ({
+        ...prev,
+        pending: true,
+        active: true,
+        cancelTimerId: timerId,
+      }));
+    },
+    [duration, locationDetails.cancelTimerId, map]
+  );
 
   return { activate, location: locationDetails };
 }
