@@ -10,7 +10,7 @@ export function Search() {
   const { data, isLoading, error } = useFind(query ?? "bloerew", 10);
 
   if (error !== null) {
-    return <Notice header="Error">{error.message}</Notice>;
+    throw Error(error?.message);
   }
 
   if (isLoading || data === undefined) {
@@ -25,7 +25,7 @@ export function Search() {
     );
   }
 
-  if (data.header.totalresults === 0) {
+  if (data.header.totalresults === 0 || !data.results) {
     return <Notice header={"No results for: " + query} />;
   }
 

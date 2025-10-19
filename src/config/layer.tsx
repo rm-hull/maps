@@ -1,18 +1,53 @@
+import { createListCollection } from "@chakra-ui/react";
 import { LatLngBounds } from "leaflet";
-import { TileLayer } from "react-leaflet";
+import { TileLayer, WMSTileLayer } from "react-leaflet";
 import { CompanyDataLayer } from "../components/map/layers/custom/CompanyDataLayer";
 import { GeodsPointsOfInterestLayer } from "../components/map/layers/custom/GeodsPointsOfInterestLayer";
 import { GeographLayer } from "../components/map/layers/custom/GeographLayer";
 import { GpsRoutesLayer } from "../components/map/layers/custom/GpsRoutesLayer";
 import { PostcodePolygonsLayer } from "../components/map/layers/custom/PostcodePolygonsLayer";
+import { StreetManagerLayer } from "../components/map/layers/custom/StreetManagerLayer";
+import { WeatherLayer } from "../components/map/layers/custom/WeatherLayer";
+import { Scale } from "../components/map/Scale";
 
-type Tile = {
+const RAIN_RATE_SCALE = [
+  { color: "#FFFFFF00", value: "0" },
+  { color: "#80FFFF" },
+  { color: "#00FFFF", value: "0.2" },
+  { color: "#00C0FF" },
+  { color: "#0080FF", value: "1" },
+  { color: "#0040FF" },
+  { color: "#0000FF", value: "3" },
+  { color: "#0040C0" },
+  { color: "#008080", value: "5" },
+  { color: "#00C040" },
+  { color: "#00FF00", value: "7" },
+  { color: "#40FF00" },
+  { color: "#80FF00", value: "9" },
+  { color: "#C0FF00" },
+  { color: "#FFFF00", value: "15" },
+  { color: "#FFC000" },
+  { color: "#FF8000", value: "25" },
+  { color: "#FF6000" },
+  { color: "#FF4000", value: "35" },
+  { color: "#FF2000" },
+  { color: "#FF0000", value: "45" },
+  { color: "#C00000" },
+  { color: "#800000", value: "55" },
+  { color: "#800020" },
+  { color: "#800040" },
+  { color: "#800080", value: "150" },
+];
+
+export type Tile = {
+  type: "raster" | "vector";
   url: string;
   options?: L.TileLayerOptions;
 };
 
 export type LayerOption = {
   name: string;
+  provider: string;
   tiles: Tile[];
   attribution?: string;
 };
@@ -28,270 +63,347 @@ const OS_DATAHUB_API_KEY = import.meta.env.VITE_OS_DATAHUB_API_KEY as string | u
 const THUNDERFOREST_API_KEY = import.meta.env.VITE_THUNDERFOREST_API_KEY as string | undefined;
 const TOMTOM_API_KEY = import.meta.env.VITE_TOMTOM_API_KEY as string | undefined;
 
-function createLayer(name: string, url: string, options?: L.TileLayerOptions): LayerOption {
+function createRasterLayer(name: string, provider: string, url: string, options?: L.TileLayerOptions): LayerOption {
   return {
     name,
-    tiles: [{ url, options }],
+    tiles: [{ url, options, type: "raster" }],
+    provider,
   };
 }
 
-export const BASE_LAYERS: Record<string, LayerOption[]> = {
-  Carto: [
-    createLayer("Positron", "https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png"),
-    createLayer("Dark Matter", "https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png"),
-    createLayer("Voyager", "https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png"),
-  ],
-  ESRI: [
-    createLayer(
-      "World TopoMap",
-      "https://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}"
-    ),
-    createLayer(
-      "World Imagery",
-      "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}"
-    ),
-    createLayer(
-      "World Gray Canvas",
-      "https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}",
-      { maxNativeZoom: 16, maxZoom: 17 }
-    ),
-  ],
-  "Open Street Map": [
-    createLayer("OpenStreetMap", "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"),
-    createLayer("OpenTopoMap", "https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png", {
-      maxZoom: 15,
+function createVectorLayer(name: string, provider: string, url: string): LayerOption {
+  return {
+    name,
+    provider,
+    tiles: [
+      {
+        type: "vector",
+        url,
+      },
+    ],
+  };
+}
+
+const BASE_LAYERS: LayerOption[] = [
+  createRasterLayer("Positron", "Carto", "https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png"),
+  createRasterLayer("Dark Matter", "Carto", "https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png"),
+  createRasterLayer("Voyager", "Carto", "https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png"),
+
+  createRasterLayer(
+    "World TopoMap",
+    "ESRI",
+    "https://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}"
+  ),
+  createRasterLayer(
+    "World Imagery",
+    "ESRI",
+
+    "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}"
+  ),
+  createRasterLayer(
+    "World Gray Canvas",
+    "ESRI",
+    "https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}",
+    { maxNativeZoom: 16, maxZoom: 17 }
+  ),
+  {
+    name: "OpenFreeMap",
+    provider: "Open Street Map",
+    tiles: [
+      {
+        type: "vector",
+        url: "https://tiles.openfreemap.org/styles/liberty",
+      },
+    ],
+  },
+  createRasterLayer("OpenStreetMap", "Open Street Map", "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"),
+  createRasterLayer("OpenTopoMap", "Open Street Map", "https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png", {
+    maxZoom: 15,
+    maxNativeZoom: 15,
+    opacity: 0.8,
+  }),
+  createRasterLayer("CyclOSM", "Open Street Map", "https://{s}.tile-cyclosm.openstreetmap.fr/cyclosm/{z}/{x}/{y}.png"),
+  createRasterLayer("Humanitarian", "Open Street Map", "https://tile-c.openstreetmap.fr/hot/{z}/{x}/{y}.png"),
+  createRasterLayer(
+    "SLUB",
+    "Open Street Map",
+    "https://tile-4.kartenforum.slub-dresden.de/styles/maptiler-basic-v2/{z}/{x}/{y}{r}.png"
+  ),
+  createRasterLayer(
+    "Skobbler Night",
+    "Open Street Map",
+    "https://tiles2-bc7b4da77e971c12cb0e069bffcf2771.skobblermaps.com/TileService/tiles/2.0/01021113210/2/{z}/{x}/{y}.png{r}?traffic=false"
+  ),
+  {
+    name: "Leisure",
+    provider: "Ordnance Survey",
+    tiles: [
+      {
+        type: "raster",
+        url: `${VITE_MAPPROXY_BASE_URL}/mapproxy/wmts/wmts/leisure_3857/grid_3857/{z}/{x}/{y}.png`,
+        options: {
+          tileSize: 256,
+          maxZoom: 16,
+          maxNativeZoom: 15,
+          opacity: 0.8,
+        },
+      },
+      {
+        type: "raster",
+        url: `https://api.os.uk/maps/raster/v1/zxy/Road_3857/{z}/{x}/{y}.png?key=${OS_DATAHUB_API_KEY}`,
+        options: { minZoom: 17 },
+      },
+    ],
+  },
+  createRasterLayer(
+    "Roads",
+    "Ordnance Survey",
+    `https://api.os.uk/maps/raster/v1/zxy/Road_3857/{z}/{x}/{y}.png?key=${OS_DATAHUB_API_KEY}`,
+    {
+      minZoom: 17,
+    }
+  ),
+  createRasterLayer(
+    "Outdoor",
+    "Ordnance Survey",
+    `https://api.os.uk/maps/raster/v1/zxy/Outdoor_3857/{z}/{x}/{y}.png?key=${OS_DATAHUB_API_KEY}`,
+    { minZoom: 17 }
+  ),
+  createRasterLayer(
+    "Light",
+    "Ordnance Survey",
+    `https://api.os.uk/maps/raster/v1/zxy/Light_3857/{z}/{x}/{y}.png?key=${OS_DATAHUB_API_KEY}`,
+    {
+      minZoom: 17,
+    }
+  ),
+  createVectorLayer("Alidade Smooth", "Stadia", "https://tiles-eu.stadiamaps.com/styles/alidade_smooth.json"),
+  createVectorLayer("Alidade Smooth Dark", "Stadia", "https://tiles-eu.stadiamaps.com/styles/alidade_smooth_dark.json"),
+  createVectorLayer("OSMBright", "Stadia", "https://tiles-eu.stadiamaps.com/styles/osm_bright.json"),
+  createVectorLayer("Stamen Toner", "Stadia", "https://tiles-eu.stadiamaps.com/styles/stamen_toner.json"),
+  createVectorLayer("Stamen Watercolor", "Stadia", "https://tiles-eu.stadiamaps.com/styles/stamen_watercolor.json"),
+  createVectorLayer("Terrain", "Stadia", "https://tiles-eu.stadiamaps.com/styles/stamen_terrain.json"),
+  createRasterLayer(
+    "Atlas",
+    "Thunderforest",
+    `https://{s}.tile.thunderforest.com/atlas/{z}/{x}/{y}{r}.png?apikey=${THUNDERFOREST_API_KEY}`
+  ),
+  createRasterLayer(
+    "Cycle",
+    "Thunderforest",
+    `https://{s}.tile.thunderforest.com/cycle/{z}/{x}/{y}{r}.png?apikey=${THUNDERFOREST_API_KEY}`
+  ),
+
+  createRasterLayer(
+    "Landscape",
+    "Thunderforest",
+    `https://{s}.tile.thunderforest.com/landscape/{z}/{x}/{y}{r}.png?apikey=${THUNDERFOREST_API_KEY}`
+  ),
+  createRasterLayer(
+    "Mobile Atlas",
+    "Thunderforest",
+    `https://{s}.tile.thunderforest.com/mobile-atlas/{z}/{x}/{y}{r}.png?apikey=${THUNDERFOREST_API_KEY}`
+  ),
+  createRasterLayer(
+    "Neighbourhood",
+    "Thunderforest",
+    `https://{s}.tile.thunderforest.com/neighbourhood/{z}/{x}/{y}{r}.png?apikey=${THUNDERFOREST_API_KEY}`
+  ),
+  createRasterLayer(
+    "Outdoors",
+    "Thunderforest",
+    `https://{s}.tile.thunderforest.com/outdoors/{z}/{x}/{y}{r}.png?apikey=${THUNDERFOREST_API_KEY}`
+  ),
+  createRasterLayer(
+    "Transport",
+    "Thunderforest",
+    `https://{s}.tile.thunderforest.com/transport/{z}/{x}/{y}{r}.png?apikey=${THUNDERFOREST_API_KEY}`
+  ),
+
+  createRasterLayer(
+    "OS 1:25,000 1937-1961",
+    "Historical",
+    "https://api.maptiler.com/tiles/uk-osgb25k1937/{z}/{x}/{y}.jpg?key=7Y0Q1ck46BnB8cXXXg8X",
+    { maxNativeZoom: 16 }
+  ),
+  createRasterLayer(
+    "OS One Inch, 1885-1900",
+    "https://mapseries-tilesets.s3.amazonaws.com/1inch_2nd_ed/{z}/{x}/{y}.png",
+    "Historical",
+    { maxNativeZoom: 16 }
+  ),
+  {
+    name: "OS 25 Inch, 1892-1914",
+    provider: "Historical",
+    tiles: [
+      { type: "raster", url: "https://mapseries-tilesets.s3.amazonaws.com/25_inch/lincolnshire/{z}/{x}/{y}.png" },
+      { type: "raster", url: "https://mapseries-tilesets.s3.amazonaws.com/25_inch/nottinghamshire/{z}/{x}/{y}.png" },
+      { type: "raster", url: "https://geo.nls.uk/mapdata3/os/25_inch/lancashire/{z}/{x}/{y}.png" },
+      { type: "raster", url: "https://mapseries-tilesets.s3.amazonaws.com/25_inch/yorkshire/{z}/{x}/{y}.png" },
+      { type: "raster", url: "https://mapseries-tilesets.s3.amazonaws.com/25_inch/Shrop_Derby/{z}/{x}/{y}.png" },
+      {
+        type: "raster",
+        url: "https://mapseries-tilesets.s3.amazonaws.com/25_inch/25_inch_holes_england/{z}/{x}/{y}.png",
+      },
+      { type: "raster", url: "https://mapseries-tilesets.s3.amazonaws.com/channel-islands/25-inch/{z}/{x}/{y}.png" },
+      { type: "raster", url: "https://mapseries-tilesets.s3.amazonaws.com/25_inch/wiltshire2nd/{z}/{x}/{y}.png" },
+      { type: "raster", url: "https://mapseries-tilesets.s3.amazonaws.com/25_inch/suffolk/{z}/{x}/{y}.png" },
+      { type: "raster", url: "https://mapseries-tilesets.s3.amazonaws.com/25_inch/cambridge/{z}/{x}/{y}.png" },
+      { type: "raster", url: "https://mapseries-tilesets.s3.amazonaws.com/25_inch/devon2nd/{z}/{x}/{y}.png" },
+      { type: "raster", url: "https://mapseries-tilesets.s3.amazonaws.com/25_inch/sussex/{z}/{x}/{y}.png" },
+      { type: "raster", url: "https://mapseries-tilesets.s3.amazonaws.com/25_inch/bedfordshire/{z}/{x}/{y}.png" },
+      { type: "raster", url: "https://mapseries-tilesets.s3.amazonaws.com/25_inch/dorset/{z}/{x}/{y}.png" },
+      { type: "raster", url: "https://mapseries-tilesets.s3.amazonaws.com/25_inch/london/{z}/{x}/{y}.png" },
+      { type: "raster", url: "https://mapseries-tilesets.s3.amazonaws.com/25_inch/kent/{z}/{x}/{y}.png" },
+      { type: "raster", url: "https://mapseries-tilesets.s3.amazonaws.com/25_inch/northumberland/{z}/{x}/{y}.png" },
+      { type: "raster", url: "https://mapseries-tilesets.s3.amazonaws.com/25_inch/hampshire/{z}/{x}/{y}.png" },
+      { type: "raster", url: "https://geo.nls.uk/mapdata3/os/25_inch/great-yarmouth-addition/{z}/{x}/{y}.png" },
+      { type: "raster", url: "https://mapseries-tilesets.s3.amazonaws.com/25_inch/berkshire/{z}/{x}/{y}.png" },
+      { type: "raster", url: "https://geo.nls.uk/mapdata3/os/25_inch_holes_england/104194125/{z}/{x}/{y}.png" },
+      { type: "raster", url: "https://geo.nls.uk/mapdata3/os/25_inch_holes_england/104194119/{z}/{x}/{y}.png" },
+      { type: "raster", url: "https://geo.nls.uk/mapdata3/os/25_inch_holes_england/135198775/{z}/{x}/{y}.png" },
+      { type: "raster", url: "https://mapseries-tilesets.s3.amazonaws.com/25_inch/middlesex/{z}/{x}/{y}.png" },
+      { type: "raster", url: "https://mapseries-tilesets.s3.amazonaws.com/25_inch/surrey/{z}/{x}/{y}.png" },
+      { type: "raster", url: "https://mapseries-tilesets.s3.amazonaws.com/25_inch/newcastle_addition/{z}/{x}/{y}.png" },
+      { type: "raster", url: "https://mapseries-tilesets.s3.amazonaws.com/25_inch/cornwall/{z}/{x}/{y}.png" },
+      { type: "raster", url: "https://mapseries-tilesets.s3.amazonaws.com/25_inch/huntingdon/{z}/{x}/{y}.png" },
+      { type: "raster", url: "https://mapseries-tilesets.s3.amazonaws.com/25_inch/rutland/{z}/{x}/{y}.png" },
+      { type: "raster", url: "https://geo.nls.uk/mapdata3/os/25_inch_holes_england/103683170/{z}/{x}/{y}.png" },
+      { type: "raster", url: "https://mapseries-tilesets.s3.amazonaws.com/25_inch/essex/{z}/{x}/{y}.png" },
+      { type: "raster", url: "https://mapseries-tilesets.s3.amazonaws.com/25_inch/hertfordshire/{z}/{x}/{y}.png" },
+      { type: "raster", url: "https://mapseries-tilesets.s3.amazonaws.com/25_inch/somerset/{z}/{x}/{y}.png" },
+      { type: "raster", url: "https://geo.nls.uk/mapdata3/os/25_inch/132280016/{z}/{x}/{y}.png" },
+      { type: "raster", url: "https://geo.nls.uk/mapdata3/os/25_inch/edinburgh_west/{z}/{x}/{y}.png" },
+      { type: "raster", url: "https://mapseries-tilesets.s3.amazonaws.com/25_inch/hertfordshire/{z}/{x}/{y}.png" },
+      { type: "raster", url: "https://geo.nls.uk/mapdata3/os/25_inch_holes_england/103676684/{z}/{x}/{y}.png" },
+      { type: "raster", url: "https://mapseries-tilesets.s3.amazonaws.com/25_inch/london/{z}/{x}/{y}.png" },
+      { type: "raster", url: "https://geo.nls.uk/mapdata3/os/25_inch_holes_england/104194125/{z}/{x}/{y}.png" },
+    ],
+  },
+  {
+    name: "OS 1:1,250 A,B,C ed., 1948-1973",
+    provider: "Historical",
+    tiles: [
+      { type: "raster", url: "https://geo.nls.uk/mapdata3/os/1250_A_1/{z}/{x}/{y}.png" },
+      { type: "raster", url: "https://geo.nls.uk/maps/os/1250_B_1eng/{z}/{x}/{y}.png" },
+      { type: "raster", url: "https://geo.nls.uk/maps/os/1250_C/{x}/{y}.png" },
+    ],
+  },
+  {
+    name: "OS 1:2,500 A ed., 1948-1974",
+    provider: "Historical",
+    tiles: [
+      { type: "raster", url: "https://geo.nls.uk/maps/os/2500_A_3D/{z}/{x}/{y}.png" },
+      { type: "raster", url: "https://geo.nls.uk/mapdata2/os/2500_A_1D/{z}/{x}/{y}.png" },
+      { type: "raster", url: "https://geo.nls.uk/mapdata2/os/2500_A_1S/{z}/{x}/{y}.png" },
+      { type: "raster", url: "https://geo.nls.uk/mapdata2/os/2500_A_2D/{z}/{x}/{y}.png" },
+      { type: "raster", url: "https://geo.nls.uk/mapdata2/os/2500_A_3S/{z}/{x}/{y}.png" },
+      { type: "raster", url: "https://geo.nls.uk/mapdata2/os/2500_A_4S/{z}/{x}/{y}.png" },
+      { type: "raster", url: "https://geo.nls.uk/mapdata2/os/2500_A_6D/{z}/{x}/{y}.png" },
+      { type: "raster", url: "https://geo.nls.uk/mapdata3/os/2500_1974/{z}/{x}/{y}.png" },
+    ],
+  },
+
+  createRasterLayer(
+    "England and Wales - OS One Inch, 1945-47",
+    "Historical",
+    "https://mapseries-tilesets.s3.amazonaws.com/os/newpopular/{z}/{x}/{y}.png",
+    { maxNativeZoom: 16 }
+  ),
+
+  createRasterLayer(
+    "OS Six Inch, 1888-1913",
+    "Historical",
+    "https://mapseries-tilesets.s3.amazonaws.com/os/6inchsecond/{z}/{x}/{y}.png",
+    // { tileSize: 512 }
+    { maxNativeZoom: 17 }
+  ),
+
+  createRasterLayer(
+    "OS 1:1,250 Air Photos, 1944-50",
+    "Historical",
+    "https://mapseries-tilesets.s3.amazonaws.com/air-photos-1250/{z}/{x}/{y}.png"
+  ),
+
+  createRasterLayer(
+    "OS 1:1m to 1:63K, 1920s-1940s",
+    "Historical",
+    "https://mapseries-tilesets.s3.amazonaws.com/api/nls/{z}/{x}/{y}.jpg",
+    // { tileSize: 512 }
+    { maxNativeZoom: 14 }
+  ),
+
+  createRasterLayer(
+    "OS 10 mile, Admin Areas, 1956",
+    "Historical",
+    "https://mapseries-tilesets.s3.amazonaws.com/ten_mile/admin/{z}/{x}/{y}.png",
+    { maxNativeZoom: 12 }
+  ),
+
+  createRasterLayer(
+    "2nd Land Utilization Svy., 1:10k 1960s",
+    "Historical",
+    "https://geo.nls.uk/mapdata2/lus_10k/{z}/{x}/{y}.png",
+    {
+      maxNativeZoom: 16,
+    }
+  ),
+
+  createRasterLayer(
+    "Geology One Inch, 1940s-1955",
+    "Historical",
+    "https://mapseries-tilesets.s3.amazonaws.com/geological/oneinch2025/{z}/{x}/{y}.png"
+  ),
+
+  createRasterLayer(
+    "35.Scapa Flow North, 1944",
+    "Historical",
+    "https://mapseries-tilesets.s3.amazonaws.com/ad_chart_2/101942045/{z}/{x}/{y}.png"
+  ),
+  createRasterLayer(
+    "Bartholomew Half Inch 1897-1907",
+    "Historical",
+    "https://mapseries-tilesets.s3.amazonaws.com/bartholomew_great_britain/{z}/{x}/{y}.png",
+    {
       maxNativeZoom: 15,
-      opacity: 0.8,
-    }),
-    createLayer("CyclOSM", "https://{s}.tile-cyclosm.openstreetmap.fr/cyclosm/{z}/{x}/{y}.png"),
-    createLayer("Humanitarian", "https://tile-c.openstreetmap.fr/hot/{z}/{x}/{y}.png"),
-    createLayer("SLUB", "https://tile-4.kartenforum.slub-dresden.de/styles/maptiler-basic-v2/{z}/{x}/{y}{r}.png"),
-    createLayer(
-      "Skobbler Night",
-      "https://tiles2-bc7b4da77e971c12cb0e069bffcf2771.skobblermaps.com/TileService/tiles/2.0/01021113210/2/{z}/{x}/{y}.png{r}?traffic=false"
-    ),
-  ],
-  "Ordnance Survey": [
+    }
+  ),
+  createRasterLayer(
+    "OS One Inch, 1919-1926 (Regular)",
+    "Historical",
+    "https://mapseries-tilesets.s3.amazonaws.com/os/popular-england/{z}/{x}/{y}.png",
+    { maxNativeZoom: 15 }
+  ),
+  createRasterLayer(
+    "Bartholomew Half Inch 1940-1947",
+    "Historical",
+    "https://mapseries-tilesets.s3.amazonaws.com/bartholomew/great_britain_1940s/{z}/{x}/{y}.png",
     {
-      name: "Leisure",
-      tiles: [
-        {
-          url: `${VITE_MAPPROXY_BASE_URL}/mapproxy/wmts/wmts/leisure_3857/grid_3857/{z}/{x}/{y}.png`,
-          options: {
-            tileSize: 256,
-            maxZoom: 16,
-            maxNativeZoom: 15,
-            opacity: 0.8,
-          },
-        },
-        {
-          url: `https://api.os.uk/maps/raster/v1/zxy/Road_3857/{z}/{x}/{y}.png?key=${OS_DATAHUB_API_KEY}`,
-          options: { minZoom: 17 },
-        },
-      ],
-    },
-    createLayer("Roads", `https://api.os.uk/maps/raster/v1/zxy/Road_3857/{z}/{x}/{y}.png?key=${OS_DATAHUB_API_KEY}`, {
-      minZoom: 17,
-    }),
-    createLayer(
-      "Outdoor",
-      `https://api.os.uk/maps/raster/v1/zxy/Outdoor_3857/{z}/{x}/{y}.png?key=${OS_DATAHUB_API_KEY}`,
-      { minZoom: 17 }
-    ),
-    createLayer("Light", `https://api.os.uk/maps/raster/v1/zxy/Light_3857/{z}/{x}/{y}.png?key=${OS_DATAHUB_API_KEY}`, {
-      minZoom: 17,
-    }),
-  ],
-  Stadia: [
-    createLayer("Alidade Satellite", "https://tiles.stadiamaps.com/tiles/alidade_satellite/{z}/{x}/{y}{r}.png"),
-    createLayer("Alidade Smooth Dark", "https://tiles.stadiamaps.com/tiles/alidade_smooth_dark/{z}/{x}/{y}{r}.png"),
-    createLayer("OSMBright", "https://tiles.stadiamaps.com/tiles/osm_bright/{z}/{x}/{y}{r}.png"),
-    createLayer("Stamen Toner", "https://tiles.stadiamaps.com/tiles/stamen_toner/{z}/{x}/{y}{r}.png"),
-    createLayer("Stamen Watercolor", "https://tiles.stadiamaps.com/tiles/stamen_watercolor/{z}/{x}/{y}.png"),
-  ],
-  Thunderforest: [
-    createLayer("Atlas", `https://{s}.tile.thunderforest.com/atlas/{z}/{x}/{y}{r}.png?apikey=${THUNDERFOREST_API_KEY}`),
-    createLayer("Cycle", `https://{s}.tile.thunderforest.com/cycle/{z}/{x}/{y}{r}.png?apikey=${THUNDERFOREST_API_KEY}`),
+      maxNativeZoom: 14,
+    }
+  ),
 
-    createLayer(
-      "Landscape",
-      `https://{s}.tile.thunderforest.com/landscape/{z}/{x}/{y}{r}.png?apikey=${THUNDERFOREST_API_KEY}`
-    ),
-    createLayer(
-      "Mobile Atlas",
-      `https://{s}.tile.thunderforest.com/mobile-atlas/{z}/{x}/{y}{r}.png?apikey=${THUNDERFOREST_API_KEY}`
-    ),
-    createLayer(
-      "Neighbourhood",
-      `https://{s}.tile.thunderforest.com/neighbourhood/{z}/{x}/{y}{r}.png?apikey=${THUNDERFOREST_API_KEY}`
-    ),
-    createLayer(
-      "Outdoors",
-      `https://{s}.tile.thunderforest.com/outdoors/{z}/{x}/{y}{r}.png?apikey=${THUNDERFOREST_API_KEY}`
-    ),
-    createLayer(
-      "Transport",
-      `https://{s}.tile.thunderforest.com/transport/{z}/{x}/{y}{r}.png?apikey=${THUNDERFOREST_API_KEY}`
-    ),
-  ],
-  "Historic Maps": [
-    createLayer(
-      "OS 1:25,000 1937-1961",
-      "https://api.maptiler.com/tiles/uk-osgb25k1937/{z}/{x}/{y}.jpg?key=7Y0Q1ck46BnB8cXXXg8X",
-      { maxNativeZoom: 16 }
-    ),
-    createLayer("OS One Inch, 1885-1900", "https://mapseries-tilesets.s3.amazonaws.com/1inch_2nd_ed/{z}/{x}/{y}.png", {
-      maxNativeZoom: 16,
-    }),
-    {
-      name: "OS 25 Inch, 1892-1914",
-      tiles: [
-        { url: "https://mapseries-tilesets.s3.amazonaws.com/25_inch/lincolnshire/{z}/{x}/{y}.png" },
-        { url: "https://mapseries-tilesets.s3.amazonaws.com/25_inch/nottinghamshire/{z}/{x}/{y}.png" },
-        { url: "https://geo.nls.uk/mapdata3/os/25_inch/lancashire/{z}/{x}/{y}.png" },
-        { url: "https://mapseries-tilesets.s3.amazonaws.com/25_inch/yorkshire/{z}/{x}/{y}.png" },
-        { url: "https://mapseries-tilesets.s3.amazonaws.com/25_inch/Shrop_Derby/{z}/{x}/{y}.png" },
-        { url: "https://mapseries-tilesets.s3.amazonaws.com/25_inch/25_inch_holes_england/{z}/{x}/{y}.png" },
-        { url: "https://mapseries-tilesets.s3.amazonaws.com/channel-islands/25-inch/{z}/{x}/{y}.png" },
-        { url: "https://mapseries-tilesets.s3.amazonaws.com/25_inch/wiltshire2nd/{z}/{x}/{y}.png" },
-        { url: "https://mapseries-tilesets.s3.amazonaws.com/25_inch/suffolk/{z}/{x}/{y}.png" },
-        { url: "https://mapseries-tilesets.s3.amazonaws.com/25_inch/cambridge/{z}/{x}/{y}.png" },
-        { url: "https://mapseries-tilesets.s3.amazonaws.com/25_inch/devon2nd/{z}/{x}/{y}.png" },
-        { url: "https://mapseries-tilesets.s3.amazonaws.com/25_inch/sussex/{z}/{x}/{y}.png" },
-        { url: "https://mapseries-tilesets.s3.amazonaws.com/25_inch/bedfordshire/{z}/{x}/{y}.png" },
-        { url: "https://mapseries-tilesets.s3.amazonaws.com/25_inch/dorset/{z}/{x}/{y}.png" },
-        { url: "https://mapseries-tilesets.s3.amazonaws.com/25_inch/london/{z}/{x}/{y}.png" },
-        { url: "https://mapseries-tilesets.s3.amazonaws.com/25_inch/kent/{z}/{x}/{y}.png" },
-        { url: "https://mapseries-tilesets.s3.amazonaws.com/25_inch/northumberland/{z}/{x}/{y}.png" },
-        { url: "https://mapseries-tilesets.s3.amazonaws.com/25_inch/hampshire/{z}/{x}/{y}.png" },
-        { url: "https://geo.nls.uk/mapdata3/os/25_inch/great-yarmouth-addition/{z}/{x}/{y}.png" },
-        { url: "https://mapseries-tilesets.s3.amazonaws.com/25_inch/berkshire/{z}/{x}/{y}.png" },
-        { url: "https://geo.nls.uk/mapdata3/os/25_inch_holes_england/104194125/{z}/{x}/{y}.png" },
-        { url: "https://geo.nls.uk/mapdata3/os/25_inch_holes_england/104194119/{z}/{x}/{y}.png" },
-        { url: "https://geo.nls.uk/mapdata3/os/25_inch_holes_england/135198775/{z}/{x}/{y}.png" },
-        { url: "https://mapseries-tilesets.s3.amazonaws.com/25_inch/middlesex/{z}/{x}/{y}.png" },
-        { url: "https://mapseries-tilesets.s3.amazonaws.com/25_inch/surrey/{z}/{x}/{y}.png" },
-        { url: "https://mapseries-tilesets.s3.amazonaws.com/25_inch/newcastle_addition/{z}/{x}/{y}.png" },
-        { url: "https://mapseries-tilesets.s3.amazonaws.com/25_inch/cornwall/{z}/{x}/{y}.png" },
-        { url: "https://mapseries-tilesets.s3.amazonaws.com/25_inch/huntingdon/{z}/{x}/{y}.png" },
-        { url: "https://mapseries-tilesets.s3.amazonaws.com/25_inch/rutland/{z}/{x}/{y}.png" },
-        { url: "https://geo.nls.uk/mapdata3/os/25_inch_holes_england/103683170/{z}/{x}/{y}.png" },
-        { url: "https://mapseries-tilesets.s3.amazonaws.com/25_inch/essex/{z}/{x}/{y}.png" },
-        { url: "https://mapseries-tilesets.s3.amazonaws.com/25_inch/hertfordshire/{z}/{x}/{y}.png" },
-        { url: "https://mapseries-tilesets.s3.amazonaws.com/25_inch/somerset/{z}/{x}/{y}.png" },
-        { url: "https://geo.nls.uk/mapdata3/os/25_inch/132280016/{z}/{x}/{y}.png" },
-        { url: "https://geo.nls.uk/mapdata3/os/25_inch/edinburgh_west/{z}/{x}/{y}.png" },
-        { url: "https://mapseries-tilesets.s3.amazonaws.com/25_inch/hertfordshire/{z}/{x}/{y}.png" },
-        { url: "https://geo.nls.uk/mapdata3/os/25_inch_holes_england/103676684/{z}/{x}/{y}.png" },
-        { url: "https://mapseries-tilesets.s3.amazonaws.com/25_inch/london/{z}/{x}/{y}.png" },
-        { url: "https://geo.nls.uk/mapdata3/os/25_inch_holes_england/104194125/{z}/{x}/{y}.png" },
-      ],
-    },
-    {
-      name: "OS 1:1,250 A,B,C ed., 1948-1973",
-      tiles: [
-        { url: "https://geo.nls.uk/mapdata3/os/1250_A_1/{z}/{x}/{y}.png" },
-        { url: "https://geo.nls.uk/maps/os/1250_B_1eng/{z}/{x}/{y}.png" },
-        { url: "https://geo.nls.uk/maps/os/1250_C/{x}/{y}.png" },
-      ],
-    },
-    {
-      name: "OS 1:2,500 A ed., 1948-1974",
-      tiles: [
-        { url: "https://geo.nls.uk/maps/os/2500_A_3D/{z}/{x}/{y}.png" },
-        { url: "https://geo.nls.uk/mapdata2/os/2500_A_1D/{z}/{x}/{y}.png" },
-        { url: "https://geo.nls.uk/mapdata2/os/2500_A_1S/{z}/{x}/{y}.png" },
-        { url: "https://geo.nls.uk/mapdata2/os/2500_A_2D/{z}/{x}/{y}.png" },
-        { url: "https://geo.nls.uk/mapdata2/os/2500_A_3S/{z}/{x}/{y}.png" },
-        { url: "https://geo.nls.uk/mapdata2/os/2500_A_4S/{z}/{x}/{y}.png" },
-        { url: "https://geo.nls.uk/mapdata2/os/2500_A_6D/{z}/{x}/{y}.png" },
-        { url: "https://geo.nls.uk/mapdata3/os/2500_1974/{z}/{x}/{y}.png" },
-      ],
-    },
+  createRasterLayer(
+    "Bartholomew World, 1881",
+    "Historical",
+    "https://mapseries-tilesets.s3.amazonaws.com/bartholomew-world/{z}/{x}/{y}.png",
+    { maxNativeZoom: 7 }
+  ),
 
-    createLayer(
-      "England and Wales - OS One Inch, 1945-47",
-      "https://mapseries-tilesets.s3.amazonaws.com/os/newpopular/{z}/{x}/{y}.png",
-      { maxNativeZoom: 16 }
-    ),
+  createRasterLayer(
+    "Arrowsmith World, 1790",
+    "Historical",
+    "https://mapseries-tilesets.s3.amazonaws.com/mapdata3/100611144/{z}/{x}/{y}.png",
+    { maxNativeZoom: 8 }
+  ),
 
-    createLayer(
-      "OS Six Inch, 1888-1913",
-      "https://mapseries-tilesets.s3.amazonaws.com/os/6inchsecond/{z}/{x}/{y}.png",
-      // { tileSize: 512 }
-      { maxNativeZoom: 17 }
-    ),
-
-    createLayer(
-      "OS 1:1,250 Air Photos, 1944-50",
-      "https://mapseries-tilesets.s3.amazonaws.com/air-photos-1250/{z}/{x}/{y}.png"
-    ),
-
-    createLayer(
-      "OS 1:1m to 1:63K, 1920s-1940s",
-      "https://mapseries-tilesets.s3.amazonaws.com/api/nls/{z}/{x}/{y}.jpg",
-      // { tileSize: 512 }
-      { maxNativeZoom: 14 }
-    ),
-
-    createLayer(
-      "OS 10 mile, Admin Areas, 1956",
-      "https://mapseries-tilesets.s3.amazonaws.com/ten_mile/admin/{z}/{x}/{y}.png",
-      { maxNativeZoom: 12 }
-    ),
-
-    createLayer("2nd Land Utilization Svy., 1:10k 1960s", "https://geo.nls.uk/mapdata2/lus_10k/{z}/{x}/{y}.png", {
-      maxNativeZoom: 16,
-    }),
-
-    createLayer(
-      "Geology One Inch, 1940s-1955",
-      "https://mapseries-tilesets.s3.amazonaws.com/geological/oneinch2025/{z}/{x}/{y}.png"
-    ),
-
-    createLayer(
-      "35.Scapa Flow North, 1944",
-      "https://mapseries-tilesets.s3.amazonaws.com/ad_chart_2/101942045/{z}/{x}/{y}.png"
-    ),
-    createLayer(
-      "Bartholomew Half Inch 1897-1907",
-      "https://mapseries-tilesets.s3.amazonaws.com/bartholomew_great_britain/{z}/{x}/{y}.png",
-      {
-        maxNativeZoom: 15,
-      }
-    ),
-    createLayer(
-      "OS One Inch, 1919-1926 (Regular)",
-      "https://mapseries-tilesets.s3.amazonaws.com/os/popular-england/{z}/{x}/{y}.png",
-      { maxNativeZoom: 15 }
-    ),
-    createLayer(
-      "Bartholomew Half Inch 1940-1947",
-      "https://mapseries-tilesets.s3.amazonaws.com/bartholomew/great_britain_1940s/{z}/{x}/{y}.png",
-      {
-        maxNativeZoom: 14,
-      }
-    ),
-
-    createLayer(
-      "Bartholomew World, 1881",
-      "https://mapseries-tilesets.s3.amazonaws.com/bartholomew-world/{z}/{x}/{y}.png",
-      { maxNativeZoom: 7 }
-    ),
-
-    createLayer(
-      "Arrowsmith World, 1790",
-      "https://mapseries-tilesets.s3.amazonaws.com/mapdata3/100611144/{z}/{x}/{y}.png",
-      { maxNativeZoom: 8 }
-    ),
-
-    createLayer(
-      "Times Survey Atlas, 1920",
-      "https://mapseries-tilesets.s3.amazonaws.com/tsa/layer_05/{z}/{x}/{y}.png",
-      { maxNativeZoom: 12 }
-    ),
-  ],
-};
+  createRasterLayer(
+    "Times Survey Atlas, 1920",
+    "Historical",
+    "https://mapseries-tilesets.s3.amazonaws.com/tsa/layer_05/{z}/{x}/{y}.png",
+    { maxNativeZoom: 12 }
+  ),
+];
 
 export const OVERLAYS: Record<string, Overlay> = {
   "GPS Routes": { minZoom: 10, component: GpsRoutesLayer },
@@ -299,6 +411,7 @@ export const OVERLAYS: Record<string, Overlay> = {
   "GeoDS POI": { minZoom: 14, component: GeodsPointsOfInterestLayer },
   "Company Data": { minZoom: 16, component: CompanyDataLayer },
   Postcodes: { minZoom: 11, component: PostcodePolygonsLayer },
+  "Street Manager": { minZoom: 15, component: StreetManagerLayer },
   "Waymarked Hiking Trails": {
     minZoom: 6,
     component: () => (
@@ -343,7 +456,7 @@ export const OVERLAYS: Record<string, Overlay> = {
     minZoom: 6,
     component: () => (
       <TileLayer
-        url="https://tiles.stadiamaps.com/tiles/stamen_toner_lines/{z}/{x}/{y}{r}.png"
+        url="https://tiles-eu.stadiamaps.com/tiles/stamen_toner_lines/{z}/{x}/{y}{r}.png"
         pane="overlayPane"
         zIndex={650}
       />
@@ -354,7 +467,7 @@ export const OVERLAYS: Record<string, Overlay> = {
     minZoom: 6,
     component: () => (
       <TileLayer
-        url="https://tiles.stadiamaps.com/tiles/stamen_toner_labels/{z}/{x}/{y}{r}.png"
+        url="https://tiles-eu.stadiamaps.com/tiles/stamen_toner_labels/{z}/{x}/{y}{r}.png"
         pane="overlayPane"
         zIndex={655}
       />
@@ -363,11 +476,11 @@ export const OVERLAYS: Record<string, Overlay> = {
 
   "NASA (GIBS) Snow Cover": {
     minZoom: 6,
-    maxZoom: 8,
     component: () => (
+      // https://gibs.earthdata.nasa.gov/wms/epsg3857/best/wms.cgi?width=392&height=827&bbox=-171077.81664331246%2C7163686.040024497%2C-170609.6398451053%2C7164673.749749286&crs=EPSG%3A3857&format=image%2Fpng&request=GetMap&service=WMS&styles=&transparent=TRUE&version=1.3.0&layers=MODIS_Aqua_L3_NDSI_Snow_Cover_Daily%2CMODIS_Aqua_L3_Snow_Cover_Monthly_Average_Pct%2CMODIS_Aqua_NDSI_Snow_Cover%2CMODIS_Terra_L3_NDSI_Snow_Cover_Daily%2CMODIS_Terra_L3_Snow_Cover_Monthly_Average_Pct%2CMODIS_Terra_NDSI_Snow_Cover&time=1948-01-01T00%3A00%3A00Z%2F1955-10-09T19%3A12%3A00Z
       <TileLayer
-        url="https://map1.vis.earthdata.nasa.gov/wmts-webmerc/MODIS_Terra_NDSI_Snow_Cover/default/GoogleMapsCompatible_Level{maxZoom}/{z}/{y}/{x}.png"
-        maxZoom={8}
+        url="https://map1.vis.earthdata.nasa.gov/wmts-webmerc/MODIS_Terra_NDSI_Snow_Cover/default/GoogleMapsCompatible_Level8/{z}/{y}/{x}.png"
+        maxNativeZoom={8}
         pane="overlayPane"
         zIndex={650}
       />
@@ -396,4 +509,65 @@ export const OVERLAYS: Record<string, Overlay> = {
       />
     ),
   },
+
+  "MetOffice Rain Forecast": {
+    minZoom: 6,
+    component: () => (
+      <WeatherLayer
+        url="https://api.destructuring-bind.org/v1/metoffice/datahub/total_precipitation_rate/{y}/{m}/{d}/{h}.png"
+        zIndex={660}
+        scale={<Scale label="Rain (mm/h):" values={RAIN_RATE_SCALE} />}
+      />
+    ),
+  },
+  "MetOffice Cloud Cover": {
+    minZoom: 6,
+    component: () => (
+      <WeatherLayer
+        url="https://api.destructuring-bind.org/v1/metoffice/datahub/cloud_amount_total/{y}/{m}/{d}/{h}.png"
+        zIndex={659}
+        opacity={0.8}
+        scale={
+          <Scale
+            label="Cloud Cover (%):"
+            width={30}
+            values={[
+              { color: "#00000000", value: "0" },
+              { color: "#FFFFFF40", value: "25" },
+              { color: "#FFFFFF80", value: "50" },
+              { color: "#FFFFFF8B", value: "75" },
+              { color: "#FFFFFF", value: "100" },
+            ]}
+          />
+        }
+      />
+    ),
+  },
+  "DEFRA Flood Risk": {
+    minZoom: 6,
+    component: () => (
+      <WMSTileLayer
+        url="https://api.agrimetrics.co.uk/geoservices/datasets/f3d63ec5-a21a-49fb-803a-0fa0fb7238b6/wms"
+        params={{
+          service: "WMS",
+          version: "1.1.1",
+          request: "GetMap",
+          width: 256,
+          height: 256,
+          layers: "Flood_Risk_Areas",
+          format: "image/png",
+          transparent: true,
+        }}
+        pane="overlayPane"
+        zIndex={650}
+      />
+    ),
+  },
 };
+
+export const baseLayers = createListCollection({
+  items: BASE_LAYERS,
+  groupBy: (item) => item.provider,
+  itemToString: (item) => item.name,
+  itemToValue: (item) => `${item.provider} / ${item.name}`,
+});

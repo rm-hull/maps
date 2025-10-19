@@ -1,5 +1,5 @@
+import { useLocalStorage } from "@rm-hull/use-local-storage";
 import { type LatLngTuple } from "leaflet";
-import { useLocalStorage } from "./useLocalStorage";
 
 export type InitialLocation = "default" | "current" | "custom";
 
@@ -15,12 +15,24 @@ export interface GeneralSettings {
   initialZoomLevel?: number;
   showZoomLevel?: boolean;
   overlays?: Record<string, boolean>;
+  maxSearchResults?: number;
+  gpsActiveDuration?: number;
 }
 
 export const DEFAULT_ZOOM_LEVEL = 13;
+export const DEFAULT_GPS_ACTIVE_DURATION = 180_000; // 3 minutes
 
-type UseGeneralSettingsReturnType = [GeneralSettings | undefined, (value: GeneralSettings | undefined) => void];
+type UseGeneralSettingsReturnType = {
+  settings: GeneralSettings | undefined;
+  updateSettings: (value: GeneralSettings | undefined) => void;
+  isLoading: boolean;
+};
 
 export function useGeneralSettings(): UseGeneralSettingsReturnType {
-  return useLocalStorage<GeneralSettings>("maps.general-settings");
+  const { value, setValue, isLoading } = useLocalStorage<GeneralSettings>("maps.general-settings");
+  return {
+    settings: value,
+    updateSettings: setValue,
+    isLoading,
+  };
 }

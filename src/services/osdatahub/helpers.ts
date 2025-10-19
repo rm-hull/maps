@@ -1,4 +1,5 @@
 import { type AxiosResponse } from "axios";
+import { Position } from "geojson";
 import { LatLng, Proj } from "leaflet";
 import proj4 from "proj4";
 import { camelCaseKeys } from "../../utils/camelCaseKeys";
@@ -6,7 +7,10 @@ import { type BritishNationalGrid } from "./types.d";
 
 export function convertKeys<T>(response: AxiosResponse<T>): AxiosResponse<T> {
   if (response.data !== undefined && response.data !== null) {
-    response.data = camelCaseKeys(response.data) as T;
+    // Use unknown and type guards to avoid unsafe any
+    if (typeof response.data === "object" || Array.isArray(response.data)) {
+      response.data = camelCaseKeys(response.data) as T;
+    }
   }
   return response;
 }
@@ -28,7 +32,7 @@ export function toBNG({ lat, lng }: LatLng): BritishNationalGrid {
   return bngConverter.forward([lng, lat]).map(Math.round) as BritishNationalGrid;
 }
 
-export function toLatLng(bng: BritishNationalGrid): LatLng {
+export function toLatLng(bng: BritishNationalGrid | Position): LatLng {
   const [lng, lat] = bngConverter.inverse(bng);
   return new LatLng(lat, lng);
 }

@@ -1,27 +1,18 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { camelCase } from "change-case";
 
-export const camelCaseKeys = (object: any): any => {
-  let newO: any, origKey, newKey, value;
-  if (object instanceof Array) {
-    return object.map((value) => {
-      if (value !== null && typeof value === "object") {
-        value = camelCaseKeys(value);
-      }
-      return value;
-    });
-  } else {
-    newO = {};
-    for (origKey in object) {
-      if (Object.prototype.hasOwnProperty.call(object, origKey)) {
-        newKey = camelCase(origKey);
-        value = object[origKey];
-        if (value instanceof Array || (value !== null && value.constructor === Object)) {
-          value = camelCaseKeys(value);
-        }
-        newO[newKey] = value;
-      }
-    }
+type PlainObject = Record<string, unknown>;
+
+export function camelCaseKeys<T extends PlainObject>(input: T): T;
+export function camelCaseKeys<T extends unknown[]>(input: T): T;
+export function camelCaseKeys(input: unknown): unknown;
+export function camelCaseKeys(input: unknown): unknown {
+  if (Array.isArray(input)) {
+    return input.map((item) => camelCaseKeys(item as unknown));
   }
-  return newO;
-};
+
+  if (input && typeof input === "object") {
+    return Object.fromEntries(Object.entries(input).map(([key, value]) => [camelCase(key), camelCaseKeys(value)]));
+  }
+
+  return input;
+}

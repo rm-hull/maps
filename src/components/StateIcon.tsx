@@ -1,6 +1,6 @@
-import { CircularProgress } from "@chakra-ui/react";
-import { FiAlertTriangle, FiCheck, FiSearch, FiXCircle } from "react-icons/fi";
-export type SearchState = "ok" | "error" | "busy" | "not-found" | undefined;
+import { Spinner } from "@chakra-ui/react";
+import { FiAlertTriangle, FiCheck, FiCrosshair, FiSearch, FiXCircle } from "react-icons/fi";
+export type SearchState = "ok" | "error" | "busy" | "not-found" | "multiple" | undefined;
 
 interface StateIconProps {
   state: SearchState;
@@ -14,8 +14,10 @@ export function StateIcon({ state }: StateIconProps) {
       return <FiCheck color="green" />;
     case "not-found":
       return <FiAlertTriangle color="orange" />;
+    case "multiple":
+      return <FiCrosshair color="purple" />;
     case "busy":
-      return <CircularProgress isIndeterminate size={4} />;
+      return <Spinner size="xs" color="blue.600" colorPalette="blue" data-testid="spinner" />;
     default:
       return <FiSearch />;
   }

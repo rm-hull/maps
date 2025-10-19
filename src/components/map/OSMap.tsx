@@ -2,17 +2,18 @@ import "proj4leaflet";
 import * as L from "leaflet";
 import { useMemo } from "react";
 import { MapContainer, ScaleControl } from "react-leaflet";
-import { BASE_LAYERS } from "../../config/layer";
+import { baseLayers } from "../../config/layer";
 import { DEFAULT_ZOOM_LEVEL, useGeneralSettings } from "../../hooks/useGeneralSettings";
 import { toLatLng } from "../../services/osdatahub/helpers";
+import { Loader } from "../Loader";
 import { CurrentLocation } from "./controls/CurrentLocation";
-import { LayerControl } from "./controls/LayerControl";
+import { Layers } from "./controls/Layers";
 import { Ruler } from "./controls/Ruler";
 import { Settings } from "./controls/Settings";
 import { ZoomLevel } from "./controls/ZoomLevel";
 import { CustomOverlays } from "./CustomOverlays";
 import { PointOfInterest } from "./PointOfInterest";
-import { SearchBox } from "./SearchBox";
+import { SearchBox } from "./search/SearchBox";
 import { Tracks } from "./Tracks";
 
 interface OSMapProps {
@@ -23,29 +24,20 @@ const maxBounds = new L.LatLngBounds([toLatLng([-238375.0, 0.0]), toLatLng([9000
 const defaultCenter = toLatLng([337297, 503695]); // OSGB36 / British National Grid
 
 export function OSMap({ center }: OSMapProps) {
-  const [settings] = useGeneralSettings();
+  const { settings, isLoading } = useGeneralSettings();
 
   const customLocation = useMemo(
     () =>
       settings?.initialLocation === "custom" && settings.customLocation && center === undefined
         ? L.latLng(settings.customLocation.latLng)
         : undefined,
-    [settings?.initialLocation, settings?.customLocation, center]
+    [settings, center]
   );
 
-  const initialMapStyle = useMemo(() => {
-    if (!settings?.mapStyle) return undefined;
+  const initialMapStyle = useMemo(() => baseLayers.find(settings?.mapStyle), [settings?.mapStyle]);
 
-    for (const [provider, layers] of Object.entries(BASE_LAYERS)) {
-      const foundLayer = layers.find((l) => `${provider} / ${l.name}` === settings.mapStyle);
-      if (foundLayer) {
-        return foundLayer;
-      }
-    }
-  }, [settings?.mapStyle]);
-
-  if (!settings) {
-    return null;
+  if (isLoading) {
+    return <Loader />;
   }
 
   return (
@@ -64,7 +56,7 @@ export function OSMap({ center }: OSMapProps) {
       <CurrentLocation active={settings?.initialLocation === "current" && center === undefined} />
       <Tracks />
       <Settings />
-      <LayerControl initialLayer={initialMapStyle ?? BASE_LAYERS["Thunderforest"][0]} />
+      <Layers defaultLayer={initialMapStyle ?? baseLayers.at(0)!} />
       <CustomOverlays />
       <ZoomLevel />
       <ScaleControl position="bottomright" />

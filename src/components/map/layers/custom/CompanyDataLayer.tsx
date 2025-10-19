@@ -1,7 +1,10 @@
-import { Badge, HStack, Heading, Link, List, ListItem, Text, UnorderedList } from "@chakra-ui/react";
+import { Badge, DataList, HStack, Heading, Link, List, ListItem, Text } from "@chakra-ui/react";
 import { type LatLngBounds } from "leaflet";
+import { FaExclamationCircle } from "react-icons/fa";
 import { Marker, Popup } from "react-leaflet";
 import { Link as ReactRouterLink } from "react-router-dom";
+import { useColorModeValue } from "@/components/ui/color-mode";
+import { Tooltip } from "@/components/ui/tooltip";
 import { useCachedQuery } from "../../../../hooks/useCachedQuery";
 import { useCompanyData } from "../../../../hooks/useCompanyData";
 import { useErrorToast } from "../../../../hooks/useErrorToast";
@@ -65,51 +68,104 @@ function companyStatusColorScheme(status: string) {
   return "gray";
 }
 
+function accountsOverdue(company: CompanyData): boolean {
+  return (company.accounts_next_due_date?.getTime() ?? Infinity) < Date.now();
+}
+
+function confirmationStatementOverdue(company: CompanyData): boolean {
+  return (company.conf_stmt_next_due_date?.getTime() ?? Infinity) < Date.now();
+}
+
+interface OverdueProps {
+  isOverdue: boolean;
+  dueDate?: Date;
+  label: string;
+}
+
+function Overdue({ isOverdue, dueDate, label }: OverdueProps) {
+  const fg = useColorModeValue("red.700", "red.400");
+  if (!isOverdue) {
+    return null;
+  }
+
+  return (
+    <Tooltip content={`Due: ${dueDate?.toDateString()}`}>
+      <HStack display="inline-flex" gap={1} color={fg} fontWeight="bold" cursor="help">
+        <FaExclamationCircle /> {label} overdue
+      </HStack>
+    </Tooltip>
+  );
+}
+
 interface CompanyListPopupProps {
   companies: CompanyData[];
 }
 
 function CompanyListPopup({ companies }: CompanyListPopupProps) {
+  const borderColor = useColorModeValue("gray.200", "gray.800");
+  const fgSecondary = useColorModeValue("gray.700", "gray.300");
   return (
     <Popup maxWidth={400} closeButton={false}>
-      <List spacing={1} maxHeight={300} overflowY="auto">
+      <List.Root padding={1} gap={1} maxHeight={300} overflowY="auto">
         {companies.toSorted(byAddressLine1).map((company) => (
-          <ListItem key={company.company_number} p={2} borderBottom="1px solid" borderColor="gray.200">
-            <HStack spacing={2} alignItems="start" justifyContent="space-between">
-              <Heading size="sm" isTruncated>
-                <Link
-                  as={ReactRouterLink}
-                  to={`https://find-and-update.company-information.service.gov.uk/company/${company.company_number}`}
-                  target="_blank"
-                  rel="noreferrer"
-                  outlineOffset={0}
-                >
-                  {company.company_name}
+          <ListItem key={company.company_number} p={2} borderBottom="1px solid" borderColor={borderColor}>
+            <HStack gap={2} alignItems="start" justifyContent="space-between">
+              <Heading size="sm" truncate>
+                <Link asChild target="_blank" rel="noreferrer" outlineOffset={0}>
+                  <ReactRouterLink
+                    to={`https://find-and-update.company-information.service.gov.uk/company/${company.company_number}`}
+                  >
+                    {company.company_name}
+                  </ReactRouterLink>
                 </Link>
               </Heading>
-              <Badge colorScheme={companyStatusColorScheme(company.company_status)} fontSize="xs" isTruncated>
+              <Badge colorPalette={companyStatusColorScheme(company.company_status)} fontSize="xs">
                 {company.company_status}
               </Badge>
             </HStack>
-            <Text fontSize="sm" isTruncated textTransform="capitalize">
-              {new Date(company.incorporation_date).toLocaleDateString("en-GB")} | {company.company_category} |{" "}
+            <Text fontSize="sm" truncate textTransform="capitalize" color={fgSecondary}>
+              {company.incorporation_date.toLocaleDateString("en-GB")} | {company.company_category} |{" "}
               {company.accounts_account_category.toLowerCase()}
             </Text>
-            <Text fontSize="xs" color="gray.600">
+            <Text fontSize="xs" color={fgSecondary}>
               {address(company)}
             </Text>
-            <UnorderedList>
-              {[company.sic_code_1, company.sic_code_2, company.sic_code_3, company.sic_code_4]
-                .filter(Boolean)
-                .map((sicCode, index) => (
-                  <ListItem key={index} fontSize="xs" color="gray.600">
-                    {sicCode}
-                  </ListItem>
-                ))}
-            </UnorderedList>
+            {company.sic_code_1 !== "None Supplied" && (
+              <DataList.Root gap={0} orientation="horizontal">
+                {[company.sic_code_1, company.sic_code_2, company.sic_code_3, company.sic_code_4]
+                  .filter(Boolean)
+                  .map((sicCode, index) => {
+                    const [code, descr] = sicCode.split(/ - /, 2);
+                    return (
+                      <DataList.Item
+                        key={index}
+                        fontSize="xs"
+                        alignItems="start"
+                        lineHeight={1.4}
+                        borderLeftWidth={2}
+                        ml={2}
+                        gap={0}
+                      >
+                        <DataList.ItemLabel width="48px" minWidth="initial" pl={1}>
+                          {code} -
+                        </DataList.ItemLabel>
+                        <DataList.ItemValue>{descr}</DataList.ItemValue>
+                      </DataList.Item>
+                    );
+                  })}
+              </DataList.Root>
+            )}
+            <HStack gap={3} pt={1}>
+              <Overdue isOverdue={accountsOverdue(company)} dueDate={company.accounts_next_due_date} label="Accounts" />
+              <Overdue
+                isOverdue={confirmationStatementOverdue(company)}
+                dueDate={company.conf_stmt_next_due_date}
+                label="Confirmation statement"
+              />
+            </HStack>
           </ListItem>
         ))}
-      </List>
+      </List.Root>
     </Popup>
   );
 }

@@ -1,5 +1,5 @@
 import { Box, Center, Image, Spinner, Tag } from "@chakra-ui/react";
-import { ReactNode, useCallback, useEffect, useState } from "react";
+import { ReactNode, useCallback, useEffect, useMemo, useState } from "react";
 import { LuCircleX, LuSkull } from "react-icons/lu";
 
 type ImageDetails = { src?: string; alt?: string; attribution?: ReactNode };
@@ -12,37 +12,56 @@ interface FadeInImageProps extends ImageDetails {
 }
 
 export function FadeInImage({ loader, src, alt, height, attribution, ...rest }: FadeInImageProps) {
-  const [imageDetails, setImageDetails] = useState<ImageDetails>({ src, alt, attribution });
+  // Create a stable key from props to detect changes
+  // Note: attribution is a ReactNode so we can't JSON.stringify it
+  const propsKey = useMemo(
+    () => `${loader?.toString()}_${src}_${alt}_${typeof attribution}`,
+    [loader, src, alt, attribution]
+  );
+
+  const [currentKey, setCurrentKey] = useState(propsKey);
+  const [loadedImageDetails, setLoadedImageDetails] = useState<ImageDetails | null>(null);
   const [isLoaded, setLoaded] = useState(false);
   const [error, setError] = useState(false);
 
-  useEffect(() => {
-    let isMounted = true;
-    setImageDetails({ src, alt, attribution });
+  // Reset state when props change (outside of effect)
+  if (propsKey !== currentKey) {
+    setCurrentKey(propsKey);
+    setLoadedImageDetails(null);
     setError(false);
+    setLoaded(false);
+  }
 
-    if (loader) {
-      loader()
-        .then((resolvedUrl) => {
-          if (isMounted) {
-            setImageDetails(resolvedUrl);
-          }
-          return;
-        })
-        .catch(() => {
-          if (isMounted) {
-            setError(true);
-          }
-        });
-    } else if (!src) {
-      // If there is no loader and no src, we can consider it "loaded" immediately.
-      setLoaded(true);
-    }
+  // If there's no loader and no src, mark as loaded immediately
+  if (!loader && !src && !isLoaded) {
+    setLoaded(true);
+  }
+
+  // Use loaded details if available, otherwise fall back to props
+  const imageDetails = loadedImageDetails || { src, alt, attribution };
+
+  useEffect(() => {
+    if (!loader) return;
+
+    let isMounted = true;
+
+    loader()
+      .then((resolvedUrl) => {
+        if (isMounted) {
+          setLoadedImageDetails(resolvedUrl);
+        }
+        return;
+      })
+      .catch(() => {
+        if (isMounted) {
+          setError(true);
+        }
+      });
 
     return () => {
       isMounted = false;
     };
-  }, [loader, src, alt, attribution]);
+  }, [loader, src]);
 
   const placeholder = useCallback(() => {
     if (error) {
@@ -55,6 +74,9 @@ export function FadeInImage({ loader, src, alt, height, attribution, ...rest }: 
     return null;
   }, [error, isLoaded, imageDetails.src]);
 
+  const setLoadedFinished = useCallback(() => setLoaded(true), []);
+  const setErrorOccurred = useCallback(() => setError(true), []);
+
   return (
     <Box position="relative" w="full" h={height} {...rest}>
       <Center position="absolute" top="0" left="0" w="100%" h="100%">
@@ -63,8 +85,8 @@ export function FadeInImage({ loader, src, alt, height, attribution, ...rest }: 
       <Image
         src={imageDetails?.src}
         alt={imageDetails?.alt}
-        onLoad={() => setLoaded(true)}
-        onError={() => setError(true)}
+        onLoad={setLoadedFinished}
+        onError={setErrorOccurred}
         width="full"
         height="full"
         objectFit="cover"
@@ -73,20 +95,20 @@ export function FadeInImage({ loader, src, alt, height, attribution, ...rest }: 
         loading="lazy"
       />
       {imageDetails?.attribution && (
-        <Tag
+        <Tag.Root
           position="absolute"
           bottom={0}
           right={0}
           m={1}
           p={0.5}
           variant="subtle"
-          size="xs"
+          size="sm"
           fontSize="xs"
           colorScheme="gray"
           opacity={0.5}
         >
-          {imageDetails.attribution}
-        </Tag>
+          <Tag.Label>{imageDetails.attribution}</Tag.Label>
+        </Tag.Root>
       )}
     </Box>
   );

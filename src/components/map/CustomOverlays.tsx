@@ -7,7 +7,7 @@ import { MapOverlay } from "./MapOverlay";
 
 export function CustomOverlays() {
   const map = useMap();
-  const [settings] = useGeneralSettings();
+  const { settings } = useGeneralSettings();
   const [bounds, setBounds] = useState<LatLngBounds>(map.getBounds());
 
   useMapEvents({

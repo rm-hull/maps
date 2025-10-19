@@ -1,9 +1,13 @@
 import { Heading, Text, VStack } from "@chakra-ui/react";
 
-export function License() {
+type LicenseProps = {
+  showHeading?: boolean;
+};
+
+export function License({ showHeading = true }: LicenseProps) {
   return (
-    <VStack spacing={4} align="left" overflowY="auto" maxHeight={320}>
-      <Heading size="md">MIT License</Heading>
+    <VStack align="left" overflowY="auto" maxHeight={320}>
+      {showHeading && <Heading size="md">MIT License</Heading>}
       <Text>Copyright &copy; {new Date().getFullYear()} Richard Hull</Text>
 
       <Text>
