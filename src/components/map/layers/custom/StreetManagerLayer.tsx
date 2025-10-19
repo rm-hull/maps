@@ -1,7 +1,6 @@
 import { Heading, VStack, Link, Image, Table, Tabs, Text, Badge } from "@chakra-ui/react";
 import { LatLngBounds, PathOptions } from "leaflet";
 import { Popup } from "react-leaflet";
-import { Link as ReactRouterLink } from "react-router-dom";
 import { formatDate } from "@/utils/dates";
 import { useCachedQuery } from "../../../../hooks/useCachedQuery";
 import { useErrorToast } from "../../../../hooks/useErrorToast";
@@ -15,10 +14,6 @@ import {
 } from "../../../../services/streetManager/helpers";
 import { Event } from "../../../../services/streetManager/types";
 import WktLayer from "../../WktShape";
-
-type EventDetailProps = {
-  event: Event;
-};
 
 const dateStatus: Record<string, "green" | "blue" | "gray"> = {
   actual: "green",
@@ -35,6 +30,10 @@ function workCategoryStatus(status?: string) {
   return "gray";
 }
 
+type EventDetailProps = {
+  event: Event;
+};
+
 function EventDetail({ event }: EventDetailProps) {
   const [startDate, startType] = getStartDate(event);
   const [endDate, endType] = getEndDate(event);
@@ -43,12 +42,10 @@ function EventDetail({ event }: EventDetailProps) {
       {event.promoter_website_url && (
         <Heading size="md" gap={1} display="flex" alignItems="center" width={300}>
           {event.promoter_logo_url && <Image src={event.promoter_logo_url} height={5} />}
-          <Link asChild target="_blank" rel="noreferrer" outlineOffset={0}>
-            <ReactRouterLink to={event.promoter_website_url}>
-              <Text truncate maxWidth={300}>
-                {event.promoter_organisation}
-              </Text>
-            </ReactRouterLink>
+          <Link href={event.promoter_website_url} target="_blank" rel="noreferrer" outlineOffset={0}>
+            <Text truncate maxWidth={300}>
+              {event.promoter_organisation}
+            </Text>
           </Link>
         </Heading>
       )}
