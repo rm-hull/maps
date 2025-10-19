@@ -228,8 +228,8 @@ const BASE_LAYERS: LayerOption[] = [
   ),
   createRasterLayer(
     "OS One Inch, 1885-1900",
-    "https://mapseries-tilesets.s3.amazonaws.com/1inch_2nd_ed/{z}/{x}/{y}.png",
     "Historical",
+    "https://mapseries-tilesets.s3.amazonaws.com/1inch_2nd_ed/{z}/{x}/{y}.png",
     { maxNativeZoom: 16 }
   ),
   {
