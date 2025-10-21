@@ -1,8 +1,9 @@
-import { Collapsible, Input, InputGroup, useControllableState, useDisclosure } from "@chakra-ui/react";
+import { Collapsible, InputGroup, useControllableState, useDisclosure } from "@chakra-ui/react";
 import { LatLng } from "leaflet";
 import { type ChangeEvent, useCallback, useEffect, useState } from "react";
 import { Marker, useMapEvent } from "react-leaflet";
 import { useKeyPressEvent } from "react-use";
+import { TypeaheadInput } from "@/components/TypeaheadInput";
 import { useErrorToast } from "@/hooks/useErrorToast";
 import { useFind } from "@/hooks/useFind";
 import { useGeneralSettings } from "@/hooks/useGeneralSettings";
@@ -16,6 +17,7 @@ import { Control } from "../Control";
 import { NearestInfo } from "../NearestInfo";
 import { PopupPassthrough } from "../PopupPassthrough";
 import { SearchResults } from "./SearchResults";
+import { find } from "@/services/osdatahub";
 
 export function SearchBox() {
   const { settings } = useGeneralSettings();
@@ -129,7 +131,7 @@ export function SearchBox() {
         <Collapsible.Content p="4px">
           {response?.results && <SearchResults response={response} onSelect={handleSelect} />}
           <InputGroup startElement={<StateIcon state={searching} />} startElementProps={{ pointerEvents: "none" }}>
-            <Input
+            <TypeaheadInput
               id="search"
               name="search"
               borderWidth={2}
@@ -144,6 +146,15 @@ export function SearchBox() {
               bgColor={bg}
               value={value}
               onChange={handleChange}
+              // suggestions={["derby", "nottingham", "london", "edinburgh"]}
+              fetchSuggestions={async (prefix: string) => {
+                const result = await find(prefix, 1);
+                // console.log("Suggestion result:", result);
+                const entry = result.results?.[0]?.gazetteerEntry;
+                console.log("Suggestion entry:", entry?.name1);
+                return [entry?.name1?.toLowerCase() ?? prefix + "ville"];
+                // return ["derby", "nottingham", "london", "edinburgh"];
+              }}
             />
           </InputGroup>
           {position && (
