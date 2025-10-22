@@ -135,7 +135,7 @@ export function SettingsForm() {
                       <Listbox.ItemText>
                         <HStack gap={1}>
                           {item.name}
-                          {isHighDefinitionTileSet(item.tiles[0]) && (
+                          {item.tiles.some(isHighDefinitionTileSet) && (
                             <Box color="fg.subtle">
                               <BsBadgeHd />
                             </Box>
