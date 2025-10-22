@@ -12,6 +12,6 @@ const client = axios.create({
 });
 
 export const suggest = async (prefix: string, maxResults = 1): Promise<Response> => {
-  const response = await client.get<Response>(`/v1/place-names/prefix/${prefix}?max_results=${maxResults}`);
+  const response = await client.get<Response>(`/v1/place-names/prefix/${prefix}`, { params: { max_results: maxResults } });
   return response.data;
 };
