@@ -387,3 +387,7 @@ export const baseLayers = createListCollection({
   itemToString: (item) => item.name,
   itemToValue: (item) => `${item.provider} / ${item.name}`,
 });
+
+export function isHighDefinitionTileSet(tile: Tile) {
+  return tile.type === "vector" || tile.url.includes("@2x") || tile.url.includes("{r}");
+}
