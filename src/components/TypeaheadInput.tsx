@@ -56,6 +56,8 @@ export function TypeaheadInput({
     return () => observer.disconnect();
   }, []);
 
+  useEffect(() => queueMicrotask(() => setInput(value)), [value]);
+
   useErrorToast(id, "Failed to fetch suggestions", error);
 
   useDebounce(
