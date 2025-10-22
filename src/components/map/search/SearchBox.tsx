@@ -1,12 +1,14 @@
-import { Collapsible, Input, InputGroup, useControllableState, useDisclosure } from "@chakra-ui/react";
+import { Collapsible, InputGroup, useControllableState, useDisclosure } from "@chakra-ui/react";
 import { LatLng } from "leaflet";
 import { type ChangeEvent, useCallback, useEffect, useState } from "react";
 import { Marker, useMapEvent } from "react-leaflet";
 import { useKeyPressEvent } from "react-use";
+import { TypeaheadInput } from "@/components/TypeaheadInput";
 import { useErrorToast } from "@/hooks/useErrorToast";
 import { useFind } from "@/hooks/useFind";
 import { useGeneralSettings } from "@/hooks/useGeneralSettings";
 import { greenMarker } from "@/icons";
+import { suggest } from "@/services/placenames";
 import { useFocus } from "../../../hooks/useFocus";
 import { toLatLng } from "../../../services/osdatahub/helpers";
 import { type Response, type GazetteerEntry } from "../../../services/osdatahub/types";
@@ -52,7 +54,7 @@ export function SearchBox() {
   }, []);
 
   const handleChange = useCallback(
-    (e: ChangeEvent<HTMLInputElement>): void => {
+    (e: ChangeEvent<HTMLInputElement>) => {
       resetSearch();
       setValue(e.target.value);
     },
@@ -69,7 +71,7 @@ export function SearchBox() {
     [onClose, resetSearch, setValue]
   );
 
-  const handleSearch = useCallback((): void => {
+  const handleSearch = useCallback(() => {
     if (!value.trim()) {
       return;
     }
@@ -123,19 +125,28 @@ export function SearchBox() {
   useKeyPressEvent("Enter", handleSearch);
   useKeyPressEvent("Escape", handleCancel);
 
+  const fetchSuggestions = useCallback(async (input: string) => {
+    if (!input.trim()) {
+      return [];
+    }
+    const result = await suggest(input);
+    return result.results.map((item) => item.name);
+  }, []);
+
   return (
     <Control position="bottomright" prepend>
-      <Collapsible.Root open={open}>
+      <Collapsible.Root open={open} unmountOnExit>
         <Collapsible.Content p="4px">
           {response?.results && <SearchResults response={response} onSelect={handleSelect} />}
           <InputGroup startElement={<StateIcon state={searching} />} startElementProps={{ pointerEvents: "none" }}>
-            <Input
+            <TypeaheadInput
               id="search"
               name="search"
               borderWidth={2}
+              inset="2px"
               borderColor={borderColor}
               focusRing="none"
-              readOnly={isLoading}
+              disabled={isLoading}
               autoComplete="off"
               autoCapitalize="off"
               width={500}
@@ -144,6 +155,7 @@ export function SearchBox() {
               bgColor={bg}
               value={value}
               onChange={handleChange}
+              fetchSuggestions={fetchSuggestions}
             />
           </InputGroup>
           {position && (

@@ -93,6 +93,7 @@
     "build": "tsc && vite build",
     "test": "vitest",
     "test:ci": "vitest run --coverage",
+    "test:ai": "vitest run",
     "preview": "vite preview",
     "format": "prettier --write ./src",
     "lint": "eslint --cache --fix ./src"
