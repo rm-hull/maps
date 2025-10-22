@@ -59,7 +59,7 @@ describe("useReadableStack", () => {
     const error = new Error("Test error");
     error.stack = "Error: Test error\n    at (http://example.com/app.js:1:1)";
 
-    vi.mocked(global.fetch).mockRejectedValue(new Error("Fetch failed"));
+    vi.mocked(global.fetch).mockResolvedValue({ ok: false } as Response);
 
     const consoleErrorSpy = vi.spyOn(console, "error").mockImplementation(() => {});
 
@@ -71,6 +71,32 @@ describe("useReadableStack", () => {
     });
 
     consoleErrorSpy.mockRestore();
+  });
+
+  it("should decode stack trace successfully", async () => {
+    const error = new Error("Test error");
+    error.stack = "Error: Test error\n    at (http://example.com/app.js:1:1)";
+
+    const sourceMapData = {
+      version: 3,
+      sources: ["app.js"],
+      names: ["test"],
+      mappings: "AAAA,IAAIA,KAAK",
+      file: "app.js",
+      sourcesContent: ["const test = () => {};"],
+    };
+
+    vi.mocked(global.fetch).mockResolvedValue({
+      ok: true,
+      json: () => Promise.resolve(sourceMapData),
+    } as Response);
+
+    const { result } = renderHook(() => useReadableStack(error));
+
+    await waitFor(() => {
+      expect(result.current.loading).toBe(false);
+      expect(result.current.stack).toContain("app.js:1:");
+    });
   });
 
   it("should cleanup on unmount", () => {

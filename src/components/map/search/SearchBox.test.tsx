@@ -45,6 +45,7 @@ vi.mock("react-leaflet", () => ({
 // Mock react-use
 vi.mock("react-use", () => ({
   useKeyPressEvent: vi.fn(() => {}),
+  useDebounce: vi.fn((fn: () => void) => fn()),
 }));
 
 // Mock components
@@ -97,17 +98,21 @@ describe("SearchBox", () => {
     });
   });
 
-  it("should render search input", () => {
+  it("should render search input", async () => {
     render(<SearchBox />);
 
-    const input = screen.getByPlaceholderText(/input place/i);
-    expect(input).toBeInTheDocument();
+    await waitFor(() => {
+      const input = screen.getByPlaceholderText(/input place/i);
+      expect(input).toBeInTheDocument();
+    });
   });
 
-  it("should render control component", () => {
+  it("should render control component", async () => {
     render(<SearchBox />);
 
-    expect(screen.getByTestId("control")).toBeInTheDocument();
+    await waitFor(() => {
+      expect(screen.getByTestId("control")).toBeInTheDocument();
+    });
   });
 
   it("should show loading state when searching", async () => {
@@ -128,7 +133,7 @@ describe("SearchBox", () => {
     });
   });
 
-  it("should display search results when multiple results found", () => {
+  it("should display search results when multiple results found", async () => {
     const mockData = {
       header: { totalresults: 2 } as SearchResponse["header"],
       results: [
@@ -161,12 +166,14 @@ describe("SearchBox", () => {
 
     render(<SearchBox />);
 
-    // Component should render without error when data is available
-    const input = screen.getByPlaceholderText(/input place/i);
-    expect(input).toBeInTheDocument();
+    await waitFor(() => {
+      // Component should render without error when data is available
+      const input = screen.getByPlaceholderText(/input place/i);
+      expect(input).toBeInTheDocument();
+    });
   });
 
-  it("should handle error state", () => {
+  it("should handle error state", async () => {
     mockUseFind.mockReturnValue({
       data: undefined,
       error: new Error("Search failed"),
@@ -175,11 +182,13 @@ describe("SearchBox", () => {
 
     const { container } = render(<SearchBox />);
 
-    // Component should render without crashing when there's an error
-    expect(container).toBeInTheDocument();
+    await waitFor(() => {
+      // Component should render without crashing when there's an error
+      expect(container).toBeInTheDocument();
+    });
   });
 
-  it("should handle no results found", () => {
+  it("should handle no results found", async () => {
     mockUseFind.mockReturnValue({
       data: {
         header: { totalresults: 0 } as SearchResponse["header"],
@@ -191,28 +200,34 @@ describe("SearchBox", () => {
 
     const { container } = render(<SearchBox />);
 
-    // Should show not-found icon
-    const icon = container.querySelector("svg");
-    expect(icon).toBeInTheDocument();
+    await waitFor(() => {
+      // Should show not-found icon
+      const icon = container.querySelector("svg");
+      expect(icon).toBeInTheDocument();
+    });
   });
 
-  it("should use settings for max search results", () => {
+  it("should use settings for max search results", async () => {
     mockUseGeneralSettings.mockReturnValue({ settings: { maxSearchResults: 10 } });
 
     render(<SearchBox />);
 
-    expect(mockUseFind).toHaveBeenCalledWith("", 10);
+    await waitFor(() => {
+      expect(mockUseFind).toHaveBeenCalledWith("", 10);
+    });
   });
 
-  it("should default to 5 results if settings not available", () => {
+  it("should default to 5 results if settings not available", async () => {
     mockUseGeneralSettings.mockReturnValue({ settings: null as unknown as { maxSearchResults: number } });
 
     render(<SearchBox />);
 
-    expect(mockUseFind).toHaveBeenCalledWith("", 5);
+    await waitFor(() => {
+      expect(mockUseFind).toHaveBeenCalledWith("", 5);
+    });
   });
 
-  it("should have readonly input when loading", () => {
+  it("should have disabled input when loading", async () => {
     mockUseFind.mockReturnValue({
       data: undefined,
       error: null,
@@ -221,21 +236,27 @@ describe("SearchBox", () => {
 
     render(<SearchBox />);
 
-    const input = screen.getByPlaceholderText(/input place/i);
-    expect(input).toHaveAttribute("readonly");
+    await waitFor(() => {
+      const input = screen.getByPlaceholderText(/input place/i);
+      expect(input).toBeDisabled();
+    });
   });
 
-  it("should not have readonly input when not loading", () => {
+  it("should not have readonly input when not loading", async () => {
     render(<SearchBox />);
 
-    const input = screen.getByPlaceholderText(/input place/i);
-    expect(input).not.toHaveAttribute("readonly");
+    await waitFor(() => {
+      const input = screen.getByPlaceholderText(/input place/i);
+      expect(input).not.toHaveAttribute("readonly");
+    });
   });
 
-  it("should render with correct input width", () => {
+  it("should render with correct input width", async () => {
     render(<SearchBox />);
 
-    const input = screen.getByPlaceholderText(/input place/i);
-    expect(input).toBeInTheDocument();
+    await waitFor(() => {
+      const input = screen.getByPlaceholderText(/input place/i);
+      expect(input).toBeInTheDocument();
+    });
   });
 });
