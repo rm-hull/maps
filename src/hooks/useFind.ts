@@ -12,7 +12,7 @@ interface UseFindReturnType {
 export function useFind(query: string, maxResults = 1): UseFindReturnType {
   return useQuery<Response, AxiosError>({
     queryKey: ["find", query, maxResults],
-    queryFn: () => find(query, maxResults),
+    queryFn: () => find(query, { maxResults }),
     staleTime: Infinity,
     enabled: !!query,
   });
