@@ -17,7 +17,7 @@ export function CustomSearch({ disabled = false, searchTerm = "", onUpdate }: Cu
   const [value, setValue] = useState(searchTerm);
   const [searching, setSearching] = useState<SearchState>();
 
-  const handleCustomSearch = useCallback(async (): Promise<void> => {
+  const handleCustomSearch = useCallback(async () => {
     try {
       setSearching("busy");
       const data = await find(value, { maxResults: 1 });
@@ -36,7 +36,7 @@ export function CustomSearch({ disabled = false, searchTerm = "", onUpdate }: Cu
     }
   }, [onUpdate, value]);
 
-  const handleChange = useCallback((event: ChangeEvent<HTMLInputElement>): void => {
+  const handleChange = useCallback((event: ChangeEvent<HTMLInputElement>) => {
     setValue(event.target.value);
     setSearching(undefined);
   }, []);
@@ -48,7 +48,7 @@ export function CustomSearch({ disabled = false, searchTerm = "", onUpdate }: Cu
   }, [handleCustomSearch]);
 
   const handleKeyDown = useCallback(
-    (event: KeyboardEvent<HTMLInputElement>): void => {
+    (event: KeyboardEvent<HTMLInputElement>) => {
       if (event.key === "Enter") {
         event.preventDefault();
         handleCustomSearch().catch(() => {
@@ -59,12 +59,12 @@ export function CustomSearch({ disabled = false, searchTerm = "", onUpdate }: Cu
     [handleCustomSearch]
   );
 
-  const fetchSuggestions = useCallback(async (input: string): Promise<string[]> => {
+  const fetchSuggestions = useCallback(async (input: string) => {
     if (!input.trim()) {
       return [];
     }
     const result = await suggest(input);
-    return result.results?.map((item) => item.name) ?? [];
+    return result.results.map((item) => item.name);
   }, []);
 
   return (

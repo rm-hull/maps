@@ -54,7 +54,7 @@ export function SearchBox() {
   }, []);
 
   const handleChange = useCallback(
-    (e: ChangeEvent<HTMLInputElement>): void => {
+    (e: ChangeEvent<HTMLInputElement>) => {
       resetSearch();
       setValue(e.target.value);
     },
@@ -71,7 +71,7 @@ export function SearchBox() {
     [onClose, resetSearch, setValue]
   );
 
-  const handleSearch = useCallback((): void => {
+  const handleSearch = useCallback(() => {
     if (!value.trim()) {
       return;
     }
@@ -125,12 +125,12 @@ export function SearchBox() {
   useKeyPressEvent("Enter", handleSearch);
   useKeyPressEvent("Escape", handleCancel);
 
-  const fetchSuggestions = useCallback(async (input: string): Promise<string[]> => {
+  const fetchSuggestions = useCallback(async (input: string) => {
     if (!input.trim()) {
       return [];
     }
     const result = await suggest(input);
-    return result.results?.map((item) => item.name) ?? [];
+    return result.results.map((item) => item.name);
   }, []);
 
   return (
