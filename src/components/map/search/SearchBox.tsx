@@ -8,6 +8,7 @@ import { useErrorToast } from "@/hooks/useErrorToast";
 import { useFind } from "@/hooks/useFind";
 import { useGeneralSettings } from "@/hooks/useGeneralSettings";
 import { greenMarker } from "@/icons";
+import { suggest } from "@/services/placenames";
 import { useFocus } from "../../../hooks/useFocus";
 import { toLatLng } from "../../../services/osdatahub/helpers";
 import { type Response, type GazetteerEntry } from "../../../services/osdatahub/types";
@@ -17,7 +18,6 @@ import { Control } from "../Control";
 import { NearestInfo } from "../NearestInfo";
 import { PopupPassthrough } from "../PopupPassthrough";
 import { SearchResults } from "./SearchResults";
-import { find } from "@/services/osdatahub";
 
 export function SearchBox() {
   const { settings } = useGeneralSettings();
@@ -125,6 +125,17 @@ export function SearchBox() {
   useKeyPressEvent("Enter", handleSearch);
   useKeyPressEvent("Escape", handleCancel);
 
+  const fetchSuggestions = useCallback(async (input: string): Promise<string[]> => {
+    if (!input.trim()) {
+      return [];
+    }
+    const result = await suggest(input);
+    const suggestions = result.results?.map((item) => item.name) ?? [];
+
+    console.log({ suggestions });
+    return suggestions;
+  }, []);
+
   return (
     <Control position="bottomright" prepend>
       <Collapsible.Root open={open}>
@@ -146,15 +157,7 @@ export function SearchBox() {
               bgColor={bg}
               value={value}
               onChange={handleChange}
-              // suggestions={["derby", "nottingham", "london", "edinburgh"]}
-              fetchSuggestions={async (prefix: string) => {
-                const result = await find(prefix, 1);
-                // console.log("Suggestion result:", result);
-                const entry = result.results?.[0]?.gazetteerEntry;
-                console.log("Suggestion entry:", entry?.name1);
-                return [entry?.name1?.toLowerCase() ?? prefix + "ville"];
-                // return ["derby", "nottingham", "london", "edinburgh"];
-              }}
+              fetchSuggestions={fetchSuggestions}
             />
           </InputGroup>
           {position && (

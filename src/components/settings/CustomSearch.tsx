@@ -23,7 +23,7 @@ export function CustomSearch({ disabled = false, searchTerm = "", onUpdate }: Cu
   const handleCustomSearch = useCallback(async (): Promise<void> => {
     try {
       setSearching("busy");
-      const data = await find(value, 1);
+      const data = await find(value, { maxResults: 1 });
       if (data.header.totalresults === 0 || !data.results) {
         setSearching("not-found");
         return;

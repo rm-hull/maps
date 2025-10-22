@@ -56,7 +56,7 @@ export function TypeaheadInput({
 
   useDebounce(
     () => {
-      if (fetchSuggestions && input.trim()) {
+      if (fetchSuggestions && input.trim().length >= 3) {
         fetchSuggestions(input.trim())
           .then(setFetched)
           .catch((error) => {
@@ -65,7 +65,7 @@ export function TypeaheadInput({
           });
       }
     },
-    250,
+    500,
     [input]
   );
 
@@ -112,7 +112,7 @@ export function TypeaheadInput({
     <Box position="relative" width="100%">
       {/* Suggestion overlay */}
       <Box
-      borderRadius={4}
+        borderRadius={4}
         position="absolute"
         inset="0"
         display="flex"
