@@ -42,18 +42,16 @@ export function CustomSearch({ disabled = false, searchTerm = "", onUpdate }: Cu
   }, []);
 
   const handleClick = useCallback(() => {
-    handleCustomSearch().catch(() => {
-      // Handled in handleCustomSearch()
-    });
+    // eslint-disable-next-line @typescript-eslint/no-floating-promises
+    handleCustomSearch();
   }, [handleCustomSearch]);
 
   const handleKeyDown = useCallback(
     (event: KeyboardEvent<HTMLInputElement>) => {
       if (event.key === "Enter") {
         event.preventDefault();
-        handleCustomSearch().catch(() => {
-          // Handled in handleCustomSearch()
-        });
+        // eslint-disable-next-line @typescript-eslint/no-floating-promises
+        handleCustomSearch();
       }
     },
     [handleCustomSearch]
