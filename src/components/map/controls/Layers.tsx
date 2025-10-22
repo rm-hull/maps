@@ -125,14 +125,14 @@ function BaseLayerAccordion({ onLayerChanged, selectedLayer }: BaseLayerAccordio
               <Accordion.ItemBody padding={2} maxHeight={200} overflowY="auto">
                 {layers.map((layer) => (
                   <Box key={layer.name} display="inline-block" marginRight={3}>
-                    <HStack gap={0}>
+                    <HStack gap={1}>
                       <Link onClick={handleLayerChange(layer)}>
                         <Text fontSize={14} fontWeight={layer === selectedLayer ? "bold" : "default"}>
                           {layer.name}
                         </Text>
                       </Link>
-                      {isHighDefinitionTileSet(layer.tiles[0]) && (
-                        <Box as="span" marginLeft={1} color="fg.subtle">
+                      {layer.tiles.some(isHighDefinitionTileSet) && (
+                        <Box as="span" color="fg.subtle">
                           <BsBadgeHd />
                         </Box>
                       )}
