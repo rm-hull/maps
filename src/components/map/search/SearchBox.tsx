@@ -146,7 +146,7 @@ export function SearchBox() {
               inset="2px"
               borderColor={borderColor}
               focusRing="none"
-              readOnly={isLoading}
+              disabled={isLoading}
               autoComplete="off"
               autoCapitalize="off"
               width={500}
