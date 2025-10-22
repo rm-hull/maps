@@ -2,9 +2,9 @@ import axios from "axios";
 import { type Response } from "./types";
 
 const API_URL = import.meta.env.VITE_PLACENAMES_API_URL as string;
-if (API_URL === undefined) {
-  throw new Error("No Place Names API URL specified");
-}
+// if (API_URL === undefined) {
+//   throw new Error("No Place Names API URL specified");
+// }
 
 const client = axios.create({
   baseURL: API_URL,
