@@ -1,11 +1,19 @@
-import { Accordion, Box, Link, Text, VStack, Checkbox, Collapsible } from "@chakra-ui/react";
+import { Accordion, Box, Link, Text, VStack, Checkbox, Collapsible, HStack } from "@chakra-ui/react";
 import * as L from "leaflet";
 import { useCallback, useState, useRef } from "react";
+import { BsBadgeHd } from "react-icons/bs";
 import { IoLayersSharp } from "react-icons/io5";
 import { useMap } from "react-leaflet";
 import { ControlButton } from "@/components/ControlButton";
 import { useColorModeValue } from "@/components/ui/color-mode";
-import { baseLayers, LayerOption, type Tile, type Overlay, OVERLAYS } from "../../../config/layer";
+import {
+  baseLayers,
+  LayerOption,
+  type Tile,
+  type Overlay,
+  OVERLAYS,
+  isHighDefinitionTileSet,
+} from "../../../config/layer";
 import { useGeneralSettings } from "../../../hooks/useGeneralSettings";
 import { Control } from "../Control";
 import "@maplibre/maplibre-gl-leaflet";
@@ -116,12 +124,19 @@ function BaseLayerAccordion({ onLayerChanged, selectedLayer }: BaseLayerAccordio
             <Accordion.ItemContent>
               <Accordion.ItemBody padding={2} maxHeight={200} overflowY="auto">
                 {layers.map((layer) => (
-                  <Box key={layer.name} display="inline-block" marginRight={2}>
-                    <Link onClick={handleLayerChange(layer)}>
-                      <Text fontSize={14} fontWeight={layer === selectedLayer ? "bold" : "default"}>
-                        {layer.name}
-                      </Text>
-                    </Link>
+                  <Box key={layer.name} display="inline-block" marginRight={3}>
+                    <HStack gap={0}>
+                      <Link onClick={handleLayerChange(layer)}>
+                        <Text fontSize={14} fontWeight={layer === selectedLayer ? "bold" : "default"}>
+                          {layer.name}
+                        </Text>
+                      </Link>
+                      {isHighDefinitionTileSet(layer.tiles[0]) && (
+                        <Box as="span" marginLeft={1} color="fg.subtle">
+                          <BsBadgeHd />
+                        </Box>
+                      )}
+                    </HStack>
                   </Box>
                 ))}
               </Accordion.ItemBody>

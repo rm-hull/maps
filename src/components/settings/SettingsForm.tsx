@@ -1,4 +1,5 @@
 import {
+  Box,
   Field,
   HStack,
   Listbox,
@@ -14,7 +15,8 @@ import {
 } from "@chakra-ui/react";
 import { type LatLng } from "leaflet";
 import { useCallback } from "react";
-import { baseLayers } from "../../config/layer";
+import { BsBadgeHd } from "react-icons/bs";
+import { baseLayers, isHighDefinitionTileSet } from "../../config/layer";
 import {
   DEFAULT_GPS_ACTIVE_DURATION,
   DEFAULT_ZOOM_LEVEL,
@@ -130,7 +132,16 @@ export function SettingsForm() {
                   <Listbox.ItemGroupLabel fontWeight="bold">{provider}</Listbox.ItemGroupLabel>
                   {layers.map((item) => (
                     <Listbox.Item key={item.name} item={item}>
-                      <Listbox.ItemText>{item.name}</Listbox.ItemText>
+                      <Listbox.ItemText>
+                        <HStack gap={1}>
+                          {item.name}
+                          {isHighDefinitionTileSet(item.tiles[0]) && (
+                            <Box color="fg.subtle">
+                              <BsBadgeHd />
+                            </Box>
+                          )}
+                        </HStack>
+                      </Listbox.ItemText>
                       <Listbox.ItemIndicator />
                     </Listbox.Item>
                   ))}
