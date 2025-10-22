@@ -1,6 +1,6 @@
 import axios from "axios";
 import { convertKeys } from "./helpers";
-import { type BritishNationalGrid, type Response } from "./types.d";
+import { type BritishNationalGrid, type Response } from "./types";
 
 export const OS_DATAHUB_API_KEY = import.meta.env.VITE_OS_DATAHUB_API_KEY as string;
 if (OS_DATAHUB_API_KEY === undefined) {

@@ -1,19 +1,14 @@
 import axios from "axios";
 import { type Response } from "./types";
 
-export const OS_DATAHUB_API_KEY = import.meta.env.VITE_OS_DATAHUB_API_KEY as string;
-if (OS_DATAHUB_API_KEY === undefined) {
-  throw new Error("No OS DataHub API key specified");
+const API_URL = import.meta.env.VITE_PLACENAMES_API_URL as string;
+if (API_URL === undefined) {
+  throw new Error("No Place Names API URL specified");
 }
 
-export type Options = {
-  maxResults: number;
-  filterCategories: string[];
-};
-
 const client = axios.create({
-  baseURL: "https://api.destructuring-bind.org",
-  timeout: 10000,
+  baseURL: API_URL,
+  timeout: 3000,
 });
 
 export const suggest = async (prefix: string): Promise<Response> => {

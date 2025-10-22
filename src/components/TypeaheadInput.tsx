@@ -65,7 +65,7 @@ export function TypeaheadInput({
           });
       }
     },
-    500,
+    250,
     [input]
   );
 
@@ -110,11 +110,10 @@ export function TypeaheadInput({
 
   return (
     <Box position="relative" width="100%">
-      {/* Suggestion overlay */}
       <Box
         borderRadius={4}
         position="absolute"
-        inset="0"
+        inset="2px"
         display="flex"
         alignItems="center"
         color="gray.400"
@@ -126,17 +125,9 @@ export function TypeaheadInput({
         pr={padding.right}
         bgColor={bgColor}
       >
-        {input && suggestion && suggestion.startsWith(input) ? (
-          <>
-            <span style={{ opacity: 0 }}>{input}</span>
-            {suggestion.slice(input.length)}
-          </>
-        ) : (
-          ""
-        )}
+        {input && suggestion && suggestion.startsWith(input) ? suggestion : ""}
       </Box>
 
-      {/* Actual input */}
       <Input
         ref={mergedRef}
         id={id}
@@ -148,6 +139,7 @@ export function TypeaheadInput({
         fontSize="inherit"
         autoComplete="off"
         autoCapitalize="off"
+        spellCheck={false}
         {...inputProps}
       />
     </Box>
