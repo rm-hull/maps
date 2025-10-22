@@ -130,15 +130,12 @@ export function SearchBox() {
       return [];
     }
     const result = await suggest(input);
-    const suggestions = result.results?.map((item) => item.name) ?? [];
-
-    console.log({ suggestions });
-    return suggestions;
+    return result.results?.map((item) => item.name) ?? [];
   }, []);
 
   return (
     <Control position="bottomright" prepend>
-      <Collapsible.Root open={open}>
+      <Collapsible.Root open={open} unmountOnExit>
         <Collapsible.Content p="4px">
           {response?.results && <SearchResults response={response} onSelect={handleSelect} />}
           <InputGroup startElement={<StateIcon state={searching} />} startElementProps={{ pointerEvents: "none" }}>
@@ -146,6 +143,7 @@ export function SearchBox() {
               id="search"
               name="search"
               borderWidth={2}
+              inset="2px"
               borderColor={borderColor}
               focusRing="none"
               readOnly={isLoading}

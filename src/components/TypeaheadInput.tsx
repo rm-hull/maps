@@ -8,10 +8,12 @@ type TypeaheadInputProps = InputProps & {
   name?: string;
   value?: string;
   onChange?: (e: ChangeEvent<HTMLInputElement>) => void;
+  onKeyDown?: (e: KeyboardEvent<HTMLInputElement>) => void;
   suggestions?: string[];
   fetchSuggestions?: (prefix: string) => Promise<string[]>;
   ref?: RefObject<HTMLInputElement | null>;
   bgColor?: string;
+  inset?: number | string;
 };
 
 export function TypeaheadInput({
@@ -19,9 +21,11 @@ export function TypeaheadInput({
   name,
   value = "",
   onChange,
+  onKeyDown,
   suggestions,
   fetchSuggestions,
   bgColor,
+  inset,
   ref: externalRef,
   ...inputProps
 }: TypeaheadInputProps) {
@@ -103,9 +107,11 @@ export function TypeaheadInput({
         onChange?.({ target: { value: suggestion } } as ChangeEvent<HTMLInputElement>);
         // Continue suggesting based on the new full text
         setTimeout(() => internalRef.current?.setSelectionRange(suggestion.length, suggestion.length), 0);
+      } else {
+        onKeyDown?.(e);
       }
     },
-    [onChange, suggestion, internalRef]
+    [onChange, onKeyDown, suggestion, internalRef]
   );
 
   return (
@@ -113,7 +119,7 @@ export function TypeaheadInput({
       <Box
         borderRadius={4}
         position="absolute"
-        inset="2px"
+        inset={inset}
         display="flex"
         alignItems="center"
         color="gray.400"

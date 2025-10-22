@@ -11,7 +11,7 @@ const client = axios.create({
   timeout: 3000,
 });
 
-export const suggest = async (prefix: string): Promise<Response> => {
-  const response = await client.get<Response>(`/v1/place-names/prefix/${prefix}`);
+export const suggest = async (prefix: string, maxResults = 1): Promise<Response> => {
+  const response = await client.get<Response>(`/v1/place-names/prefix/${prefix}?max_results=${maxResults}`);
   return response.data;
 };
