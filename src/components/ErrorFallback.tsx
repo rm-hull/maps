@@ -1,4 +1,6 @@
 import { Alert, Code, Container, Heading, Span } from "@chakra-ui/react";
+import * as Sentry from "@sentry/browser";
+import { useEffect } from "react";
 import { useReadableStack } from "@/hooks/useReadableStack";
 
 interface ErrorFallbackProps {
@@ -7,6 +9,10 @@ interface ErrorFallbackProps {
 
 export function ErrorFallback({ error }: ErrorFallbackProps) {
   const { stack, loading } = useReadableStack(error);
+
+  useEffect(() => {
+    Sentry.captureException(error, { extra: { stack } });
+  }, [error, stack]);
 
   return (
     <Container maxWidth="container.lg">
