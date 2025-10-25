@@ -23,7 +23,7 @@ if (import.meta.env.VITE_SENTRY_DSN !== undefined) {
   Sentry.init({
     dsn: import.meta.env.VITE_SENTRY_DSN as string,
     release: import.meta.env.VITE_GIT_COMMIT_HASH as string,
-    environment: process.env.NODE_ENV,
+    environment: import.meta.env.MODE,
   });
 
   // Global uncaught errors
@@ -53,7 +53,7 @@ root.render(
         <ErrorBoundary
           FallbackComponent={ErrorFallback}
           onError={(error, info) => {
-            Sentry.captureException(error, { extra: info });
+            Sentry.captureException(error, { extra: { stack: info.componentStack } });
           }}
         >
           <Toaster />
