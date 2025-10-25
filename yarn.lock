@@ -2702,7 +2702,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@sentry/browser@npm:^10.22.0":
+"@sentry/browser@npm:10.22.0":
   version: 10.22.0
   resolution: "@sentry/browser@npm:10.22.0"
   dependencies:
@@ -2719,6 +2719,19 @@ __metadata:
   version: 10.22.0
   resolution: "@sentry/core@npm:10.22.0"
   checksum: 10/e19f788512033349c76e19ae9dfed34dfd98122040806fbbbfd36227b1be3d8c4a08362db91bbcab4e4768c50ea1eef36b9a9ced92232e9923c9be66b780b7a5
+  languageName: node
+  linkType: hard
+
+"@sentry/react@npm:^10.22.0":
+  version: 10.22.0
+  resolution: "@sentry/react@npm:10.22.0"
+  dependencies:
+    "@sentry/browser": "npm:10.22.0"
+    "@sentry/core": "npm:10.22.0"
+    hoist-non-react-statics: "npm:^3.3.2"
+  peerDependencies:
+    react: ^16.14.0 || 17.x || 18.x || 19.x
+  checksum: 10/f9a55d1c0901f2719b717d83f5c8be71459f090b44be067406f355f92e7b26fe6ab62e6d06c01f49be6c299e765b4c8e0e7515e05594dc013ed5887ba2a76019
   languageName: node
   linkType: hard
 
@@ -7199,7 +7212,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"hoist-non-react-statics@npm:^3.3.1":
+"hoist-non-react-statics@npm:^3.3.1, hoist-non-react-statics@npm:^3.3.2":
   version: 3.3.2
   resolution: "hoist-non-react-statics@npm:3.3.2"
   dependencies:
@@ -8102,7 +8115,7 @@ __metadata:
     "@maplibre/maplibre-gl-leaflet": "npm:^0.1.3"
     "@react-leaflet/core": "npm:^3.0.0"
     "@rm-hull/use-local-storage": "npm:^0.1.0"
-    "@sentry/browser": "npm:^10.22.0"
+    "@sentry/react": "npm:^10.22.0"
     "@stylistic/eslint-plugin": "npm:^5.5.0"
     "@tanstack/eslint-plugin-query": "npm:^5.91.2"
     "@tanstack/react-query": "npm:^5.90.5"

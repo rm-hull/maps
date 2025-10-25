@@ -1,9 +1,9 @@
 import "./index.css";
 import "leaflet/dist/leaflet.css";
-import * as Sentry from "@sentry/browser";
+import * as Sentry from "@sentry/react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
-import { createRoot } from "react-dom/client";
+import { createRoot, RootOptions } from "react-dom/client";
 import { ErrorBoundary } from "react-error-boundary";
 import ReactGA from "react-ga4";
 import { BrowserRouter as Router } from "react-router-dom";
@@ -25,27 +25,19 @@ if (import.meta.env.VITE_SENTRY_DSN !== undefined) {
     release: import.meta.env.VITE_GIT_COMMIT_HASH as string,
     environment: import.meta.env.MODE,
   });
-
-  // Global uncaught errors
-  window.addEventListener("error", (event) => {
-    Sentry.captureException(event.error || event.message);
-  });
-
-  // Global unhandled promise rejections
-  window.addEventListener("unhandledrejection", (event) => {
-    Sentry.captureException(event.reason);
-  });
 }
 
-const container = document.getElementById("root");
-if (container === null) {
-  throw new Error("The #root element wasn't found");
-}
-
-const root = createRoot(container);
 const queryClient = new QueryClient();
 
-root.render(
+const errorHandling: RootOptions = {
+  onUncaughtError: Sentry.reactErrorHandler((error, errorInfo) => {
+    console.warn("Uncaught error", error, errorInfo.componentStack);
+  }),
+  onCaughtError: Sentry.reactErrorHandler(),
+  onRecoverableError: Sentry.reactErrorHandler(),
+};
+
+createRoot(document.getElementById("root")!, errorHandling).render(
   <QueryClientProvider client={queryClient}>
     <ReactQueryDevtools initialIsOpen={false} buttonPosition="bottom-left" />
     <Provider>
