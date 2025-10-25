@@ -1,11 +1,11 @@
 import { Alert, Code, Container, Heading, Span } from "@chakra-ui/react";
 import * as Sentry from "@sentry/browser";
-import { useEffect } from "react";
+import { ErrorInfo, useEffect } from "react";
 import { useReadableStack } from "@/hooks/useReadableStack";
 
 interface ErrorFallbackProps {
   error: Error;
-  errorInfo?: React.ErrorInfo;
+  errorInfo?: ErrorInfo;
 }
 
 export function ErrorFallback({ error, errorInfo }: ErrorFallbackProps) {
