@@ -50,12 +50,7 @@ root.render(
     <ReactQueryDevtools initialIsOpen={false} buttonPosition="bottom-left" />
     <Provider>
       <Router basename="/maps">
-        <ErrorBoundary
-          FallbackComponent={ErrorFallback}
-          onError={(error, info) => {
-            Sentry.captureException(error, { extra: { stack: info.componentStack } });
-          }}
-        >
+        <ErrorBoundary FallbackComponent={ErrorFallback}>
           <Toaster />
           <App />
         </ErrorBoundary>

@@ -5,14 +5,17 @@ import { useReadableStack } from "@/hooks/useReadableStack";
 
 interface ErrorFallbackProps {
   error: Error;
+  errorInfo?: React.ErrorInfo;
 }
 
-export function ErrorFallback({ error }: ErrorFallbackProps) {
+export function ErrorFallback({ error, errorInfo }: ErrorFallbackProps) {
   const { stack, loading } = useReadableStack(error);
 
   useEffect(() => {
-    Sentry.captureException(error, { extra: { stack } });
-  }, [error, stack]);
+    if (!loading) {
+      Sentry.captureException(error, { extra: { stack, componentStack: errorInfo?.componentStack } });
+    }
+  }, [error, loading, stack, errorInfo]);
 
   return (
     <Container maxWidth="container.lg">
