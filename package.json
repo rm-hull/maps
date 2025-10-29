@@ -31,7 +31,7 @@
     "react-lazily": "^0.9.2",
     "react-leaflet": "^5.0.0",
     "react-leaflet-cluster": "^3.1.1",
-    "react-router-dom": "^7.9.4",
+    "react-router-dom": "^7.9.5",
     "react-use": "^17.6.0",
     "source-map-js": "^1.2.1",
     "web-vitals": "^5.1.0"
