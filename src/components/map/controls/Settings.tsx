@@ -7,7 +7,7 @@ export function Settings() {
   return (
     <SettingsDialog>
       <Control position="topright">
-        <ControlButton>
+        <ControlButton title="Settings">
           <IoMdSettings />
         </ControlButton>
       </Control>

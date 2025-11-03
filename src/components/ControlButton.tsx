@@ -9,6 +9,7 @@ interface ControlButtonProps {
   onMouseOver?: MouseEventHandler<HTMLButtonElement>;
   onMouseEnter?: MouseEventHandler<HTMLButtonElement>;
   tooltip?: string;
+  title?: string;
 }
 
 export function ControlButton({
@@ -18,6 +19,7 @@ export function ControlButton({
   color,
   children,
   tooltip,
+  ...rest
 }: PropsWithChildren<ControlButtonProps>) {
   const bgColor = useColorModeValue("white", "gray.800");
   const borderColor = useColorModeValue("blackAlpha.400", "whiteAlpha.400");
@@ -25,6 +27,7 @@ export function ControlButton({
 
   const button = (
     <Button
+      {...rest}
       background={bgColor}
       variant="outline"
       onClick={onClick}

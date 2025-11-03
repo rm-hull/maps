@@ -9,6 +9,8 @@ By default, the map will center on Ambleside. You can specify a starting locatio
 - https://www.destructuring-bind.org/maps/Nottingham
 - https://www.destructuring-bind.org/maps/PH1+1BD
 
+This project includes a [GitHub Actions](https://github.com/r-hull/maps/actions) workflow to automatically deploy the application to GitHub Pages.
+
 ![Leisure Map](./doc/screenshots/maps_leisure.webp)
 _Leisure Map Style_
 
