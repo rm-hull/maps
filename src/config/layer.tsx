@@ -228,6 +228,12 @@ export const OVERLAYS: Record<string, Overlay> = {
   "Company Data": { minZoom: 16, component: CompanyDataLayer },
   Postcodes: { minZoom: 11, component: PostcodePolygonsLayer },
   "Street Manager": { minZoom: 15, component: StreetManagerLayer },
+  Graticules: {
+    minZoom: 6,
+
+    // component: () => <TileLayer url="http://localhost:8080/tiles/{z}/{x}/{y}" pane="overlayPane" zIndex={650} />,
+    component: () => <TileLayer url="http://localhost:8080/styles/graticule.json" pane="overlayPane" zIndex={650} />,
+  },
   "Waymarked Hiking Trails": {
     minZoom: 6,
     component: () => (
