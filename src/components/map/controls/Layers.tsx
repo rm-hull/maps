@@ -24,7 +24,7 @@ function OverlaySelector() {
   const handleOverlayChange = useCallback(
     (name: string, checked: boolean | "indeterminate") => {
       if (checked !== "indeterminate") {
-        updateSettings({
+        void updateSettings({
           ...settings,
           overlays: {
             ...settings?.overlays,
