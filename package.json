@@ -10,7 +10,7 @@
     "@react-leaflet/core": "^3.0.0",
     "@rm-hull/chakra-error-fallback": "^0.0.5",
     "@rm-hull/use-local-storage": "^0.3.2",
-    "@sentry/react": "^10.22.0",
+    "@sentry/react": "^10.23.0",
     "@tanstack/react-query": "^5.90.6",
     "@tanstack/react-query-devtools": "^5.90.2",
     "@terraformer/wkt": "^2.2.1",
