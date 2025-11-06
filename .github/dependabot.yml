@@ -19,7 +19,7 @@ updates:
           - "*vite*"
       chakra:
         patterns:
-          - "@chakra-ui.*"
+          - "@chakra-ui/*"
   - package-ecosystem: github-actions
     directory: /
     schedule:
