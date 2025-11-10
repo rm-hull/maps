@@ -2395,6 +2395,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@maplibre/mlt@npm:^1.1.0":
+  version: 1.1.0
+  resolution: "@maplibre/mlt@npm:1.1.0"
+  dependencies:
+    "@mapbox/point-geometry": "npm:^1.1.0"
+  checksum: 10/abe2e68ff4deef186fb9b4e74faec192112eb6a6dd5905a027d849af6680e396584f9c3bb7ead529d8d34aedc7ad027e416d8d9fe7d574e9ab7ea8bdb6719042
+  languageName: node
+  linkType: hard
+
 "@maplibre/vt-pbf@npm:^4.0.3":
   version: 4.0.3
   resolution: "@maplibre/vt-pbf@npm:4.0.3"
@@ -8322,9 +8331,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"maplibre-gl@npm:^5.11.0":
-  version: 5.11.0
-  resolution: "maplibre-gl@npm:5.11.0"
+"maplibre-gl@npm:^5.12.0":
+  version: 5.12.0
+  resolution: "maplibre-gl@npm:5.12.0"
   dependencies:
     "@mapbox/geojson-rewind": "npm:^0.5.2"
     "@mapbox/jsonlint-lines-primitives": "npm:^2.0.2"
@@ -8334,6 +8343,7 @@ __metadata:
     "@mapbox/vector-tile": "npm:^2.0.4"
     "@mapbox/whoots-js": "npm:^3.1.0"
     "@maplibre/maplibre-gl-style-spec": "npm:^24.3.1"
+    "@maplibre/mlt": "npm:^1.1.0"
     "@maplibre/vt-pbf": "npm:^4.0.3"
     "@types/geojson": "npm:^7946.0.16"
     "@types/geojson-vt": "npm:3.2.5"
@@ -8348,7 +8358,7 @@ __metadata:
     quickselect: "npm:^3.0.0"
     supercluster: "npm:^8.0.1"
     tinyqueue: "npm:^3.0.0"
-  checksum: 10/7bf15a2d7befe82737fdd6989c9b660a07e15283664069d47ce69514ca6bc6d01a523671ae93457c4db5067a52efb0dd6f8d4474ad85f8ff96474565ad4db1b0
+  checksum: 10/4ae50c940a8c40759b347258312036f1aae660f685c7896088cec81e55d327cb47ea836c319814831a2b8f3a83b767f819d39091e8b9058edd200c3fda0f759b
   languageName: node
   linkType: hard
 
@@ -8417,7 +8427,7 @@ __metadata:
     jsdom: "npm:^27.1.0"
     leaflet: "npm:^1.9.4"
     leaflet-measure: "npm:^3.1.0"
-    maplibre-gl: "npm:^5.11.0"
+    maplibre-gl: "npm:^5.12.0"
     next-themes: "npm:^0.4.6"
     prettier: "npm:^3.6.2"
     proj4: "npm:^2.19.10"
