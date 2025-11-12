@@ -3,9 +3,6 @@ import { convertKeys } from "./helpers";
 import { type BritishNationalGrid, type Response } from "./types";
 
 export const OS_DATAHUB_API_KEY = import.meta.env.VITE_OS_DATAHUB_API_KEY as string;
-if (OS_DATAHUB_API_KEY === undefined) {
-  throw new Error("No OS DataHub API key specified");
-}
 
 export type Options = {
   maxResults: number;
@@ -20,12 +17,18 @@ const client = axios.create({
 client.interceptors.response.use(convertKeys);
 
 export const nearest = async ([easting, northing]: BritishNationalGrid): Promise<Response> => {
+  if (OS_DATAHUB_API_KEY === undefined) {
+    throw new Error("No OS DataHub API key specified");
+  }
   const params = { point: `${easting},${northing}` };
   const response = await client.get<Response>("/search/names/v1/nearest", { params });
   return response.data;
 };
 
 export const find = async (query: string, options: Partial<Options>): Promise<Response> => {
+  if (OS_DATAHUB_API_KEY === undefined) {
+    throw new Error("No OS DataHub API key specified");
+  }
   const params = {
     query,
     maxresults: options.maxResults ?? 10,
