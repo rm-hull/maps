@@ -6,9 +6,10 @@ import { useMap } from "react-leaflet";
 type MapOverlayProps = {
   name: string;
   className?: string;
+  zIndex?: number
 };
 
-export const MapOverlay = ({ children, name, className = "" }: PropsWithChildren<MapOverlayProps>) => {
+export const MapOverlay = ({ children, name, className = "", zIndex }: PropsWithChildren<MapOverlayProps>) => {
   const map = useMap();
   const [pane, setPane] = useState<HTMLElement | undefined>();
 
@@ -28,7 +29,7 @@ export const MapOverlay = ({ children, name, className = "" }: PropsWithChildren
 
   return pane
     ? createPortal(
-        <Box className={className} pointerEvents="auto">
+        <Box className={className} pointerEvents="auto" zIndex={zIndex}>
           {children}
         </Box>,
         pane

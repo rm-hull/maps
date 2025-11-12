@@ -22,7 +22,7 @@ export function CustomOverlays() {
       settings?.overlays?.[name] &&
       mapZoom > overlay.minZoom &&
       (overlay.maxZoom === undefined || mapZoom <= overlay.maxZoom) && (
-        <MapOverlay key={name} name={name}>
+        <MapOverlay key={name} name={name} zIndex={overlay.zIndex}>
           <overlay.component bounds={bounds} />
         </MapOverlay>
       )

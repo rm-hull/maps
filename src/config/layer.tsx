@@ -55,6 +55,7 @@ export type LayerOption = {
 export type Overlay = {
   minZoom: number;
   maxZoom?: number;
+  zIndex?: number;
   component: React.ComponentType<{ bounds: LatLngBounds }>;
 };
 
@@ -226,8 +227,8 @@ export const OVERLAYS: Record<string, Overlay> = {
   Geograph: { minZoom: 16, component: GeographLayer },
   "GeoDS POI": { minZoom: 14, component: GeodsPointsOfInterestLayer },
   "Company Data": { minZoom: 16, component: CompanyDataLayer },
-  Postcodes: { minZoom: 11, component: PostcodePolygonsLayer },
-  "Street Manager": { minZoom: 15, component: StreetManagerLayer },
+  Postcodes: { minZoom: 11, component: PostcodePolygonsLayer, zIndex: 649 },
+  "Street Manager": { minZoom: 15, component: StreetManagerLayer, zIndex: 1050 },
   "Waymarked Hiking Trails": {
     minZoom: 6,
     component: () => (
