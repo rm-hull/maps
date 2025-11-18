@@ -8441,7 +8441,7 @@ __metadata:
     maplibre-gl: "npm:^5.13.0"
     next-themes: "npm:^0.4.6"
     prettier: "npm:^3.6.2"
-    proj4: "npm:^2.20.0"
+    proj4: "npm:^2.20.1"
     proj4leaflet: "npm:^1.0.2"
     react: "npm:^19.2.0"
     react-dom: "npm:^19.2.0"
@@ -9266,13 +9266,23 @@ __metadata:
   languageName: node
   linkType: hard
 
-"proj4@npm:*, proj4@npm:^2.19.0, proj4@npm:^2.20.0, proj4@npm:^2.3.14":
+"proj4@npm:*, proj4@npm:^2.19.0, proj4@npm:^2.3.14":
   version: 2.20.0
   resolution: "proj4@npm:2.20.0"
   dependencies:
     mgrs: "npm:1.0.0"
     wkt-parser: "npm:^1.5.1"
   checksum: 10/1bca9fd71d791c87513920e9c2cb46697d957543a2d88197eeaf4203fc3ab70b2a29cad880db3265ec47b37c79cb383948871cbe974598beb6d5e79b01fcf418
+  languageName: node
+  linkType: hard
+
+"proj4@npm:^2.20.1":
+  version: 2.20.1
+  resolution: "proj4@npm:2.20.1"
+  dependencies:
+    mgrs: "npm:1.0.0"
+    wkt-parser: "npm:^1.5.1"
+  checksum: 10/f13d6464d00974da0cbed25e243c801b2ab6727530fa2023289f22a45ff3ed86a659092ca53768690f1265febae8608f5c55c249fcd657ceb1125bc4d769e5b5
   languageName: node
   linkType: hard
 
