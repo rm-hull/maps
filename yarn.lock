@@ -8342,9 +8342,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"maplibre-gl@npm:^5.12.0":
-  version: 5.12.0
-  resolution: "maplibre-gl@npm:5.12.0"
+"maplibre-gl@npm:^5.13.0":
+  version: 5.13.0
+  resolution: "maplibre-gl@npm:5.13.0"
   dependencies:
     "@mapbox/geojson-rewind": "npm:^0.5.2"
     "@mapbox/jsonlint-lines-primitives": "npm:^2.0.2"
@@ -8369,7 +8369,7 @@ __metadata:
     quickselect: "npm:^3.0.0"
     supercluster: "npm:^8.0.1"
     tinyqueue: "npm:^3.0.0"
-  checksum: 10/4ae50c940a8c40759b347258312036f1aae660f685c7896088cec81e55d327cb47ea836c319814831a2b8f3a83b767f819d39091e8b9058edd200c3fda0f759b
+  checksum: 10/f1961ba7e5d79c66527282142e1a007a4a061f326b40298d3ac1680d30ac776e69c23fc9060200124f79964e8520223bcd9d2816e3f746ea37661466246c45c8
   languageName: node
   linkType: hard
 
@@ -8438,7 +8438,7 @@ __metadata:
     jsdom: "npm:^27.2.0"
     leaflet: "npm:^1.9.4"
     leaflet-measure: "npm:^3.1.0"
-    maplibre-gl: "npm:^5.12.0"
+    maplibre-gl: "npm:^5.13.0"
     next-themes: "npm:^0.4.6"
     prettier: "npm:^3.6.2"
     proj4: "npm:^2.20.0"
