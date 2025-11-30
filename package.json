@@ -92,9 +92,9 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
-    "test": "vitest",
+    "test": "vitest run",
     "test:ci": "vitest run --coverage",
-    "test:ai": "vitest run",
+    "test:watch": "vitest run",
     "preview": "vite preview",
     "format": "prettier --write ./src",
     "lint": "eslint --cache --fix ./src"
