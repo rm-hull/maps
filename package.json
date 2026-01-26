@@ -15,7 +15,7 @@
     "@tanstack/react-query-devtools": "^5.91.2",
     "@terraformer/wkt": "^2.2.1",
     "@tmcw/togeojson": "^7.1.2",
-    "axios": "^1.13.2",
+    "axios": "^1.13.3",
     "change-case": "^5.4.4",
     "jotai": "^2.16.2",
     "leaflet": "^1.9.4",
