@@ -2,6 +2,7 @@ import { createListCollection } from "@chakra-ui/react";
 import { LatLngBounds } from "leaflet";
 import { TileLayer, WMSTileLayer } from "react-leaflet";
 import { CompanyDataLayer } from "../components/map/layers/custom/CompanyDataLayer";
+import { FuelPricesLayer } from "../components/map/layers/custom/FuelPricesLayer";
 import { GeodsPointsOfInterestLayer } from "../components/map/layers/custom/GeodsPointsOfInterestLayer";
 import { GeographLayer } from "../components/map/layers/custom/GeographLayer";
 import { GpsRoutesLayer } from "../components/map/layers/custom/GpsRoutesLayer";
@@ -228,6 +229,7 @@ export const OVERLAYS: Record<string, Overlay> = {
   "Company Data": { minZoom: 16, component: CompanyDataLayer },
   Postcodes: { minZoom: 11, component: PostcodePolygonsLayer },
   "Street Manager": { minZoom: 15, component: StreetManagerLayer },
+  "Fuel Prices": { minZoom: 10, component: FuelPricesLayer },
   "Waymarked Hiking Trails": {
     minZoom: 6,
     component: () => (
