@@ -38,7 +38,7 @@ export interface PetrolFillingStation {
   permanent_closure: boolean;
 
   // *time.Time → optional ISO date string (or null depending on API)
-  permanent_closure_date?: string | null;
+  permanent_closure_date?: Date;
 
   is_motorway_service_station: boolean;
   is_supermarket_service_station: boolean;
@@ -51,7 +51,7 @@ export interface PetrolFillingStation {
 
 export interface PriceInfo {
   price: number;
-  updated_on: string;
+  updated_on: Date;
 }
 
 export interface SearchResult extends PetrolFillingStation {
@@ -61,5 +61,5 @@ export interface SearchResult extends PetrolFillingStation {
 export interface SearchResponse {
   results: SearchResult[];
   attribution: string[];
-  last_updated?: string | null;
+  last_updated?: Date;
 }
