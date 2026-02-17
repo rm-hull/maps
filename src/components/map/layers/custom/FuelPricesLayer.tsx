@@ -24,7 +24,7 @@ function getFuelColor(fuelType: string) {
     case "E10":
       return "green";
     default:
-      return null;
+      return undefined;
   }
 }
 
