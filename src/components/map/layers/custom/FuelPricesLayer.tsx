@@ -40,7 +40,7 @@ export function FuelPricesLayer({ bounds }: FuelPricesLayerProps) {
     >
       <Popup maxWidth={500} closeButton={false}>
         <Card.Root overflow="hidden" shadow="none" width="xs" border={0} outline={0}>
-          <Card.Header p={1} pb={0}>
+          <Card.Header p={1} pb={0} textTransform="uppercase">
             <Heading size="sm" lineClamp={1}>
               {pfs.brand_name}
             </Heading>
@@ -76,7 +76,14 @@ export function FuelPricesLayer({ bounds }: FuelPricesLayerProps) {
                     <Table.ColumnHeader px={1} py={0.5} fontSize="2xs" fontWeight="medium" color="fg.muted">
                       DATE
                     </Table.ColumnHeader>
-                    <Table.ColumnHeader px={1} py={0.5} fontSize="2xs" fontWeight="medium" color="fg.muted" textAlign="end">
+                    <Table.ColumnHeader
+                      px={1}
+                      py={0.5}
+                      fontSize="2xs"
+                      fontWeight="medium"
+                      color="fg.muted"
+                      textAlign="end"
+                    >
                       PRICE
                     </Table.ColumnHeader>
                   </Table.Row>
