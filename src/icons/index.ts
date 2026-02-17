@@ -4,6 +4,7 @@ import greenMarkerUrl from "./markers/marker-icon-2x-green.png";
 import redMarkerUrl from "./markers/marker-icon-2x-red.png";
 import violetMarkerUrl from "./markers/marker-icon-2x-violet.png";
 import markerShadowUrl from "./markers/marker-shadow.png";
+import gasStationUrl from "./gas-station.webp";
 
 const commonProps: L.BaseIconOptions = {
   shadowUrl: markerShadowUrl,
@@ -31,6 +32,11 @@ export const blueMarker = new L.Icon({
 export const greenMarker = new L.Icon({
   ...commonProps,
   iconUrl: greenMarkerUrl,
+});
+
+export const gasStation = new L.Icon({
+  iconSize: [28, 28],
+  iconUrl: gasStationUrl,
 });
 
 export function countIcon(color: string, count: number): L.DivIcon {
