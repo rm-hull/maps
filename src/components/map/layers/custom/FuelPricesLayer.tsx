@@ -15,16 +15,19 @@ interface FuelPricesLayerProps {
   bounds: LatLngBounds;
 }
 
-function getFuelColor(fuelType: string) {
+function getFuelColor(fuelType: string): { colorPalette?: string; variant: "solid" | "subtle" } {
   switch (fuelType) {
+    case "B10":
     case "B7_STANDARD":
     case "B7_PREMIUM":
-      return "black";
+      return { colorPalette: "black", variant: "solid" };
     case "E5":
     case "E10":
-      return "green";
+      return { colorPalette: "green", variant: "solid" };
+    case "HVO":
+      return { colorPalette: "red", variant: "subtle" };
     default:
-      return undefined;
+      return { variant: "subtle" };
   }
 }
 
@@ -92,7 +95,7 @@ export function FuelPricesLayer({ bounds }: FuelPricesLayerProps) {
                   {Object.entries(pfs.fuel_prices)?.map(([fuelType, priceHistory]) => (
                     <Table.Row key={fuelType}>
                       <Table.Cell px={1} py={0.5}>
-                        <Badge variant="solid" size="xs" colorPalette={getFuelColor(fuelType)}>
+                        <Badge size="xs" {...getFuelColor(fuelType)}>
                           {fuelType.replaceAll("_", " ").toUpperCase()}
                         </Badge>
                       </Table.Cell>
