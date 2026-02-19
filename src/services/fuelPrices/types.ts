@@ -5,8 +5,8 @@ export interface Location {
   country: string;
   county?: string;
   postcode: string;
-  latitude: string;
-  longitude: string;
+  latitude: number;
+  longitude: number;
 }
 
 export interface DailyOpeningTimes {
@@ -36,8 +36,6 @@ export interface PetrolFillingStation {
   brand_name: string;
   temporary_closure: boolean;
   permanent_closure: boolean;
-
-  // *time.Time → optional ISO date string (or null depending on API)
   permanent_closure_date?: Date;
 
   is_motorway_service_station: boolean;
@@ -52,6 +50,7 @@ export interface PetrolFillingStation {
 export interface PriceInfo {
   price: number;
   updated_on: Date;
+  effective_on?: Date;
 }
 
 export interface SearchResult extends PetrolFillingStation {
