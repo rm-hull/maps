@@ -8,6 +8,7 @@ import { Badge, Box, Card, Heading, HStack, Image, Link, Table, Text, VStack } f
 import JavascriptTimeAgo from "javascript-time-ago";
 import en from "javascript-time-ago/locale/en.json";
 import TimeAgo from "react-time-ago";
+import { PetrolFillingStation, PriceInfo } from "@/services/fuelPrices/types";
 
 JavascriptTimeAgo.addDefaultLocale(en);
 
@@ -29,6 +30,91 @@ function getFuelColor(fuelType: string): { colorPalette?: string; variant: "soli
     default:
       return { variant: "subtle" };
   }
+}
+
+interface PricesTableProps {
+  prices?: Record<string, PriceInfo[]>
+}
+
+function PricesTable({ prices }: PricesTableProps) {
+  if (!prices) return null;
+  return (
+    <Table.Root size="sm" interactive>
+      <Table.Header>
+        <Table.Row>
+          <Table.ColumnHeader px={1} py={0.5} fontSize="2xs" fontWeight="medium" color="fg.muted">
+            FUEL
+          </Table.ColumnHeader>
+          <Table.ColumnHeader px={1} py={0.5} fontSize="2xs" fontWeight="medium" color="fg.muted">
+            DATE
+          </Table.ColumnHeader>
+          <Table.ColumnHeader
+            px={1}
+            py={0.5}
+            fontSize="2xs"
+            fontWeight="medium"
+            color="fg.muted"
+            textAlign="end"
+          >
+            PRICE
+          </Table.ColumnHeader>
+        </Table.Row>
+      </Table.Header>
+      <Table.Body>
+        {Object.entries(prices)?.map(([fuelType, priceHistory]) => (
+          <Table.Row key={fuelType}>
+            <Table.Cell px={1} py={0.5}>
+              <Badge size="xs" {...getFuelColor(fuelType)}>
+                {fuelType.replaceAll("_", " ").toUpperCase()}
+              </Badge>
+            </Table.Cell>
+            <Table.Cell px={1} py={0.5} cursor="pointer" fontSize="xs" whiteSpace="nowrap">
+              <TimeAgo date={priceHistory[0].updated_on} locale="en-US" />
+            </Table.Cell>
+            <Table.Cell px={1} py={0.5} textAlign="end" fontWeight="bold">
+              {priceHistory[0].price}p
+            </Table.Cell>
+          </Table.Row>
+        ))}
+      </Table.Body>
+    </Table.Root>
+  )
+}
+
+interface AmenitiesListProps {
+  pfs: PetrolFillingStation;
+}
+
+function AmenitiesList({ pfs }: AmenitiesListProps) {
+  return (
+    <Box gap={1}>
+      {pfs.amenities.map((chip) => (
+        <Badge m={0.5} size="xs" key={chip} colorPalette="blue" fontWeight="bold">
+          {chip.replaceAll("_", " ").toUpperCase()}
+        </Badge>
+      ))}
+      {pfs.is_motorway_service_station && (
+        <Badge m={0.5} size="xs" colorPalette="orange" fontWeight="bold">
+          MOTORWAY
+        </Badge>
+      )}
+      {pfs.is_supermarket_service_station && (
+        <Badge m={0.5} size="xs" colorPalette="green" fontWeight="bold">
+          SUPERMARKET
+        </Badge>
+      )}
+      {pfs.temporary_closure && (
+        <Badge m={0.5} size="xs" colorPalette="red" fontWeight="bold">
+          TEMPORARILY CLOSED
+        </Badge>
+      )}
+      {pfs.permanent_closure && (
+        <Badge m={0.5} size="xs" colorPalette="red" fontWeight="bold">
+          PERMANENTLY CLOSED
+        </Badge>
+      )}
+    </Box>
+  )
 }
 
 export function FuelPricesLayer({ bounds }: FuelPricesLayerProps) {
@@ -71,77 +157,8 @@ export function FuelPricesLayer({ bounds }: FuelPricesLayerProps) {
             </HStack>
           </Card.Header>
           <Card.Body p={1} pt={0}>
-            {pfs.amenities && (
-              <Box gap={1}>
-                {pfs.amenities.map((chip) => (
-                  <Badge m={0.5} size="xs" key={chip} colorPalette="blue" fontWeight="bold">
-                    {chip.replaceAll("_", " ").toUpperCase()}
-                  </Badge>
-                ))}
-                {pfs.is_motorway_service_station && (
-                  <Badge m={0.5} size="xs" colorPalette="orange" fontWeight="bold">
-                    MOTORWAY
-                  </Badge>
-                )}
-                {pfs.is_supermarket_service_station && (
-                  <Badge m={0.5} size="xs" colorPalette="green" fontWeight="bold">
-                    SUPERMARKET
-                  </Badge>
-                )}
-                {pfs.temporary_closure && (
-                  <Badge m={0.5} size="xs" colorPalette="red" fontWeight="bold">
-                    TEMPORARILY CLOSED
-                  </Badge>
-                )}
-                {pfs.permanent_closure && (
-                  <Badge m={0.5} size="xs" colorPalette="red" fontWeight="bold">
-                    PERMANENTLY CLOSED
-                  </Badge>
-                )}
-              </Box>
-            )}
-
-            {pfs.fuel_prices && (
-              <Table.Root size="sm" interactive>
-                <Table.Header>
-                  <Table.Row>
-                    <Table.ColumnHeader px={1} py={0.5} fontSize="2xs" fontWeight="medium" color="fg.muted">
-                      FUEL
-                    </Table.ColumnHeader>
-                    <Table.ColumnHeader px={1} py={0.5} fontSize="2xs" fontWeight="medium" color="fg.muted">
-                      DATE
-                    </Table.ColumnHeader>
-                    <Table.ColumnHeader
-                      px={1}
-                      py={0.5}
-                      fontSize="2xs"
-                      fontWeight="medium"
-                      color="fg.muted"
-                      textAlign="end"
-                    >
-                      PRICE
-                    </Table.ColumnHeader>
-                  </Table.Row>
-                </Table.Header>
-                <Table.Body>
-                  {Object.entries(pfs.fuel_prices)?.map(([fuelType, priceHistory]) => (
-                    <Table.Row key={fuelType}>
-                      <Table.Cell px={1} py={0.5}>
-                        <Badge size="xs" {...getFuelColor(fuelType)}>
-                          {fuelType.replaceAll("_", " ").toUpperCase()}
-                        </Badge>
-                      </Table.Cell>
-                      <Table.Cell px={1} py={0.5} cursor="pointer" fontSize="xs" whiteSpace="nowrap">
-                        <TimeAgo date={priceHistory[0].updated_on} locale="en-US" />
-                      </Table.Cell>
-                      <Table.Cell px={1} py={0.5} textAlign="end" fontWeight="bold">
-                        {priceHistory[0].price}p
-                      </Table.Cell>
-                    </Table.Row>
-                  ))}
-                </Table.Body>
-              </Table.Root>
-            )}
+            <AmenitiesList pfs={pfs} />
+            <PricesTable prices={pfs.fuel_prices} />
           </Card.Body>
         </Card.Root>
       </Popup>
