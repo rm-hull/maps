@@ -4,7 +4,7 @@ import { gasStation } from "@/icons";
 import { useCachedQuery } from "../../../../hooks/useCachedQuery";
 import { useErrorToast } from "../../../../hooks/useErrorToast";
 import { useFuelPrices } from "../../../../hooks/useFuelPrices";
-import { Badge, Box, Card, Heading, Table, Text } from "@chakra-ui/react";
+import { Badge, Box, Card, Heading, HStack, Image, Link, Table, Text, VStack } from "@chakra-ui/react";
 import JavascriptTimeAgo from "javascript-time-ago";
 import en from "javascript-time-ago/locale/en.json";
 import TimeAgo from "react-time-ago";
@@ -36,29 +36,41 @@ export function FuelPricesLayer({ bounds }: FuelPricesLayerProps) {
   useErrorToast("fuel-prices-error", "Error loading fuel prices", error);
 
   return (data?.results ?? []).map((pfs) => (
-    <Marker
-      key={pfs.node_id}
-      position={[parseFloat(pfs.location.latitude), parseFloat(pfs.location.longitude)]}
-      icon={gasStation}
-    >
+    <Marker key={pfs.node_id} position={[pfs.location.latitude, pfs.location.longitude]} icon={gasStation}>
       <Popup maxWidth={500} closeButton={false}>
         <Card.Root overflow="hidden" shadow="none" width="xs" border={0} outline={0}>
           <Card.Header p={1} pb={0} textTransform="uppercase">
-            <Heading size="sm" lineClamp={1}>
-              {pfs.brand_name}
-            </Heading>
+            <HStack gap={2} mb={1}>
+              {pfs.retailer?.logo_url && <Image src={pfs.retailer?.logo_url} maxWidth={12} borderRadius={5} />}
+              <VStack gap={0} alignItems="flex-start">
+                <Heading size="sm" lineClamp={1}>
+                  {pfs.retailer?.website_url ? (
+                    <Link
+                      className="fuelPricesLink"
+                      href={pfs.retailer.website_url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      {pfs.brand_name || pfs.trading_name}
+                    </Link>
+                  ) : (
+                    pfs.brand_name || pfs.trading_name
+                  )}
+                </Heading>
+                <Text fontSize="xs" lineClamp={3} color="gray.600" textTransform="capitalize">
+                  {[
+                    pfs.location.address_line_1.toLowerCase(),
+                    pfs.location.address_line_2?.toLowerCase(),
+                    pfs.location.city.toLowerCase(),
+                    pfs.location.postcode.replace(" ", "\u00A0"),
+                  ]
+                    .filter(Boolean)
+                    .join(", ")}
+                </Text>
+              </VStack>
+            </HStack>
           </Card.Header>
           <Card.Body p={1} pt={0}>
-            <Text fontSize="xs" lineClamp={3} color="gray.600" textTransform="capitalize">
-              {[
-                pfs.location.address_line_1.toLowerCase(),
-                pfs.location.address_line_2?.toLowerCase(),
-                pfs.location.city.toLowerCase(),
-                pfs.location.postcode,
-              ]
-                .filter(Boolean)
-                .join(", ")}
-            </Text>
             {pfs.amenities && (
               <Box gap={1}>
                 {pfs.amenities.map((chip) => (
@@ -66,6 +78,26 @@ export function FuelPricesLayer({ bounds }: FuelPricesLayerProps) {
                     {chip.replaceAll("_", " ").toUpperCase()}
                   </Badge>
                 ))}
+                {pfs.is_motorway_service_station && (
+                  <Badge m={0.5} size="xs" colorPalette="orange" fontWeight="bold">
+                    MOTORWAY
+                  </Badge>
+                )}
+                {pfs.is_supermarket_service_station && (
+                  <Badge m={0.5} size="xs" colorPalette="green" fontWeight="bold">
+                    SUPERMARKET
+                  </Badge>
+                )}
+                {pfs.temporary_closure && (
+                  <Badge m={0.5} size="xs" colorPalette="red" fontWeight="bold">
+                    TEMPORARILY CLOSED
+                  </Badge>
+                )}
+                {pfs.permanent_closure && (
+                  <Badge m={0.5} size="xs" colorPalette="red" fontWeight="bold">
+                    PERMANENTLY CLOSED
+                  </Badge>
+                )}
               </Box>
             )}
 

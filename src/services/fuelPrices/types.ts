@@ -53,8 +53,15 @@ export interface PriceInfo {
   effective_on?: Date;
 }
 
+export interface Retailer {
+  name: string;
+  website_url: string;
+  logo_url: string;
+}
+
 export interface SearchResult extends PetrolFillingStation {
   fuel_prices?: Record<string, PriceInfo[]>;
+  retailer?: Retailer;
 }
 
 export interface SearchResponse {
