@@ -88,7 +88,7 @@ interface AmenitiesListProps {
 function AmenitiesList({ pfs }: AmenitiesListProps) {
   return (
     <Box gap={1}>
-      {pfs.amenities.map((chip) => (
+      {pfs.amenities && pfs.amenities.map((chip) => (
         <Badge m={0.5} size="xs" key={chip} colorPalette="blue" fontWeight="bold">
           {chip.replaceAll("_", " ").toUpperCase()}
         </Badge>
