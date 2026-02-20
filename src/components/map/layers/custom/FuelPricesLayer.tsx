@@ -8,7 +8,7 @@ import { Badge, Box, Card, Heading, HStack, Image, Link, Table, Text, VStack } f
 import JavascriptTimeAgo from "javascript-time-ago";
 import en from "javascript-time-ago/locale/en.json";
 import TimeAgo from "react-time-ago";
-import { OpeningTimes, PetrolFillingStation, PriceInfo } from "@/services/fuelPrices/types";
+import { DailyOpeningTimes, OpeningTimes, PetrolFillingStation, PriceInfo } from "@/services/fuelPrices/types";
 
 JavascriptTimeAgo.addDefaultLocale(en);
 
@@ -142,15 +142,20 @@ const short = {
   sunday: "Sun",
 } as Record<string, string>;
 
+function keyFor(t?: DailyOpeningTimes) {
+  if (!t) return "__CLOSED__";
+  if (t.is_24_hours) return "__24__";
+  const o = formatTime(t.open) || t.open;
+  const c = formatTime(t.close) || t.close;
+  return `${o}||${c}`;
+};
+
 interface OpeningTimesTableProps {
   openingTimes: OpeningTimes
 }
 
 function OpeningTimesTable({ openingTimes }: OpeningTimesTableProps) {
-  const entries = days.map((d) => ({
-    day: d,
-    times: (openingTimes.usual_days as Record<string, any>)[d],
-  }));
+  const entries = days.map((d) => ({ day: d, times: openingTimes.usual_days[d] }));
 
   const groups: Array<{
     start: number;
@@ -160,14 +165,6 @@ function OpeningTimesTable({ openingTimes }: OpeningTimesTableProps) {
 
   for (let i = 0; i < entries.length;) {
     const current = entries[i];
-    const keyFor = (t: any) => {
-      if (!t) return "__CLOSED__";
-      if (t.is_24_hours) return "__24__";
-      const o = formatTime(t.open) || t.open;
-      const c = formatTime(t.close) || t.close;
-      return `${o}||${c}`;
-    };
-
     let j = i + 1;
     while (j < entries.length && keyFor(entries[j].times) === keyFor(current.times)) {
       j += 1;
@@ -259,7 +256,7 @@ export function FuelPricesLayer({ bounds }: FuelPricesLayerProps) {
                     pfs.location.postcode.replace(" ", "\u00A0"),
                   ]
                     .filter(Boolean)
-                    .join(", ")}. {pfs.public_phone_number && `Tel:\u00A0${pfs.public_phone_number.replace("+44", "0").replace(" ", "\u00A0")}`}
+                    .join(", ")}. {pfs.public_phone_number && `Tel:\u00A0${pfs.public_phone_number.replace("+44", "0").replaceAll(" ", "\u00A0")}`}
                 </Text>
               </VStack>
             </HStack>
