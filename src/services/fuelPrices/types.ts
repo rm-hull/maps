@@ -16,7 +16,6 @@ export interface DailyOpeningTimes {
 }
 
 export interface BankHolidayOpeningTimes {
-  type: string;
   open_time: string;
   close_time: string;
   is_24_hours: boolean;
