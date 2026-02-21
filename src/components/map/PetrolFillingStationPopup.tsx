@@ -151,7 +151,7 @@ function OpeningTimesTable({ openingTimes }: OpeningTimesTableProps) {
   const groups: Array<{
     start: number;
     end: number;
-    times: any;
+    times?: DailyOpeningTimes;
   }> = [];
 
   for (let i = 0; i < entries.length;) {
