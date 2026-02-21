@@ -5,7 +5,6 @@ import { useCachedQuery } from "../../../../hooks/useCachedQuery";
 import { useErrorToast } from "../../../../hooks/useErrorToast";
 import { useFuelPrices } from "../../../../hooks/useFuelPrices";
 import { PetrolFillingStationPopup } from "../../PetrolFillingStationPopup";
-import { useMemo } from "react";
 
 interface FuelPricesLayerProps {
   bounds: LatLngBounds;
