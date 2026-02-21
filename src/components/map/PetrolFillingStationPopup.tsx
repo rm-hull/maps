@@ -214,10 +214,16 @@ interface ZScoreIndicatorProps {
 function ZScoreIndicator({ price, fuelType, stats }: ZScoreIndicatorProps) {
   if (!stats || !stats.average_price[fuelType] || !stats.standard_deviation[fuelType]) return null;
   const z = (price - stats.average_price[fuelType]) / stats.standard_deviation[fuelType];
-  if (z >= 0.5) {
+  if (z >= 1.0) {
     return (
       <Tooltip content={`Overpriced (z-score: ${z.toFixed(3)})`}>
         <FaRegThumbsDown color="red" />
+      </Tooltip>
+    );
+  } else if (z >= 0.5) {
+    return (
+      <Tooltip content={`Expensive (z-score: ${z.toFixed(3)})`}>
+        <FaRegThumbsDown color="orange" />
       </Tooltip>
     );
   } else if (z <= -0.5) {
