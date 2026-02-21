@@ -26,7 +26,7 @@ export function FuelPricesLayer({ bounds }: FuelPricesLayerProps) {
 
     return (
       <Marker key={pfs.node_id} position={[pfs.location.latitude, pfs.location.longitude]} icon={icon}>
-        <PetrolFillingStationPopup data={pfs} />
+        <PetrolFillingStationPopup data={pfs} stats={data?.statistics} />
       </Marker>
     );
   });
