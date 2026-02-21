@@ -1,9 +1,11 @@
-import { DailyOpeningTimes, OpeningTimes, PriceInfo, SearchResult } from "@/services/fuelPrices/types";
+import { DailyOpeningTimes, OpeningTimes, PriceInfo, SearchResult, Statistics } from "@/services/fuelPrices/types";
 import { Badge, Box, Card, Heading, HStack, Image, Link, Table, Text, VStack } from "@chakra-ui/react";
 import { Popup } from "react-leaflet";
 import TimeAgo from "react-time-ago";
 import JavascriptTimeAgo from "javascript-time-ago";
 import en from "javascript-time-ago/locale/en.json";
+import { Tooltip } from "../ui/tooltip";
+import { FaRegThumbsDown, FaRegThumbsUp } from "react-icons/fa";
 
 JavascriptTimeAgo.addDefaultLocale(en);
 
@@ -24,10 +26,11 @@ function getFuelColor(fuelType: string): { colorPalette?: string; variant: "soli
 }
 
 interface PricesTableProps {
-  prices?: Record<string, PriceInfo[]>
+  prices?: Record<string, PriceInfo[]>;
+  stats?: Statistics;
 }
 
-function PricesTable({ prices }: PricesTableProps) {
+function PricesTable({ prices, stats }: PricesTableProps) {
   if (!prices) return null;
   return (
     <Table.Root size="sm" interactive my={1}>
@@ -39,14 +42,7 @@ function PricesTable({ prices }: PricesTableProps) {
           <Table.ColumnHeader px={1} py={0.5} fontSize="2xs" fontWeight="medium" color="fg.muted">
             LAST UPDATED
           </Table.ColumnHeader>
-          <Table.ColumnHeader
-            px={1}
-            py={0.5}
-            fontSize="2xs"
-            fontWeight="medium"
-            color="fg.muted"
-            textAlign="end"
-          >
+          <Table.ColumnHeader px={1} py={0.5} fontSize="2xs" fontWeight="medium" color="fg.muted" textAlign="end">
             PRICE
           </Table.ColumnHeader>
         </Table.Row>
@@ -63,13 +59,16 @@ function PricesTable({ prices }: PricesTableProps) {
               <TimeAgo date={priceHistory[0].updated_on} locale="en-US" />
             </Table.Cell>
             <Table.Cell px={1} py={0.5} textAlign="end" fontWeight="bold">
-              {priceHistory[0].price}p
+              <HStack gap={1} justifyContent="flex-end">
+                <ZScoreIndicator price={priceHistory[0].price} fuelType={fuelType} stats={stats} />
+                {priceHistory[0].price}p
+              </HStack>
             </Table.Cell>
           </Table.Row>
         ))}
       </Table.Body>
     </Table.Root>
-  )
+  );
 }
 
 interface AmenitiesListProps {
@@ -79,11 +78,12 @@ interface AmenitiesListProps {
 function AmenitiesList({ data }: AmenitiesListProps) {
   return (
     <Box gap={1}>
-      {data.amenities && data.amenities.map((chip) => (
-        <Badge m={0.5} size="xs" key={chip} colorPalette="blue" fontWeight="bold">
-          {chip.replaceAll("_", " ").toUpperCase()}
-        </Badge>
-      ))}
+      {data.amenities &&
+        data.amenities.map((chip) => (
+          <Badge m={0.5} size="xs" key={chip} colorPalette="blue" fontWeight="bold">
+            {chip.replaceAll("_", " ").toUpperCase()}
+          </Badge>
+        ))}
       {data.is_motorway_service_station && (
         <Badge m={0.5} size="xs" colorPalette="orange" fontWeight="bold">
           MOTORWAY
@@ -105,24 +105,16 @@ function AmenitiesList({ data }: AmenitiesListProps) {
         </Badge>
       )}
     </Box>
-  )
+  );
 }
 
 function formatTime(s?: string) {
   if (!s) return undefined;
   const m = s.match(/^(\d{1,2}:\d{2})/);
   return m ? m[1] : s;
-};
+}
 
-const days = [
-  "monday",
-  "tuesday",
-  "wednesday",
-  "thursday",
-  "friday",
-  "saturday",
-  "sunday",
-];
+const days = ["monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"];
 const short = {
   monday: "Mon",
   tuesday: "Tue",
@@ -139,10 +131,10 @@ function keyFor(t?: DailyOpeningTimes) {
   const o = formatTime(t.open) || t.open;
   const c = formatTime(t.close) || t.close;
   return `${o}||${c}`;
-};
+}
 
 interface OpeningTimesTableProps {
-  openingTimes: OpeningTimes
+  openingTimes: OpeningTimes;
 }
 
 function OpeningTimesTable({ openingTimes }: OpeningTimesTableProps) {
@@ -154,7 +146,7 @@ function OpeningTimesTable({ openingTimes }: OpeningTimesTableProps) {
     times?: DailyOpeningTimes;
   }> = [];
 
-  for (let i = 0; i < entries.length;) {
+  for (let i = 0; i < entries.length; ) {
     const current = entries[i];
     let j = i + 1;
     while (j < entries.length && keyFor(entries[j].times) === keyFor(current.times)) {
@@ -202,22 +194,48 @@ function OpeningTimesTable({ openingTimes }: OpeningTimesTableProps) {
             {openingTimes.bank_holiday.is_24_hours
               ? "24 hours"
               : openingTimes.bank_holiday.open_time
-                ? `${formatTime(openingTimes.bank_holiday.open_time) || openingTimes.bank_holiday.open_time} – ${formatTime(
-                  openingTimes.bank_holiday.close_time,
-                ) || openingTimes.bank_holiday.close_time}`
+                ? `${formatTime(openingTimes.bank_holiday.open_time) || openingTimes.bank_holiday.open_time} – ${
+                    formatTime(openingTimes.bank_holiday.close_time) || openingTimes.bank_holiday.close_time
+                  }`
                 : "Closed"}
           </Table.Cell>
         </Table.Row>
       </Table.Body>
     </Table.Root>
-  )
+  );
+}
+
+interface ZScoreIndicatorProps {
+  price: number;
+  fuelType: string;
+  stats?: Statistics;
+}
+
+function ZScoreIndicator({ price, fuelType, stats }: ZScoreIndicatorProps) {
+  if (!stats || !stats.average_price[fuelType] || !stats.standard_deviation[fuelType]) return null;
+  const z = (price - stats.average_price[fuelType]) / stats.standard_deviation[fuelType];
+  if (z >= 0.5) {
+    return (
+      <Tooltip content={`Overpriced (z-score: ${z.toFixed(3)})`}>
+        <FaRegThumbsDown color="red" />
+      </Tooltip>
+    );
+  } else if (z <= -0.5) {
+    return (
+      <Tooltip content={`Good price  (z-score: ${z.toFixed(3)})`}>
+        <FaRegThumbsUp color="green" />
+      </Tooltip>
+    );
+  }
+  return null;
 }
 
 interface PetrolFillingStationPopupProps {
   data: SearchResult;
+  stats?: Statistics;
 }
 
-export function PetrolFillingStationPopup({ data }: PetrolFillingStationPopupProps) {
+export function PetrolFillingStationPopup({ data, stats }: PetrolFillingStationPopupProps) {
   return (
     <Popup maxWidth={500} closeButton={false}>
       <Card.Root overflow="hidden" shadow="none" width="xs" border={0} outline={0}>
@@ -247,14 +265,17 @@ export function PetrolFillingStationPopup({ data }: PetrolFillingStationPopupPro
                   data.location.postcode.replace(" ", "\u00A0"),
                 ]
                   .filter(Boolean)
-                  .join(", ")}. {data.public_phone_number && `Tel:\u00A0${data.public_phone_number.replace("+44", "0").replaceAll(" ", "\u00A0")}`}
+                  .join(", ")}
+                .{" "}
+                {data.public_phone_number &&
+                  `Tel:\u00A0${data.public_phone_number.replace("+44", "0").replaceAll(" ", "\u00A0")}`}
               </Text>
             </VStack>
           </HStack>
         </Card.Header>
         <Card.Body p={1} pt={0}>
           <AmenitiesList data={data} />
-          <PricesTable prices={data.fuel_prices} />
+          <PricesTable prices={data.fuel_prices} stats={stats} />
           <OpeningTimesTable openingTimes={data.opening_times} />
         </Card.Body>
       </Card.Root>

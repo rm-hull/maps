@@ -36,7 +36,7 @@ describe("useErrorToast", () => {
 
     renderHook(() => useErrorToast("test-id", "Test Title", error));
 
-    await new Promise(resolve => setTimeout(resolve, 0));
+    await new Promise((resolve) => setTimeout(resolve, 0));
 
     expect(toaster.create).toHaveBeenCalledTimes(1);
     expect(toaster.create).toHaveBeenCalledWith({
@@ -58,7 +58,7 @@ describe("useErrorToast", () => {
       initialProps: { error: error1 },
     });
 
-    await new Promise(resolve => setTimeout(resolve, 0));
+    await new Promise((resolve) => setTimeout(resolve, 0));
 
     expect(toaster.create).toHaveBeenCalledTimes(1);
     expect(toaster.create).toHaveBeenLastCalledWith({
@@ -72,7 +72,7 @@ describe("useErrorToast", () => {
 
     rerender({ error: error2 });
 
-    await new Promise(resolve => setTimeout(resolve, 0));
+    await new Promise((resolve) => setTimeout(resolve, 0));
 
     expect(toaster.create).toHaveBeenCalledTimes(2);
     expect(toaster.create).toHaveBeenLastCalledWith({
@@ -91,7 +91,7 @@ describe("useErrorToast", () => {
 
     renderHook(() => useErrorToast("custom-id", "Custom Title", error));
 
-    await new Promise(resolve => setTimeout(resolve, 0));
+    await new Promise((resolve) => setTimeout(resolve, 0));
 
     expect(toaster.create).toHaveBeenCalledWith({
       id: "custom-id",
@@ -114,13 +114,13 @@ describe("useErrorToast", () => {
       }
     );
 
-    await new Promise(resolve => setTimeout(resolve, 0));
+    await new Promise((resolve) => setTimeout(resolve, 0));
 
     expect(toaster.create).toHaveBeenCalledTimes(1);
 
     rerender({ error: null });
 
-    await new Promise(resolve => setTimeout(resolve, 0));
+    await new Promise((resolve) => setTimeout(resolve, 0));
 
     expect(toaster.create).toHaveBeenCalledTimes(1); // Should not be called again
   });
