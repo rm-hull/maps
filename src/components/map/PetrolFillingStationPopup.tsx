@@ -37,7 +37,7 @@ function PricesTable({ prices }: PricesTableProps) {
             FUEL
           </Table.ColumnHeader>
           <Table.ColumnHeader px={1} py={0.5} fontSize="2xs" fontWeight="medium" color="fg.muted">
-            DATE
+            LAST UPDATED
           </Table.ColumnHeader>
           <Table.ColumnHeader
             px={1}

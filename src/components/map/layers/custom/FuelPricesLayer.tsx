@@ -15,36 +15,8 @@ export function FuelPricesLayer({ bounds }: FuelPricesLayerProps) {
   const { data, error } = useCachedQuery(useFuelPrices(bounds));
   useErrorToast("fuel-prices-error", "Error loading fuel prices", error);
   const results = data?.results ?? [];
-
-  const { cheapestDieselIds, cheapestPetrolIds } = useMemo(() => {
-    let dieselIds: string[] = [];
-    let minDieselPrice = Infinity;
-    let petrolIds: string[] = [];
-    let minPetrolPrice = Infinity;
-
-    for (const pfs of results) {
-      const dieselPrice = pfs.fuel_prices?.["B7_STANDARD"]?.[0]?.price;
-      if (typeof dieselPrice === "number") {
-        if (dieselPrice < minDieselPrice) {
-          minDieselPrice = dieselPrice;
-          dieselIds = [pfs.node_id];
-        } else if (dieselPrice === minDieselPrice) {
-          dieselIds.push(pfs.node_id);
-        }
-      }
-
-      const petrolPrice = pfs.fuel_prices?.["E10"]?.[0]?.price;
-      if (typeof petrolPrice === "number") {
-        if (petrolPrice < minPetrolPrice) {
-          minPetrolPrice = petrolPrice;
-          petrolIds = [pfs.node_id];
-        } else if (petrolPrice === minPetrolPrice) {
-          petrolIds.push(pfs.node_id);
-        }
-      }
-    }
-    return { cheapestDieselIds: dieselIds, cheapestPetrolIds: petrolIds };
-  }, [results]);
+  const cheapestDieselIds = data?.statistics.cheapest_stations?.["B7_STANDARD"] ?? [];
+  const cheapestPetrolIds = data?.statistics.cheapest_stations?.["E10"] ?? [];
 
   return results.map((pfs) => {
     const colors: string[] = [];

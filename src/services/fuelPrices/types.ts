@@ -63,8 +63,19 @@ export interface SearchResult extends PetrolFillingStation {
   retailer?: Retailer;
 }
 
+export interface Statistics {
+  average_price: Record<string, number>;
+  brand_distribution: Record<string, number>;
+  cheapest_stations: Record<string, string[]>;
+  highest_price: Record<string, number>;
+  lowest_price: Record<string, number>;
+  price_distribution: Record<string, Record<string, number>>;
+  standard_deviation: Record<string, number>;
+}
+
 export interface SearchResponse {
   results: SearchResult[];
+  statistics: Statistics;
   attribution: string[];
   last_updated?: Date;
 }
