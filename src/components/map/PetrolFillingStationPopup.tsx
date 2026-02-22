@@ -212,8 +212,11 @@ interface ZScoreIndicatorProps {
 }
 
 function ZScoreIndicator({ price, fuelType, stats }: ZScoreIndicatorProps) {
-  if (!stats || !stats.average_price[fuelType] || !stats.standard_deviation[fuelType]) return null;
-  const z = (price - stats.average_price[fuelType]) / stats.standard_deviation[fuelType];
+  const avg = stats?.average_price?.[fuelType];
+  const stddev = stats?.standard_deviation?.[fuelType];
+
+  if (avg === undefined || stddev === undefined) return null;
+  const z = (price - avg) / stddev;
   if (z >= 1.0) {
     return (
       <Tooltip content={`Overpriced (z-score: ${z.toFixed(3)})`}>
