@@ -217,7 +217,7 @@ export function StreetLevelCrimeLayer({ bounds }: StreetLevelCrimeLayerProps) {
         const location = incidents[0].location;
         return (
           <CircleMarker
-            key={location.street.id}
+            key={incidents[0].id}
             center={[parseFloat(location.latitude), parseFloat(location.longitude)]}
             radius={5}
             color="gray"
