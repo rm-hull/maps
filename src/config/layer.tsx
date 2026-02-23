@@ -10,6 +10,7 @@ import { PostcodePolygonsLayer } from "../components/map/layers/custom/PostcodeP
 import { StreetManagerLayer } from "../components/map/layers/custom/StreetManagerLayer";
 import { WeatherLayer } from "../components/map/layers/custom/WeatherLayer";
 import { Scale } from "../components/map/Scale";
+import { StreetLevelCrimeLayer } from "@/components/map/layers/custom/StreetLevelCrimeLayer";
 
 const RAIN_RATE_SCALE = [
   { color: "#FFFFFF00", value: "0" },
@@ -230,6 +231,7 @@ export const OVERLAYS: Record<string, Overlay> = {
   Postcodes: { minZoom: 11, component: PostcodePolygonsLayer },
   "Street Manager": { minZoom: 15, component: StreetManagerLayer },
   "Fuel Prices": { minZoom: 10, component: FuelPricesLayer },
+  "Street Level Crime": { minZoom: 13, component: StreetLevelCrimeLayer },
   "Waymarked Hiking Trails": {
     minZoom: 6,
     component: () => (
