@@ -3,7 +3,7 @@ import { CircleMarker, Popup } from "react-leaflet";
 import { useCachedQuery } from "../../../../hooks/useCachedQuery";
 import { useErrorToast } from "../../../../hooks/useErrorToast";
 import { useStreetLevelCrimes } from "@/hooks/useStreetLevelCrimes";
-import { Card, Circle, createListCollection, DataList, Heading, List, Portal, Select, Span, Stack, Table, Text, VStack } from "@chakra-ui/react";
+import { Card, Circle, createListCollection, DataList, Heading, List, Portal, Select, Span, Table, VStack } from "@chakra-ui/react";
 import { Control } from "../../Control";
 import { useColorModeValue } from "@/components/ui/color-mode";
 import { StreetLevelCrime } from "@/services/streetLevelCrimes/types";
@@ -28,7 +28,6 @@ const crimeCategories: Record<string, { name: string; color: string; severity: n
   "vehicle-crime": { name: "Vehicle crime", color: "lightgreen", severity: 5 },
   "violent-crime": { name: "Violence and sexual offences", color: "red", severity: 1 },
   "other-crime": { name: "Other crime", color: "lightgray", severity: 8 },
-  "all-crime": { name: "All crime", color: "gray", severity: 5 },
 };
 
 interface LegendProps {
@@ -54,7 +53,6 @@ function Legend({ initialMonth, onMonthChange }: LegendProps) {
       { value: "2025-10", label: "October 2025" },
       { value: "2025-11", label: "November 2025" },
       { value: "2025-12", label: "December 2025" },
-
     ]
   })
   return (
@@ -184,7 +182,7 @@ export function StreetLevelCrimeLayer({ bounds }: StreetLevelCrimeLayerProps) {
 
   return (
     <>
-      <Legend initialMonth="2025-12" onMonthChange={setMonth}/>
+      <Legend initialMonth="2025-12" onMonthChange={setMonth} />
       {Object.values(byStreet).map((incidents) => {
         // choose the category with the highest severity (1 = most severe)
         const chosenCategory = incidents.reduce((bestCat, crime) => {
@@ -212,7 +210,7 @@ export function StreetLevelCrimeLayer({ bounds }: StreetLevelCrimeLayerProps) {
                   <Card.Title>
                     <Heading size="sm" lineClamp={1}>
                       {incidents[0].location.street.name}{" "}
-                      <Span color="fg.muted" fontSize="xs">
+                      <Span color="fg.muted" fontSize="xs" fontWeight="medium">
                         ({incidents[0].month})
                       </Span>
                     </Heading>
