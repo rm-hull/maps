@@ -7,7 +7,11 @@ const client = axios.create({
   timeout: 10000,
 });
 
-export const fetchStreetLevelCrimes = async (bounds: LatLngBounds, category: string, month: string): Promise<StreetLevelCrime[]> => {
+export const fetchStreetLevelCrimes = async (
+  bounds: LatLngBounds,
+  category: string,
+  month: string
+): Promise<StreetLevelCrime[]> => {
   const poly = [bounds.getNorthWest(), bounds.getNorthEast(), bounds.getSouthEast(), bounds.getSouthWest()]
     .map((latlng) => `${latlng.lat.toFixed(3)},${latlng.lng.toFixed(3)}`)
     .join(":");

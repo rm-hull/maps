@@ -3,11 +3,23 @@ import { CircleMarker, Popup } from "react-leaflet";
 import { useCachedQuery } from "../../../../hooks/useCachedQuery";
 import { useErrorToast } from "../../../../hooks/useErrorToast";
 import { useStreetLevelCrimes } from "@/hooks/useStreetLevelCrimes";
-import { Card, Circle, createListCollection, DataList, Heading, List, Portal, Select, Span, Table, VStack } from "@chakra-ui/react";
+import {
+  Card,
+  Circle,
+  createListCollection,
+  DataList,
+  Heading,
+  List,
+  Portal,
+  Select,
+  Span,
+  Table,
+  VStack,
+} from "@chakra-ui/react";
 import { Control } from "../../Control";
 import { useColorModeValue } from "@/components/ui/color-mode";
 import { StreetLevelCrime } from "@/services/streetLevelCrimes/types";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 
 interface StreetLevelCrimeLayerProps {
   bounds: LatLngBounds;
@@ -53,12 +65,18 @@ function Legend({ initialMonth, onMonthChange }: LegendProps) {
       { value: "2025-10", label: "October 2025" },
       { value: "2025-11", label: "November 2025" },
       { value: "2025-12", label: "December 2025" },
-    ]
-  })
+    ],
+  });
   return (
     <Control position="bottomleft">
       <VStack backgroundColor={bg} color={fg} p={1} pt={3} borderRadius={5} direction={{ base: "column", md: "row" }}>
-        <Select.Root size="xs" width={150} collection={months} defaultValue={[initialMonth]} onValueChange={(details) => onMonthChange(details.value[0])}>
+        <Select.Root
+          size="xs"
+          width={150}
+          collection={months}
+          defaultValue={[initialMonth]}
+          onValueChange={(details) => onMonthChange(details.value[0])}
+        >
           <Select.HiddenSelect />
           <Select.Control>
             <Select.Trigger>
@@ -167,18 +185,21 @@ export function StreetLevelCrimeLayer({ bounds }: StreetLevelCrimeLayerProps) {
   const { data, error } = useCachedQuery(useStreetLevelCrimes(bounds, "all-crime", month));
   useErrorToast("street-level-crime-error", "Error loading street-level crime data", error);
 
-  const byStreet =
-    data?.reduce(
-      (acc, crime) => {
-        const key = crime.location.street.id;
-        if (!acc[key]) {
-          acc[key] = [];
-        }
-        acc[key].push(crime);
-        return acc;
-      },
-      {} as Record<string, typeof data>
-    ) || {};
+  const byStreet = useMemo(
+    () =>
+      data?.reduce(
+        (acc, crime) => {
+          const key = crime.location.street.id;
+          if (!acc[key]) {
+            acc[key] = [];
+          }
+          acc[key].push(crime);
+          return acc;
+        },
+        {} as Record<string, typeof data>
+      ) || {},
+    [data]
+  );
 
   return (
     <>
