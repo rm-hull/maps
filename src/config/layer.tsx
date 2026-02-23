@@ -231,7 +231,7 @@ export const OVERLAYS: Record<string, Overlay> = {
   Postcodes: { minZoom: 11, component: PostcodePolygonsLayer },
   "Street Manager": { minZoom: 15, component: StreetManagerLayer },
   "Fuel Prices": { minZoom: 10, component: FuelPricesLayer },
-  "Street Level Crime": { minZoom: 10, component: StreetLevelCrimeLayer },
+  "Street Level Crime": { minZoom: 13, component: StreetLevelCrimeLayer },
   "Waymarked Hiking Trails": {
     minZoom: 6,
     component: () => (
