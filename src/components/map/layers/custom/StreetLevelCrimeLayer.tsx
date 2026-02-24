@@ -48,7 +48,7 @@ interface LegendProps {
 }
 
 function Legend({ initialMonth, onMonthChange }: LegendProps) {
-  const bg = useColorModeValue("whiteAlpha.900", "blackAlpha.700");
+  const bg = useColorModeValue("whiteAlpha.900", "blackAlpha.800");
   const fg = useColorModeValue("gray.600", "gray.300");
 
   const months = useMemo(() => {
