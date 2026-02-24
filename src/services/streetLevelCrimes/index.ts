@@ -10,7 +10,7 @@ const client = axios.create({
 export const fetchStreetLevelCrimes = async (
   bounds: LatLngBounds,
   category: string,
-  month: string
+  month?: string
 ): Promise<StreetLevelCrime[]> => {
   const poly = [bounds.getNorthWest(), bounds.getNorthEast(), bounds.getSouthEast(), bounds.getSouthWest()]
     .map((latlng) => `${latlng.lat.toFixed(3)},${latlng.lng.toFixed(3)}`)
@@ -18,4 +18,9 @@ export const fetchStreetLevelCrimes = async (
 
   const resp = await client.get<StreetLevelCrime[]>(`/crimes-street/${category}`, { params: { date: month, poly } });
   return resp.data;
+};
+
+export const fetchLastUpdated = async (): Promise<string> => {
+  const resp = await client.get<{ date: string }>("/crime-last-updated");
+  return resp.data.date.slice(0, 7);
 };
