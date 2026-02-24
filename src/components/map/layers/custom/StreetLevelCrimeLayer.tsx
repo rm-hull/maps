@@ -185,7 +185,12 @@ export function StreetLevelCrimeLayer({ bounds }: StreetLevelCrimeLayerProps) {
   const [month, setMonth] = useState<string | undefined>(undefined);
   const { data, error } = useCachedQuery(useStreetLevelCrimes(bounds, "all-crime", month));
   useErrorToast("street-level-crime-error", "Error loading street-level crime data", error);
-  useEffect(() => setMonth(lastUpdated), [setMonth, lastUpdated]);
+
+  useEffect(() => {
+    if (lastUpdated) {
+      setMonth((currentMonth) => currentMonth ?? lastUpdated);
+    }
+  }, [lastUpdated]);
 
   const byStreet = useMemo(
     () =>
