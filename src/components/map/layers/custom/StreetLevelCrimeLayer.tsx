@@ -208,7 +208,7 @@ export function StreetLevelCrimeLayer({ bounds }: StreetLevelCrimeLayerProps) {
     [data]
   );
 
-  if (!lastUpdated || !data) {
+  if (!lastUpdated) {
     return null;
   }
 
