@@ -2,7 +2,7 @@ import { LatLngBounds } from "leaflet";
 import { CircleMarker, Popup } from "react-leaflet";
 import { useCachedQuery } from "../../../../hooks/useCachedQuery";
 import { useErrorToast } from "../../../../hooks/useErrorToast";
-import { useStreetLevelCrimes } from "@/hooks/useStreetLevelCrimes";
+import { useLastUpdated, useStreetLevelCrimes } from "@/hooks/useStreetLevelCrimes";
 import {
   Card,
   Circle,
@@ -19,7 +19,7 @@ import {
 import { Control } from "../../Control";
 import { useColorModeValue } from "@/components/ui/color-mode";
 import { StreetLevelCrime } from "@/services/streetLevelCrimes/types";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 interface StreetLevelCrimeLayerProps {
   bounds: LatLngBounds;
@@ -51,22 +51,22 @@ function Legend({ initialMonth, onMonthChange }: LegendProps) {
   const bg = useColorModeValue("whiteAlpha.900", "blackAlpha.700");
   const fg = useColorModeValue("gray.600", "gray.300");
 
-  const months = createListCollection({
-    items: [
-      { value: "2025-01", label: "January 2025" },
-      { value: "2025-02", label: "February 2025" },
-      { value: "2025-03", label: "March 2025" },
-      { value: "2025-04", label: "April 2025" },
-      { value: "2025-05", label: "May 2025" },
-      { value: "2025-06", label: "June 2025" },
-      { value: "2025-07", label: "July 2025" },
-      { value: "2025-08", label: "August 2025" },
-      { value: "2025-09", label: "September 2025" },
-      { value: "2025-10", label: "October 2025" },
-      { value: "2025-11", label: "November 2025" },
-      { value: "2025-12", label: "December 2025" },
-    ],
-  });
+  const months = useMemo(() => {
+    const parts = initialMonth.split("-").map(Number);
+    const year = parts[0];
+    const monthIndex = parts[1] - 1; // 0-based
+    const items: { value: string; label: string }[] = [];
+    const d = new Date(year, monthIndex, 1);
+    for (let i = 0; i < 12; i++) {
+      const value = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}`;
+      const label = d.toLocaleString(undefined, { month: "long", year: "numeric" });
+      items.push({ value, label });
+      d.setMonth(d.getMonth() - 1);
+    }
+    items.reverse(); // ascending order (oldest -> newest)
+    return createListCollection({ items });
+  }, [initialMonth]);
+
   return (
     <Control position="bottomleft">
       <VStack backgroundColor={bg} color={fg} p={1} pt={3} borderRadius={5} direction={{ base: "column", md: "row" }}>
@@ -181,9 +181,11 @@ function ListView({ incident }: ListViewProps) {
   );
 }
 export function StreetLevelCrimeLayer({ bounds }: StreetLevelCrimeLayerProps) {
-  const [month, setMonth] = useState("2025-12");
+  const { data: lastUpdated } = useLastUpdated();
+  const [month, setMonth] = useState<string | undefined>(undefined);
   const { data, error } = useCachedQuery(useStreetLevelCrimes(bounds, "all-crime", month));
   useErrorToast("street-level-crime-error", "Error loading street-level crime data", error);
+  useEffect(() => setMonth(lastUpdated), [setMonth, lastUpdated]);
 
   const byStreet = useMemo(
     () =>
@@ -201,9 +203,13 @@ export function StreetLevelCrimeLayer({ bounds }: StreetLevelCrimeLayerProps) {
     [data]
   );
 
+  if (!lastUpdated || !data) {
+    return null;
+  }
+
   return (
     <>
-      <Legend initialMonth="2025-12" onMonthChange={setMonth} />
+      <Legend initialMonth={lastUpdated} onMonthChange={setMonth} />
       {Object.values(byStreet).map((incidents) => {
         // choose the category with the highest severity (1 = most severe)
         const chosenCategory = incidents.reduce((bestCat, crime) => {
