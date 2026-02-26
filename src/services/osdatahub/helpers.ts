@@ -3,7 +3,7 @@ import { Position } from "geojson";
 import { LatLng, Proj } from "leaflet";
 import proj4 from "proj4";
 import { camelCaseKeys } from "../../utils/camelCaseKeys";
-import { type BritishNationalGrid } from "./types.d";
+import { type BritishNationalGrid } from "./types";
 
 export function convertKeys<T>(response: AxiosResponse<T>): AxiosResponse<T> {
   if (response.data !== undefined && response.data !== null) {

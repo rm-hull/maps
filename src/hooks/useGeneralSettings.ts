@@ -24,7 +24,7 @@ export const DEFAULT_GPS_ACTIVE_DURATION = 180_000; // 3 minutes
 
 type UseGeneralSettingsReturnType = {
   settings: GeneralSettings | undefined;
-  updateSettings: (value: GeneralSettings | undefined) => void;
+  updateSettings: (value: GeneralSettings | undefined) => Promise<void>;
   isLoading: boolean;
 };
 

@@ -4,6 +4,7 @@ import greenMarkerUrl from "./markers/marker-icon-2x-green.png";
 import redMarkerUrl from "./markers/marker-icon-2x-red.png";
 import violetMarkerUrl from "./markers/marker-icon-2x-violet.png";
 import markerShadowUrl from "./markers/marker-shadow.png";
+import gasStationUrl from "./gas-station.webp";
 
 const commonProps: L.BaseIconOptions = {
   shadowUrl: markerShadowUrl,
@@ -32,6 +33,70 @@ export const greenMarker = new L.Icon({
   ...commonProps,
   iconUrl: greenMarkerUrl,
 });
+
+export const gasStation = new L.Icon({
+  iconSize: [28, 28],
+  iconAnchor: [14, 28],
+  popupAnchor: [1, -28],
+  iconUrl: gasStationUrl,
+});
+
+export function gasStationWithRing(colors?: string[]): L.DivIcon {
+  const imgSize = 28;
+  const gap = 1; // px gap around the image
+  const strokeWidth = 6; // thicker ring
+
+  // radius so inner edge of stroke sits `gap` pixels away from image edge
+  const r = Math.floor(imgSize / 2 + gap + strokeWidth / 2);
+  const ringSize = 2 * r + strokeWidth;
+  const cx = Math.floor(ringSize / 2);
+  const cy = Math.floor(ringSize / 2);
+
+  const svgParts: string[] = [];
+
+  if (!colors || colors.length === 0) {
+    // no ring
+  } else if (colors.length === 1) {
+    const c = colors[0];
+    svgParts.push(`<circle cx="${cx}" cy="${cy}" r="${r}" fill="none" stroke="${c}" stroke-width="${strokeWidth}" />`);
+  } else {
+    // two colors -> draw two semicircles
+    const c1 = colors[0];
+    const c2 = colors[1];
+    const circumference = 2 * Math.PI * r;
+    const half = circumference / 2;
+
+    // draw two circles with stroke-dasharray to show halves, rotated so split is vertical
+    svgParts.push(
+      `<circle cx="${cx}" cy="${cy}" r="${r}" fill="none" stroke="${c1}" stroke-width="${strokeWidth}" stroke-dasharray="${half} ${half}" transform="rotate(-90 ${cx} ${cy})" stroke-linecap="butt" />`
+    );
+    svgParts.push(
+      `<circle cx="${cx}" cy="${cy}" r="${r}" fill="none" stroke="${c2}" stroke-width="${strokeWidth}" stroke-dasharray="${half} ${half}" stroke-dashoffset="${half}" transform="rotate(-90 ${cx} ${cy})" stroke-linecap="butt" />`
+    );
+  }
+
+  const svg = `
+    <svg xmlns="http://www.w3.org/2000/svg" width="${ringSize}" height="${ringSize}" viewBox="0 0 ${ringSize} ${ringSize}" style="position:absolute;left:0;top:0;pointer-events:none">
+      ${svgParts.join("\n")}
+    </svg>
+  `;
+
+  const html = `
+    <div style="position:relative;width:${ringSize}px;height:${ringSize}px">
+      <img src="${gasStationUrl}" style="position:absolute;left:${Math.floor((ringSize - imgSize) / 2)}px;top:${Math.floor((ringSize - imgSize) / 2)}px;width:${imgSize}px;height:${imgSize}px;display:block;" />
+      ${svg}
+    </div>
+  `;
+
+  return L.divIcon({
+    html,
+    className: "", // avoid default leaflet styles
+    iconSize: [ringSize, ringSize],
+    // anchor so the bottom of the gas-station image aligns with the marker point
+    iconAnchor: [Math.floor(ringSize / 2), Math.floor((ringSize + imgSize) / 2)],
+    popupAnchor: [1, -Math.floor((ringSize + imgSize) / 2)],
+  });
+}
 
 export function countIcon(color: string, count: number): L.DivIcon {
   const radius = 16;

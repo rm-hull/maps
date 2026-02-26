@@ -1,4 +1,4 @@
-import { type Range } from "../../types.d";
+import { type Range } from "../../types";
 
 interface Header {
   format: "JSON" | "XML";

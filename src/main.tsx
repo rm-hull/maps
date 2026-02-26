@@ -1,32 +1,47 @@
 import "./index.css";
 import "leaflet/dist/leaflet.css";
+import { ErrorFallback } from "@rm-hull/chakra-error-fallback";
+import * as Sentry from "@sentry/react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
-import { createRoot } from "react-dom/client";
+import { createRoot, RootOptions } from "react-dom/client";
 import { ErrorBoundary } from "react-error-boundary";
 import ReactGA from "react-ga4";
 import { BrowserRouter as Router } from "react-router-dom";
 import { App } from "./App";
-import { ErrorFallback } from "./components/ErrorFallback";
 import { Provider } from "./components/ui/provider";
 import { Toaster } from "./components/ui/toaster";
 import { reportWebVitals } from "./reportWebVitals";
 import "react-leaflet-cluster/dist/assets/MarkerCluster.css";
 import "react-leaflet-cluster/dist/assets/MarkerCluster.Default.css";
+import TimeAgo from "javascript-time-ago";
+import en from "javascript-time-ago/locale/en";
+
+TimeAgo.addLocale(en);
 
 if (import.meta.env.VITE_GOOGLE_ANALYTICS_MEASUREMENT_ID !== undefined) {
   ReactGA.initialize(import.meta.env.VITE_GOOGLE_ANALYTICS_MEASUREMENT_ID as string);
 }
 
-const container = document.getElementById("root");
-if (container === null) {
-  throw new Error("The #root element wasn't found");
+if (import.meta.env.VITE_SENTRY_DSN !== undefined) {
+  Sentry.init({
+    dsn: import.meta.env.VITE_SENTRY_DSN as string,
+    release: import.meta.env.VITE_GIT_COMMIT_HASH as string,
+    environment: import.meta.env.MODE,
+  });
 }
 
-const root = createRoot(container);
 const queryClient = new QueryClient();
 
-root.render(
+const errorHandling: RootOptions = {
+  onUncaughtError: Sentry.reactErrorHandler((error, errorInfo) => {
+    console.warn("Uncaught error", error, errorInfo.componentStack);
+  }),
+  onCaughtError: Sentry.reactErrorHandler(),
+  onRecoverableError: Sentry.reactErrorHandler(),
+};
+
+createRoot(document.getElementById("root")!, errorHandling).render(
   <QueryClientProvider client={queryClient}>
     <ReactQueryDevtools initialIsOpen={false} buttonPosition="bottom-left" />
     <Provider>

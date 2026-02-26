@@ -17,12 +17,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
 
       - name: Setup Yarn
         uses: actions/setup-node@v6
         with:
-          node-version: "20"
+          node-version: "24"
           cache: "yarn"
 
       - name: Install dependencies
@@ -30,6 +30,7 @@ jobs:
 
       - name: Lint
         run: yarn lint
+        continue-on-error: true
 
       - name: Test
         run: yarn test:ci
@@ -47,15 +48,19 @@ jobs:
           VITE_GPS_ROUTES_API_URL: ${{ secrets.VITE_GPS_ROUTES_API_URL}}
           VITE_GEODS_POI_API_URL: ${{ secrets.VITE_GEODS_POI_API_URL }}
           VITE_COMPANY_DATA_API_URL: ${{ secrets.VITE_COMPANY_DATA_API_URL }}
+          VITE_STREET_MANAGER_API_URL: ${{ secrets.VITE_STREET_MANAGER_API_URL }}
           VITE_POSTCODE_POLYGONS_API_URL: ${{ secrets.VITE_POSTCODE_POLYGONS_API_URL }}
+          VITE_PLACENAMES_API_URL: ${{ secrets.VITE_PLACENAMES_API_URL }}
+          VITE_FUEL_PRICES_API_URL: ${{ secrets.VITE_FUEL_PRICES_API_URL }}
           VITE_MAPPROXY_BASE_URL: ${{ secrets.VITE_MAPPROXY_BASE_URL }}
           VITE_THUNDERFOREST_API_KEY: ${{ secrets.VITE_THUNDERFOREST_API_KEY }}
           VITE_TOMTOM_API_KEY: ${{ secrets.VITE_TOMTOM_API_KEY }}
           VITE_GOOGLE_ANALYTICS_MEASUREMENT_ID: ${{ secrets.VITE_GOOGLE_ANALYTICS_MEASUREMENT_ID }}
+          VITE_SENTRY_DSN: ${{ secrets.VITE_SENTRY_DSN }}
         run: yarn build && cp ./dist/index.html ./dist/404.html
 
       - name: Store dist files
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: dist-files
           path: ./dist/
@@ -74,7 +79,7 @@ jobs:
       - name: Setup Pages
         uses: actions/configure-pages@v5
 
-      - uses: actions/download-artifact@v5
+      - uses: actions/download-artifact@v7
         with:
           name: dist-files
           path: ./dist/

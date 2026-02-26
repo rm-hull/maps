@@ -25,12 +25,12 @@
 }
 
 .dark .leaflet-bar.leaflet-control {
-  border: 2px solid rgba(255, 255, 255, 0.2) !important;
+  border: 2px solid var(--chakra-colors-white-alpha-400) !important;
 }
 
 .dark .leaflet-bar a {
   background-color: var(--chakra-colors-gray-800);
-  color: rgba(255, 255, 255, 0.5);
+  color: var(--chakra-colors-white-alpha-600);
   border-bottom: 1px solid #333;
 }
 
@@ -52,7 +52,7 @@
 .dark .leaflet-popup-tip,
 .dark .leaflet-control-measure-interaction {
   background-color: var(--chakra-colors-gray-900);
-  color: rgba(255, 255, 255, 0.5);
+  color: var(--chakra-colors-white-alpha-600);
 }
 
 .dark .leaflet-retina .leaflet-control-measure .leaflet-control-measure-toggle,
@@ -70,7 +70,7 @@
 }
 
 .dark .leaflet-control-scale-line {
-  background: rgba(0, 0, 0, 0.2);
+  background: var(--chakra-colors-black-alpha-400);
   text-shadow: 1px 1px #000;
 }
 

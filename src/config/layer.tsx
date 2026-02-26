@@ -2,6 +2,7 @@ import { createListCollection } from "@chakra-ui/react";
 import { LatLngBounds } from "leaflet";
 import { TileLayer, WMSTileLayer } from "react-leaflet";
 import { CompanyDataLayer } from "../components/map/layers/custom/CompanyDataLayer";
+import { FuelPricesLayer } from "../components/map/layers/custom/FuelPricesLayer";
 import { GeodsPointsOfInterestLayer } from "../components/map/layers/custom/GeodsPointsOfInterestLayer";
 import { GeographLayer } from "../components/map/layers/custom/GeographLayer";
 import { GpsRoutesLayer } from "../components/map/layers/custom/GpsRoutesLayer";
@@ -9,6 +10,7 @@ import { PostcodePolygonsLayer } from "../components/map/layers/custom/PostcodeP
 import { StreetManagerLayer } from "../components/map/layers/custom/StreetManagerLayer";
 import { WeatherLayer } from "../components/map/layers/custom/WeatherLayer";
 import { Scale } from "../components/map/Scale";
+import { StreetLevelCrimeLayer } from "@/components/map/layers/custom/StreetLevelCrimeLayer";
 
 const RAIN_RATE_SCALE = [
   { color: "#FFFFFF00", value: "0" },
@@ -412,6 +414,8 @@ export const OVERLAYS: Record<string, Overlay> = {
   "Company Data": { minZoom: 16, component: CompanyDataLayer },
   Postcodes: { minZoom: 11, component: PostcodePolygonsLayer },
   "Street Manager": { minZoom: 15, component: StreetManagerLayer },
+  "Fuel Prices": { minZoom: 10, component: FuelPricesLayer },
+  "Street Level Crime": { minZoom: 13, component: StreetLevelCrimeLayer },
   "Waymarked Hiking Trails": {
     minZoom: 6,
     component: () => (
@@ -571,3 +575,7 @@ export const baseLayers = createListCollection({
   itemToString: (item) => item.name,
   itemToValue: (item) => `${item.provider} / ${item.name}`,
 });
+
+export function isHighDefinitionTileSet(tile: Tile) {
+  return tile.type === "vector" || tile.url.includes("@2x") || tile.url.includes("{r}");
+}

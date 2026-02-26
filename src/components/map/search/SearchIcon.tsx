@@ -23,6 +23,7 @@ import {
   MdOutlineDirectionsRailwayFilled,
   MdTram,
 } from "react-icons/md";
+import { PiIslandBold } from "react-icons/pi";
 
 interface SearchIconProps {
   localType: string;
@@ -74,6 +75,8 @@ const iconMap: Record<string, React.ElementType> = {
   "Oil Refining": FaOilWell,
   "Oil Terminal": FaOilWell,
   "Oil Distribution or Storage": FaOilWell,
+  Sea: FaWater,
+  Bay: PiIslandBold,
 };
 
 export function SearchIcon({ localType }: SearchIconProps) {

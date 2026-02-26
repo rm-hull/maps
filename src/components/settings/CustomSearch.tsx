@@ -1,9 +1,11 @@
-import { Button, Input, InputGroup } from "@chakra-ui/react";
+import { Button, InputGroup } from "@chakra-ui/react";
 import { type LatLng } from "leaflet";
-import { type ChangeEvent, useState, useCallback } from "react";
+import { type ChangeEvent, type KeyboardEvent, useState, useCallback } from "react";
+import { suggest } from "@/services/placenames";
 import { find } from "../../services/osdatahub";
 import { toLatLng } from "../../services/osdatahub/helpers";
 import { type SearchState, StateIcon } from "../StateIcon";
+import { TypeaheadInput } from "../TypeaheadInput";
 
 interface CustomSearchProps {
   disabled?: boolean;
@@ -15,15 +17,10 @@ export function CustomSearch({ disabled = false, searchTerm = "", onUpdate }: Cu
   const [value, setValue] = useState(searchTerm);
   const [searching, setSearching] = useState<SearchState>();
 
-  const handleChange = useCallback((event: ChangeEvent<HTMLInputElement>): void => {
-    setValue(event.target.value);
-    setSearching(undefined);
-  }, []);
-
-  const handleCustomSearch = useCallback(async (): Promise<void> => {
+  const handleCustomSearch = useCallback(async () => {
     try {
       setSearching("busy");
-      const data = await find(value, 1);
+      const data = await find(value, { maxResults: 1 });
       if (data.header.totalresults === 0 || !data.results) {
         setSearching("not-found");
         return;
@@ -39,9 +36,34 @@ export function CustomSearch({ disabled = false, searchTerm = "", onUpdate }: Cu
     }
   }, [onUpdate, value]);
 
+  const handleChange = useCallback((event: ChangeEvent<HTMLInputElement>) => {
+    setValue(event.target.value);
+    setSearching(undefined);
+  }, []);
+
   const handleClick = useCallback(() => {
-    handleCustomSearch().catch(console.error);
+    // eslint-disable-next-line @typescript-eslint/no-floating-promises
+    handleCustomSearch();
   }, [handleCustomSearch]);
+
+  const handleKeyDown = useCallback(
+    (event: KeyboardEvent<HTMLInputElement>) => {
+      if (event.key === "Enter") {
+        event.preventDefault();
+        // eslint-disable-next-line @typescript-eslint/no-floating-promises
+        handleCustomSearch();
+      }
+    },
+    [handleCustomSearch]
+  );
+
+  const fetchSuggestions = useCallback(async (input: string) => {
+    if (!input.trim()) {
+      return [];
+    }
+    const result = await suggest(input);
+    return result.results.map((item) => item.name);
+  }, []);
 
   return (
     <InputGroup
@@ -57,7 +79,19 @@ export function CustomSearch({ disabled = false, searchTerm = "", onUpdate }: Cu
         </Button>
       }
     >
-      <Input size="xs" value={value} onChange={handleChange} placeholder="search" disabled={disabled} />
+      <TypeaheadInput
+        id="custom-search"
+        name="custom-search"
+        size="xs"
+        inset="0px 1px"
+        disabled={disabled}
+        autoComplete="off"
+        autoCapitalize="off"
+        value={value}
+        onChange={handleChange}
+        onKeyDown={handleKeyDown}
+        fetchSuggestions={fetchSuggestions}
+      />
     </InputGroup>
   );
 }

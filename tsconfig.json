@@ -19,7 +19,7 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
-    "types": ["react", "vitest/globals"],
+    "types": ["react", "vitest/globals", "node"],
 
     "paths": {
       "@/*": ["./src/*"]

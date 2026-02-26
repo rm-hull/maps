@@ -1,11 +1,19 @@
-import { Accordion, Box, Link, Text, VStack, Checkbox, Collapsible } from "@chakra-ui/react";
+import { Accordion, Box, Link, Text, VStack, Checkbox, Collapsible, HStack } from "@chakra-ui/react";
 import * as L from "leaflet";
 import { useCallback, useState, useRef } from "react";
+import { BsBadgeHd } from "react-icons/bs";
 import { IoLayersSharp } from "react-icons/io5";
 import { useMap } from "react-leaflet";
 import { ControlButton } from "@/components/ControlButton";
 import { useColorModeValue } from "@/components/ui/color-mode";
-import { baseLayers, LayerOption, type Tile, type Overlay, OVERLAYS } from "../../../config/layer";
+import {
+  baseLayers,
+  LayerOption,
+  type Tile,
+  type Overlay,
+  OVERLAYS,
+  isHighDefinitionTileSet,
+} from "../../../config/layer";
 import { useGeneralSettings } from "../../../hooks/useGeneralSettings";
 import { Control } from "../Control";
 import "@maplibre/maplibre-gl-leaflet";
@@ -16,7 +24,7 @@ function OverlaySelector() {
   const handleOverlayChange = useCallback(
     (name: string, checked: boolean | "indeterminate") => {
       if (checked !== "indeterminate") {
-        updateSettings({
+        void updateSettings({
           ...settings,
           overlays: {
             ...settings?.overlays,
@@ -90,9 +98,9 @@ type BaseLayerAccordionProps = {
 function BaseLayerAccordion({ onLayerChanged, selectedLayer }: BaseLayerAccordionProps) {
   const handleLayerChange = useCallback((layer: LayerOption) => () => onLayerChanged(layer), [onLayerChanged]);
 
-  const bgColor = useColorModeValue("white", "var(--chakra-colors-gray-800)");
-  const borderColor = useColorModeValue("rgba(0,0,0,0.2)", "rgba(255,255,255,0.2)");
-  const defaultColor = useColorModeValue("rgba(0,0,0,0.5)", "rgba(255,255,255,0.5)");
+  const bgColor = useColorModeValue("white", "gray.800");
+  const borderColor = useColorModeValue("blackAlpha.400", "whiteAlpha.400");
+  const defaultColor = useColorModeValue("blackAlpha.600", "whiteAlpha.600");
 
   return (
     <Box
@@ -116,12 +124,19 @@ function BaseLayerAccordion({ onLayerChanged, selectedLayer }: BaseLayerAccordio
             <Accordion.ItemContent>
               <Accordion.ItemBody padding={2} maxHeight={200} overflowY="auto">
                 {layers.map((layer) => (
-                  <Box key={layer.name} display="inline-block" marginRight={2}>
-                    <Link onClick={handleLayerChange(layer)}>
-                      <Text fontSize={14} fontWeight={layer === selectedLayer ? "bold" : "default"}>
-                        {layer.name}
-                      </Text>
-                    </Link>
+                  <Box key={layer.name} display="inline-block" marginRight={3}>
+                    <HStack gap={1}>
+                      <Link onClick={handleLayerChange(layer)}>
+                        <Text fontSize={14} fontWeight={layer === selectedLayer ? "bold" : "default"}>
+                          {layer.name}
+                        </Text>
+                      </Link>
+                      {layer.tiles.some(isHighDefinitionTileSet) && (
+                        <Box as="span" color="fg.subtle">
+                          <BsBadgeHd />
+                        </Box>
+                      )}
+                    </HStack>
                   </Box>
                 ))}
               </Accordion.ItemBody>
