@@ -108,16 +108,9 @@ const BASE_LAYERS: LayerOption[] = [
     "https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}",
     { maxNativeZoom: 16, maxZoom: 17 }
   ),
-  {
-    name: "OpenFreeMap",
-    provider: "Open Street Map",
-    tiles: [
-      {
-        type: "vector",
-        url: "https://tiles.openfreemap.org/styles/liberty",
-      },
-    ],
-  },
+  createVectorLayer("Bright", "Open Free Map", "https://tiles.openfreemap.org/styles/bright"),
+  createVectorLayer("Liberty", "Open Free Map", "https://tiles.openfreemap.org/styles/liberty"),
+  createVectorLayer("Positron", "Open Free Map", "https://tiles.openfreemap.org/styles/positron"),
   createRasterLayer("OpenStreetMap", "Open Street Map", "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"),
   createRasterLayer("OpenTopoMap", "Open Street Map", "https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png", {
     maxZoom: 15,
