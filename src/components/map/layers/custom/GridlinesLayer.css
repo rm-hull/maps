@@ -1,0 +1,8 @@
+.leaflet-grid-label .gridlabel-vert,
+.leaflet-grid-label .gridlabel-horiz {
+  width: 55px;
+}
+
+.leaflet-grid-label .gridlabel-vert {
+  transform: translate(-50%, 110%) rotate(90deg) !important;
+}

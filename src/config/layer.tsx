@@ -11,6 +11,7 @@ import { StreetManagerLayer } from "../components/map/layers/custom/StreetManage
 import { WeatherLayer } from "../components/map/layers/custom/WeatherLayer";
 import { Scale } from "../components/map/Scale";
 import { StreetLevelCrimeLayer } from "@/components/map/layers/custom/StreetLevelCrimeLayer";
+import { GridlinesLayer } from "@/components/map/layers/custom/GridlinesLayer";
 
 const RAIN_RATE_SCALE = [
   { color: "#FFFFFF00", value: "0" },
@@ -217,6 +218,7 @@ const BASE_LAYERS: LayerOption[] = [
 ];
 
 export const OVERLAYS: Record<string, Overlay> = {
+  "Gridlines": { minZoom: 6, component: GridlinesLayer },
   "GPS Routes": { minZoom: 10, component: GpsRoutesLayer },
   Geograph: { minZoom: 16, component: GeographLayer },
   "GeoDS POI": { minZoom: 14, component: GeodsPointsOfInterestLayer },
