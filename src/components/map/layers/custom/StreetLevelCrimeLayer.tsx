@@ -45,7 +45,7 @@ const crimeCategories: Record<string, { name: string; color: string; severity: n
 };
 
 function initSelections(value: boolean): Record<string, boolean> {
-  return Object.entries(crimeCategories).reduce((acc, [key]) => ({ ...acc, [key]: value }), {});
+  return Object.fromEntries(Object.keys(crimeCategories).map((key) => [key, value]));
 }
 
 interface LegendProps {
