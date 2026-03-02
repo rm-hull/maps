@@ -234,7 +234,7 @@ export function StreetLevelCrimeLayer({ bounds }: StreetLevelCrimeLayerProps) {
           acc[key].push(crime);
           return acc;
         },
-        {} as Record<string, typeof data>
+        {} as Record<string, StreetLevelCrime[]>
       ) || {},
     [data, selected]
   );
