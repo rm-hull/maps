@@ -41,7 +41,12 @@ export const gasStation = new L.Icon({
   iconUrl: gasStationUrl,
 });
 
-export function gasStationWithRing(colors: string[]): L.DivIcon {
+export function gasStationWithRing(colors: string[]) {
+  const n = colors.length;
+  if (n === 0) {
+    return gasStation;
+  }
+
   const imgSize = 28;
   const strokeWidth = 6;
 
@@ -52,24 +57,14 @@ export function gasStationWithRing(colors: string[]): L.DivIcon {
   const cy = cx;
 
   const svgParts: string[] = [];
+  const circumference = 2 * Math.PI * r;
+  const segmentLength = circumference / n;
 
-  if (colors.length === 1) {
-    const c = colors[0];
-    svgParts.push(`<circle cx="${cx}" cy="${cy}" r="${r}" fill="none" stroke="${c}" stroke-width="${strokeWidth}" />`);
-  } else if (colors.length === 2) {
-    // two colors -> draw two semicircles
-    const c1 = colors[0];
-    const c2 = colors[1];
-    const circumference = 2 * Math.PI * r;
-    const half = circumference / 2;
-
+  colors.forEach((color, i) => {
     svgParts.push(
-      `<circle cx="${cx}" cy="${cy}" r="${r}" fill="none" stroke="${c1}" stroke-width="${strokeWidth}" stroke-dasharray="${half} ${half}" transform="rotate(-90 ${cx} ${cy})" stroke-linecap="butt" />`
+      `<circle cx="${cx}" cy="${cy}" r="${r}" fill="none" stroke="${color}" stroke-width="${strokeWidth}" stroke-dasharray="${segmentLength} ${circumference - segmentLength}" transform="rotate(${-90 + i * (360 / n)} ${cx} ${cy})" stroke-linecap="butt" />`
     );
-    svgParts.push(
-      `<circle cx="${cx}" cy="${cy}" r="${r}" fill="none" stroke="${c2}" stroke-width="${strokeWidth}" stroke-dasharray="${half} ${half}" stroke-dashoffset="${half}" transform="rotate(-90 ${cx} ${cy})" stroke-linecap="butt" />`
-    );
-  }
+  });
 
   const svg = `
     <svg xmlns="http://www.w3.org/2000/svg" width="${ringSize}" height="${ringSize}" viewBox="0 0 ${ringSize} ${ringSize}" style="position:absolute;left:0;top:0;pointer-events:none">
