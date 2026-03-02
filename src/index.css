@@ -93,3 +93,7 @@
   animation: pulse 1s infinite;
   transform-origin: center;
 }
+
+.streetLevelCrime-legend .chakra-link {
+  color: var(--chakra-colors-fg-muted);
+}

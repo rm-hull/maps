@@ -9,6 +9,8 @@ import {
   createListCollection,
   DataList,
   Heading,
+  HStack,
+  Link,
   List,
   Portal,
   Select,
@@ -19,7 +21,7 @@ import {
 import { Control } from "../../Control";
 import { useColorModeValue } from "@/components/ui/color-mode";
 import { StreetLevelCrime } from "@/services/streetLevelCrimes/types";
-import { useEffect, useMemo, useState } from "react";
+import { SetStateAction, useEffect, useMemo, useState } from "react";
 
 interface StreetLevelCrimeLayerProps {
   bounds: LatLngBounds;
@@ -42,12 +44,18 @@ const crimeCategories: Record<string, { name: string; color: string; severity: n
   "other-crime": { name: "Other crime", color: "lightgray", severity: 8 },
 };
 
+function initSelections(value: boolean): Record<string, boolean> {
+  return Object.fromEntries(Object.keys(crimeCategories).map((key) => [key, value]));
+}
+
 interface LegendProps {
   initialMonth: string;
   onMonthChange: (month: string) => void;
+  selected: Record<string, boolean>;
+  onSelectedChange: (selections: SetStateAction<Record<string, boolean>>) => void;
 }
 
-function Legend({ initialMonth, onMonthChange }: LegendProps) {
+function Legend({ initialMonth, onMonthChange, selected, onSelectedChange }: LegendProps) {
   const bg = useColorModeValue("whiteAlpha.900", "blackAlpha.800");
   const fg = useColorModeValue("gray.600", "gray.300");
 
@@ -66,6 +74,10 @@ function Legend({ initialMonth, onMonthChange }: LegendProps) {
     items.reverse(); // ascending order (oldest -> newest)
     return createListCollection({ items });
   }, [initialMonth]);
+
+  const handleSelectionToggled = (category: string) => onSelectedChange((prev) => ({ ...prev, [category]: !prev[category] }));
+  const handleSelectAll = () => onSelectedChange(initSelections(true));
+  const handleClearAll = () => onSelectedChange(initSelections(false));
 
   return (
     <Control position="bottomleft">
@@ -99,14 +111,28 @@ function Legend({ initialMonth, onMonthChange }: LegendProps) {
             </Select.Positioner>
           </Portal>
         </Select.Root>
-        <List.Root>
+        <List.Root className="streetLevelCrime-legend">
           {Object.entries(crimeCategories).map(([key, { name, color }]) => (
             <List.Item key={key} display="flex" alignItems="center" gap={1} fontSize="xs">
               <Circle size="10px" bg={color} flexShrink={0} mr={2} borderColor="gray" borderWidth={0.5} />
-              {name}
+              <Link
+                variant="plain"
+                onClick={() => handleSelectionToggled(key)}
+                textDecoration={selected[key] ? undefined : "line-through"}
+              >
+                {name}
+              </Link>
             </List.Item>
           ))}
         </List.Root>
+        <HStack gap={3} fontSize="xs" fontWeight="500" mb={2}>
+          <Link variant="underline" onClick={handleClearAll}>
+            clear all
+          </Link>
+          <Link variant="underline" onClick={handleSelectAll}>
+            select all
+          </Link>
+        </HStack>
       </VStack>
     </Control>
   );
@@ -183,6 +209,7 @@ function ListView({ incident }: ListViewProps) {
 export function StreetLevelCrimeLayer({ bounds }: StreetLevelCrimeLayerProps) {
   const { data: lastUpdated } = useLastUpdated();
   const [month, setMonth] = useState<string | undefined>(undefined);
+  const [selected, setSelected] = useState(initSelections(true));
   const { data, error } = useCachedQuery(useStreetLevelCrimes(bounds, "all-crime", month));
   useErrorToast("street-level-crime-error", "Error loading street-level crime data", error);
 
@@ -196,6 +223,10 @@ export function StreetLevelCrimeLayer({ bounds }: StreetLevelCrimeLayerProps) {
     () =>
       data?.reduce(
         (acc, crime) => {
+          if (crime.category && !selected[crime.category]) {
+            return acc;
+          }
+
           const key = crime.location.street.id;
           if (!acc[key]) {
             acc[key] = [];
@@ -203,9 +234,9 @@ export function StreetLevelCrimeLayer({ bounds }: StreetLevelCrimeLayerProps) {
           acc[key].push(crime);
           return acc;
         },
-        {} as Record<string, typeof data>
+        {} as Record<string, StreetLevelCrime[]>
       ) || {},
-    [data]
+    [data, selected]
   );
 
   if (!lastUpdated) {
@@ -214,7 +245,7 @@ export function StreetLevelCrimeLayer({ bounds }: StreetLevelCrimeLayerProps) {
 
   return (
     <>
-      <Legend initialMonth={lastUpdated} onMonthChange={setMonth} />
+      <Legend initialMonth={lastUpdated} onMonthChange={setMonth} selected={selected} onSelectedChange={setSelected} />
       {Object.values(byStreet).map((incidents) => {
         // choose the category with the highest severity (1 = most severe)
         const chosenCategory = incidents.reduce((bestCat, crime) => {
@@ -228,7 +259,7 @@ export function StreetLevelCrimeLayer({ bounds }: StreetLevelCrimeLayerProps) {
         const location = incidents[0].location;
         return (
           <CircleMarker
-            key={incidents[0].id}
+            key={incidents[0].id + ";" + color}
             center={[parseFloat(location.latitude), parseFloat(location.longitude)]}
             radius={5}
             color="gray"
