@@ -41,7 +41,7 @@ export const gasStation = new L.Icon({
   iconUrl: gasStationUrl,
 });
 
-export function gasStationWithRing(colors: string[]): L.DivIcon {
+export function gasStationWithRing(colors: string[]): L.Icon {
   const n = colors.length;
   if (n === 0) {
     return gasStation;
