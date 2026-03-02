@@ -41,32 +41,28 @@ export const gasStation = new L.Icon({
   iconUrl: gasStationUrl,
 });
 
-export function gasStationWithRing(colors?: string[]): L.DivIcon {
+export function gasStationWithRing(colors: string[]): L.DivIcon {
   const imgSize = 28;
-  const gap = 1; // px gap around the image
-  const strokeWidth = 6; // thicker ring
+  const strokeWidth = 6;
 
   // radius so inner edge of stroke sits `gap` pixels away from image edge
-  const r = Math.floor(imgSize / 2 + gap + strokeWidth / 2);
+  const r = Math.floor(imgSize / 2 + strokeWidth / 2);
   const ringSize = 2 * r + strokeWidth;
   const cx = Math.floor(ringSize / 2);
-  const cy = Math.floor(ringSize / 2);
+  const cy = cx;
 
   const svgParts: string[] = [];
 
-  if (!colors || colors.length === 0) {
-    // no ring
-  } else if (colors.length === 1) {
+  if (colors.length === 1) {
     const c = colors[0];
     svgParts.push(`<circle cx="${cx}" cy="${cy}" r="${r}" fill="none" stroke="${c}" stroke-width="${strokeWidth}" />`);
-  } else {
+  } else if (colors.length === 2) {
     // two colors -> draw two semicircles
     const c1 = colors[0];
     const c2 = colors[1];
     const circumference = 2 * Math.PI * r;
     const half = circumference / 2;
 
-    // draw two circles with stroke-dasharray to show halves, rotated so split is vertical
     svgParts.push(
       `<circle cx="${cx}" cy="${cy}" r="${r}" fill="none" stroke="${c1}" stroke-width="${strokeWidth}" stroke-dasharray="${half} ${half}" transform="rotate(-90 ${cx} ${cy})" stroke-linecap="butt" />`
     );
