@@ -49,13 +49,14 @@ function initSelections(value: boolean): Record<string, boolean> {
 }
 
 interface LegendProps {
+  counts: Record<string, number>;
   initialMonth: string;
   onMonthChange: (month: string) => void;
   selected: Record<string, boolean>;
   onSelectedChange: (selections: SetStateAction<Record<string, boolean>>) => void;
 }
 
-function Legend({ initialMonth, onMonthChange, selected, onSelectedChange }: LegendProps) {
+function Legend({ initialMonth, onMonthChange, selected, onSelectedChange, counts }: LegendProps) {
   const bg = useColorModeValue("whiteAlpha.900", "blackAlpha.800");
   const fg = useColorModeValue("gray.600", "gray.300");
 
@@ -75,7 +76,8 @@ function Legend({ initialMonth, onMonthChange, selected, onSelectedChange }: Leg
     return createListCollection({ items });
   }, [initialMonth]);
 
-  const handleSelectionToggled = (category: string) => onSelectedChange((prev) => ({ ...prev, [category]: !prev[category] }));
+  const handleSelectionToggled = (category: string) =>
+    onSelectedChange((prev) => ({ ...prev, [category]: !prev[category] }));
   const handleSelectAll = () => onSelectedChange(initSelections(true));
   const handleClearAll = () => onSelectedChange(initSelections(false));
 
@@ -84,7 +86,8 @@ function Legend({ initialMonth, onMonthChange, selected, onSelectedChange }: Leg
       <VStack backgroundColor={bg} color={fg} p={1} pt={3} borderRadius={5} direction={{ base: "column", md: "row" }}>
         <Select.Root
           size="xs"
-          width={150}
+          px={2}
+          width="stretch"
           collection={months}
           defaultValue={[initialMonth]}
           onValueChange={(details) => onMonthChange(details.value[0])}
@@ -111,17 +114,22 @@ function Legend({ initialMonth, onMonthChange, selected, onSelectedChange }: Leg
             </Select.Positioner>
           </Portal>
         </Select.Root>
-        <List.Root className="streetLevelCrime-legend">
+        <List.Root px={2} className="streetLevelCrime-legend">
           {Object.entries(crimeCategories).map(([key, { name, color }]) => (
             <List.Item key={key} display="flex" alignItems="center" gap={1} fontSize="xs">
               <Circle size="10px" bg={color} flexShrink={0} mr={2} borderColor="gray" borderWidth={0.5} />
-              <Link
-                variant="plain"
-                onClick={() => handleSelectionToggled(key)}
-                textDecoration={selected[key] ? undefined : "line-through"}
-              >
-                {name}
-              </Link>
+              <HStack justifyContent="space-between" alignItems="baseline" width="stretch">
+                <Link
+                  variant="plain"
+                  onClick={() => handleSelectionToggled(key)}
+                  textDecoration={selected[key] ? undefined : "line-through"}
+                >
+                  {name}
+                </Link>
+                <List.Indicator mr={0} color="blue.700" width={6} textAlign="right" fontSize="2xs">
+                  {counts[key] ?? 0}
+                </List.Indicator>
+              </HStack>
             </List.Item>
           ))}
         </List.Root>
@@ -239,13 +247,27 @@ export function StreetLevelCrimeLayer({ bounds }: StreetLevelCrimeLayerProps) {
     [data, selected]
   );
 
+  const categoryCounts = useMemo(() => {
+    const acc: Record<string, number> = {};
+    data?.forEach((crime) => {
+      acc[crime.category] = (acc[crime.category] ?? 0) + 1;
+    });
+    return acc;
+  }, [data]);
+
   if (!lastUpdated) {
     return null;
   }
 
   return (
     <>
-      <Legend initialMonth={lastUpdated} onMonthChange={setMonth} selected={selected} onSelectedChange={setSelected} />
+      <Legend
+        initialMonth={lastUpdated}
+        onMonthChange={setMonth}
+        selected={selected}
+        onSelectedChange={setSelected}
+        counts={categoryCounts}
+      />
       {Object.values(byStreet).map((incidents) => {
         // choose the category with the highest severity (1 = most severe)
         const chosenCategory = incidents.reduce((bestCat, crime) => {
