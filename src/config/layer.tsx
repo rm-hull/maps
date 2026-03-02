@@ -218,7 +218,7 @@ const BASE_LAYERS: LayerOption[] = [
 ];
 
 export const OVERLAYS: Record<string, Overlay> = {
-  "Gridlines": { minZoom: 6, component: GridlinesLayer },
+  Gridlines: { minZoom: 6, component: GridlinesLayer },
   "GPS Routes": { minZoom: 10, component: GpsRoutesLayer },
   Geograph: { minZoom: 16, component: GeographLayer },
   "GeoDS POI": { minZoom: 14, component: GeodsPointsOfInterestLayer },

@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useMap } from "react-leaflet";
 import AutoGraticule from "leaflet-auto-graticule";
-import './GridlinesLayer.css';
+import "./GridlinesLayer.css";
 
 export function GridlinesLayer() {
   const map = useMap();
@@ -22,7 +22,7 @@ export function GridlinesLayer() {
     graticule.addTo(map);
 
     return () => {
-      map.removeLayer(graticule)
+      map.removeLayer(graticule);
     };
   }, [map]);
 
