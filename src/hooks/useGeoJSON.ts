@@ -4,7 +4,7 @@ import { GeoJSONCollection, SupportedMimeTypes, fetchGeoJSON } from "../services
 
 export function useGeoJSON(url: string, type: SupportedMimeTypes) {
   return useQuery<GeoJSONCollection, AxiosError>({
-    queryKey: ["geojson"],
+    queryKey: ["geojson", url],
     queryFn: () => fetchGeoJSON(url, type),
     staleTime: Infinity,
     enabled: false,
