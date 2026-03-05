@@ -17,12 +17,14 @@ export function FuelPricesLayer({ bounds }: FuelPricesLayerProps) {
   const cheapestDieselIds = data?.statistics.cheapest_stations?.["B7_STANDARD"] ?? [];
   const cheapestPetrolIds = data?.statistics.cheapest_stations?.["E10"] ?? [];
   const cheapestHvoIds = data?.statistics.cheapest_stations?.["HVO"] ?? [];
+  const cheapestB10Ids = data?.statistics.cheapest_stations?.["B10"] ?? [];
 
   return results.map((pfs) => {
     const colors: string[] = [];
     if (cheapestDieselIds.includes(pfs.node_id)) colors.push("black");
     if (cheapestPetrolIds.includes(pfs.node_id)) colors.push("green");
     if (cheapestHvoIds.includes(pfs.node_id)) colors.push("pink");
+    if (cheapestB10Ids.includes(pfs.node_id)) colors.push("var(--chakra-colors-yellow-400)");
 
     return (
       <Marker
