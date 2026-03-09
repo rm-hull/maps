@@ -7822,7 +7822,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"jotai@npm:^2.15.2, jotai@npm:^2.18.0":
+"jotai@npm:^2.15.2":
   version: 2.18.0
   resolution: "jotai@npm:2.18.0"
   peerDependencies:
@@ -7840,6 +7840,27 @@ __metadata:
     react:
       optional: true
   checksum: 10/dfa48f53604824f15450a79bbf4ca447d8382c9fd54e0bd726c2e97caaaeef4018f192cf9de925df3d6bfac01367ee35fbefbe3a28d665c1c98ab8ef820d86a7
+  languageName: node
+  linkType: hard
+
+"jotai@npm:^2.18.1":
+  version: 2.18.1
+  resolution: "jotai@npm:2.18.1"
+  peerDependencies:
+    "@babel/core": ">=7.0.0"
+    "@babel/template": ">=7.0.0"
+    "@types/react": ">=17.0.0"
+    react: ">=17.0.0"
+  peerDependenciesMeta:
+    "@babel/core":
+      optional: true
+    "@babel/template":
+      optional: true
+    "@types/react":
+      optional: true
+    react:
+      optional: true
+  checksum: 10/62c0472f33626c858ea57cf967b2c99f8b812f1a69b1c799f05f6854fbb9d5ab509c970aab284b9419a8fdbfc4a9561f683f9bb50bc805687437068de5d2ae20
   languageName: node
   linkType: hard
 
@@ -8278,7 +8299,7 @@ __metadata:
     eslint-plugin-unused-imports: "npm:^4.4.1"
     globals: "npm:^17.4.0"
     javascript-time-ago: "npm:^2.6.4"
-    jotai: "npm:^2.18.0"
+    jotai: "npm:^2.18.1"
     jsdom: "npm:^28.1.0"
     leaflet: "npm:^1.9.4"
     leaflet-auto-graticule: "npm:^2.0.0"
