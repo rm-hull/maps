@@ -8538,7 +8538,6 @@ __metadata:
     react: "npm:^19.2.4"
     react-dom: "npm:^19.2.4"
     react-error-boundary: "npm:^6.1.1"
-    react-ga4: "npm:^2.1.0"
     react-icons: "npm:^5.6.0"
     react-lazily: "npm:^0.9.2"
     react-leaflet: "npm:^5.0.0"
@@ -9416,13 +9415,6 @@ __metadata:
   peerDependencies:
     react: ^18.0.0 || ^19.0.0
   checksum: 10/6a2b2d75466c9917b1657048cecff8a617ce5a2de8208677eb98802f6d324ba8a8d3acdce2e23e3deae3b7d35876675bc982e97a9f929a19ce2e926588097d71
-  languageName: node
-  linkType: hard
-
-"react-ga4@npm:^2.1.0":
-  version: 2.1.0
-  resolution: "react-ga4@npm:2.1.0"
-  checksum: 10/e47edd040b7a272d35df732e08c4a8b6b14add659db04fb81a3a2cbde59bf34dc6eae9e0b8b4abd8937d11c837954773a6ba86feb2c605e5eb916f4c99e420c7
   languageName: node
   linkType: hard
 
