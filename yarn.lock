@@ -2367,12 +2367,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@maplibre/geojson-vt@npm:^6.0.1":
-  version: 6.0.1
-  resolution: "@maplibre/geojson-vt@npm:6.0.1"
+"@maplibre/geojson-vt@npm:^6.0.2":
+  version: 6.0.2
+  resolution: "@maplibre/geojson-vt@npm:6.0.2"
   dependencies:
     kdbush: "npm:^4.0.2"
-  checksum: 10/1ca5b8a4f9a5be164035e6128e846fb545aca380909276fee09387aa54bfdcad46106ead3c798d204ae4180daf38ca464b79978457cea4c9d9de46d76620f648
+  checksum: 10/53e3e1d4deec743ce6bca3acccd9a7adbe289f883c93b370c2fd9ac841dd36542c057c4cf0b995940302d2557fac3a6077d61c92c6fcad4e1d178e389161bd0b
   languageName: node
   linkType: hard
 
@@ -8277,9 +8277,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"maplibre-gl@npm:^5.20.0":
-  version: 5.20.0
-  resolution: "maplibre-gl@npm:5.20.0"
+"maplibre-gl@npm:^5.20.1":
+  version: 5.20.1
+  resolution: "maplibre-gl@npm:5.20.1"
   dependencies:
     "@mapbox/jsonlint-lines-primitives": "npm:^2.0.2"
     "@mapbox/point-geometry": "npm:^1.1.0"
@@ -8287,7 +8287,7 @@ __metadata:
     "@mapbox/unitbezier": "npm:^0.0.1"
     "@mapbox/vector-tile": "npm:^2.0.4"
     "@mapbox/whoots-js": "npm:^3.1.0"
-    "@maplibre/geojson-vt": "npm:^6.0.1"
+    "@maplibre/geojson-vt": "npm:^6.0.2"
     "@maplibre/maplibre-gl-style-spec": "npm:^24.7.0"
     "@maplibre/mlt": "npm:^1.1.7"
     "@maplibre/vt-pbf": "npm:^4.3.0"
@@ -8300,7 +8300,7 @@ __metadata:
     potpack: "npm:^2.1.0"
     quickselect: "npm:^3.0.0"
     tinyqueue: "npm:^3.0.0"
-  checksum: 10/da5e25bf3a3427468fa87f310470008340b884375b6e03f14a57ecc185e03e3b4b54968556a44c9db4a2bec569df25b5d32581bb48824d3b4779c3a1e568b7d1
+  checksum: 10/0689e67eef2824ec27b1f116e14da4eae5be90d9d90ac8741db106ab7a630334203fc3208f0e45e5ce1671699a325c735868256c8cf01ef224ca1874dc109125
   languageName: node
   linkType: hard
 
@@ -8371,7 +8371,7 @@ __metadata:
     leaflet: "npm:^1.9.4"
     leaflet-auto-graticule: "npm:^2.0.0"
     leaflet-measure: "npm:^3.1.0"
-    maplibre-gl: "npm:^5.20.0"
+    maplibre-gl: "npm:^5.20.1"
     next-themes: "npm:^0.4.6"
     prettier: "npm:^3.8.1"
     proj4: "npm:^2.20.4"
