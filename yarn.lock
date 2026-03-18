@@ -3079,10 +3079,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@tanstack/query-core@npm:5.90.20":
-  version: 5.90.20
-  resolution: "@tanstack/query-core@npm:5.90.20"
-  checksum: 10/25e38f4382442bc15e0f6cce8d787e9df8d8822c61d3f3e9427e89e01b1e2506f848292e086dae29aeb55f8ce71b097c34221f3c5eda37fb4a688b5ceca5d1b3
+"@tanstack/query-core@npm:5.91.0":
+  version: 5.91.0
+  resolution: "@tanstack/query-core@npm:5.91.0"
+  checksum: 10/2bee38703ed649a3451a6012005bd00a99459f66ca22a96e994fdba413537de2ebbfafd778b61751e9d824fba3454bc26d2624c4dd599bcbf660de917e898a77
   languageName: node
   linkType: hard
 
@@ -3105,14 +3105,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@tanstack/react-query@npm:^5.90.21":
-  version: 5.90.21
-  resolution: "@tanstack/react-query@npm:5.90.21"
+"@tanstack/react-query@npm:^5.91.0":
+  version: 5.91.0
+  resolution: "@tanstack/react-query@npm:5.91.0"
   dependencies:
-    "@tanstack/query-core": "npm:5.90.20"
+    "@tanstack/query-core": "npm:5.91.0"
   peerDependencies:
     react: ^18 || ^19
-  checksum: 10/5bb4b6be7ac34a7423aca60484f1e35a0c7f8b2f86ef6656a3b6757943417561a50d9a159e2bff9d97a57a82ecec920df067b507c2ec6488beb286635b25e518
+  checksum: 10/7ae88b64c1122b62275a76b7f51f54ba611b946477bda32cad8ccba85aec51e6bb0ec9fd41192bb816dc5fc883d67244e1772ae137a46dad4a861d3f43a779b1
   languageName: node
   linkType: hard
 
@@ -8549,7 +8549,7 @@ __metadata:
     "@sentry/react": "npm:^10.44.0"
     "@stylistic/eslint-plugin": "npm:^5.10.0"
     "@tanstack/eslint-plugin-query": "npm:^5.91.4"
-    "@tanstack/react-query": "npm:^5.90.21"
+    "@tanstack/react-query": "npm:^5.91.0"
     "@tanstack/react-query-devtools": "npm:^5.91.3"
     "@terraformer/wkt": "npm:^2.2.1"
     "@testing-library/dom": "npm:^10.4.1"
