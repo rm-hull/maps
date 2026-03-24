@@ -26,6 +26,5 @@ export default defineConfig(() => {
         exclude: ["src/**/*.spec.{ts,tsx}", "src/test/**", "**/*.d.ts"],
       },
     },
-    resolve: { tsconfigPaths: true }
   };
 });
