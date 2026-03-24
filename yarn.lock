@@ -6799,15 +6799,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-plugin-testing-library@npm:^7.16.1":
-  version: 7.16.1
-  resolution: "eslint-plugin-testing-library@npm:7.16.1"
+"eslint-plugin-testing-library@npm:^7.16.2":
+  version: 7.16.2
+  resolution: "eslint-plugin-testing-library@npm:7.16.2"
   dependencies:
     "@typescript-eslint/scope-manager": "npm:^8.56.0"
     "@typescript-eslint/utils": "npm:^8.56.0"
   peerDependencies:
     eslint: ^8.57.0 || ^9.0.0 || ^10.0.0
-  checksum: 10/6b14a79eef57fcd1023e4994849f62cc5b139e10f049ff96adfd28582ab2d45cb90424e17892f0a2c9ad9579ed4fb8b5170510c79220b0c01efba8e1f8bad513
+  checksum: 10/6aa06995f147986ce9b923479caca9b8a5f703c52ef3bf57d9757953ded448f940b2dbb12d85217a348fc5b754a20ecdb70b9ee39856b202e89f43e648f788a7
   languageName: node
   linkType: hard
 
@@ -8590,7 +8590,7 @@ __metadata:
     eslint-plugin-react-hooks: "npm:^7.0.1"
     eslint-plugin-react-perf: "npm:^3.3.3"
     eslint-plugin-react-refresh: "npm:^0.5.2"
-    eslint-plugin-testing-library: "npm:^7.16.1"
+    eslint-plugin-testing-library: "npm:^7.16.2"
     eslint-plugin-unused-imports: "npm:^4.4.1"
     globals: "npm:^17.4.0"
     javascript-time-ago: "npm:^2.6.4"
