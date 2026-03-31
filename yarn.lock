@@ -8376,7 +8376,7 @@ __metadata:
     react-use: "npm:^17.6.0"
     typescript: "npm:^6.0.2"
     typescript-eslint: "npm:^8.58.0"
-    vite: "npm:^8.0.2"
+    vite: "npm:^8.0.3"
     vite-tsconfig-paths: "npm:^6.1.1"
     vitest: "npm:^4.1.2"
     web-vitals: "npm:^5.2.0"
@@ -10864,7 +10864,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"vite@npm:^6.0.0 || ^7.0.0 || ^8.0.0, vite@npm:^8.0.2":
+"vite@npm:^6.0.0 || ^7.0.0 || ^8.0.0, vite@npm:^8.0.3":
   version: 8.0.3
   resolution: "vite@npm:8.0.3"
   dependencies:
