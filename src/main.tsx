@@ -6,7 +6,6 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { createRoot, RootOptions } from "react-dom/client";
 import { ErrorBoundary } from "react-error-boundary";
-import ReactGA from "react-ga4";
 import { BrowserRouter as Router } from "react-router-dom";
 import { App } from "./App";
 import { Provider } from "./components/ui/provider";
@@ -18,10 +17,6 @@ import TimeAgo from "javascript-time-ago";
 import en from "javascript-time-ago/locale/en";
 
 TimeAgo.addLocale(en);
-
-if (import.meta.env.VITE_GOOGLE_ANALYTICS_MEASUREMENT_ID !== undefined) {
-  ReactGA.initialize(import.meta.env.VITE_GOOGLE_ANALYTICS_MEASUREMENT_ID as string);
-}
 
 if (import.meta.env.VITE_SENTRY_DSN !== undefined) {
   Sentry.init({
