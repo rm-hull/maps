@@ -47,20 +47,12 @@ global.ResizeObserver = class ResizeObserver {
 };
 
 // Mock IntersectionObserver
-global.IntersectionObserver = class IntersectionObserver {
-  constructor() {}
-
+global.IntersectionObserver = class {
   observe() {}
-
   unobserve() {}
-
   disconnect() {}
-
-  root = null;
-  rootMargin = "";
-  thresholds = [];
-
-  takeRecords() {
-    return [];
-  }
-};
+  takeRecords(): IntersectionObserverEntry[] { return []; }
+  readonly root: Element | Document | null = null;
+  readonly rootMargin: string = '';
+  readonly thresholds: ReadonlyArray<number> = [];
+} as unknown as typeof IntersectionObserver;

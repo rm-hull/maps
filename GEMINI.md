@@ -22,7 +22,7 @@ This is a web application that displays UK Ordnance Survey maps. It is built wit
 - **Package Manager:** Yarn
 - **Mapping Library:** Leaflet.js, React-Leaflet, maplibre-gl
 - **UI Components:** Chakra UI
-- **State Management:** Jotai
+- **State Management:** Jotai  (via use-local-storage)
 - **Data Fetching:** react-query
 - **Routing:** react-router-dom
 - **Testing:** Vitest, React Testing Library
