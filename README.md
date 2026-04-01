@@ -31,7 +31,7 @@ _Roads Map Style_
 *   **Build Tool:** Vite
 *   **Mapping:** Leaflet.js, React-Leaflet, maplibre-gl
 *   **UI:** Chakra UI
-*   **State Management:** Jotai
+*   **State Management:** Jotai (via use-local-storage)
 *   **Data Fetching:** React Query
 
 ## Running Locally
