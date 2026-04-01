@@ -17,7 +17,14 @@ export const fetchFuelPrices = async (bounds: LatLngBounds): Promise<SearchRespo
   }
 
   const resp = await client.get<SearchResponse>("/v1/fuel-prices/search", {
-    params: { bbox: bounds.toBBoxString() },
+    params: {
+      bbox: [
+        bounds.getWest().toFixed(3),
+        bounds.getSouth().toFixed(3),
+        bounds.getEast().toFixed(3),
+        bounds.getNorth().toFixed(3),
+      ].join(","),
+    },
   });
   return resp.data;
 };

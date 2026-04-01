@@ -12,6 +12,7 @@ JavascriptTimeAgo.addDefaultLocale(en);
 function getFuelColor(fuelType: string): { colorPalette?: string; variant: "solid" | "subtle" } {
   switch (fuelType) {
     case "B10":
+      return { colorPalette: "yellow", variant: "solid" };
     case "B7_STANDARD":
     case "B7_PREMIUM":
       return { colorPalette: "black", variant: "solid" };

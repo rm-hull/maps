@@ -11,6 +11,7 @@ import { StreetManagerLayer } from "../components/map/layers/custom/StreetManage
 import { WeatherLayer } from "../components/map/layers/custom/WeatherLayer";
 import { Scale } from "../components/map/Scale";
 import { StreetLevelCrimeLayer } from "@/components/map/layers/custom/StreetLevelCrimeLayer";
+import { GridlinesLayer } from "@/components/map/layers/custom/GridlinesLayer";
 
 const RAIN_RATE_SCALE = [
   { color: "#FFFFFF00", value: "0" },
@@ -108,16 +109,9 @@ const BASE_LAYERS: LayerOption[] = [
     "https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}",
     { maxNativeZoom: 16, maxZoom: 17 }
   ),
-  {
-    name: "OpenFreeMap",
-    provider: "Open Street Map",
-    tiles: [
-      {
-        type: "vector",
-        url: "https://tiles.openfreemap.org/styles/liberty",
-      },
-    ],
-  },
+  createVectorLayer("Bright", "Open Free Map", "https://tiles.openfreemap.org/styles/bright"),
+  createVectorLayer("Liberty", "Open Free Map", "https://tiles.openfreemap.org/styles/liberty"),
+  createVectorLayer("Positron", "Open Free Map", "https://tiles.openfreemap.org/styles/positron"),
   createRasterLayer("OpenStreetMap", "Open Street Map", "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"),
   createRasterLayer("OpenTopoMap", "Open Street Map", "https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png", {
     maxZoom: 15,
@@ -408,6 +402,7 @@ const BASE_LAYERS: LayerOption[] = [
 ];
 
 export const OVERLAYS: Record<string, Overlay> = {
+  Gridlines: { minZoom: 6, component: GridlinesLayer },
   "GPS Routes": { minZoom: 10, component: GpsRoutesLayer },
   Geograph: { minZoom: 16, component: GeographLayer },
   "GeoDS POI": { minZoom: 14, component: GeodsPointsOfInterestLayer },
@@ -518,7 +513,7 @@ export const OVERLAYS: Record<string, Overlay> = {
     minZoom: 6,
     component: () => (
       <WeatherLayer
-        url="https://api.destructuring-bind.org/v1/metoffice/datahub/total_precipitation_rate/{y}/{m}/{d}/{h}.png"
+        url="https://api.destructuring-bind.org/v1/metoffice/datahub/total_precipitation_rate/{y}/{m}/{d}/{h}.webp"
         zIndex={660}
         scale={<Scale label="Rain (mm/h):" values={RAIN_RATE_SCALE} />}
       />
@@ -528,7 +523,7 @@ export const OVERLAYS: Record<string, Overlay> = {
     minZoom: 6,
     component: () => (
       <WeatherLayer
-        url="https://api.destructuring-bind.org/v1/metoffice/datahub/cloud_amount_total/{y}/{m}/{d}/{h}.png"
+        url="https://api.destructuring-bind.org/v1/metoffice/datahub/cloud_amount_total/{y}/{m}/{d}/{h}.webp"
         zIndex={659}
         opacity={0.8}
         scale={

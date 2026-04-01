@@ -9,6 +9,8 @@ import {
   createListCollection,
   DataList,
   Heading,
+  HStack,
+  Link,
   List,
   Portal,
   Select,
@@ -19,7 +21,7 @@ import {
 import { Control } from "../../Control";
 import { useColorModeValue } from "@/components/ui/color-mode";
 import { StreetLevelCrime } from "@/services/streetLevelCrimes/types";
-import { useEffect, useMemo, useState } from "react";
+import { SetStateAction, useEffect, useMemo, useState } from "react";
 
 interface StreetLevelCrimeLayerProps {
   bounds: LatLngBounds;
@@ -42,12 +44,19 @@ const crimeCategories: Record<string, { name: string; color: string; severity: n
   "other-crime": { name: "Other crime", color: "lightgray", severity: 8 },
 };
 
-interface LegendProps {
-  initialMonth: string;
-  onMonthChange: (month: string) => void;
+function initSelections(value: boolean): Record<string, boolean> {
+  return Object.fromEntries(Object.keys(crimeCategories).map((key) => [key, value]));
 }
 
-function Legend({ initialMonth, onMonthChange }: LegendProps) {
+interface LegendProps {
+  counts: Record<string, number>;
+  initialMonth: string;
+  onMonthChange: (month: string) => void;
+  selected: Record<string, boolean>;
+  onSelectedChange: (selections: SetStateAction<Record<string, boolean>>) => void;
+}
+
+function Legend({ initialMonth, onMonthChange, selected, onSelectedChange, counts }: LegendProps) {
   const bg = useColorModeValue("whiteAlpha.900", "blackAlpha.800");
   const fg = useColorModeValue("gray.600", "gray.300");
 
@@ -67,12 +76,18 @@ function Legend({ initialMonth, onMonthChange }: LegendProps) {
     return createListCollection({ items });
   }, [initialMonth]);
 
+  const handleSelectionToggled = (category: string) =>
+    onSelectedChange((prev) => ({ ...prev, [category]: !prev[category] }));
+  const handleSelectAll = () => onSelectedChange(initSelections(true));
+  const handleClearAll = () => onSelectedChange(initSelections(false));
+
   return (
     <Control position="bottomleft">
       <VStack backgroundColor={bg} color={fg} p={1} pt={3} borderRadius={5} direction={{ base: "column", md: "row" }}>
         <Select.Root
           size="xs"
-          width={150}
+          px={2}
+          width="stretch"
           collection={months}
           defaultValue={[initialMonth]}
           onValueChange={(details) => onMonthChange(details.value[0])}
@@ -99,14 +114,33 @@ function Legend({ initialMonth, onMonthChange }: LegendProps) {
             </Select.Positioner>
           </Portal>
         </Select.Root>
-        <List.Root>
+        <List.Root px={2} className="streetLevelCrime-legend">
           {Object.entries(crimeCategories).map(([key, { name, color }]) => (
             <List.Item key={key} display="flex" alignItems="center" gap={1} fontSize="xs">
               <Circle size="10px" bg={color} flexShrink={0} mr={2} borderColor="gray" borderWidth={0.5} />
-              {name}
+              <HStack justifyContent="space-between" alignItems="baseline" width="stretch">
+                <Link
+                  variant="plain"
+                  onClick={() => handleSelectionToggled(key)}
+                  textDecoration={selected[key] ? undefined : "line-through"}
+                >
+                  {name}
+                </Link>
+                <List.Indicator mr={0} color="blue.700" width={6} textAlign="right" fontSize="2xs">
+                  {counts[key] ?? 0}
+                </List.Indicator>
+              </HStack>
             </List.Item>
           ))}
         </List.Root>
+        <HStack gap={3} fontSize="xs" fontWeight="500" mb={2}>
+          <Link variant="underline" onClick={handleClearAll}>
+            clear all
+          </Link>
+          <Link variant="underline" onClick={handleSelectAll}>
+            select all
+          </Link>
+        </HStack>
       </VStack>
     </Control>
   );
@@ -183,6 +217,7 @@ function ListView({ incident }: ListViewProps) {
 export function StreetLevelCrimeLayer({ bounds }: StreetLevelCrimeLayerProps) {
   const { data: lastUpdated } = useLastUpdated();
   const [month, setMonth] = useState<string | undefined>(undefined);
+  const [selected, setSelected] = useState(initSelections(true));
   const { data, error } = useCachedQuery(useStreetLevelCrimes(bounds, "all-crime", month));
   useErrorToast("street-level-crime-error", "Error loading street-level crime data", error);
 
@@ -196,6 +231,10 @@ export function StreetLevelCrimeLayer({ bounds }: StreetLevelCrimeLayerProps) {
     () =>
       data?.reduce(
         (acc, crime) => {
+          if (crime.category && !selected[crime.category]) {
+            return acc;
+          }
+
           const key = crime.location.street.id;
           if (!acc[key]) {
             acc[key] = [];
@@ -203,10 +242,18 @@ export function StreetLevelCrimeLayer({ bounds }: StreetLevelCrimeLayerProps) {
           acc[key].push(crime);
           return acc;
         },
-        {} as Record<string, typeof data>
+        {} as Record<string, StreetLevelCrime[]>
       ) || {},
-    [data]
+    [data, selected]
   );
+
+  const categoryCounts = useMemo(() => {
+    const acc: Record<string, number> = {};
+    data?.forEach((crime) => {
+      acc[crime.category] = (acc[crime.category] ?? 0) + 1;
+    });
+    return acc;
+  }, [data]);
 
   if (!lastUpdated) {
     return null;
@@ -214,7 +261,13 @@ export function StreetLevelCrimeLayer({ bounds }: StreetLevelCrimeLayerProps) {
 
   return (
     <>
-      <Legend initialMonth={lastUpdated} onMonthChange={setMonth} />
+      <Legend
+        initialMonth={lastUpdated}
+        onMonthChange={setMonth}
+        selected={selected}
+        onSelectedChange={setSelected}
+        counts={categoryCounts}
+      />
       {Object.values(byStreet).map((incidents) => {
         // choose the category with the highest severity (1 = most severe)
         const chosenCategory = incidents.reduce((bestCat, crime) => {
@@ -228,7 +281,7 @@ export function StreetLevelCrimeLayer({ bounds }: StreetLevelCrimeLayerProps) {
         const location = incidents[0].location;
         return (
           <CircleMarker
-            key={incidents[0].id}
+            key={incidents[0].id + ";" + color}
             center={[parseFloat(location.latitude), parseFloat(location.longitude)]}
             radius={5}
             color="gray"

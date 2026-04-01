@@ -1,0 +1,11 @@
+.leaflet-grid-label .gridlabel-vert,
+.leaflet-grid-label .gridlabel-horiz {
+  width: 55px;
+  -webkit-text-stroke: 4px #f4f4f5;
+  paint-order: stroke fill;
+  text-shadow: initial !important;
+}
+
+.leaflet-grid-label .gridlabel-vert {
+  transform: translate(-50%, 110%) rotate(90deg) !important;
+}
