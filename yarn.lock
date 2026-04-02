@@ -3069,9 +3069,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@tanstack/eslint-plugin-query@npm:^5.96.0":
-  version: 5.96.0
-  resolution: "@tanstack/eslint-plugin-query@npm:5.96.0"
+"@tanstack/eslint-plugin-query@npm:^5.96.1":
+  version: 5.96.1
+  resolution: "@tanstack/eslint-plugin-query@npm:5.96.1"
   dependencies:
     "@typescript-eslint/utils": "npm:^8.48.0"
   peerDependencies:
@@ -3080,7 +3080,7 @@ __metadata:
   peerDependenciesMeta:
     typescript:
       optional: true
-  checksum: 10/95661154f92ce520fd82877cae51f071b992d79213f89571e1372909233866e9b052a9c1341d517937fb79e71c336823d8eef145fa473d54aa55d6bcc041cc8d
+  checksum: 10/07fa6840e733dfe4ea3f2bb3e638d66eaeed25fbb069ba91cf2bf67dfaee689d1519e73ff5094929bb2b9e095659da66f4713e25907a920eec06a9e8f5a5fc45
   languageName: node
   linkType: hard
 
@@ -8553,7 +8553,7 @@ __metadata:
     "@rm-hull/use-local-storage": "npm:^0.3.4"
     "@sentry/react": "npm:^10.47.0"
     "@stylistic/eslint-plugin": "npm:^5.10.0"
-    "@tanstack/eslint-plugin-query": "npm:^5.96.0"
+    "@tanstack/eslint-plugin-query": "npm:^5.96.1"
     "@tanstack/react-query": "npm:^5.96.1"
     "@tanstack/react-query-devtools": "npm:^5.96.0"
     "@terraformer/wkt": "npm:^2.2.1"
