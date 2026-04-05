@@ -51,8 +51,10 @@ global.IntersectionObserver = class {
   observe() {}
   unobserve() {}
   disconnect() {}
-  takeRecords(): IntersectionObserverEntry[] { return []; }
+  takeRecords(): IntersectionObserverEntry[] {
+    return [];
+  }
   readonly root: Element | Document | null = null;
-  readonly rootMargin: string = '';
+  readonly rootMargin: string = "";
   readonly thresholds: ReadonlyArray<number> = [];
 } as unknown as typeof IntersectionObserver;
