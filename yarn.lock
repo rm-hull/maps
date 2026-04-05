@@ -8434,7 +8434,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"maplibre-gl@npm:^5.21.1":
+"maplibre-gl@npm:^5.22.0":
   version: 5.22.0
   resolution: "maplibre-gl@npm:5.22.0"
   dependencies:
@@ -8527,7 +8527,7 @@ __metadata:
     leaflet: "npm:^1.9.4"
     leaflet-auto-graticule: "npm:^2.0.0"
     leaflet-measure: "npm:^3.1.0"
-    maplibre-gl: "npm:^5.21.1"
+    maplibre-gl: "npm:^5.22.0"
     next-themes: "npm:^0.4.6"
     prettier: "npm:^3.8.1"
     proj4: "npm:^2.20.6"
