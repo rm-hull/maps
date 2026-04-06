@@ -32,5 +32,8 @@ export default defineConfig(() => {
         "@": "/src",
       },
     },
+    optimizeDeps: {
+      include: ["maplibre-gl", "@maplibre/maplibre-gl-leaflet"],
+    },
   };
 });
