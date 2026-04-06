@@ -10,7 +10,7 @@ const client = axios.create({
   params: { key: API_KEY, format: "JSON" },
 });
 
-export async function* fetchGeographSyndicatorEndpoint(
+async function* fetchGeographSyndicatorEndpoint(
   { lat, lng }: LatLng,
   distanceKm: number,
   maxResults = 1000
@@ -46,4 +46,16 @@ export async function* fetchGeographSyndicatorEndpoint(
       results++;
     }
   }
+}
+
+export async function fetchGeographItems(
+  latLng: LatLng,
+  distanceKm: number,
+  maxResults = 1000
+): Promise<Item[]> {
+  const items: Item[] = [];
+  for await (const item of fetchGeographSyndicatorEndpoint(latLng, distanceKm, maxResults)) {
+    items.push(item);
+  }
+  return items;
 }
