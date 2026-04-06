@@ -72,8 +72,6 @@ describe("FadeInImage", () => {
   it("should show error after MAX_RETRIES", () => {
     render(<FadeInImage src="invalid.jpg" alt="Test Image" />);
 
-    const img = screen.getByAltText("Test Image");
-
     // Trigger error 3 times
     for (let i = 0; i < 3; i++) {
       fireEvent.error(screen.getByAltText("Test Image"));
