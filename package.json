@@ -17,6 +17,7 @@
     "@tmcw/togeojson": "^7.1.2",
     "axios": "^1.14.0",
     "change-case": "^5.4.4",
+    "framer-motion": "^12.38.0",
     "javascript-time-ago": "^2.6.4",
     "leaflet": "^1.9.4",
     "leaflet-auto-graticule": "^2.0.0",

@@ -56,11 +56,11 @@ You can obtain these API keys by creating accounts on the [OS DataHub](https://o
   ```
 - **Run tests in watch mode (do not use for AI assistance):**
   ```bash
-  yarn test
+  yarn test:watch
   ```
 - **Run tests normally:**
   ```bash
-  yarn test:ai
+  yarn test
   ```
 - **Lint the code:**
   ```bash
