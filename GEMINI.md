@@ -22,7 +22,7 @@ This is a web application that displays UK Ordnance Survey maps. It is built wit
 - **Package Manager:** Yarn
 - **Mapping Library:** Leaflet.js, React-Leaflet, maplibre-gl
 - **UI Components:** Chakra UI
-- **State Management:** Jotai
+- **State Management:** Jotai  (via use-local-storage)
 - **Data Fetching:** react-query
 - **Routing:** react-router-dom
 - **Testing:** Vitest, React Testing Library
@@ -56,11 +56,11 @@ You can obtain these API keys by creating accounts on the [OS DataHub](https://o
   ```
 - **Run tests in watch mode (do not use for AI assistance):**
   ```bash
-  yarn test
+  yarn test:watch
   ```
 - **Run tests normally:**
   ```bash
-  yarn test:ai
+  yarn test
   ```
 - **Lint the code:**
   ```bash

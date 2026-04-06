@@ -156,7 +156,7 @@ function TableView({ incidents }: TableViewProps) {
       <Table.Root size="sm" stickyHeader interactive>
         <Table.Header>
           <Table.Row>
-            <Table.ColumnHeader px={1} py={0.5} fontSize="2xs" fontWeight="medium" color="fg.muted">
+            <Table.ColumnHeader px={1} py={0.5} fontSize="2xs" fontWeight="medium" color="fg.muted" colSpan={2}>
               CATEGORY
             </Table.ColumnHeader>
             <Table.ColumnHeader px={1} py={0.5} fontSize="2xs" fontWeight="medium" color="fg.muted">
@@ -166,8 +166,8 @@ function TableView({ incidents }: TableViewProps) {
         </Table.Header>
         <Table.Body>
           {incidents.map((crime) => (
-            <Table.Row key={crime.id}>
-              <Table.Cell px={1} py={0.5} display="flex" alignItems="center" width={130} textWrap="wrap" fontSize="xs">
+            <Table.Row key={crime.id} verticalAlign="top">
+              <Table.Cell pl={1} pr={0} py={1.5}>
                 <Circle
                   size="10px"
                   bg={crimeCategories[crime.category]?.color}
@@ -176,6 +176,8 @@ function TableView({ incidents }: TableViewProps) {
                   borderColor="gray"
                   borderWidth={0.5}
                 />
+              </Table.Cell>
+              <Table.Cell pl={0.5} py={0.5} width={130} textWrap="wrap" fontSize="xs">
                 {crimeCategories[crime.category]?.name || crime.category}
               </Table.Cell>
               <Table.Cell px={1} py={0.5} width={270} textWrap="wrap" fontSize="xs">
@@ -192,6 +194,7 @@ function TableView({ incidents }: TableViewProps) {
 interface ListViewProps {
   incident: StreetLevelCrime;
 }
+
 function ListView({ incident }: ListViewProps) {
   return (
     <DataList.Root orientation="horizontal" gap={1}>
@@ -214,6 +217,7 @@ function ListView({ incident }: ListViewProps) {
     </DataList.Root>
   );
 }
+
 export function StreetLevelCrimeLayer({ bounds }: StreetLevelCrimeLayerProps) {
   const { data: lastUpdated } = useLastUpdated();
   const [month, setMonth] = useState<string | undefined>(undefined);

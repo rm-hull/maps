@@ -1,9 +1,23 @@
 import { vi } from "vitest";
-import { render, screen, waitFor } from "../test/utils";
-import { FadeInImage, type ImageLoaderFn } from "./FadeInImage";
+import { render, screen, act, fireEvent } from "../test/utils";
+import { FadeInImage } from "./FadeInImage";
+
+// Mock useInView from framer-motion
+vi.mock("framer-motion", () => ({
+  useInView: vi.fn().mockReturnValue(true),
+}));
 
 describe("FadeInImage", () => {
-  it("should render image with src and alt", () => {
+  beforeEach(() => {
+    vi.useFakeTimers();
+  });
+
+  afterEach(() => {
+    vi.useRealTimers();
+    vi.clearAllMocks();
+  });
+
+  it("should render image with src and alt when in view", () => {
     render(<FadeInImage src="test.jpg" alt="Test Image" />);
 
     const img = screen.getByAltText("Test Image");
@@ -27,76 +41,52 @@ describe("FadeInImage", () => {
     // Component should have an onload handler
     expect(img.onload).toBeDefined();
 
-    // Image should start with opacity 0 (or undefined in jsdom)
-    expect(img).toBeInTheDocument();
+    // Trigger load
+    fireEvent.load(img);
+
+    // Image should have opacity 1
+    expect(img).toHaveStyle({ opacity: "1" });
   });
 
-  it("should handle image load error gracefully", () => {
-    const { container } = render(<FadeInImage src="invalid.jpg" alt="Test Image" />);
+  it("should retry loading on error", () => {
+    render(<FadeInImage src="invalid.jpg" alt="Test Image" />);
 
     const img = screen.getByAltText("Test Image");
 
-    // Component should have an onerror handler
-    expect(img.onerror).toBeDefined();
+    // Trigger error
+    fireEvent.error(img);
 
-    // Component should render without crashing even if image fails
-    expect(container.firstChild).toBeInTheDocument();
+    // Should show retrying spinner
+    expect(screen.getByText(/Retrying \(1\/3\)\.\.\./)).toBeInTheDocument();
+
+    // Advance timers to trigger retry
+    act(() => {
+      vi.advanceTimersByTime(10000);
+    });
+
+    // Should still have an image (it re-renders with the same src but new key)
+    const newImg = screen.getByAltText("Test Image");
+    expect(newImg).toBeInTheDocument();
   });
 
-  it("should call loader function when provided", async () => {
-    const mockLoader: ImageLoaderFn = vi.fn().mockResolvedValue({
-      src: "loaded.jpg",
-      alt: "Loaded Image",
-    });
+  it("should show error after MAX_RETRIES", () => {
+    render(<FadeInImage src="invalid.jpg" alt="Test Image" />);
 
-    render(<FadeInImage loader={mockLoader} />);
+    const img = screen.getByAltText("Test Image");
 
-    await waitFor(() => expect(mockLoader).toHaveBeenCalledTimes(1));
-  });
+    // Trigger error 3 times
+    for (let i = 0; i < 3; i++) {
+      fireEvent.error(screen.getByAltText("Test Image"));
+      act(() => {
+        vi.advanceTimersByTime(10000);
+      });
+    }
 
-  it("should update image when loader resolves", async () => {
-    const mockLoader: ImageLoaderFn = vi.fn().mockResolvedValue({
-      src: "loaded.jpg",
-      alt: "Loaded Image",
-    });
+    // Trigger 4th error
+    fireEvent.error(screen.getByAltText("Test Image"));
 
-    render(<FadeInImage loader={mockLoader} />);
-
-    await waitFor(() => {
-      expect(screen.getByAltText("Loaded Image")).toBeInTheDocument();
-    });
-  });
-
-  it("should show error when loader fails", async () => {
-    const mockLoader: ImageLoaderFn = vi.fn().mockRejectedValue(new Error("Load failed"));
-
-    const { container } = render(<FadeInImage loader={mockLoader} />);
-
-    await waitFor(() => {
-      // Error icon should be shown
-      const errorIcon = container.querySelector("svg");
-      expect(errorIcon).toBeInTheDocument();
-    });
-  });
-
-  it("should render attribution when provided", () => {
-    render(<FadeInImage src="test.jpg" alt="Test" attribution="Photo by Test" />);
-
-    expect(screen.getByText("Photo by Test")).toBeInTheDocument();
-  });
-
-  it("should render attribution from loader", async () => {
-    const mockLoader: ImageLoaderFn = vi.fn().mockResolvedValue({
-      src: "loaded.jpg",
-      alt: "Loaded",
-      attribution: <span>Attribution Text</span>,
-    });
-
-    render(<FadeInImage loader={mockLoader} />);
-
-    await waitFor(() => {
-      expect(screen.getByText("Attribution Text")).toBeInTheDocument();
-    });
+    // Should show "Failed to load" message
+    expect(screen.getByText("Failed to load")).toBeInTheDocument();
   });
 
   it("should apply custom height when provided", () => {
@@ -105,33 +95,17 @@ describe("FadeInImage", () => {
     // Just check that the component renders with height prop
     const box = container.firstChild;
     expect(box).toBeInTheDocument();
+    expect(box).toHaveStyle({ height: "300px" });
   });
 
-  it("should show empty state icon when no src and no loader", () => {
-    const { container } = render(<FadeInImage alt="No image" />);
+  it("should show empty state icon when no src", () => {
+    render(<FadeInImage alt="No image" />);
 
-    // Should show the empty state icon
-    const icon = container.querySelector("svg");
-    expect(icon).toBeInTheDocument();
+    // Should show the empty state icon text
+    expect(screen.getByText("No image available")).toBeInTheDocument();
   });
 
-  it("should cleanup on unmount", () => {
-    const mockLoader: ImageLoaderFn = vi.fn().mockImplementation(
-      () =>
-        new Promise((resolve) => {
-          setTimeout(() => resolve({ src: "test.jpg" }), 100);
-        })
-    );
-
-    const { unmount } = render(<FadeInImage loader={mockLoader} />);
-
-    unmount();
-
-    // Should not throw or cause issues
-    expect(mockLoader).toHaveBeenCalled();
-  });
-
-  it("should update when props change", async () => {
+  it("should update when props change", () => {
     const { rerender } = render(<FadeInImage src="image1.jpg" alt="Image 1" />);
 
     const img1 = screen.getByAltText("Image 1");
@@ -139,9 +113,7 @@ describe("FadeInImage", () => {
 
     rerender(<FadeInImage src="image2.jpg" alt="Image 2" />);
 
-    await waitFor(() => {
-      const img2 = screen.getByAltText("Image 2");
-      expect(img2).toHaveAttribute("src", "image2.jpg");
-    });
+    const img2 = screen.getByAltText("Image 2");
+    expect(img2).toHaveAttribute("src", "image2.jpg");
   });
 });
