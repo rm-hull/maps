@@ -1,7 +1,8 @@
+import L from "leaflet";
+import "proj4leaflet";
+import proj4 from "proj4";
 import { type AxiosResponse } from "axios";
 import { Position } from "geojson";
-import { LatLng, Proj } from "leaflet";
-import proj4 from "proj4";
 import { camelCaseKeys } from "../../utils/camelCaseKeys";
 import { type BritishNationalGrid } from "./types";
 
@@ -16,7 +17,7 @@ export function convertKeys<T>(response: AxiosResponse<T>): AxiosResponse<T> {
 }
 
 // Setup the EPSG:27700 (British National Grid) projection.
-export const crs = new Proj.CRS(
+export const crs = new L.Proj.CRS(
   "EPSG:27700",
   "+proj=tmerc +lat_0=49 +lon_0=-2 +k=0.9996012717 +x_0=400000 +y_0=-100000 +ellps=airy +towgs84=446.448,-125.157,542.060,0.1502,0.2470,0.8421,-20.4894 +units=m +no_defs",
   {
@@ -28,11 +29,11 @@ export const crs = new Proj.CRS(
 const bngConverter = proj4("EPSG:4326", "EPSG:27700");
 
 // BNG = British National Grid coordinates (easting/northing)
-export function toBNG({ lat, lng }: LatLng): BritishNationalGrid {
+export function toBNG({ lat, lng }: L.LatLng): BritishNationalGrid {
   return bngConverter.forward([lng, lat]).map(Math.round) as BritishNationalGrid;
 }
 
-export function toLatLng(bng: BritishNationalGrid | Position): LatLng {
+export function toLatLng(bng: BritishNationalGrid | Position): L.LatLng {
   const [lng, lat] = bngConverter.inverse(bng);
-  return new LatLng(lat, lng);
+  return new L.LatLng(lat, lng);
 }
