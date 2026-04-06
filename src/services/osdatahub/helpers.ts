@@ -1,4 +1,5 @@
 import L from "leaflet";
+import "proj4leaflet";
 import proj4 from "proj4";
 import { type AxiosResponse } from "axios";
 import { Position } from "geojson";
