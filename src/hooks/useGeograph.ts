@@ -7,12 +7,14 @@ export function useGeograph(latLng: LatLng, distanceKm: number) {
   const [streamedItems, setStreamedItems] = useState<Item[]>();
   const [error, setError] = useState<Error>();
 
+  const { lat, lng } = latLng;
+
   useEffect(() => {
     let isMounted = true; // To prevent state updates if component unmounts
 
     async function fetchStreamedData() {
       const results: Item[] = [];
-      const generator = fetchGeographSyndicatorEndpoint(latLng, distanceKm);
+      const generator = fetchGeographSyndicatorEndpoint({ lat, lng } as LatLng, distanceKm);
 
       for await (const item of generator) {
         if (!isMounted) break;
@@ -34,7 +36,7 @@ export function useGeograph(latLng: LatLng, distanceKm: number) {
     return () => {
       isMounted = false;
     };
-  }, [latLng, distanceKm, setError]);
+  }, [lat, lng, distanceKm, setError]);
 
   return { data: streamedItems, error };
 }
