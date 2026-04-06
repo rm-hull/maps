@@ -10,7 +10,7 @@ export type ImageLoaderFn = () => Promise<ImageDetails>;
 interface FadeInImageProps extends ImageDetails {
   loader?: ImageLoaderFn;
   height?: number;
-};
+}
 
 const MAX_RETRIES = 3;
 const RETRY_DELAY_MS = 10000;
@@ -126,14 +126,7 @@ export function FadeInImage({ loader, src, alt, height, attribution, ...rest }: 
   }, [retryCount]);
 
   return (
-    <Box
-      ref={containerRef}
-      position="relative"
-      w="full"
-      h={height}
-      overflow="hidden"
-      {...rest}
-    >
+    <Box ref={containerRef} position="relative" w="full" h={height} overflow="hidden" {...rest}>
       <Center position="absolute" top="0" left="0" w="100%" h="100%">
         {placeholder()}
       </Center>

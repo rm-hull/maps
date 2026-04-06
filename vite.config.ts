@@ -1,7 +1,7 @@
 /// <reference types="vitest" />
 import { execSync } from "child_process";
 import { defineConfig } from "vite";
-import react, { reactCompilerPreset } from "@vitejs/plugin-react";
+import react from "@vitejs/plugin-react";
 import babel from "@rolldown/plugin-babel";
 
 // https://vitejs.dev/config/
@@ -24,6 +24,12 @@ export default defineConfig(() => {
         reporter: ["text", "json", "html", "lcov"],
         include: ["src/**/*.{ts,tsx}"],
         exclude: ["src/**/*.spec.{ts,tsx}", "src/test/**", "**/*.d.ts"],
+      },
+    },
+    resolve: {
+      tsconfigPaths: true,
+      alias: {
+        "@": "/src",
       },
     },
   };
