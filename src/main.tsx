@@ -1,5 +1,5 @@
-import "./index.css";
 import "leaflet/dist/leaflet.css";
+import "./index.css";
 import { ErrorFallback } from "@rm-hull/chakra-error-fallback";
 import * as Sentry from "@sentry/react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
