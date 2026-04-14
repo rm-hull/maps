@@ -48,11 +48,7 @@ async function* fetchGeographSyndicatorEndpoint(
   }
 }
 
-export async function fetchGeographItems(
-  latLng: LatLng,
-  distanceKm: number,
-  maxResults = 1000
-): Promise<Item[]> {
+export async function fetchGeographItems(latLng: LatLng, distanceKm: number, maxResults = 1000): Promise<Item[]> {
   const items: Item[] = [];
   for await (const item of fetchGeographSyndicatorEndpoint(latLng, distanceKm, maxResults)) {
     items.push(item);
