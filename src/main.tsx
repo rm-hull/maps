@@ -5,7 +5,6 @@ import * as Sentry from "@sentry/react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { createRoot, RootOptions } from "react-dom/client";
-import { ErrorBoundary } from "react-error-boundary";
 import ReactGA from "react-ga4";
 import { BrowserRouter as Router } from "react-router-dom";
 import { App } from "./App";
@@ -46,10 +45,10 @@ createRoot(document.getElementById("root")!, errorHandling).render(
     <ReactQueryDevtools initialIsOpen={false} buttonPosition="bottom-left" />
     <Provider>
       <Router basename="/maps">
-        <ErrorBoundary FallbackComponent={ErrorFallback}>
+        <Sentry.ErrorBoundary fallback={ErrorFallback}>
           <Toaster />
           <App />
-        </ErrorBoundary>
+        </Sentry.ErrorBoundary>
       </Router>
     </Provider>
   </QueryClientProvider>
