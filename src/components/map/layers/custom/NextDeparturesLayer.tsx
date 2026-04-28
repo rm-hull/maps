@@ -1,6 +1,7 @@
 import { LatLngBounds } from "leaflet";
 import { Marker, Popup } from "react-leaflet";
-import { busStopWithBearing, trainStation } from "@/icons";
+import { busStop, trainStation } from "@/icons";
+import { BearingIndicator } from "../../BearingIndicator";
 import { useCachedQuery } from "../../../../hooks/useCachedQuery";
 import { useErrorToast } from "../../../../hooks/useErrorToast";
 import { useNaPTAN } from "../../../../hooks/useNaPTAN";
@@ -20,9 +21,10 @@ export function NextDeparturesLayer({ bounds }: NextDeparturesLayerProps) {
     <Marker
       key={naptan.atco_code}
       position={[naptan.latitude, naptan.longitude]}
-      icon={naptan.stop_type === 'RLY' ? trainStation : busStopWithBearing(naptan.bearing)}
+      icon={naptan.stop_type === 'RLY' ? trainStation : busStop}
     >
-      <Popup maxWidth={500} closeButton={false}>
+      <BearingIndicator direction={naptan.bearing}>
+        <Popup maxWidth={500} closeButton={false}>
         <Card.Root overflow="hidden" shadow="none" width="xs" border={0} outline={0}>
           <Card.Header p={1} pb={0} textTransform="uppercase">
             <HStack gap={2} mb={1}>
@@ -52,6 +54,7 @@ export function NextDeparturesLayer({ bounds }: NextDeparturesLayerProps) {
           </Card.Body>
         </Card.Root>
       </Popup >
+      </BearingIndicator>
     </Marker >
   ))
 };

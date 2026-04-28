@@ -105,68 +105,6 @@ export function gasStationWithRing(colors: string[]) {
   });
 }
 
-const bearingAngles: Record<string, number> = {
-  N: 0,
-  NNE: 22.5,
-  NE: 45,
-  ENE: 67.5,
-  E: 90,
-  ESE: 112.5,
-  SE: 135,
-  SSE: 157.5,
-  S: 180,
-  SSW: 202.5,
-  SW: 225,
-  WSW: 247.5,
-  W: 270,
-  WNW: 292.5,
-  NW: 315,
-  NNW: 337.5,
-};
-
-export function busStopWithBearing(bearing: string | undefined | null) {
-  if (!bearing) {
-    return busStop;
-  }
-  const angle = bearingAngles[bearing.toUpperCase()];
-  if (angle === undefined) {
-    return busStop;
-  }
-
-  const imgSize = 28;
-  const ringSize = 48;
-  const cx = ringSize / 2;
-  const cy = ringSize / 2;
-  const r = 18; // distance from center to arrow
-
-  const arrowColor = "#555";
-  const strokeWidth = 3;
-
-  const svg = `
-    <svg xmlns="http://www.w3.org/2000/svg" width="${ringSize}" height="${ringSize}" viewBox="0 0 ${ringSize} ${ringSize}" style="position:absolute;left:0;top:0;pointer-events:none">
-      <g transform="translate(${cx} ${cy}) rotate(${angle}) translate(0 ${-r})">
-        <path d="M 0 4 L 0 -4 M -3 -1 L 0 -4 L 3 -1" stroke="${arrowColor}" stroke-width="${strokeWidth}" stroke-linecap="round" stroke-linejoin="round" fill="none" />
-      </g>
-    </svg>
-  `;
-
-  const html = `
-    <div style="position:relative;width:${ringSize}px;height:${ringSize}px">
-      <img src="${busStopUrl}" style="position:absolute;left:${Math.floor((ringSize - imgSize) / 2)}px;top:${Math.floor((ringSize - imgSize) / 2)}px;width:${imgSize}px;height:${imgSize}px;display:block;" />
-      ${svg}
-    </div>
-  `;
-
-  return L.divIcon({
-    html,
-    className: "", // avoid default leaflet styles
-    iconSize: [ringSize, ringSize],
-    // anchor so the bottom of the bus-stop image aligns with the marker point
-    iconAnchor: [Math.floor(ringSize / 2), Math.floor((ringSize + imgSize) / 2)],
-    popupAnchor: [0, -28],
-  });
-}
-
 export function countIcon(color: string, count: number): L.DivIcon {
   const radius = 16;
   const strokeWidth = 2;
