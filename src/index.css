@@ -97,3 +97,14 @@
 .streetLevelCrime-legend .chakra-link {
   color: var(--chakra-colors-fg-muted);
 }
+
+.bearing-arrow {
+  background: none !important;
+  border: none !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+}
+
+.bearing-arrow::before {
+  display: none !important;
+}
