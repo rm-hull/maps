@@ -15,7 +15,7 @@ vi.mock("react-leaflet", () => ({
 describe("BearingIndicator", () => {
   it("should render children even if bearing is invalid", () => {
     render(
-      <BearingIndicator bearing="INVALID">
+      <BearingIndicator direction="INVALID">
         <div data-testid="child">Child Content</div>
       </BearingIndicator>
     );
@@ -26,7 +26,7 @@ describe("BearingIndicator", () => {
 
   it("should render children and tooltip if bearing is valid", () => {
     render(
-      <BearingIndicator bearing="N">
+      <BearingIndicator direction="N">
         <div data-testid="child">Child Content</div>
       </BearingIndicator>
     );
@@ -38,7 +38,7 @@ describe("BearingIndicator", () => {
 
   it("should render the SVG with correct rotation for NE", () => {
     const { container } = render(
-      <BearingIndicator bearing="NE">
+      <BearingIndicator direction="NE">
         <div data-testid="child">Child Content</div>
       </BearingIndicator>
     );
@@ -49,7 +49,7 @@ describe("BearingIndicator", () => {
 
   it("should be case-insensitive", () => {
     const { container } = render(
-      <BearingIndicator bearing="sw">
+      <BearingIndicator direction="sw">
         <div data-testid="child">Child Content</div>
       </BearingIndicator>
     );
