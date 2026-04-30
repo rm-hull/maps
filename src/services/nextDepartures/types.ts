@@ -29,8 +29,16 @@ export interface NaPTAN {
   status: string;
 }
 
-export interface SearchResponse {
-  results: NaPTAN[];
+export interface Response<T> {
+  results: T[];
   attribution: string[];
   last_updated?: Date;
+}
+
+export interface NextDeparture {
+  line_name: string;
+  destination: string;
+  operator_ref: string;
+  aimed_departure_time: Date;
+  expected_departure_time?: Date;
 }
