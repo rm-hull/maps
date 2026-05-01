@@ -8,6 +8,7 @@ import { useNaPTAN } from "../../../../hooks/useNaPTAN";
 import { Badge, Box, Card, HStack, Table, Text, VStack } from "@chakra-ui/react";
 import TimeAgo from "react-time-ago";
 import { useNextDepartures } from "@/hooks/useNextDestination";
+import { getBadgeStyles } from "@/utils/colors";
 
 interface NextDeparturesLayerProps {
   bounds: LatLngBounds;
@@ -86,7 +87,9 @@ function NextDeparturesList({ atcoCode }: NextDeparturesListProps) {
           {results.map((departure, i) => (
             <Table.Row key={i}>
               <Table.Cell px={1} py={0.5}>
-                <Badge size="xs"> {departure.line_name}</Badge>
+                <Badge size="xs" fontWeight="bold" {...getBadgeStyles(departure.line_name)}>
+                  {departure.line_name}
+                </Badge>
               </Table.Cell>
               <Table.Cell px={1} py={0.5} fontSize="xs">
                 {departure.destination}
