@@ -219,6 +219,7 @@ const BASE_LAYERS: LayerOption[] = [
 
 export const OVERLAYS: Record<string, Overlay> = {
   Gridlines: { minZoom: 6, component: GridlinesLayer },
+  ContourLines: { minZoom: 8, maxZoom: 14, component: () => <TileLayer url="http://localhost:8080/styles/contours/style.json" pane="overlayPane" zIndex={650} /> },
   "GPS Routes": { minZoom: 10, component: GpsRoutesLayer },
   Geograph: { minZoom: 16, component: GeographLayer },
   "GeoDS POI": { minZoom: 14, component: GeodsPointsOfInterestLayer },
