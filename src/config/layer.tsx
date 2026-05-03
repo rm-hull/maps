@@ -220,8 +220,8 @@ const BASE_LAYERS: LayerOption[] = [
 
 export const OVERLAYS: Record<string, Overlay> = {
   Gridlines: { minZoom: 6, component: GridlinesLayer },
-  ContourLines: {
-    minZoom: 8,
+  "Contour Lines": {
+    minZoom: 6,
     component: () => (
       <MapLibreLayer
         url="https://map-tiles.destructuring-bind.org/styles/uk_contours/style.json"
