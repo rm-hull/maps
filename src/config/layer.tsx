@@ -228,8 +228,8 @@ export const OVERLAYS: Record<string, Overlay> = {
         pane="overlayPane"
         zIndex={650}
         opacity={0.5}
-        />
-        ),
+      />
+    ),
   },
   "GPS Routes": { minZoom: 10, component: GpsRoutesLayer },
   Geograph: { minZoom: 16, component: GeographLayer },

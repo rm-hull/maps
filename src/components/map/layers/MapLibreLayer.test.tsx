@@ -42,7 +42,11 @@ describe("MapLibreLayer internal functions", () => {
     applyOpacity(mockMap, 0.5, snapshot);
 
     expect(mockMap.setPaintProperty).toHaveBeenCalledWith("layer1", "fill-opacity", ["*", 0.8, 0.5]);
-    expect(mockMap.setPaintProperty).toHaveBeenCalledWith("layer2", "line-opacity", ["*", ["interpolate", ["zoom"], 0, 0, 10, 1], 0.5]);
+    expect(mockMap.setPaintProperty).toHaveBeenCalledWith("layer2", "line-opacity", [
+      "*",
+      ["interpolate", ["zoom"], 0, 0, 10, 1],
+      0.5,
+    ]);
   });
 
   it("applyOpacity should restore original values when opacity is 1", () => {
@@ -50,9 +54,7 @@ describe("MapLibreLayer internal functions", () => {
       setPaintProperty: vi.fn(),
     } as unknown as MaplibreMap;
 
-    const snapshot = new Map([
-      ["layer1", { "fill-opacity": 0.8 }],
-    ]);
+    const snapshot = new Map([["layer1", { "fill-opacity": 0.8 }]]);
 
     applyOpacity(mockMap, 1, snapshot);
 

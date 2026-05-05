@@ -56,21 +56,17 @@ export function buildOpacitySnapshot(map: MaplibreMap): OpacitySnapshot {
   return snapshot;
 }
 
-export function applyOpacity(
-  map: MaplibreMap,
-  opacity: number,
-  snapshot: OpacitySnapshot
-): void {
+export function applyOpacity(map: MaplibreMap, opacity: number, snapshot: OpacitySnapshot): void {
   for (const [layerId, baseValues] of snapshot) {
     for (const [prop, baseValue] of Object.entries(baseValues)) {
-    for (const [prop, baseValue] of Object.entries(baseValues)) {
-      if (map.getLayer(layerId)) {
-        // If opacity is 1, restore original value; otherwise, multiply using an expression
-        // to preserve any original expressions (e.g. zoom-based interpolation)
-        const finalValue = opacity === 1 ? baseValue : ["*", baseValue, opacity];
-        map.setPaintProperty(layerId, prop, finalValue);
+      for (const [prop, baseValue] of Object.entries(baseValues)) {
+        if (map.getLayer(layerId)) {
+          // If opacity is 1, restore original value; otherwise, multiply using an expression
+          // to preserve any original expressions (e.g. zoom-based interpolation)
+          const finalValue = opacity === 1 ? baseValue : ["*", baseValue, opacity];
+          map.setPaintProperty(layerId, prop, finalValue);
+        }
       }
-    }
     }
   }
 }
@@ -88,20 +84,20 @@ export const MapLibreLayer = createLayerComponent<MLMap, MapLibreLayerProps>(
     const { url, opacity, ...options } = props;
     const instance = L.maplibreGL({ style: url, ...options }) as unknown as MLMap;
 
-    if (opacity !== undefined) {
-      instance.on("add", () => {
-        const map = instance.getMaplibreMap();
-        withStyleLoaded(map, () => {
-          // Only build snapshot if it doesn't exist to avoid progressive degradation
-          let snapshot = opacitySnapshots.get(instance);
-          if (!snapshot) {
-            snapshot = buildOpacitySnapshot(map);
-            opacitySnapshots.set(instance, snapshot);
-          }
+    instance.on("add", () => {
+      const map = instance.getMaplibreMap();
+      withStyleLoaded(map, () => {
+        // Only build snapshot if it doesn't exist to avoid progressive degradation
+        let snapshot = opacitySnapshots.get(instance);
+        if (!snapshot) {
+          snapshot = buildOpacitySnapshot(map);
+          opacitySnapshots.set(instance, snapshot);
+        }
+        if (opacity !== undefined) {
           applyOpacity(map, opacity, snapshot);
-        });
+        }
       });
-    }
+    });
 
     return { instance, context };
   },
@@ -115,23 +111,19 @@ export const MapLibreLayer = createLayerComponent<MLMap, MapLibreLayerProps>(
       // Style has changed, so any existing snapshot is now stale
       opacitySnapshots.delete(instance);
 
-      if (props.opacity !== undefined) {
-        map.once("styledata", () => {
-          const snapshot = buildOpacitySnapshot(map);
-          opacitySnapshots.set(instance, snapshot);
-          applyOpacity(map, props.opacity!, snapshot);
-        });
-      }
-    }
-
-    if (props.opacity !== prevProps.opacity && props.opacity !== undefined) {
+      map.once("styledata", () => {
+        const snapshot = buildOpacitySnapshot(map);
+        opacitySnapshots.set(instance, snapshot);
+        applyOpacity(map, props.opacity ?? 1, snapshot);
+      });
+    } else if (props.opacity !== prevProps.opacity) {
       withStyleLoaded(map, () => {
         let snapshot = opacitySnapshots.get(instance);
         if (!snapshot) {
           snapshot = buildOpacitySnapshot(map);
           opacitySnapshots.set(instance, snapshot);
         }
-        applyOpacity(map, props.opacity!, snapshot);
+        applyOpacity(map, props.opacity ?? 1, snapshot);
       });
     }
   }
