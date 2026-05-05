@@ -126,12 +126,12 @@ export const MapLibreLayer = createLayerComponent<MLMap, MapLibreLayerProps>(
 
     if (props.opacity !== prevProps.opacity && props.opacity !== undefined) {
       withStyleLoaded(map, () => {
-        const snapshot = opacitySnapshots.get(instance);
-        if (snapshot) {
-          applyOpacity(map, props.opacity!, snapshot);
-        } else {
-          // If snapshot is missing, it will be built on the next 'add' or 'styledata' event
+        let snapshot = opacitySnapshots.get(instance);
+        if (!snapshot) {
+          snapshot = buildOpacitySnapshot(map);
+          opacitySnapshots.set(instance, snapshot);
         }
+        applyOpacity(map, props.opacity!, snapshot);
       });
     }
   }
