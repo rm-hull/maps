@@ -63,14 +63,14 @@ export function applyOpacity(
 ): void {
   for (const [layerId, baseValues] of snapshot) {
     for (const [prop, baseValue] of Object.entries(baseValues)) {
-      try {
+    for (const [prop, baseValue] of Object.entries(baseValues)) {
+      if (map.getLayer(layerId)) {
         // If opacity is 1, restore original value; otherwise, multiply using an expression
         // to preserve any original expressions (e.g. zoom-based interpolation)
         const finalValue = opacity === 1 ? baseValue : ["*", baseValue, opacity];
         map.setPaintProperty(layerId, prop, finalValue);
-      } catch {
-        // layer may have been removed since snapshot was taken
       }
+    }
     }
   }
 }
