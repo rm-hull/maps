@@ -9,6 +9,7 @@ import { Badge, Box, Card, HStack, Table, Text, VStack } from "@chakra-ui/react"
 import TimeAgo from "react-time-ago";
 import { useNextDepartures } from "@/hooks/useNextDestination";
 import { getBadgeStyles } from "@/utils/colors";
+import { LivePulse } from "../../LivePulse";
 
 interface NextDeparturesLayerProps {
   bounds: LatLngBounds;
@@ -81,6 +82,7 @@ function NextDeparturesList({ atcoCode }: NextDeparturesListProps) {
             <Table.ColumnHeader px={1} py={0.5} fontSize="2xs" fontWeight="medium" color="fg.muted" textAlign="end">
               Expected
             </Table.ColumnHeader>
+            <Table.ColumnHeader p={0} textAlign="end" />
           </Table.Row>
         </Table.Header>
         <Table.Body>
@@ -101,7 +103,10 @@ function NextDeparturesList({ atcoCode }: NextDeparturesListProps) {
                 })}
               </Table.Cell>
               <Table.Cell px={1} py={0.5} textAlign="end" fontSize="xs">
-                <TimeAgo date={(departure.expected_departure_time ?? departure.aimed_departure_time)} locale="en-US" />
+                <TimeAgo date={(departure.expected_departure_time ?? departure.aimed_departure_time)} locale="en-US"/>
+              </Table.Cell>
+              <Table.Cell p={0} textAlign="end">
+                {departure.expected_departure_time && <LivePulse />}
               </Table.Cell>
             </Table.Row>
           ))}

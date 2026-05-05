@@ -1,0 +1,23 @@
+@keyframes live_animate_departures {
+  0% {
+    background-image: url("/maps/img/ic_live_01.svg");
+  }
+  50% {
+    background-image: url("/maps/img/ic_live_02.svg");
+  }
+  100% {
+    background-image: url("/maps/img/ic_live_03.svg");
+  }
+}
+
+.liveIcon {
+  width: 24px;
+  height: 16px;
+  background-size: 100%;
+  background-position: 50% 50%;
+  background-repeat: no-repeat;
+  animation: 1.5s steps(2, jump-none) infinite live_animate_departures;
+  pointer-events: none;
+  padding: 0;
+  margin: 0;
+}
