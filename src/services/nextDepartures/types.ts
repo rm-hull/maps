@@ -39,6 +39,6 @@ export interface NextDeparture {
   line_name: string;
   destination: string;
   operator_ref: string;
-  aimed_departure_time: Date;
-  expected_departure_time?: Date;
+  aimed_arrival_time: Date;
+  expected_arrival_time?: Date;
 }

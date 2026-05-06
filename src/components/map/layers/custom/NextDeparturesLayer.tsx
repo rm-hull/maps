@@ -5,7 +5,7 @@ import { BearingIndicator } from "../../BearingIndicator";
 import { useCachedQuery } from "../../../../hooks/useCachedQuery";
 import { useErrorToast } from "../../../../hooks/useErrorToast";
 import { useNaPTAN } from "../../../../hooks/useNaPTAN";
-import { Badge, Box, Card, HStack, Table, Text, VStack } from "@chakra-ui/react";
+import { Badge, Box, Card, Heading, HStack, Table, Text, VStack } from "@chakra-ui/react";
 import TimeAgo from "react-time-ago";
 import { useNextDepartures } from "@/hooks/useNextDestination";
 import { getBadgeStyles } from "@/utils/colors";
@@ -20,7 +20,7 @@ export function NextDeparturesLayer({ bounds }: NextDeparturesLayerProps) {
   useErrorToast("next-departures-error", "Error loading next-departures", error);
   const results = data?.results ?? [];
 
-  return results.map((naptan) => (
+  return results.filter((naptan => naptan.status === "active")).map((naptan) => (
     <Marker
       key={naptan.atco_code}
       position={[naptan.latitude, naptan.longitude]}
@@ -32,13 +32,16 @@ export function NextDeparturesLayer({ bounds }: NextDeparturesLayerProps) {
             <Card.Header p={1} pb={0} textTransform="uppercase">
               <HStack gap={2} mb={1}>
                 <VStack gap={0} alignItems="flex-start">
-                  <Text textTransform="capitalize" fontSize="sm" color="gray.500">
-                    {[naptan.common_name, naptan.locality_name, naptan.parent_locality_name]
+                  <Heading textTransform="capitalize" fontSize="sm" title={naptan.atco_code}>
+                    {naptan.common_name} {naptan.indicator && `(${naptan.indicator})`}
+
+                  </Heading>
+                  <Text fontSize="xs" color="fg.subtle">
+                    {[naptan.street, naptan.town]
                       .filter(Boolean)
                       .join(", ")
                       .toLowerCase()}
                   </Text>
-                  <Text fontSize="xs">{naptan.indicator}</Text>
                 </VStack>
               </HStack>
             </Card.Header>
@@ -97,16 +100,16 @@ function NextDeparturesList({ atcoCode }: NextDeparturesListProps) {
                 {departure.destination}
               </Table.Cell>
               <Table.Cell px={1} py={0.5} fontSize="xs" textAlign="center">
-                {(departure.expected_departure_time ?? departure.aimed_departure_time).toLocaleTimeString([], {
+                {(departure.expected_arrival_time ?? departure.aimed_arrival_time).toLocaleTimeString([], {
                   hour: "2-digit",
                   minute: "2-digit",
                 })}
               </Table.Cell>
-              <Table.Cell px={1} py={0.5} textAlign="end" fontSize="xs">
-                <TimeAgo date={(departure.expected_departure_time ?? departure.aimed_departure_time)} locale="en-US"/>
+              <Table.Cell py={0.5} textAlign="end" fontSize="xs">
+                <TimeAgo date={(departure.expected_arrival_time ?? departure.aimed_arrival_time)} locale="en-US" />
               </Table.Cell>
               <Table.Cell p={0} textAlign="end">
-                {departure.expected_departure_time && <LivePulse />}
+                {departure.expected_arrival_time && <LivePulse />}
               </Table.Cell>
             </Table.Row>
           ))}
