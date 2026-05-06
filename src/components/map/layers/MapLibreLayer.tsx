@@ -58,14 +58,12 @@ export function buildOpacitySnapshot(map: MaplibreMap): OpacitySnapshot {
 
 export function applyOpacity(map: MaplibreMap, opacity: number, snapshot: OpacitySnapshot): void {
   for (const [layerId, baseValues] of snapshot) {
-    for (const [prop, baseValue] of Object.entries(baseValues)) {
+    if (map.getLayer(layerId)) {
       for (const [prop, baseValue] of Object.entries(baseValues)) {
-        if (map.getLayer(layerId)) {
-          // If opacity is 1, restore original value; otherwise, multiply using an expression
-          // to preserve any original expressions (e.g. zoom-based interpolation)
-          const finalValue = opacity === 1 ? baseValue : ["*", baseValue, opacity];
-          map.setPaintProperty(layerId, prop, finalValue);
-        }
+        // If opacity is 1, restore original value; otherwise, multiply using an expression
+        // to preserve any original expressions (e.g. zoom-based interpolation)
+        const finalValue = opacity === 1 ? baseValue : ["*", baseValue, opacity];
+        map.setPaintProperty(layerId, prop, finalValue);
       }
     }
   }
@@ -84,8 +82,10 @@ export const MapLibreLayer = createLayerComponent<MLMap, MapLibreLayerProps>(
     const { url, opacity, ...options } = props;
     const instance = L.maplibreGL({ style: url, ...options }) as unknown as MLMap;
 
-    instance.on("add", () => {
+    const setup = () => {
       const map = instance.getMaplibreMap();
+      if (!map) return;
+
       withStyleLoaded(map, () => {
         // Only build snapshot if it doesn't exist to avoid progressive degradation
         let snapshot = opacitySnapshots.get(instance);
@@ -97,7 +97,9 @@ export const MapLibreLayer = createLayerComponent<MLMap, MapLibreLayerProps>(
           applyOpacity(map, opacity, snapshot);
         }
       });
-    });
+    };
+
+    instance.on("add", setup);
 
     return { instance, context };
   },
@@ -111,7 +113,7 @@ export const MapLibreLayer = createLayerComponent<MLMap, MapLibreLayerProps>(
       // Style has changed, so any existing snapshot is now stale
       opacitySnapshots.delete(instance);
 
-      map.once("styledata", () => {
+      withStyleLoaded(map, () => {
         const snapshot = buildOpacitySnapshot(map);
         opacitySnapshots.set(instance, snapshot);
         applyOpacity(map, props.opacity ?? 1, snapshot);

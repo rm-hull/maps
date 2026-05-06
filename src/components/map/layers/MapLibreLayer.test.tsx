@@ -32,6 +32,7 @@ describe("MapLibreLayer internal functions", () => {
   it("applyOpacity should apply scaled opacities as expressions", () => {
     const mockMap = {
       setPaintProperty: vi.fn(),
+      getLayer: vi.fn().mockReturnValue({}),
     } as unknown as MaplibreMap;
 
     const snapshot = new Map([
@@ -52,6 +53,7 @@ describe("MapLibreLayer internal functions", () => {
   it("applyOpacity should restore original values when opacity is 1", () => {
     const mockMap = {
       setPaintProperty: vi.fn(),
+      getLayer: vi.fn().mockReturnValue({}),
     } as unknown as MaplibreMap;
 
     const snapshot = new Map([["layer1", { "fill-opacity": 0.8 }]]);
