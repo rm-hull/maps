@@ -42,7 +42,7 @@ describe("MapLibreLayer internal functions", () => {
 
     applyOpacity(mockMap, 0.5, snapshot);
 
-    expect(mockMap.setPaintProperty).toHaveBeenCalledWith("layer1", "fill-opacity", ["*", 0.8, 0.5]);
+    expect(mockMap.setPaintProperty).toHaveBeenCalledWith("layer1", "fill-opacity", 0.4);
     expect(mockMap.setPaintProperty).toHaveBeenCalledWith("layer2", "line-opacity", [
       "*",
       ["interpolate", ["zoom"], 0, 0, 10, 1],
