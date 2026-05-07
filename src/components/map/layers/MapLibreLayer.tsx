@@ -20,7 +20,7 @@ type MLMap = L.Layer & {
 /**
  * Type for storing original opacity values (can be numbers or MapLibre expressions)
  */
-type OpacitySnapshot = Map<string, Record<string, any>>;
+type OpacitySnapshot = Map<string, Record<string, unknown>>;
 
 /**
  * WeakMap to store snapshots associated with layer instances to maintain type safety
@@ -52,7 +52,7 @@ export function buildOpacitySnapshot(map: MaplibreMap): OpacitySnapshot {
   for (const layer of style.layers) {
     const props = OPACITY_PROPERTIES[layer.type];
     if (!props) continue;
-    const values: Record<string, any> = {};
+    const values: Record<string, unknown> = {};
     for (const prop of props) {
       const val = map.getPaintProperty(layer.id, prop);
       // getPaintProperty returns undefined if unset — default is 1
@@ -89,7 +89,7 @@ function withStyleLoaded(map: MaplibreMap, fn: () => void): void {
     if (!pending) {
       pending = new Set();
       pendingStyleLoads.set(map, pending);
-      map.once("styledata", () => {
+      void map.once("styledata", () => {
         const callbacks = pendingStyleLoads.get(map);
         if (callbacks) {
           pendingStyleLoads.delete(map);
