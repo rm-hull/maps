@@ -35,7 +35,7 @@ const pendingStyleLoads = new WeakMap<MaplibreMap, Set<() => void>>();
 
 const OPACITY_PROPERTIES: Partial<Record<string, string[]>> = {
   background: ["background-opacity"],
-  circle: ["circle-opacity", "circle-stroke-opacity"],
+  circle: ["circle-opacity"],
   fill: ["fill-opacity"],
   "fill-extrusion": ["fill-extrusion-opacity"],
   heatmap: ["heatmap-opacity"],
