@@ -35,13 +35,13 @@ const pendingStyleLoads = new WeakMap<MaplibreMap, Set<() => void>>();
 
 const OPACITY_PROPERTIES: Partial<Record<string, string[]>> = {
   background: ["background-opacity"],
-  circle: ["circle-opacity"],
+  circle: ["circle-opacity", "circle-stroke-opacity"],
   fill: ["fill-opacity"],
   "fill-extrusion": ["fill-extrusion-opacity"],
   heatmap: ["heatmap-opacity"],
   line: ["line-opacity"],
   raster: ["raster-opacity"],
-  symbol: ["icon-opacity", "text-opacity"],
+  symbol: ["icon-opacity", "text-opacity", "icon-halo-opacity", "text-halo-opacity"],
 };
 
 export function buildOpacitySnapshot(map: MaplibreMap): OpacitySnapshot {
