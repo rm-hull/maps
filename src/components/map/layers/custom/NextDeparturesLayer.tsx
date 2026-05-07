@@ -38,7 +38,11 @@ export function NextDeparturesLayer({ bounds }: NextDeparturesLayerProps) {
                       {naptan.common_name} {naptan.indicator && `(${naptan.indicator})`}
                     </Heading>
                     <Text fontSize="xs" color="fg.subtle">
-                      {[naptan.street, naptan.town].filter(Boolean).join(", ").toLowerCase()}
+                      {[...new Set([naptan.street, naptan.locality_name, naptan.town])]
+                        .filter(Boolean)
+                        .filter(name => name !== 'N/A')
+                        .join(", ")
+                        .toLowerCase()}
                     </Text>
                   </VStack>
                 </HStack>
@@ -83,7 +87,7 @@ function NextDeparturesList({ atcoCode }: NextDeparturesListProps) {
             <Table.ColumnHeader px={1} py={0.5} fontSize="2xs" fontWeight="medium" color="fg.muted" textAlign="center">
               Scheduled
             </Table.ColumnHeader>
-            <Table.ColumnHeader px={1} py={0.5} fontSize="2xs" fontWeight="medium" color="fg.muted" textAlign="end">
+            <Table.ColumnHeader px={0} py={0.5} fontSize="2xs" fontWeight="medium" color="fg.muted" textAlign="end">
               Expected
             </Table.ColumnHeader>
             <Table.ColumnHeader p={0} textAlign="end" />
@@ -97,8 +101,8 @@ function NextDeparturesList({ atcoCode }: NextDeparturesListProps) {
                   {departure.line_name}
                 </Badge>
               </Table.Cell>
-              <Table.Cell px={1} py={0.5} fontSize="xs">
-                {departure.destination}
+              <Table.Cell px={1} py={0.5} fontSize="xs" truncate maxWidth={112} title={departure.destination}>
+                {departure.destination.replace(/&(\w)/g, '& $1')}
               </Table.Cell>
               <Table.Cell px={1} py={0.5} fontSize="xs" textAlign="center">
                 {(departure.expected_arrival_time ?? departure.aimed_arrival_time).toLocaleTimeString([], {
@@ -106,7 +110,7 @@ function NextDeparturesList({ atcoCode }: NextDeparturesListProps) {
                   minute: "2-digit",
                 })}
               </Table.Cell>
-              <Table.Cell py={0.5} textAlign="end" fontSize="xs">
+              <Table.Cell p={0} textAlign="end" fontSize="xs">
                 <TimeAgo date={departure.expected_arrival_time ?? departure.aimed_arrival_time} locale="en-US" />
               </Table.Cell>
               <Table.Cell p={0} textAlign="end">
