@@ -41,7 +41,7 @@ const OPACITY_PROPERTIES: Partial<Record<string, string[]>> = {
   heatmap: ["heatmap-opacity"],
   line: ["line-opacity"],
   raster: ["raster-opacity"],
-  symbol: ["icon-opacity", "text-opacity", "icon-halo-opacity", "text-halo-opacity"],
+  symbol: ["icon-opacity", "text-opacity"],
 };
 
 export function buildOpacitySnapshot(map: MaplibreMap): OpacitySnapshot {
