@@ -119,7 +119,7 @@ function NextDeparturesList({ atcoCode }: NextDeparturesListProps) {
           </Table.Header>
           <Table.Body>
             {results.map((departure, i) => (
-              <Table.Row key={i}>
+              <Table.Row key={departure.line_name + "-" + departure.aimed_arrival_time.getTime()}>
                 <Table.Cell px={1} py={0.5}>
                   <Badge size="xs" fontWeight="bold" {...getBadgeStyles(departure.line_name)}>
                     {departure.line_name}
