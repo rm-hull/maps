@@ -12,6 +12,7 @@ import { WeatherLayer } from "../components/map/layers/custom/WeatherLayer";
 import { Scale } from "../components/map/Scale";
 import { StreetLevelCrimeLayer } from "@/components/map/layers/custom/StreetLevelCrimeLayer";
 import { GridlinesLayer } from "@/components/map/layers/custom/GridlinesLayer";
+import { MapLibreLayer } from "@/components/map/layers/MapLibreLayer";
 
 const RAIN_RATE_SCALE = [
   { color: "#FFFFFF00", value: "0" },
@@ -219,6 +220,17 @@ const BASE_LAYERS: LayerOption[] = [
 
 export const OVERLAYS: Record<string, Overlay> = {
   Gridlines: { minZoom: 6, component: GridlinesLayer },
+  "Contour Lines": {
+    minZoom: 6,
+    component: () => (
+      <MapLibreLayer
+        url="https://map-tiles.destructuring-bind.org/styles/uk_contours/style.json"
+        pane="overlayPane"
+        zIndex={650}
+        opacity={0.5}
+      />
+    ),
+  },
   "GPS Routes": { minZoom: 10, component: GpsRoutesLayer },
   Geograph: { minZoom: 16, component: GeographLayer },
   "GeoDS POI": { minZoom: 14, component: GeodsPointsOfInterestLayer },
