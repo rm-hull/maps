@@ -1,12 +1,12 @@
 @keyframes live_animate_departures {
   0% {
-    background-image: url("/maps/img/ic_live_01.svg");
+    background-image: url("/img/ic_live_01.svg");
   }
   50% {
-    background-image: url("/maps/img/ic_live_02.svg");
+    background-image: url("/img/ic_live_02.svg");
   }
   100% {
-    background-image: url("/maps/img/ic_live_03.svg");
+    background-image: url("/img/ic_live_03.svg");
   }
 }
 
