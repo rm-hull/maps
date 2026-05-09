@@ -77,7 +77,6 @@ export const destinations: Record<StopType, L.Icon> = {
 
 export const gasStation = new L.Icon({
   iconSize: [28, 28],
-  iconAnchor: [14, 28],
   popupAnchor: [1, -28],
   iconUrl: gasStationUrl,
 });
