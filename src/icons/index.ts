@@ -5,6 +5,8 @@ import redMarkerUrl from "./markers/marker-icon-2x-red.png";
 import violetMarkerUrl from "./markers/marker-icon-2x-violet.png";
 import markerShadowUrl from "./markers/marker-shadow.png";
 import gasStationUrl from "./gas-station.webp";
+import busStopUrl from "./bus-stop.webp";
+import trainStationUrl from "./train-station.webp";
 
 const commonProps: L.BaseIconOptions = {
   shadowUrl: markerShadowUrl,
@@ -32,6 +34,20 @@ export const blueMarker = new L.Icon({
 export const greenMarker = new L.Icon({
   ...commonProps,
   iconUrl: greenMarkerUrl,
+});
+
+export const busStop = new L.Icon({
+  iconSize: [28, 28],
+  iconAnchor: [14, 28],
+  popupAnchor: [1, -28],
+  iconUrl: busStopUrl,
+});
+
+export const trainStation = new L.Icon({
+  iconSize: [28, 28],
+  iconAnchor: [14, 28],
+  popupAnchor: [1, -28],
+  iconUrl: trainStationUrl,
 });
 
 export const gasStation = new L.Icon({
