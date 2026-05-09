@@ -4,7 +4,7 @@ import { BearingIndicator } from "../../BearingIndicator";
 import { useCachedQuery } from "../../../../hooks/useCachedQuery";
 import { useErrorToast } from "../../../../hooks/useErrorToast";
 import { useNaPTAN } from "../../../../hooks/useNaPTAN";
-import { Badge, Box, Card, Heading, HStack, Table, Text, VStack } from "@chakra-ui/react";
+import { Badge, Box, Card, Heading, HStack, Spinner, Table, Text, VStack } from "@chakra-ui/react";
 import TimeAgo from "react-time-ago";
 import { useNextDepartures } from "@/hooks/useNextDestination";
 import { getBadgeStyles } from "@/utils/colors";
@@ -84,7 +84,12 @@ function NextDeparturesList({ atcoCode }: NextDeparturesListProps) {
   useErrorToast("next-departures-error", "Error loading next-departures", error);
   const results = data?.results ?? [];
   if (isLoading) {
-    return <Box>Loading...</Box>;
+    return (
+      <Box>
+        Loading...
+        <Spinner mx={2} size="xs" color="blue.600" colorPalette="blue" data-testid="spinner" />
+      </Box>
+    );
   }
   if (results.length === 0) {
     return <Box>No departures found</Box>;
@@ -119,7 +124,9 @@ function NextDeparturesList({ atcoCode }: NextDeparturesListProps) {
           </Table.Header>
           <Table.Body>
             {results.map((departure, i) => (
-              <Table.Row key={departure.line_name + "-" + departure.aimed_arrival_time.getTime()}>
+              <Table.Row
+                key={`${departure.line_name}-${departure.aimed_arrival_time?.getTime() ?? departure.expected_arrival_time?.getTime()}-${i}`}
+              >
                 <Table.Cell px={1} py={0.5}>
                   <Badge size="xs" fontWeight="bold" {...getBadgeStyles(departure.line_name)}>
                     {departure.line_name}
