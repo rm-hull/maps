@@ -1,3 +1,27 @@
+export type StopType =
+  | "BCT"
+  | "BCS"
+  | "BCE"
+  | "BCQ"
+  | "BST"
+  | "FBT"
+  | "RLY"
+  | "RSE"
+  | "RPL"
+  | "PLT"
+  | "TMU"
+  | "MET"
+  | "FER"
+  | "FTD"
+  | "AIR"
+  | "GAT"
+  | "TXR"
+  | "STR";
+
+export function isBusStop(stopType: StopType): boolean {
+  return ["BCT", "BCS", "BCQ", "BST", "FBT"].includes(stopType);
+}
+
 export interface NaPTAN {
   atco_code: string;
   naptan_code: string;
@@ -18,7 +42,7 @@ export interface NaPTAN {
   northing: number;
   longitude: number;
   latitude: number;
-  stop_type: string;
+  stop_type: StopType;
   bus_stop_type: string;
   timing_status: string;
   administrative_area_code: string;

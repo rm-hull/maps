@@ -5,8 +5,17 @@ import redMarkerUrl from "./markers/marker-icon-2x-red.png";
 import violetMarkerUrl from "./markers/marker-icon-2x-violet.png";
 import markerShadowUrl from "./markers/marker-shadow.png";
 import gasStationUrl from "./gas-station.webp";
-import busStopUrl from "./bus-stop.webp";
-import trainStationUrl from "./train-station.webp";
+
+import busStopUrl from "./destinations/bus-stop.webp";
+import trainStationUrl from "./destinations/train-station.webp";
+import entranceUrl from "./destinations/entrance.webp";
+import metroUrl from "./destinations/metro.webp";
+import ferryUrl from "./destinations/ferry.webp";
+import airportUrl from "./destinations/airport.webp";
+import airportGateUrl from "./destinations/airport-gate.webp";
+import platformUrl from "./destinations/platform.webp";
+import taxiUrl from "./destinations/taxi.webp";
+import { StopType } from "@/services/nextDepartures/types";
 
 const commonProps: L.BaseIconOptions = {
   shadowUrl: markerShadowUrl,
@@ -36,23 +45,38 @@ export const greenMarker = new L.Icon({
   iconUrl: greenMarkerUrl,
 });
 
-export const busStop = new L.Icon({
-  iconSize: [28, 28],
-  iconAnchor: [14, 28],
-  popupAnchor: [1, -28],
-  iconUrl: busStopUrl,
-});
+function destinationIcon(baseUrl: string): L.Icon {
+  return new L.Icon({
+    iconSize: [28, 28],
+    iconAnchor: [14, 28],
+    popupAnchor: [1, -28],
+    iconUrl: baseUrl,
+  });
+}
 
-export const trainStation = new L.Icon({
-  iconSize: [28, 28],
-  iconAnchor: [14, 28],
-  popupAnchor: [1, -28],
-  iconUrl: trainStationUrl,
-});
+export const destinations: Record<StopType, L.Icon> = {
+  BCT: destinationIcon(busStopUrl),
+  BCS: destinationIcon(busStopUrl),
+  BCE: destinationIcon(entranceUrl),
+  BCQ: destinationIcon(busStopUrl),
+  BST: destinationIcon(busStopUrl),
+  FBT: destinationIcon(busStopUrl),
+  RLY: destinationIcon(trainStationUrl),
+  RSE: destinationIcon(entranceUrl),
+  RPL: destinationIcon(platformUrl),
+  PLT: destinationIcon(platformUrl),
+  TMU: destinationIcon(entranceUrl),
+  MET: destinationIcon(metroUrl),
+  FER: destinationIcon(ferryUrl),
+  FTD: destinationIcon(entranceUrl),
+  AIR: destinationIcon(airportUrl),
+  GAT: destinationIcon(airportGateUrl),
+  TXR: destinationIcon(taxiUrl),
+  STR: destinationIcon(taxiUrl),
+} as const;
 
 export const gasStation = new L.Icon({
   iconSize: [28, 28],
-  iconAnchor: [14, 28],
   popupAnchor: [1, -28],
   iconUrl: gasStationUrl,
 });
