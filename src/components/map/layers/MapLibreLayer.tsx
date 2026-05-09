@@ -1,5 +1,5 @@
 import { createLayerComponent, LayerProps } from "@react-leaflet/core";
-import * as L from "leaflet";
+import L from "leaflet";
 import "@maplibre/maplibre-gl-leaflet";
 import type { Map as MaplibreMap, StyleSpecification } from "maplibre-gl";
 import { ReactNode } from "react";
