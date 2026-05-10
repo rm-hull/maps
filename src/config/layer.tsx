@@ -343,7 +343,7 @@ export const OVERLAYS: Record<string, Overlay> = {
     minZoom: 6,
     component: () => (
       <WeatherLayer
-        url="https://api.destructuring-bind.org/v1/metoffice/datahub/total_precipitation_rate/{y}/{m}/{d}/{h}.webp"
+        url="https://api.hz-nbg1.destructuring-bind.org/v1/metoffice/datahub/total_precipitation_rate/{y}/{m}/{d}/{h}.webp"
         zIndex={660}
         scale={<Scale label="Rain (mm/h):" values={RAIN_RATE_SCALE} />}
       />
@@ -353,7 +353,7 @@ export const OVERLAYS: Record<string, Overlay> = {
     minZoom: 6,
     component: () => (
       <WeatherLayer
-        url="https://api.destructuring-bind.org/v1/metoffice/datahub/cloud_amount_total/{y}/{m}/{d}/{h}.webp"
+        url="https://api.hz-nbg1.destructuring-bind.org/v1/metoffice/datahub/cloud_amount_total/{y}/{m}/{d}/{h}.webp"
         zIndex={659}
         opacity={0.8}
         scale={
