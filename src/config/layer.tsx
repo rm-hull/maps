@@ -225,7 +225,7 @@ export const OVERLAYS: Record<string, Overlay> = {
     minZoom: 6,
     component: () => (
       <MapLibreLayer
-        url="https://map-tiles.destructuring-bind.org/styles/uk_contours/style.json"
+        url="https://map-tiles.hz-nbg1.destructuring-bind.org/styles/uk_contours/style.json"
         pane="overlayPane"
         zIndex={650}
         opacity={0.5}
