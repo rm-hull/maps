@@ -30,8 +30,9 @@ describe("MapLibreLayer internal functions", () => {
   });
 
   it("applyOpacity should apply scaled opacities as expressions", () => {
+    const setPaintProperty = vi.fn();
     const mockMap = {
-      setPaintProperty: vi.fn(),
+      setPaintProperty,
       getLayer: vi.fn().mockReturnValue({}),
     } as unknown as MaplibreMap;
 
@@ -42,8 +43,8 @@ describe("MapLibreLayer internal functions", () => {
 
     applyOpacity(mockMap, 0.5, snapshot);
 
-    expect(mockMap.setPaintProperty).toHaveBeenCalledWith("layer1", "fill-opacity", 0.4);
-    expect(mockMap.setPaintProperty).toHaveBeenCalledWith("layer2", "line-opacity", [
+    expect(setPaintProperty).toHaveBeenCalledWith("layer1", "fill-opacity", 0.4);
+    expect(setPaintProperty).toHaveBeenCalledWith("layer2", "line-opacity", [
       "*",
       ["interpolate", ["zoom"], 0, 0, 10, 1],
       0.5,
@@ -51,8 +52,9 @@ describe("MapLibreLayer internal functions", () => {
   });
 
   it("applyOpacity should restore original values when opacity is 1", () => {
+    const setPaintProperty = vi.fn();
     const mockMap = {
-      setPaintProperty: vi.fn(),
+      setPaintProperty,
       getLayer: vi.fn().mockReturnValue({}),
     } as unknown as MaplibreMap;
 
@@ -60,6 +62,6 @@ describe("MapLibreLayer internal functions", () => {
 
     applyOpacity(mockMap, 1, snapshot);
 
-    expect(mockMap.setPaintProperty).toHaveBeenCalledWith("layer1", "fill-opacity", 0.8);
+    expect(setPaintProperty).toHaveBeenCalledWith("layer1", "fill-opacity", 0.8);
   });
 });

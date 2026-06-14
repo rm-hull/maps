@@ -7234,15 +7234,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-plugin-react-perf@npm:^3.3.3":
-  version: 3.3.3
-  resolution: "eslint-plugin-react-perf@npm:3.3.3"
-  peerDependencies:
-    eslint: ^3.0.0 || ^4.0.0 || ^5.0.0 || ^6.0.0 || ^7.0.0 || ^8.0.0 || ^9.0.0
-  checksum: 10/fc3446aa785714a1d6d06a52c0e6a28ca41c498185f0d3d7154c312d3d8b74059cb5c6ece4b2babb5cc0b3ad350870c84c098122c30a4d70098b58b819da555f
-  languageName: node
-  linkType: hard
-
 "eslint-plugin-react-refresh@npm:^0.5.2":
   version: 0.5.2
   resolution: "eslint-plugin-react-refresh@npm:0.5.2"
@@ -9130,7 +9121,6 @@ __metadata:
     eslint-plugin-react: "npm:^7.37.5"
     eslint-plugin-react-compiler: "npm:19.1.0-rc.2"
     eslint-plugin-react-hooks: "npm:^7.1.1"
-    eslint-plugin-react-perf: "npm:^3.3.3"
     eslint-plugin-react-refresh: "npm:^0.5.2"
     eslint-plugin-testing-library: "npm:^7.16.2"
     eslint-plugin-unused-imports: "npm:^4.4.1"

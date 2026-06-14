@@ -1,8 +1,8 @@
-# GEMINI.md
+# AGENTS.md
 
 ## Project Overview
 
-This is a web application that displays UK Ordnance Survey maps. It is built with React, TypeScript, and Vite. It uses Leaflet.js for rendering maps and Chakra UI for the user interface. The application allows users to view maps, search for locations, and display points of interest.
+This is a web application that displays UK Ordnance Survey (OS) maps, supporting multiple map styles (e.g., Leisure, Roads), points of interest (e.g., from Geograph), and GPS track integration (GPX/KML). It is built with React, TypeScript, and Vite, using Leaflet.js and MapLibre GL for rendering maps and Chakra UI for the user interface.
 
 ### Project Structure
 
@@ -22,7 +22,7 @@ This is a web application that displays UK Ordnance Survey maps. It is built wit
 - **Package Manager:** Yarn
 - **Mapping Library:** Leaflet.js, React-Leaflet, maplibre-gl
 - **UI Components:** Chakra UI
-- **State Management:** Jotai  (via use-local-storage)
+- **State Management:** Local storage (via `@rm-hull/use-local-storage`)
 - **Data Fetching:** react-query
 - **Routing:** react-router-dom
 - **Testing:** Vitest, React Testing Library
@@ -31,11 +31,30 @@ This is a web application that displays UK Ordnance Survey maps. It is built wit
 
 ### Prerequisites:
 
-Before running the application, you need to create a `.env` file in the root of the project with the following content:
+Before running the application, you need to create a `.env` file in the root of the project. While some features work with minimal config, the following variables are used throughout the application:
 
-```
+```env
 VITE_OS_DATAHUB_API_KEY=<your OS Datahub API key here>
 VITE_GEOGRAPH_API_KEY=<your Geograph API key here>
+
+# Optional/Service API URLs and Keys
+VITE_MAPPROXY_BASE_URL=
+VITE_FUEL_PRICES_API_URL=
+VITE_GPS_ROUTES_API_URL=
+VITE_GPS_ROUTES_API_KEY=
+VITE_PLACENAMES_API_URL=
+VITE_STREET_MANAGER_API_URL=
+VITE_GEODS_POI_API_URL=
+VITE_POSTCODE_POLYGONS_API_URL=
+VITE_COMPANY_DATA_API_URL=
+VITE_NEXT_DEPARTURES_API_URL=
+VITE_THUNDERFOREST_API_KEY=
+VITE_TOMTOM_API_KEY=
+VITE_CORS_PROXY=
+
+# Analytics and Monitoring
+VITE_GOOGLE_ANALYTICS_MEASUREMENT_ID=
+VITE_SENTRY_DSN=
 ```
 
 You can obtain these API keys by creating accounts on the [OS DataHub](https://osdatahub.os.uk/) and [Geograph UK](https://www.geograph.org.uk/).
