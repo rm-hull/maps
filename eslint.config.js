@@ -6,7 +6,7 @@
 // This config uses Flat Config and covers recommended rules for JS, TS, React, and Prettier integration.
 import js from "@eslint/js";
 import eslintConfigPrettier from "eslint-config-prettier";
-import importPlugin from "eslint-plugin-import";
+import importPlugin from "eslint-plugin-import-x";
 import pluginPromise from "eslint-plugin-promise";
 import react from "eslint-plugin-react";
 import reactHooks from "eslint-plugin-react-hooks";
@@ -44,6 +44,7 @@ export default tseslint.config(
     ],
     files: ["**/*.{ts,tsx}"],
     plugins: {
+      import: importPlugin,
       react: react,
       "react-compiler": reactCompiler,
       "react-hooks": reactHooks,
@@ -75,7 +76,7 @@ export default tseslint.config(
     },
     settings: {
       react: { version: "detect" },
-      "import/resolver": {
+      "import-x/resolver": {
         // TypeScript resolver: ensure eslint-import-resolver-typescript is installed
         typescript: {
           alwaysTryTypes: true,

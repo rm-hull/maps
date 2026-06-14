@@ -1,6 +1,10 @@
 import { createListCollection } from "@chakra-ui/react";
 import { LatLngBounds } from "leaflet";
 import { TileLayer, WMSTileLayer } from "react-leaflet";
+import { GridlinesLayer } from "@/components/map/layers/custom/GridlinesLayer";
+import { NextDeparturesLayer } from "@/components/map/layers/custom/NextDeparturesLayer";
+import { StreetLevelCrimeLayer } from "@/components/map/layers/custom/StreetLevelCrimeLayer";
+import { MapLibreLayer } from "@/components/map/layers/MapLibreLayer";
 import { CompanyDataLayer } from "../components/map/layers/custom/CompanyDataLayer";
 import { FuelPricesLayer } from "../components/map/layers/custom/FuelPricesLayer";
 import { GeodsPointsOfInterestLayer } from "../components/map/layers/custom/GeodsPointsOfInterestLayer";
@@ -10,10 +14,6 @@ import { PostcodePolygonsLayer } from "../components/map/layers/custom/PostcodeP
 import { StreetManagerLayer } from "../components/map/layers/custom/StreetManagerLayer";
 import { WeatherLayer } from "../components/map/layers/custom/WeatherLayer";
 import { Scale } from "../components/map/Scale";
-import { StreetLevelCrimeLayer } from "@/components/map/layers/custom/StreetLevelCrimeLayer";
-import { GridlinesLayer } from "@/components/map/layers/custom/GridlinesLayer";
-import { MapLibreLayer } from "@/components/map/layers/MapLibreLayer";
-import { NextDeparturesLayer } from "@/components/map/layers/custom/NextDeparturesLayer";
 
 const RAIN_RATE_SCALE = [
   { color: "#FFFFFF00", value: "0" },

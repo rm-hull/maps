@@ -1,12 +1,12 @@
-import { DailyOpeningTimes, OpeningTimes, PriceInfo, SearchResult, Statistics } from "@/services/fuelPrices/types";
 import { Badge, Box, Card, Heading, HStack, Image, Link, Table, Text, VStack } from "@chakra-ui/react";
-import { Popup } from "react-leaflet";
-import TimeAgo from "react-time-ago";
 import JavascriptTimeAgo from "javascript-time-ago";
 import en from "javascript-time-ago/locale/en.json";
-import { Tooltip } from "../ui/tooltip";
 import { FaRegThumbsDown, FaRegThumbsUp } from "react-icons/fa";
 import { LuSkull } from "react-icons/lu";
+import { Popup } from "react-leaflet";
+import TimeAgo from "react-time-ago";
+import { DailyOpeningTimes, OpeningTimes, PriceInfo, SearchResult, Statistics } from "@/services/fuelPrices/types";
+import { Tooltip } from "../ui/tooltip";
 
 JavascriptTimeAgo.addDefaultLocale(en);
 

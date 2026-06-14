@@ -11,14 +11,13 @@ const mockUseMap = vi.fn<() => { getZoom: () => number }>();
 const mockUseMapEvents = vi.fn<(events: LeafletEvents) => void>();
 
 vi.mock("react-leaflet", () => ({
-  useMap: (): { getZoom: () => number } => mockUseMap() as { getZoom: () => number },
+  useMap: (): { getZoom: () => number } => mockUseMap(),
   useMapEvents: (events: LeafletEvents): void => mockUseMapEvents(events),
 }));
 
 const mockUseGeneralSettings = vi.fn<() => { settings?: { showZoomLevel: boolean } }>();
 vi.mock("../../../hooks/useGeneralSettings", () => ({
-  useGeneralSettings: (): { settings?: { showZoomLevel: boolean } } =>
-    mockUseGeneralSettings() as { settings?: { showZoomLevel: boolean } },
+  useGeneralSettings: (): { settings?: { showZoomLevel: boolean } } => mockUseGeneralSettings(),
 }));
 
 vi.mock("@/components/ui/color-mode", () => ({

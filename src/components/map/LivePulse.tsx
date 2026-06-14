@@ -1,5 +1,4 @@
 import { Box } from "@chakra-ui/react";
-
 import styles from "./LivePulse.module.css";
 
 export function LivePulse() {

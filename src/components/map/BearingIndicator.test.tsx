@@ -1,7 +1,7 @@
+import { ReactNode } from "react";
 import { describe, it, expect, vi } from "vitest";
 import { render, screen } from "../../test/utils";
 import { BearingIndicator } from "./BearingIndicator";
-import { ReactNode } from "react";
 
 // Mock Tooltip from react-leaflet
 vi.mock("react-leaflet", () => ({

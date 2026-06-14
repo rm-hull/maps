@@ -1,9 +1,9 @@
 import { useQuery } from "@tanstack/react-query";
 import { type AxiosError } from "axios";
 import { type LatLngBounds } from "leaflet";
-import { fetchLastUpdated, fetchStreetLevelCrimes } from "../services/streetLevelCrimes";
 import { StreetLevelCrime } from "@/services/streetLevelCrimes/types";
 import { getBoundsKey } from "@/utils/bounds";
+import { fetchLastUpdated, fetchStreetLevelCrimes } from "../services/streetLevelCrimes";
 
 export function useStreetLevelCrimes(bounds: LatLngBounds, category: string, month?: string) {
   return useQuery<StreetLevelCrime[], AxiosError>({

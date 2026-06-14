@@ -1,6 +1,6 @@
+import * as L from "leaflet";
 import { describe, it, expect } from "vitest";
 import { redMarker, greenMarker, blueMarker, violetMarker } from "./index";
-import * as L from "leaflet";
 
 describe("icons", () => {
   it("should have markers defined", () => {

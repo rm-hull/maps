@@ -3,7 +3,6 @@ import { LatLng } from "leaflet";
 import { vi } from "vitest";
 import { convertKeys, toBNG, toLatLng } from "./helpers";
 
-
 // Mock Leaflet's Proj
 vi.mock("leaflet", async () => {
   const actual = await vi.importActual<typeof import("leaflet")>("leaflet");

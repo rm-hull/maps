@@ -23,7 +23,7 @@ describe("useFocus", () => {
 
     // Assign the mock element to the ref
     if (ref && "current" in ref) {
-      (ref as React.MutableRefObject<HTMLInputElement>).current = mockInput;
+      ref.current = mockInput;
     }
 
     // Call setFocus

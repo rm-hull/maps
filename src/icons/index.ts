@@ -1,21 +1,20 @@
 import * as L from "leaflet";
+import { StopType } from "@/services/nextDepartures/types";
+import airportGateUrl from "./destinations/airport-gate.webp";
+import airportUrl from "./destinations/airport.webp";
+import busStopUrl from "./destinations/bus-stop.webp";
+import entranceUrl from "./destinations/entrance.webp";
+import ferryUrl from "./destinations/ferry.webp";
+import metroUrl from "./destinations/metro.webp";
+import platformUrl from "./destinations/platform.webp";
+import taxiUrl from "./destinations/taxi.webp";
+import trainStationUrl from "./destinations/train-station.webp";
+import gasStationUrl from "./gas-station.webp";
 import blueMarkerUrl from "./markers/marker-icon-2x-blue.png";
 import greenMarkerUrl from "./markers/marker-icon-2x-green.png";
 import redMarkerUrl from "./markers/marker-icon-2x-red.png";
 import violetMarkerUrl from "./markers/marker-icon-2x-violet.png";
 import markerShadowUrl from "./markers/marker-shadow.png";
-import gasStationUrl from "./gas-station.webp";
-
-import busStopUrl from "./destinations/bus-stop.webp";
-import trainStationUrl from "./destinations/train-station.webp";
-import entranceUrl from "./destinations/entrance.webp";
-import metroUrl from "./destinations/metro.webp";
-import ferryUrl from "./destinations/ferry.webp";
-import airportUrl from "./destinations/airport.webp";
-import airportGateUrl from "./destinations/airport-gate.webp";
-import platformUrl from "./destinations/platform.webp";
-import taxiUrl from "./destinations/taxi.webp";
-import { StopType } from "@/services/nextDepartures/types";
 
 const commonProps: L.BaseIconOptions = {
   shadowUrl: markerShadowUrl,

@@ -1,6 +1,6 @@
+import type { Map as MaplibreMap } from "maplibre-gl";
 import { describe, it, expect, vi } from "vitest";
 import { buildOpacitySnapshot, applyOpacity } from "./MapLibreLayer";
-import type { Map as MaplibreMap } from "maplibre-gl";
 
 describe("MapLibreLayer internal functions", () => {
   it("buildOpacitySnapshot should capture current opacities (numbers and expressions)", () => {

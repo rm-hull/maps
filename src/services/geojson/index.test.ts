@@ -1,4 +1,4 @@
-import axios, { type AxiosResponse } from "axios";
+import axios from "axios";
 import { beforeEach, vi } from "vitest";
 import { fetchGeoJSON, SupportedMimeTypes } from "./index";
 
@@ -28,7 +28,7 @@ describe("geojson service", () => {
         features: [],
       };
 
-      mockedAxios.get.mockResolvedValue({ data: mockGPXData } as AxiosResponse);
+      mockedAxios.get.mockResolvedValue({ data: mockGPXData });
 
       const { gpx } = await import("@tmcw/togeojson");
       vi.mocked(gpx).mockReturnValue(mockGeoJSON);

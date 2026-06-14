@@ -1,8 +1,3 @@
-import { LatLngBounds } from "leaflet";
-import { CircleMarker, Popup } from "react-leaflet";
-import { useCachedQuery } from "../../../../hooks/useCachedQuery";
-import { useErrorToast } from "../../../../hooks/useErrorToast";
-import { useLastUpdated, useStreetLevelCrimes } from "@/hooks/useStreetLevelCrimes";
 import {
   Card,
   Circle,
@@ -18,10 +13,15 @@ import {
   Table,
   VStack,
 } from "@chakra-ui/react";
-import { Control } from "../../Control";
-import { useColorModeValue } from "@/components/ui/color-mode";
-import { StreetLevelCrime } from "@/services/streetLevelCrimes/types";
+import { LatLngBounds } from "leaflet";
 import { SetStateAction, useEffect, useMemo, useState } from "react";
+import { CircleMarker, Popup } from "react-leaflet";
+import { useColorModeValue } from "@/components/ui/color-mode";
+import { useLastUpdated, useStreetLevelCrimes } from "@/hooks/useStreetLevelCrimes";
+import { StreetLevelCrime } from "@/services/streetLevelCrimes/types";
+import { useCachedQuery } from "../../../../hooks/useCachedQuery";
+import { useErrorToast } from "../../../../hooks/useErrorToast";
+import { Control } from "../../Control";
 
 interface StreetLevelCrimeLayerProps {
   bounds: LatLngBounds;
@@ -233,21 +233,18 @@ export function StreetLevelCrimeLayer({ bounds }: StreetLevelCrimeLayerProps) {
 
   const byStreet = useMemo(
     () =>
-      data?.reduce(
-        (acc, crime) => {
-          if (crime.category && !selected[crime.category]) {
-            return acc;
-          }
-
-          const key = crime.location.street.id;
-          if (!acc[key]) {
-            acc[key] = [];
-          }
-          acc[key].push(crime);
+      data?.reduce((acc, crime) => {
+        if (crime.category && !selected[crime.category]) {
           return acc;
-        },
-        {} as Record<string, StreetLevelCrime[]>
-      ) || {},
+        }
+
+        const key = crime.location.street.id;
+        if (!acc[key]) {
+          acc[key] = [];
+        }
+        acc[key].push(crime);
+        return acc;
+      }, {} as Record<number, StreetLevelCrime[]>) || {},
     [data, selected]
   );
 

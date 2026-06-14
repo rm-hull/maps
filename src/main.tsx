@@ -4,6 +4,8 @@ import { ErrorFallback } from "@rm-hull/chakra-error-fallback";
 import * as Sentry from "@sentry/react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+import TimeAgo from "javascript-time-ago";
+import en from "javascript-time-ago/locale/en";
 import { createRoot, RootOptions } from "react-dom/client";
 import ReactGA from "react-ga4";
 import { BrowserRouter as Router } from "react-router-dom";
@@ -13,8 +15,6 @@ import { Toaster } from "./components/ui/toaster";
 import { reportWebVitals } from "./reportWebVitals";
 import "react-leaflet-cluster/dist/assets/MarkerCluster.css";
 import "react-leaflet-cluster/dist/assets/MarkerCluster.Default.css";
-import TimeAgo from "javascript-time-ago";
-import en from "javascript-time-ago/locale/en";
 
 TimeAgo.addLocale(en);
 

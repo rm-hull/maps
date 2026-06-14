@@ -1,17 +1,17 @@
+import { Badge, Box, Card, Heading, HStack, Spinner, Table, Text, VStack } from "@chakra-ui/react";
 import { LatLngBounds } from "leaflet";
 import { Marker, Popup } from "react-leaflet";
-import { BearingIndicator } from "../../BearingIndicator";
+import MarkerClusterGroup from "react-leaflet-cluster";
+import TimeAgo from "react-time-ago";
+import { useNextDepartures } from "@/hooks/useNextDestination";
+import { destinations } from "@/icons";
+import { isBusStop, NaPTAN } from "@/services/nextDepartures/types";
+import { getBadgeStyles } from "@/utils/colors";
 import { useCachedQuery } from "../../../../hooks/useCachedQuery";
 import { useErrorToast } from "../../../../hooks/useErrorToast";
 import { useNaPTAN } from "../../../../hooks/useNaPTAN";
-import { Badge, Box, Card, Heading, HStack, Spinner, Table, Text, VStack } from "@chakra-ui/react";
-import TimeAgo from "react-time-ago";
-import { useNextDepartures } from "@/hooks/useNextDestination";
-import { getBadgeStyles } from "@/utils/colors";
+import { BearingIndicator } from "../../BearingIndicator";
 import { LivePulse } from "../../LivePulse";
-import MarkerClusterGroup from "react-leaflet-cluster";
-import { isBusStop, NaPTAN } from "@/services/nextDepartures/types";
-import { destinations } from "@/icons";
 
 interface NextDeparturesLayerProps {
   bounds: LatLngBounds;
