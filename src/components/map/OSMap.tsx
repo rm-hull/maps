@@ -1,6 +1,6 @@
 import "proj4leaflet";
 import * as L from "leaflet";
-import { useMemo } from "react";
+import { useMemo, useState, useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
 import { MapContainer, ScaleControl } from "react-leaflet";
 import { baseLayers } from "../../config/layer";
@@ -49,6 +49,12 @@ export function OSMap({ center }: OSMapProps) {
 
   const initialMapStyle = useMemo(() => baseLayers.find(effectiveSettings?.mapStyle), [effectiveSettings?.mapStyle]);
 
+  const [selectedLayer, setSelectedLayer] = useState(initialMapStyle ?? baseLayers.at(0)!);
+
+  useEffect(() => {
+    setSelectedLayer(initialMapStyle ?? baseLayers.at(0)!);
+  }, [initialMapStyle]);
+
   if (isLoading) {
     return <Loader />;
   }
@@ -69,8 +75,8 @@ export function OSMap({ center }: OSMapProps) {
       <CurrentLocation active={settings?.initialLocation === "current" && center === undefined} />
       <Tracks />
       <Settings />
-      <Share />
-      <Layers defaultLayer={initialMapStyle ?? baseLayers.at(0)!} />
+      <Share mapStyle={`${selectedLayer.provider} / ${selectedLayer.name}`} />
+      <Layers defaultLayer={initialMapStyle ?? baseLayers.at(0)!} selectedLayer={selectedLayer} setSelectedLayer={setSelectedLayer} />
       <CustomOverlays />
       <ZoomLevel />
       <ScaleControl position="bottomright" />

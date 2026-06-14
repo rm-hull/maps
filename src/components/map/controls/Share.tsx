@@ -7,7 +7,11 @@ import { useGeneralSettings } from "@/hooks/useGeneralSettings";
 import { encodeState } from "@/utils/share";
 import { Control } from "../Control";
 
-export function Share() {
+interface ShareProps {
+  mapStyle: string;
+}
+
+export function Share({ mapStyle }: ShareProps) {
   const map = useMap();
   const { settings } = useGeneralSettings();
 
@@ -17,7 +21,7 @@ export function Share() {
       center: [center.lat, center.lng] as LatLngTuple,
       zoom: map.getZoom(),
       settings: {
-        mapStyle: settings?.mapStyle,
+        mapStyle: mapStyle,
         overlays: settings?.overlays,
       },
       popup: (map as any)._popup ? (map as any)._popup.getLatLng() : undefined,
