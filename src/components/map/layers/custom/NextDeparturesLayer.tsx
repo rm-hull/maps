@@ -94,6 +94,7 @@ function NextDeparturesList({ atcoCode }: NextDeparturesListProps) {
   if (results.length === 0) {
     return <Box>No departures found</Box>;
   }
+
   return (
     <VStack gap={2} alignItems="stretch">
       <Table.ScrollArea maxHeight="208px">
@@ -123,35 +124,39 @@ function NextDeparturesList({ atcoCode }: NextDeparturesListProps) {
             </Table.Row>
           </Table.Header>
           <Table.Body>
-            {results.map((departure, i) => (
-              <Table.Row
-                key={`${departure.line_name}-${departure.aimed_arrival_time?.getTime() ?? departure.expected_arrival_time?.getTime()}-${i}`}
-              >
-                <Table.Cell px={1} py={0.5}>
-                  <Badge size="xs" fontWeight="bold" {...getBadgeStyles(departure.line_name)}>
-                    {departure.line_name}
-                  </Badge>
-                </Table.Cell>
-                <Table.Cell px={1} py={0.5} fontSize="xs" truncate maxWidth={112} title={departure.destination}>
-                  {departure.destination.replace(/&(\w)/g, "& $1")}
-                </Table.Cell>
-                <Table.Cell px={1} py={0.5} fontSize="xs" textAlign="center">
-                  {(departure.expected_arrival_time ?? departure.aimed_arrival_time).toLocaleTimeString([], {
-                    hour: "2-digit",
-                    minute: "2-digit",
-                  })}
-                </Table.Cell>
-                <Table.Cell p={0} textAlign="end" fontSize="xs">
-                  <TimeAgo date={departure.expected_arrival_time ?? departure.aimed_arrival_time} locale="en-US" />
-                </Table.Cell>
-                <Table.Cell p={0} textAlign="end">
-                  {departure.expected_arrival_time && <LivePulse />}
-                </Table.Cell>
-              </Table.Row>
-            ))}
+            {results.map((departure, i) => {
+              const expectedArrivalTime = departure.expected_arrival_time ?? departure.aimed_arrival_time;
+              return (
+                <Table.Row
+                  key={`${departure.line_name}-${departure.aimed_arrival_time?.getTime() ?? departure.expected_arrival_time?.getTime()}-${i}`}
+                >
+                  <Table.Cell px={1} py={0.5}>
+                    <Badge size="xs" fontWeight="bold" {...getBadgeStyles(departure.line_name)}>
+                      {departure.line_name}
+                    </Badge>
+                  </Table.Cell>
+                  <Table.Cell px={1} py={0.5} fontSize="xs" truncate maxWidth={112} title={departure.destination}>
+                    {departure.destination.replace(/&(\w)/g, "& $1")}
+                  </Table.Cell>
+                  <Table.Cell px={1} py={0.5} fontSize="xs" textAlign="center">
+                    {toTime(expectedArrivalTime)}
+                  </Table.Cell>
+                  <Table.Cell p={0} textAlign="end" fontSize="xs">
+                    {expectedArrivalTime && <TimeAgo date={expectedArrivalTime} locale="en-US" />}
+                  </Table.Cell>
+                  <Table.Cell p={0} textAlign="end">
+                    {departure.expected_arrival_time && <LivePulse />}
+                  </Table.Cell>
+                </Table.Row>
+              );
+            })}
           </Table.Body>
         </Table.Root>
       </Table.ScrollArea>
     </VStack>
   );
+}
+
+function toTime(dt: Date): string {
+  return dt ? dt.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit", hour12: false }) : "unknown";
 }

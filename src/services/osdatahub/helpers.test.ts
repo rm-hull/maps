@@ -3,41 +3,6 @@ import { LatLng } from "leaflet";
 import { vi } from "vitest";
 import { convertKeys, toBNG, toLatLng } from "./helpers";
 
-// Mock proj4 to return a converter with forward/inverse methods
-vi.mock("proj4", () => {
-  const mockConverter = (input: number[]) => {
-    // Simple mock that converts WGS84 to BNG (approximate values for testing)
-    if (input.length === 2) {
-      // Forward: WGS84 to BNG
-      const [lng, lat] = input;
-      // Very rough approximation for testing
-      const easting = (lng + 2) * 100000 + 400000;
-      const northing = (lat - 49) * 110000;
-      return [easting, northing];
-    }
-    return input;
-  };
-
-  mockConverter.forward = (input: number[]) => {
-    const [lng, lat] = input;
-    const easting = (lng + 2) * 100000 + 400000;
-    const northing = (lat - 49) * 110000;
-    return [easting, northing];
-  };
-
-  mockConverter.inverse = (input: number[]) => {
-    const [easting, northing] = input;
-    const lng = (easting - 400000) / 100000 - 2;
-    const lat = northing / 110000 + 49;
-    return [lng, lat];
-  };
-
-  const proj4Mock = vi.fn(() => mockConverter);
-  proj4Mock.defs = vi.fn();
-  return {
-    default: proj4Mock,
-  };
-});
 
 // Mock Leaflet's Proj
 vi.mock("leaflet", async () => {

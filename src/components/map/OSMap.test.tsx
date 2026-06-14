@@ -1,5 +1,5 @@
 import { describe, it, expect, vi } from "vitest";
-import { render, screen } from "../../test/utils";
+import { render } from "../../test/utils";
 import { OSMap } from "./OSMap";
 import * as GeneralSettingsHook from "../../hooks/useGeneralSettings";
 
