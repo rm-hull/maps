@@ -33,6 +33,7 @@ vi.mock("proj4", () => {
   };
 
   const proj4Mock = vi.fn(() => mockConverter);
+  proj4Mock.defs = vi.fn();
   return {
     default: proj4Mock,
   };
