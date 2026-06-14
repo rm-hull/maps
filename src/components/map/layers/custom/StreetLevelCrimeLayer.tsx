@@ -227,13 +227,13 @@ export function StreetLevelCrimeLayer({ bounds }: StreetLevelCrimeLayerProps) {
 
   useEffect(() => {
     if (lastUpdated) {
-      setMonth((currentMonth) => currentMonth ?? lastUpdated);
+      queueMicrotask(() => setMonth((currentMonth) => currentMonth ?? lastUpdated));
     }
   }, [lastUpdated]);
 
-  const byStreet = useMemo(
+  const byStreet: Record<number, StreetLevelCrime[]> = useMemo(
     () =>
-      data?.reduce((acc, crime) => {
+      data?.reduce((acc: Record<number, StreetLevelCrime[]>, crime: StreetLevelCrime) => {
         if (crime.category && !selected[crime.category]) {
           return acc;
         }
@@ -244,7 +244,7 @@ export function StreetLevelCrimeLayer({ bounds }: StreetLevelCrimeLayerProps) {
         }
         acc[key].push(crime);
         return acc;
-      }, {} as Record<number, StreetLevelCrime[]>) || {},
+      }, {}) || {},
     [data, selected]
   );
 

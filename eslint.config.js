@@ -13,7 +13,6 @@ import reactHooks from "eslint-plugin-react-hooks";
 import reactRefresh from "eslint-plugin-react-refresh";
 import globals from "globals";
 import tseslint from "typescript-eslint";
-import reactPerf from "eslint-plugin-react-perf";
 import unusedImports from "eslint-plugin-unused-imports";
 import reactCompiler from "eslint-plugin-react-compiler";
 
@@ -49,7 +48,6 @@ export default tseslint.config(
       "react-compiler": reactCompiler,
       "react-hooks": reactHooks,
       "react-refresh": reactRefresh,
-      "react-perf": reactPerf,
       "unused-imports": unusedImports,
     },
     rules: {
@@ -67,7 +65,6 @@ export default tseslint.config(
           },
         },
       ],
-      "react-perf/jsx-no-new-function-as-prop": "warn",
       "unused-imports/no-unused-imports": "warn",
       "unused-imports/no-unused-vars": [
         "warn",
