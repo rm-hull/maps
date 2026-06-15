@@ -2,10 +2,12 @@ import { useEffect } from "react";
 import { useMap } from "react-leaflet";
 import { useSearchParams } from "react-router-dom";
 import { decodeState } from "@/utils/share";
+import { useGeneralSettings } from "@/hooks/useGeneralSettings";
 
 export function StateRestorer() {
   const map = useMap();
   const [searchParams] = useSearchParams();
+  const { settings, updateSettings } = useGeneralSettings();
   const sharedStateEncoded = searchParams.get("s");
 
   useEffect(() => {
@@ -18,11 +20,15 @@ export function StateRestorer() {
       map.setView(state.center, state.zoom);
     }
 
+    const newSettings = { ...settings };
     if (state.popup) {
-      // We can't easily "open" a popup that is managed by another component 
-      // unless we have a way to trigger it. 
-      // But for now, we can at least center the map on it if it's far away.
-      // Or we can try to find the POI at that location.
+      newSettings.activePopupLocation = state.popup;
+    }
+    if (state.settings) {
+      Object.assign(newSettings, state.settings);
+    }
+    if (state.popup || state.settings) {
+      updateSettings(newSettings);
     }
   }, [map, sharedStateEncoded]);
 

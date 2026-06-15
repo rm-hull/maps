@@ -13,10 +13,11 @@ interface ShareProps {
 
 export function Share({ mapStyle }: ShareProps) {
   const map = useMap();
-  const { settings } = useGeneralSettings();
+  const { settings, updateSettings } = useGeneralSettings();
 
   const handleShare = async () => {
     const center = map.getCenter();
+    const popupLatLng = (map as any)._popup ? (map as any)._popup.getLatLng() : undefined;
     const state = {
       center: [center.lat, center.lng] as LatLngTuple,
       zoom: map.getZoom(),
@@ -24,8 +25,11 @@ export function Share({ mapStyle }: ShareProps) {
         mapStyle: mapStyle,
         overlays: settings?.overlays,
       },
-      popup: (map as any)._popup ? (map as any)._popup.getLatLng() : undefined,
+      popup: popupLatLng ? ([popupLatLng.lat, popupLatLng.lng] as LatLngTuple) : undefined,
     };
+    if (popupLatLng) {
+      await updateSettings({ ...settings, activePopupLocation: [popupLatLng.lat, popupLatLng.lng] });
+    }
 
     const encoded = encodeState(state);
     const url = new URL(window.location.href);
