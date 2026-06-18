@@ -39,7 +39,7 @@
     "web-vitals": "^5.3.0"
   },
   "devDependencies": {
-    "@babel/core": "^8.0.0",
+    "@babel/core": "^8.0.1",
     "@chakra-ui/cli": "^3.36.0",
     "@eslint/compat": "^2.1.0",
     "@eslint/eslintrc": "^3.3.5",
