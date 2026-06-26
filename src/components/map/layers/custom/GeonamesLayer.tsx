@@ -1,5 +1,4 @@
 import { type LatLngBounds } from "leaflet";
-import hash from 'object-hash';
 import { Marker } from "react-leaflet";
 import MarkerClusterGroup from "react-leaflet-cluster";
 import { useCachedQuery } from "@/hooks/useCachedQuery";
