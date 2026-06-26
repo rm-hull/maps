@@ -19,7 +19,7 @@ export function GeonamesLayer({ bounds }: GeonamesLayerProps) {
   return (
     <MarkerClusterGroup chunkedLoading showCoverageOnHover={false} removeOutsideVisibleBounds>
       {data?.map((result) => (
-        <Marker key={result.geoNameId ?? hash(result)} position={[result.lat, result.lng]} icon={orangeMarker}>
+        <Marker key={result.geoNameId ?? result.wikipediaUrl} position={[result.lat, result.lng]} icon={orangeMarker}>
           <ResultPopup
             title={result.title}
             description={result.summary}
