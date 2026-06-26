@@ -2,7 +2,7 @@ import axios from "axios";
 import { LatLngBounds } from "leaflet";
 import { Result } from "./types";
 
-const API_KEY = import.meta.env.VITE_GEONAMES_API_KEY as string
+const API_KEY = import.meta.env.VITE_GEONAMES_API_KEY as string;
 
 const client = axios.create({
   baseURL: "http://api.geonames.org",
@@ -15,7 +15,7 @@ export const fetchGeonames = async (bounds: LatLngBounds): Promise<Result[]> => 
     throw new Error("No geonames API key specified");
   }
 
-  const resp = await client.get<{ geonames: Result[]}>("/wikipediaBoundingBoxJSON", {
+  const resp = await client.get<{ geonames: Result[] }>("/wikipediaBoundingBoxJSON", {
     params: {
       north: bounds.getNorth().toFixed(3),
       east: bounds.getEast().toFixed(3),

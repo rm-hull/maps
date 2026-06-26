@@ -236,7 +236,7 @@ export const OVERLAYS: Record<string, Overlay> = {
   "GPS Routes": { minZoom: 10, component: GpsRoutesLayer },
   Geograph: { minZoom: 16, component: GeographLayer },
   "GeoDS POI": { minZoom: 14, component: GeodsPointsOfInterestLayer },
-  "Geonames": { minZoom: 14, component: GeonamesLayer },
+  Geonames: { minZoom: 14, component: GeonamesLayer },
   "Company Data": { minZoom: 16, component: CompanyDataLayer },
   Postcodes: { minZoom: 11, component: PostcodePolygonsLayer },
   "Street Manager": { minZoom: 15, component: StreetManagerLayer },
