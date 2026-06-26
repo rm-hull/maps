@@ -5,7 +5,7 @@ import { Result } from "./types";
 const API_KEY = import.meta.env.VITE_GEONAMES_API_KEY as string;
 
 const client = axios.create({
-  baseURL: "http://api.geonames.org",
+  baseURL: "https://secure.geonames.org",
   params: { username: API_KEY },
   timeout: 10000,
 });
