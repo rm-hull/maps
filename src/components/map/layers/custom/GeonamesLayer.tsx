@@ -24,7 +24,7 @@ export function GeonamesLayer({ bounds }: GeonamesLayerProps) {
             title={result.title}
             description={result.summary}
             imageUrl={result.thumbnailImg}
-            targetUrl={"https://" + result.wikipediaUrl}
+            targetUrl={result.wikipediaUrl.startsWith("http") ? result.wikipediaUrl.replace(/^http:/, "https:") : "https://" + result.wikipediaUrl}
           />
         </Marker>
       ))}
