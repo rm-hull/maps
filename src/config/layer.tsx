@@ -1,19 +1,20 @@
 import { createListCollection } from "@chakra-ui/react";
 import { LatLngBounds } from "leaflet";
 import { TileLayer, WMSTileLayer } from "react-leaflet";
+import { CompanyDataLayer } from "@/components/map/layers/custom/CompanyDataLayer";
+import { FuelPricesLayer } from "@/components/map/layers/custom/FuelPricesLayer";
+import { GeodsPointsOfInterestLayer } from "@/components/map/layers/custom/GeodsPointsOfInterestLayer";
+import { GeographLayer } from "@/components/map/layers/custom/GeographLayer";
+import { GeonamesLayer } from "@/components/map/layers/custom/GeonamesLayer";
+import { GpsRoutesLayer } from "@/components/map/layers/custom/GpsRoutesLayer";
 import { GridlinesLayer } from "@/components/map/layers/custom/GridlinesLayer";
 import { NextDeparturesLayer } from "@/components/map/layers/custom/NextDeparturesLayer";
+import { PostcodePolygonsLayer } from "@/components/map/layers/custom/PostcodePolygonsLayer";
 import { StreetLevelCrimeLayer } from "@/components/map/layers/custom/StreetLevelCrimeLayer";
+import { StreetManagerLayer } from "@/components/map/layers/custom/StreetManagerLayer";
+import { WeatherLayer } from "@/components/map/layers/custom/WeatherLayer";
 import { MapLibreLayer } from "@/components/map/layers/MapLibreLayer";
-import { CompanyDataLayer } from "../components/map/layers/custom/CompanyDataLayer";
-import { FuelPricesLayer } from "../components/map/layers/custom/FuelPricesLayer";
-import { GeodsPointsOfInterestLayer } from "../components/map/layers/custom/GeodsPointsOfInterestLayer";
-import { GeographLayer } from "../components/map/layers/custom/GeographLayer";
-import { GpsRoutesLayer } from "../components/map/layers/custom/GpsRoutesLayer";
-import { PostcodePolygonsLayer } from "../components/map/layers/custom/PostcodePolygonsLayer";
-import { StreetManagerLayer } from "../components/map/layers/custom/StreetManagerLayer";
-import { WeatherLayer } from "../components/map/layers/custom/WeatherLayer";
-import { Scale } from "../components/map/Scale";
+import { Scale } from "@/components/map/Scale";
 
 const RAIN_RATE_SCALE = [
   { color: "#FFFFFF00", value: "0" },
@@ -235,6 +236,7 @@ export const OVERLAYS: Record<string, Overlay> = {
   "GPS Routes": { minZoom: 10, component: GpsRoutesLayer },
   Geograph: { minZoom: 16, component: GeographLayer },
   "GeoDS POI": { minZoom: 14, component: GeodsPointsOfInterestLayer },
+  Geonames: { minZoom: 14, component: GeonamesLayer },
   "Company Data": { minZoom: 16, component: CompanyDataLayer },
   Postcodes: { minZoom: 11, component: PostcodePolygonsLayer },
   "Street Manager": { minZoom: 15, component: StreetManagerLayer },

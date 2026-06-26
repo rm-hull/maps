@@ -12,6 +12,7 @@ import trainStationUrl from "./destinations/train-station.webp";
 import gasStationUrl from "./gas-station.webp";
 import blueMarkerUrl from "./markers/marker-icon-2x-blue.png";
 import greenMarkerUrl from "./markers/marker-icon-2x-green.png";
+import orangeMarkerUrl from "./markers/marker-icon-2x-orange.png";
 import redMarkerUrl from "./markers/marker-icon-2x-red.png";
 import violetMarkerUrl from "./markers/marker-icon-2x-violet.png";
 import markerShadowUrl from "./markers/marker-shadow.png";
@@ -42,6 +43,11 @@ export const blueMarker = new L.Icon({
 export const greenMarker = new L.Icon({
   ...commonProps,
   iconUrl: greenMarkerUrl,
+});
+
+export const orangeMarker = new L.Icon({
+  ...commonProps,
+  iconUrl: orangeMarkerUrl,
 });
 
 function destinationIcon(baseUrl: string): L.Icon {
