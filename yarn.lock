@@ -3301,10 +3301,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@terraformer/wkt@npm:^2.2.1":
-  version: 2.2.1
-  resolution: "@terraformer/wkt@npm:2.2.1"
-  checksum: 10/4f2749aec801f6a8f5d0d89f1784941f7dd44c8a7fde0b1dda3bd42e9cd9f7509f3bb66f99e0f2af47ec0ab2fcc93f67cfebd28037b506a499ea79ab8c0d06e8
+"@terraformer/wkt@npm:^2.2.2":
+  version: 2.2.2
+  resolution: "@terraformer/wkt@npm:2.2.2"
+  checksum: 10/e2136d241ac7acf23e97d9f0e3c7dbd11ed8afaf1e61b873ffd20f65cfeecfc9dcdbea54d80a81ad51c0c177535f93d0cd7a2f5d2dfe76431a818c6e79ed2a58
   languageName: node
   linkType: hard
 
@@ -9139,7 +9139,7 @@ __metadata:
     "@tanstack/eslint-plugin-query": "npm:^5.101.2"
     "@tanstack/react-query": "npm:^5.101.2"
     "@tanstack/react-query-devtools": "npm:^5.101.2"
-    "@terraformer/wkt": "npm:^2.2.1"
+    "@terraformer/wkt": "npm:^2.2.2"
     "@testing-library/dom": "npm:^10.4.1"
     "@testing-library/jest-dom": "npm:^6.9.1"
     "@testing-library/react": "npm:^16.3.2"
