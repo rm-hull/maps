@@ -1,6 +1,6 @@
 import { Accordion, Box, Link, Text, VStack, Checkbox, Collapsible, HStack } from "@chakra-ui/react";
 import L from "leaflet";
-import { useCallback, useState, useRef } from "react";
+import { useCallback, useEffect, useState, useRef } from "react";
 import { BsBadgeHd } from "react-icons/bs";
 import { IoLayersSharp } from "react-icons/io5";
 import { useMap } from "react-leaflet";
@@ -163,6 +163,8 @@ function BaseLayerAccordion({ onLayerChanged, selectedLayer }: BaseLayerAccordio
 
 type LayersProps = {
   defaultLayer: LayerOption;
+  selectedLayer: LayerOption;
+  setSelectedLayer: (layer: LayerOption) => void;
 };
 
 function createLayer(tile: Tile): L.Layer {
@@ -171,9 +173,10 @@ function createLayer(tile: Tile): L.Layer {
     : L.maplibreGL({ style: tile.url, minZoom: tile.options?.minZoom, maxZoom: tile.options?.maxZoom });
 }
 
-export function Layers({ defaultLayer }: LayersProps) {
+export function Layers({ defaultLayer, selectedLayer, setSelectedLayer }: LayersProps) {
   const [expanded, setExpanded] = useState(false);
   const debounceRef = useRef<NodeJS.Timeout | null>(null);
+  const prevDefaultLayer = useRef(defaultLayer);
   const map = useMap();
 
   const addTileLayers = useCallback(
@@ -182,20 +185,26 @@ export function Layers({ defaultLayer }: LayersProps) {
   );
 
   const [tileLayers, setTileLayers] = useState<L.Layer[]>(() => addTileLayers(defaultLayer));
-  const [selected, setSelected] = useState<LayerOption>(defaultLayer);
 
   const handleBaseLayerChange = useCallback(
     (layerOption: LayerOption) => {
-      if (layerOption === selected) {
+      if (layerOption === selectedLayer) {
         return;
       }
       tileLayers.forEach((l) => map.removeLayer(l));
       const newLayers = addTileLayers(layerOption);
       setTileLayers(newLayers);
-      setSelected(layerOption);
+      setSelectedLayer(layerOption);
     },
-    [addTileLayers, map, selected, tileLayers]
+    [addTileLayers, map, selectedLayer, tileLayers]
   );
+
+  useEffect(() => {
+    if (prevDefaultLayer.current !== defaultLayer) {
+      handleBaseLayerChange(defaultLayer);
+      prevDefaultLayer.current = defaultLayer;
+    }
+  }, [defaultLayer, handleBaseLayerChange]);
 
   const handleMouseLeave = useCallback(() => {
     if (debounceRef.current) {
@@ -228,7 +237,7 @@ export function Layers({ defaultLayer }: LayersProps) {
               onMouseLeave={handleMouseLeave}
               onMouseEnter={handleMouseEnter}
             >
-              <BaseLayerAccordion selectedLayer={selected} onLayerChanged={handleBaseLayerChange} />
+              <BaseLayerAccordion selectedLayer={selectedLayer} onLayerChanged={handleBaseLayerChange} />
             </Box>
           </Collapsible.Content>
         </Collapsible.Root>
