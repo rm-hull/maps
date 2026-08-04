@@ -3617,12 +3617,21 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/leaflet@npm:^1.9, @types/leaflet@npm:^1.9.21":
+"@types/leaflet@npm:^1.9":
   version: 1.9.21
   resolution: "@types/leaflet@npm:1.9.21"
   dependencies:
     "@types/geojson": "npm:*"
   checksum: 10/a02eff00db3cbc374c67fa7c0df6c564918482fa00407146bfea19f92600a4009f39af7bb9e3face39845979c133bb67b5bd972472720beef1f285596f47a6d1
+  languageName: node
+  linkType: hard
+
+"@types/leaflet@npm:^1.9.22":
+  version: 1.9.22
+  resolution: "@types/leaflet@npm:1.9.22"
+  dependencies:
+    "@types/geojson": "npm:*"
+  checksum: 10/fdfe2f4a1adb2cd5e594320613d7673e8058928abb7caf0a79a6a9e58bc743cbefb2d1fa6d45e0a054d298a9f57632a04dd4e8c2c8e7ddfaa3c376d8f72b90a6
   languageName: node
   linkType: hard
 
@@ -9287,7 +9296,7 @@ __metadata:
     "@types/babel__core": "npm:^7.20.5"
     "@types/geojson": "npm:^7946.0.16"
     "@types/jsdom": "npm:^28.0.3"
-    "@types/leaflet": "npm:^1.9.21"
+    "@types/leaflet": "npm:^1.9.22"
     "@types/node": "npm:^26.1.2"
     "@types/proj4": "npm:^2.19.0"
     "@types/proj4leaflet": "npm:^1.0.12"
