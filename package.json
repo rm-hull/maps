@@ -65,7 +65,7 @@
     "@typescript-eslint/parser": "^8.67.0",
     "@typescript-eslint/types": "^8.67.0",
     "@vitejs/plugin-react": "^6.0.5",
-    "@vitest/coverage-v8": "^4.1.10",
+    "@vitest/coverage-v8": "^4.1.11",
     "babel-plugin-react-compiler": "^1.0.0",
     "eslint": "10.8.1",
     "eslint-config-prettier": "^10.1.8",
@@ -90,7 +90,7 @@
     "typescript": "^6.0.3",
     "typescript-eslint": "^8.67.0",
     "vite": "^8.2.1",
-    "vitest": "^4.1.10"
+    "vitest": "^4.1.11"
   },
   "scripts": {
     "dev": "vite",
