@@ -15,7 +15,8 @@ import {
 } from "@chakra-ui/react";
 import { LatLngBounds } from "leaflet";
 import { SetStateAction, useEffect, useMemo, useState } from "react";
-import { CircleMarker, Popup } from "react-leaflet";
+import { CircleMarker } from "react-leaflet";
+import { Popup } from "../../Popup";
 import { useColorModeValue } from "@/components/ui/color-mode";
 import { useLastUpdated, useStreetLevelCrimes } from "@/hooks/useStreetLevelCrimes";
 import { StreetLevelCrime } from "@/services/streetLevelCrimes/types";
