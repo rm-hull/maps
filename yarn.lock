@@ -3126,55 +3126,55 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@tanstack/eslint-plugin-query@npm:^5.101.4":
-  version: 5.101.4
-  resolution: "@tanstack/eslint-plugin-query@npm:5.101.4"
+"@tanstack/eslint-plugin-query@npm:^5.102.1":
+  version: 5.102.1
+  resolution: "@tanstack/eslint-plugin-query@npm:5.102.1"
   dependencies:
     "@typescript-eslint/utils": "npm:^8.58.1"
   peerDependencies:
     eslint: ^8.57.0 || ^9.0.0 || ^10.0.0
-    typescript: ^5.4.0 || ^6.0.0
+    typescript: ^5.6.0 || ^6.0.0 || ^7.0.0
   peerDependenciesMeta:
     typescript:
       optional: true
-  checksum: 10/93f499c2d9a99187019462891896750103abfffcc1ffe11f675f2d9fa5125ffef643c389d47ee74c9a7fc7bcf288ec96ee5b10eac37f82b31041700080a3c4c0
+  checksum: 10/cb63fdbcc7a417cdd0c549fa4a08cae03b8e377cb7cdc9e83bacfef5edc652cd85f8c99276cc5cd0a08f8b5361c2c4c17941239931e4ae28cdb2af88859bd9b0
   languageName: node
   linkType: hard
 
-"@tanstack/query-core@npm:5.101.4":
-  version: 5.101.4
-  resolution: "@tanstack/query-core@npm:5.101.4"
-  checksum: 10/df86031035ac9a5cf54efece85718b90e93fca62068a44a176da232b6dd49b27168840f2da18c64a0eb25d171bc3fb1aab417db4643025cd194ff887833bd73f
+"@tanstack/query-core@npm:5.102.1":
+  version: 5.102.1
+  resolution: "@tanstack/query-core@npm:5.102.1"
+  checksum: 10/b632caa15da29c0543b105fea4e866efb44d7ad6b16db8a00a70b69a707e17e138285622540c74c3d83f10249f097c9f04740279c4c3a4b590e77cbfe2e72f1f
   languageName: node
   linkType: hard
 
-"@tanstack/query-devtools@npm:5.101.4":
-  version: 5.101.4
-  resolution: "@tanstack/query-devtools@npm:5.101.4"
-  checksum: 10/f733d7382eb395cfed8135bddb4ee448a4c426967f2a66c83337f553a04636a2cf5e9fe79386f0aeabf78c5683beade4e4f45c56d9c26f884497106b905d8976
+"@tanstack/query-devtools@npm:5.102.1":
+  version: 5.102.1
+  resolution: "@tanstack/query-devtools@npm:5.102.1"
+  checksum: 10/d6400837331e3e46d27f9f66e21ca7ecd35387ebf901b70b825e0d8e8a628f568c50a5f9d57ed37eb991852c588820b6eb9cdbc22ab1bdac0cff448798cc8788
   languageName: node
   linkType: hard
 
-"@tanstack/react-query-devtools@npm:^5.101.4":
-  version: 5.101.4
-  resolution: "@tanstack/react-query-devtools@npm:5.101.4"
+"@tanstack/react-query-devtools@npm:^5.102.1":
+  version: 5.102.1
+  resolution: "@tanstack/react-query-devtools@npm:5.102.1"
   dependencies:
-    "@tanstack/query-devtools": "npm:5.101.4"
+    "@tanstack/query-devtools": "npm:5.102.1"
   peerDependencies:
-    "@tanstack/react-query": ^5.101.4
+    "@tanstack/react-query": ^5.102.1
     react: ^18 || ^19
-  checksum: 10/b9b3ff3ee5e7b0c98bb59a6f9ff2c50b285da52287a54f26403fdbf4090f35c7e39c4e75156a1dc8b7e9d77fbb67909dd97f8b27289bed255963720b4f3d7769
+  checksum: 10/021f55a8a1a81b60579c0793dcae47594ce3db91e341ba6e5b022c12204beb5b455d0003a91e173104e1405e7235f23be2456d7c9ea0765ae4e0b3ff7210ad12
   languageName: node
   linkType: hard
 
-"@tanstack/react-query@npm:^5.101.4":
-  version: 5.101.4
-  resolution: "@tanstack/react-query@npm:5.101.4"
+"@tanstack/react-query@npm:^5.102.1":
+  version: 5.102.1
+  resolution: "@tanstack/react-query@npm:5.102.1"
   dependencies:
-    "@tanstack/query-core": "npm:5.101.4"
+    "@tanstack/query-core": "npm:5.102.1"
   peerDependencies:
     react: ^18 || ^19
-  checksum: 10/926dabad8e2c2cee89c0f10456c8338474abfe75c9baea2fa0619206cfcb7b38f7edcfe9cc8903f8a5c4f018bba44a487fc19687aac8f945c6a20630dbfceb96
+  checksum: 10/91304e4a711177d0feafc36d97a4ef4fe8622109cc696ea164ad45ce6f6fa1442381e16c85dd6bca9c57e4cf00838bee1c899cb5f7a9336a68391c84ee4cdba5
   languageName: node
   linkType: hard
 
@@ -8684,9 +8684,9 @@ __metadata:
     "@rolldown/plugin-babel": "npm:^0.2.3"
     "@sentry/react": "npm:^10.70.0"
     "@stylistic/eslint-plugin": "npm:^5.10.0"
-    "@tanstack/eslint-plugin-query": "npm:^5.101.4"
-    "@tanstack/react-query": "npm:^5.101.4"
-    "@tanstack/react-query-devtools": "npm:^5.101.4"
+    "@tanstack/eslint-plugin-query": "npm:^5.102.1"
+    "@tanstack/react-query": "npm:^5.102.1"
+    "@tanstack/react-query-devtools": "npm:^5.102.1"
     "@terraformer/wkt": "npm:^2.2.2"
     "@testing-library/dom": "npm:^10.4.1"
     "@testing-library/jest-dom": "npm:^7.0.1"
