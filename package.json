@@ -59,7 +59,7 @@
     "@types/proj4": "^2.19.0",
     "@types/proj4leaflet": "^1.0.12",
     "@types/react": "^19.2.18",
-    "@types/react-dom": "^19.2.4",
+    "@types/react-dom": "^19.2.5",
     "@types/terraformer__wkt": "^2.0.3",
     "@typescript-eslint/eslint-plugin": "^8.67.0",
     "@typescript-eslint/parser": "^8.67.0",
