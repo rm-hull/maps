@@ -8776,7 +8776,7 @@ __metadata:
     typescript-eslint: "npm:^8.68.0"
     vite: "npm:^8.2.2"
     vitest: "npm:^4.1.11"
-    web-vitals: "npm:^6.1.1"
+    web-vitals: "npm:^6.2.1"
   languageName: unknown
   linkType: soft
 
@@ -11363,10 +11363,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"web-vitals@npm:^6.1.1":
-  version: 6.1.1
-  resolution: "web-vitals@npm:6.1.1"
-  checksum: 10/8b64ce661175c171183ca2fef616fb774d42f6ab7d9a480a02beca9edd7058c5978b95c7096d953ecf737b36af5409e3cf648e58e97be3806dd5ce02f10037ae
+"web-vitals@npm:^6.2.1":
+  version: 6.2.1
+  resolution: "web-vitals@npm:6.2.1"
+  checksum: 10/bde1b9f39da7718d966fe60f8be4d17d571f381243b69a83cce29f04bd6076a9de20d3129ae9a483e711b94b767e3db9a37a0191890c043dbf121f55c96999c4
   languageName: node
   linkType: hard
 
