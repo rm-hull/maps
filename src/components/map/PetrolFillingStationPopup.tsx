@@ -153,7 +153,7 @@ function OpeningTimesTable({ openingTimes }: OpeningTimesTableProps) {
     times?: DailyOpeningTimes;
   }> = [];
 
-  for (let i = 0; i < entries.length; ) {
+  for (let i = 0; i < entries.length;) {
     const current = entries[i];
     let j = i + 1;
     while (j < entries.length && keyFor(entries[j].times) === keyFor(current.times)) {
