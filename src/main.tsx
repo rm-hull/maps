@@ -1,3 +1,5 @@
+import { setWorkerUrl } from "maplibre-gl";
+import workerUrl from "maplibre-gl/dist/maplibre-gl-worker.mjs?worker&url";
 import "leaflet/dist/leaflet.css";
 import "./index.css";
 import { ErrorFallback } from "@rm-hull/chakra-error-fallback";
@@ -16,6 +18,7 @@ import { reportWebVitals } from "./reportWebVitals";
 import "react-leaflet-cluster/dist/assets/MarkerCluster.css";
 import "react-leaflet-cluster/dist/assets/MarkerCluster.Default.css";
 
+setWorkerUrl(workerUrl);
 TimeAgo.addLocale(en);
 
 if (import.meta.env.VITE_GOOGLE_ANALYTICS_MEASUREMENT_ID !== undefined) {
