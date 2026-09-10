@@ -3,6 +3,6 @@
     "**/node_modules/.pnpm": true
   },
   "yaml.schemas": {
-    "https://json.schemastore.org/github-workflow.json": "file:///Users/rhu/dev/maps/.github/workflows/deploy.yml"
+    "https://json.schemastore.org/github-workflow.json": ".github/workflows/deploy.yml"
   }
 }
