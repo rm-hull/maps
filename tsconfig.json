@@ -19,7 +19,7 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
-    "types": ["react", "vitest/globals", "node"],
+    "types": ["react", "vitest/globals", "node", "@testing-library/jest-dom"],
 
     "paths": {
       "@/*": ["./src/*"]
