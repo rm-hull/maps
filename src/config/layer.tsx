@@ -68,6 +68,7 @@ const VITE_MAPPROXY_BASE_URL = import.meta.env.VITE_MAPPROXY_BASE_URL as string 
 const OS_DATAHUB_API_KEY = import.meta.env.VITE_OS_DATAHUB_API_KEY as string | undefined;
 const THUNDERFOREST_API_KEY = import.meta.env.VITE_THUNDERFOREST_API_KEY as string | undefined;
 const TOMTOM_API_KEY = import.meta.env.VITE_TOMTOM_API_KEY as string | undefined;
+const CARTO_API_KEY = import.meta.env.VITE_CARTO_API_KEY as string | undefined;
 
 function createRasterLayer(name: string, provider: string, url: string, options?: L.TileLayerOptions): LayerOption {
   return {
@@ -91,9 +92,9 @@ function createVectorLayer(name: string, provider: string, url: string): LayerOp
 }
 
 const BASE_LAYERS: LayerOption[] = [
-  createRasterLayer("Positron", "Carto", "https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png"),
-  createRasterLayer("Dark Matter", "Carto", "https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png"),
-  createRasterLayer("Voyager", "Carto", "https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png"),
+  createRasterLayer("Positron", "Carto", `https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png?key=${CARTO_API_KEY}`),
+  createRasterLayer("Dark Matter", "Carto", `https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png?key=${CARTO_API_KEY}`),
+  createRasterLayer("Voyager", "Carto", `https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png?key=${CARTO_API_KEY}`),
 
   createRasterLayer(
     "World TopoMap",
