@@ -63,31 +63,31 @@ You can obtain these API keys by creating accounts on the [OS DataHub](https://o
 
 - **Install dependencies:**
   ```bash
-  yarn install
+  pnpm install
   ```
 - **Run the development server:**
   ```bash
-  yarn dev
+  pnpm dev
   ```
 - **Build for production:**
   ```bash
-  yarn build
+  pnpm build
   ```
 - **Run tests in watch mode (do not use for AI assistance):**
   ```bash
-  yarn test:watch
+  pnpm test:watch
   ```
 - **Run tests normally:**
   ```bash
-  yarn test
+  pnpm test
   ```
 - **Lint the code:**
   ```bash
-  yarn lint
+  pnpm lint
   ```
 - **Preview the production build:**
   ```bash
-  yarn preview
+  pnpm preview
   ```
 
 ## Development Conventions
