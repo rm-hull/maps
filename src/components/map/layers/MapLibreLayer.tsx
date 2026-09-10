@@ -54,7 +54,7 @@ export function buildOpacitySnapshot(map: MaplibreMap): OpacitySnapshot {
     if (!props) continue;
     const values: Record<string, unknown> = {};
     for (const prop of props) {
-      const val = map.getPaintProperty(layer.id, prop);
+      const val = map.getPaintProperty(layer.id, prop as any);
       // getPaintProperty returns undefined if unset — default is 1
       values[prop] = val ?? 1;
     }
@@ -75,7 +75,7 @@ export function applyOpacity(map: MaplibreMap, opacity: number, snapshot: Opacit
         if (opacity !== 1) {
           finalValue = typeof baseValue === "number" ? baseValue * opacity : ["*", baseValue, opacity];
         }
-        map.setPaintProperty(layerId, prop, finalValue);
+        map.setPaintProperty(layerId, prop as any, finalValue);
       }
     }
   }
