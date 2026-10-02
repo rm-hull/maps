@@ -1,6 +1,7 @@
 import { Badge, Box, Card, Heading, Link, Text } from "@chakra-ui/react";
 import { ReactNode } from "react";
-import { Popup } from "react-leaflet";
+import { Popup } from "./Popup";
+import { useRef } from "react";
 import { Link as ReactRouterLink } from "react-router-dom";
 import { FadeInImage, ImageLoaderFn } from "../FadeInImage";
 
@@ -25,6 +26,7 @@ export function ResultPopup({
   attribution,
   chips,
 }: ResultPopupProps) {
+  const popupRef = useRef<any>(null);
   const cardDetails = (
     <Card.Root overflow="hidden" shadow="none" width="xs" border={0} outline={0}>
       {(imageUrl || imageLoader) && (
@@ -59,14 +61,14 @@ export function ResultPopup({
 
   if (!targetUrl) {
     return (
-      <Popup maxWidth={400} closeButton={false}>
+      <Popup ref={popupRef} maxWidth={400} closeButton={false}>
         {cardDetails}
       </Popup>
     );
   }
 
   return (
-    <Popup maxWidth={400} closeButton={false}>
+    <Popup ref={popupRef} maxWidth={400} closeButton={false}>
       <Link asChild target="_blank" rel="noreferrer" outlineOffset={0}>
         <ReactRouterLink to={targetUrl}>{cardDetails}</ReactRouterLink>
       </Link>

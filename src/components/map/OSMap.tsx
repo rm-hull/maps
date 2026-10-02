@@ -1,6 +1,7 @@
 import "proj4leaflet";
 import * as L from "leaflet";
-import { useMemo } from "react";
+import { useMemo, useState, useEffect } from "react";
+import { useSearchParams } from "react-router-dom";
 import { MapContainer, ScaleControl } from "react-leaflet";
 import { baseLayers } from "../../config/layer";
 import { DEFAULT_ZOOM_LEVEL, useGeneralSettings } from "../../hooks/useGeneralSettings";
@@ -11,6 +12,9 @@ import { Layers } from "./controls/Layers";
 import { Ruler } from "./controls/Ruler";
 import { Settings } from "./controls/Settings";
 import { ZoomLevel } from "./controls/ZoomLevel";
+import { Share } from "./controls/Share";
+import { StateRestorer } from "./StateRestorer";
+import { decodeState } from "@/utils/share";
 import { CustomOverlays } from "./CustomOverlays";
 import { PointOfInterest } from "./PointOfInterest";
 import { SearchBox } from "./search/SearchBox";
@@ -24,17 +28,32 @@ const maxBounds = new L.LatLngBounds([toLatLng([-238375.0, 0.0]), toLatLng([9000
 const defaultCenter = toLatLng([337297, 503695]); // OSGB36 / British National Grid
 
 export function OSMap({ center }: OSMapProps) {
+  const [searchParams] = useSearchParams();
   const { settings, isLoading } = useGeneralSettings();
+
+  const sharedStateEncoded = searchParams.get("s");
+  const sharedState = useMemo(() => (sharedStateEncoded ? decodeState(sharedStateEncoded) : null), [sharedStateEncoded]);
+
+  const effectiveSettings = useMemo(
+    () => (sharedState?.settings ? { ...settings, ...sharedState.settings } : settings),
+    [settings, sharedState]
+  );
 
   const customLocation = useMemo(
     () =>
-      settings?.initialLocation === "custom" && settings.customLocation && center === undefined
-        ? L.latLng(settings.customLocation.latLng)
+      effectiveSettings?.initialLocation === "custom" && effectiveSettings.customLocation && center === undefined
+        ? L.latLng(effectiveSettings.customLocation.latLng)
         : undefined,
-    [settings, center]
+    [effectiveSettings, center]
   );
 
-  const initialMapStyle = useMemo(() => baseLayers.find(settings?.mapStyle), [settings?.mapStyle]);
+  const initialMapStyle = useMemo(() => baseLayers.find(effectiveSettings?.mapStyle), [effectiveSettings?.mapStyle]);
+
+  const [selectedLayer, setSelectedLayer] = useState(initialMapStyle ?? baseLayers.at(0)!);
+
+  useEffect(() => {
+    setSelectedLayer(initialMapStyle ?? baseLayers.at(0)!);
+  }, [initialMapStyle]);
 
   if (isLoading) {
     return <Loader />;
@@ -42,7 +61,7 @@ export function OSMap({ center }: OSMapProps) {
 
   return (
     <MapContainer
-      zoom={settings?.initialZoomLevel ?? DEFAULT_ZOOM_LEVEL}
+      zoom={effectiveSettings?.initialZoomLevel ?? DEFAULT_ZOOM_LEVEL}
       minZoom={7}
       maxZoom={18}
       center={customLocation ?? center ?? defaultCenter}
@@ -56,11 +75,13 @@ export function OSMap({ center }: OSMapProps) {
       <CurrentLocation active={settings?.initialLocation === "current" && center === undefined} />
       <Tracks />
       <Settings />
-      <Layers defaultLayer={initialMapStyle ?? baseLayers.at(0)!} />
+      <Share mapStyle={`${selectedLayer.provider} / ${selectedLayer.name}`} />
+      <Layers defaultLayer={initialMapStyle ?? baseLayers.at(0)!} selectedLayer={selectedLayer} setSelectedLayer={setSelectedLayer} />
       <CustomOverlays />
       <ZoomLevel />
       <ScaleControl position="bottomright" />
       <Ruler />
+      <StateRestorer />
     </MapContainer>
   );
 }
