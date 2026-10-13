@@ -197,8 +197,8 @@ importers:
         specifier: ^2.2.2
         version: 2.2.2
       '@tmcw/togeojson':
-        specifier: ^7.1.2
-        version: 7.1.2
+        specifier: ^7.1.3
+        version: 7.1.3
       axios:
         specifier: ^1.20.0
         version: 1.20.0(debug@4.4.3)
@@ -2023,8 +2023,8 @@ packages:
     peerDependencies:
       '@testing-library/dom': '>=7.21.4'
 
-  '@tmcw/togeojson@7.1.2':
-    resolution: {integrity: sha512-QKnFs9DAuqqBVj4d6c69tV1Dj2TspSBTqffivoN0YoBCVdP/JY1+WaYCJbzU49RkoU5NOSOJ3jtFHCdEUVh21A==}
+  '@tmcw/togeojson@7.1.3':
+    resolution: {integrity: sha512-26QL68Q2Zzkmj0J6uZm5FbZPQ9V/qOC3x6/FR7BMnulPVMK3hRu+MZXJHYYJMi8ygcPfOKjhK0UGf3qdTswLLA==}
 
   '@turf/area@5.1.5':
     resolution: {integrity: sha512-lz16gqtvoz+j1jD9y3zj0Z5JnGNd3YfS0h+DQY1EcZymvi75Frm9i5YbEyth0RfxYZeOVufY7YIS3LXbJlI57g==}
@@ -7303,7 +7303,7 @@ snapshots:
     dependencies:
       '@testing-library/dom': 10.4.2
 
-  '@tmcw/togeojson@7.1.2': {}
+  '@tmcw/togeojson@7.1.3': {}
 
   '@turf/area@5.1.5':
     dependencies:
