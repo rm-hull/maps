@@ -110,6 +110,7 @@ describe("useErrorToast", () => {
     const { rerender } = renderHook(
       ({ error }: { error: Error | null }) => useErrorToast("test-id", "Test Title", error),
       {
+        // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
         initialProps: { error: error as Error | null },
       }
     );

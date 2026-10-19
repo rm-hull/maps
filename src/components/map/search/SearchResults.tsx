@@ -48,26 +48,23 @@ function SearchResultItem({ item, onSelect }: SearchResultItemProps) {
 export function SearchResults({ response, onSelect }: SearchResponseProps) {
   const collection = createListCollection({
     items:
-      response.results?.map(
-        (result) =>
-          ({
-            label: [
-              result.gazetteerEntry.name1,
-              result.gazetteerEntry.populatedPlace,
-              result.gazetteerEntry.countyUnitary,
-              result.gazetteerEntry.districtBorough,
-              result.gazetteerEntry.postcodeDistrict,
-              result.gazetteerEntry.country,
-            ]
-              .filter(Boolean)
-              .filter(dedupe)
-              .join(", "),
-            value: result.gazetteerEntry.id,
-            type: result.gazetteerEntry.localType,
-            icon: <SearchIcon localType={result.gazetteerEntry.localType} />,
-            data: result.gazetteerEntry,
-          }) as SearchResultItemType
-      ) ?? [],
+      response.results?.map((result) => ({
+        label: [
+          result.gazetteerEntry.name1,
+          result.gazetteerEntry.populatedPlace,
+          result.gazetteerEntry.countyUnitary,
+          result.gazetteerEntry.districtBorough,
+          result.gazetteerEntry.postcodeDistrict,
+          result.gazetteerEntry.country,
+        ]
+          .filter(Boolean)
+          .filter(dedupe)
+          .join(", "),
+        value: result.gazetteerEntry.id,
+        type: result.gazetteerEntry.localType,
+        icon: <SearchIcon localType={result.gazetteerEntry.localType} />,
+        data: result.gazetteerEntry,
+      })) ?? [],
   });
 
   return (

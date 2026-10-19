@@ -1,17 +1,20 @@
 import { createListCollection } from "@chakra-ui/react";
 import { LatLngBounds } from "leaflet";
 import { TileLayer, WMSTileLayer } from "react-leaflet";
-import { CompanyDataLayer } from "../components/map/layers/custom/CompanyDataLayer";
-import { FuelPricesLayer } from "../components/map/layers/custom/FuelPricesLayer";
-import { GeodsPointsOfInterestLayer } from "../components/map/layers/custom/GeodsPointsOfInterestLayer";
-import { GeographLayer } from "../components/map/layers/custom/GeographLayer";
-import { GpsRoutesLayer } from "../components/map/layers/custom/GpsRoutesLayer";
-import { PostcodePolygonsLayer } from "../components/map/layers/custom/PostcodePolygonsLayer";
-import { StreetManagerLayer } from "../components/map/layers/custom/StreetManagerLayer";
-import { WeatherLayer } from "../components/map/layers/custom/WeatherLayer";
-import { Scale } from "../components/map/Scale";
-import { StreetLevelCrimeLayer } from "@/components/map/layers/custom/StreetLevelCrimeLayer";
+import { CompanyDataLayer } from "@/components/map/layers/custom/CompanyDataLayer";
+import { FuelPricesLayer } from "@/components/map/layers/custom/FuelPricesLayer";
+import { GeodsPointsOfInterestLayer } from "@/components/map/layers/custom/GeodsPointsOfInterestLayer";
+import { GeographLayer } from "@/components/map/layers/custom/GeographLayer";
+import { GeonamesLayer } from "@/components/map/layers/custom/GeonamesLayer";
+import { GpsRoutesLayer } from "@/components/map/layers/custom/GpsRoutesLayer";
 import { GridlinesLayer } from "@/components/map/layers/custom/GridlinesLayer";
+import { NextDeparturesLayer } from "@/components/map/layers/custom/NextDeparturesLayer";
+import { PostcodePolygonsLayer } from "@/components/map/layers/custom/PostcodePolygonsLayer";
+import { StreetLevelCrimeLayer } from "@/components/map/layers/custom/StreetLevelCrimeLayer";
+import { StreetManagerLayer } from "@/components/map/layers/custom/StreetManagerLayer";
+import { WeatherLayer } from "@/components/map/layers/custom/WeatherLayer";
+import { MapLibreLayer } from "@/components/map/layers/MapLibreLayer";
+import { Scale } from "@/components/map/Scale";
 
 const RAIN_RATE_SCALE = [
   { color: "#FFFFFF00", value: "0" },
@@ -65,6 +68,7 @@ const VITE_MAPPROXY_BASE_URL = import.meta.env.VITE_MAPPROXY_BASE_URL as string 
 const OS_DATAHUB_API_KEY = import.meta.env.VITE_OS_DATAHUB_API_KEY as string | undefined;
 const THUNDERFOREST_API_KEY = import.meta.env.VITE_THUNDERFOREST_API_KEY as string | undefined;
 const TOMTOM_API_KEY = import.meta.env.VITE_TOMTOM_API_KEY as string | undefined;
+const CARTO_API_KEY = import.meta.env.VITE_CARTO_API_KEY as string | undefined;
 
 function createRasterLayer(name: string, provider: string, url: string, options?: L.TileLayerOptions): LayerOption {
   return {
@@ -88,9 +92,9 @@ function createVectorLayer(name: string, provider: string, url: string): LayerOp
 }
 
 const BASE_LAYERS: LayerOption[] = [
-  createRasterLayer("Positron", "Carto", "https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png"),
-  createRasterLayer("Dark Matter", "Carto", "https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png"),
-  createRasterLayer("Voyager", "Carto", "https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png"),
+  createRasterLayer("Positron", "Carto", `https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png?key=${CARTO_API_KEY}`),
+  createRasterLayer("Dark Matter", "Carto", `https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png?key=${CARTO_API_KEY}`),
+  createRasterLayer("Voyager", "Carto", `https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png?key=${CARTO_API_KEY}`),
 
   createRasterLayer(
     "World TopoMap",
@@ -403,13 +407,26 @@ const BASE_LAYERS: LayerOption[] = [
 
 export const OVERLAYS: Record<string, Overlay> = {
   Gridlines: { minZoom: 6, component: GridlinesLayer },
+  "Contour Lines": {
+    minZoom: 6,
+    component: () => (
+      <MapLibreLayer
+        url="https://map-tiles.hz-nbg1.destructuring-bind.org/styles/uk_contours/style.json"
+        pane="overlayPane"
+        zIndex={650}
+        opacity={0.5}
+      />
+    ),
+  },
   "GPS Routes": { minZoom: 10, component: GpsRoutesLayer },
   Geograph: { minZoom: 16, component: GeographLayer },
   "GeoDS POI": { minZoom: 14, component: GeodsPointsOfInterestLayer },
+  Geonames: { minZoom: 14, component: GeonamesLayer },
   "Company Data": { minZoom: 16, component: CompanyDataLayer },
   Postcodes: { minZoom: 11, component: PostcodePolygonsLayer },
   "Street Manager": { minZoom: 15, component: StreetManagerLayer },
   "Fuel Prices": { minZoom: 10, component: FuelPricesLayer },
+  "Next Departures": { minZoom: 15, component: NextDeparturesLayer },
   "Street Level Crime": { minZoom: 13, component: StreetLevelCrimeLayer },
   "Waymarked Hiking Trails": {
     minZoom: 6,
@@ -513,7 +530,7 @@ export const OVERLAYS: Record<string, Overlay> = {
     minZoom: 6,
     component: () => (
       <WeatherLayer
-        url="https://api.destructuring-bind.org/v1/metoffice/datahub/total_precipitation_rate/{y}/{m}/{d}/{h}.webp"
+        url="https://api.hz-nbg1.destructuring-bind.org/v1/metoffice/datahub/total_precipitation_rate/{y}/{m}/{d}/{h}.webp"
         zIndex={660}
         scale={<Scale label="Rain (mm/h):" values={RAIN_RATE_SCALE} />}
       />
@@ -523,7 +540,7 @@ export const OVERLAYS: Record<string, Overlay> = {
     minZoom: 6,
     component: () => (
       <WeatherLayer
-        url="https://api.destructuring-bind.org/v1/metoffice/datahub/cloud_amount_total/{y}/{m}/{d}/{h}.webp"
+        url="https://api.hz-nbg1.destructuring-bind.org/v1/metoffice/datahub/cloud_amount_total/{y}/{m}/{d}/{h}.webp"
         zIndex={659}
         opacity={0.8}
         scale={

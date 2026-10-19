@@ -1,6 +1,6 @@
+import AutoGraticule from "leaflet-auto-graticule";
 import { useEffect } from "react";
 import { useMap } from "react-leaflet";
-import AutoGraticule from "leaflet-auto-graticule";
 import "./GridlinesLayer.css";
 
 export function GridlinesLayer() {

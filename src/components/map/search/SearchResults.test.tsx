@@ -71,7 +71,7 @@ describe("SearchResults", () => {
     expect(firstItem).toBeInTheDocument();
 
     if (firstItem) {
-      await userEvent.click(firstItem as HTMLElement);
+      await userEvent.click(firstItem);
       expect(onSelect).toHaveBeenCalledWith(mockResponse.results?.[0].gazetteerEntry);
     }
   });

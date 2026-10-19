@@ -6,14 +6,13 @@
 // This config uses Flat Config and covers recommended rules for JS, TS, React, and Prettier integration.
 import js from "@eslint/js";
 import eslintConfigPrettier from "eslint-config-prettier";
-import importPlugin from "eslint-plugin-import";
+import importPlugin from "eslint-plugin-import-x";
 import pluginPromise from "eslint-plugin-promise";
 import react from "eslint-plugin-react";
 import reactHooks from "eslint-plugin-react-hooks";
 import reactRefresh from "eslint-plugin-react-refresh";
 import globals from "globals";
 import tseslint from "typescript-eslint";
-import reactPerf from "eslint-plugin-react-perf";
 import unusedImports from "eslint-plugin-unused-imports";
 import reactCompiler from "eslint-plugin-react-compiler";
 
@@ -44,11 +43,11 @@ export default tseslint.config(
     ],
     files: ["**/*.{ts,tsx}"],
     plugins: {
+      import: importPlugin,
       react: react,
       "react-compiler": reactCompiler,
       "react-hooks": reactHooks,
       "react-refresh": reactRefresh,
-      "react-perf": reactPerf,
       "unused-imports": unusedImports,
     },
     rules: {
@@ -66,7 +65,6 @@ export default tseslint.config(
           },
         },
       ],
-      "react-perf/jsx-no-new-function-as-prop": "warn",
       "unused-imports/no-unused-imports": "warn",
       "unused-imports/no-unused-vars": [
         "warn",
@@ -75,7 +73,7 @@ export default tseslint.config(
     },
     settings: {
       react: { version: "detect" },
-      "import/resolver": {
+      "import-x/resolver": {
         // TypeScript resolver: ensure eslint-import-resolver-typescript is installed
         typescript: {
           alwaysTryTypes: true,

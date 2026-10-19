@@ -1,11 +1,14 @@
-import "./index.css";
+import { setWorkerUrl } from "maplibre-gl";
+import workerUrl from "maplibre-gl/dist/maplibre-gl-worker.mjs?worker&url";
 import "leaflet/dist/leaflet.css";
+import "./index.css";
 import { ErrorFallback } from "@rm-hull/chakra-error-fallback";
 import * as Sentry from "@sentry/react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+import TimeAgo from "javascript-time-ago";
+import en from "javascript-time-ago/locale/en";
 import { createRoot, RootOptions } from "react-dom/client";
-import { ErrorBoundary } from "react-error-boundary";
 import ReactGA from "react-ga4";
 import { BrowserRouter as Router } from "react-router-dom";
 import { App } from "./App";
@@ -14,9 +17,8 @@ import { Toaster } from "./components/ui/toaster";
 import { reportWebVitals } from "./reportWebVitals";
 import "react-leaflet-cluster/dist/assets/MarkerCluster.css";
 import "react-leaflet-cluster/dist/assets/MarkerCluster.Default.css";
-import TimeAgo from "javascript-time-ago";
-import en from "javascript-time-ago/locale/en";
 
+setWorkerUrl(workerUrl);
 TimeAgo.addLocale(en);
 
 if (import.meta.env.VITE_GOOGLE_ANALYTICS_MEASUREMENT_ID !== undefined) {
@@ -46,10 +48,10 @@ createRoot(document.getElementById("root")!, errorHandling).render(
     <ReactQueryDevtools initialIsOpen={false} buttonPosition="bottom-left" />
     <Provider>
       <Router basename="/maps">
-        <ErrorBoundary FallbackComponent={ErrorFallback}>
+        <Sentry.ErrorBoundary fallback={ErrorFallback}>
           <Toaster />
           <App />
-        </ErrorBoundary>
+        </Sentry.ErrorBoundary>
       </Router>
     </Provider>
   </QueryClientProvider>

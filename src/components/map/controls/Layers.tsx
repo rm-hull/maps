@@ -1,5 +1,5 @@
 import { Accordion, Box, Link, Text, VStack, Checkbox, Collapsible, HStack } from "@chakra-ui/react";
-import * as L from "leaflet";
+import L from "leaflet";
 import { useCallback, useState, useRef } from "react";
 import { BsBadgeHd } from "react-icons/bs";
 import { IoLayersSharp } from "react-icons/io5";

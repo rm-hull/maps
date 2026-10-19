@@ -1,11 +1,12 @@
-import { DailyOpeningTimes, OpeningTimes, PriceInfo, SearchResult, Statistics } from "@/services/fuelPrices/types";
 import { Badge, Box, Card, Heading, HStack, Image, Link, Table, Text, VStack } from "@chakra-ui/react";
-import { Popup } from "react-leaflet";
-import TimeAgo from "react-time-ago";
 import JavascriptTimeAgo from "javascript-time-ago";
 import en from "javascript-time-ago/locale/en.json";
-import { Tooltip } from "../ui/tooltip";
 import { FaRegThumbsDown, FaRegThumbsUp } from "react-icons/fa";
+import { LuSkull } from "react-icons/lu";
+import { Popup } from "react-leaflet";
+import TimeAgo from "react-time-ago";
+import { DailyOpeningTimes, OpeningTimes, PriceInfo, SearchResult, Statistics } from "@/services/fuelPrices/types";
+import { Tooltip } from "../ui/tooltip";
 
 JavascriptTimeAgo.addDefaultLocale(en);
 
@@ -61,7 +62,12 @@ function PricesTable({ prices, stats }: PricesTableProps) {
             </Table.Cell>
             <Table.Cell px={1} py={0.5} textAlign="end" fontWeight="bold">
               <HStack gap={1} justifyContent="flex-end">
-                <ZScoreIndicator price={priceHistory[0].price} fuelType={fuelType} stats={stats} />
+                <ZScoreIndicator
+                  effectiveDate={priceHistory[0].updated_on}
+                  price={priceHistory[0].price}
+                  fuelType={fuelType}
+                  stats={stats}
+                />
                 {priceHistory[0].price}p
               </HStack>
             </Table.Cell>
@@ -147,7 +153,7 @@ function OpeningTimesTable({ openingTimes }: OpeningTimesTableProps) {
     times?: DailyOpeningTimes;
   }> = [];
 
-  for (let i = 0; i < entries.length; ) {
+  for (let i = 0; i < entries.length;) {
     const current = entries[i];
     let j = i + 1;
     while (j < entries.length && keyFor(entries[j].times) === keyFor(current.times)) {
@@ -210,12 +216,25 @@ interface ZScoreIndicatorProps {
   price: number;
   fuelType: string;
   stats?: Statistics;
+  effectiveDate?: Date;
 }
 
-function ZScoreIndicator({ price, fuelType, stats }: ZScoreIndicatorProps) {
+function ZScoreIndicator({ price, fuelType, stats, effectiveDate }: ZScoreIndicatorProps) {
   const avg = stats?.average_price?.[fuelType];
   const stddev = stats?.standard_deviation?.[fuelType];
 
+  // if effective date is more than 14 days ago, show a grey skull indicating stale data
+  if (effectiveDate) {
+    const now = new Date();
+    const daysAgo = (now.getTime() - effectiveDate.getTime()) / (1000 * 60 * 60 * 24);
+    if (daysAgo > 14) {
+      return (
+        <Tooltip content={`Data is stale (last updated ${daysAgo.toFixed(0)} days ago)`}>
+          <LuSkull color="gray" />
+        </Tooltip>
+      );
+    }
+  }
   if (avg === undefined || stddev === undefined) return null;
   const z = (price - avg) / stddev;
   if (z >= 1.0) {

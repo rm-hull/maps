@@ -193,7 +193,7 @@ describe("SearchBox", () => {
       data: {
         header: { totalresults: 0 } as SearchResponse["header"],
         results: undefined,
-      } as SearchResponse,
+      },
       error: null,
       isLoading: false,
     });

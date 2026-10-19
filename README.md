@@ -57,12 +57,12 @@ To run the application locally, follow these steps:
 
 3.  **Install dependencies:**
     ```bash
-    yarn install
+    pnpm install
     ```
 
 4.  **Run the development server:**
     ```bash
-    yarn dev
+    pnpm dev
     ```
 
     The application will be available at http://localhost:5173 (or the next available port).

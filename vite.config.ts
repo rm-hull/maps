@@ -1,8 +1,8 @@
 /// <reference types="vitest" />
 import { execSync } from "child_process";
-import react from "@vitejs/plugin-react";
 import { defineConfig } from "vite";
-import tsconfigPaths from "vite-tsconfig-paths";
+import react from "@vitejs/plugin-react";
+import babel from "@rolldown/plugin-babel";
 
 // https://vitejs.dev/config/
 export default defineConfig(() => {
@@ -10,7 +10,7 @@ export default defineConfig(() => {
   process.env.VITE_GIT_COMMIT_HASH = execSync("git describe --always --dirty").toString().trimEnd();
 
   return {
-    plugins: [react({ babel: { plugins: ["babel-plugin-react-compiler"] } }), tsconfigPaths()],
+    plugins: [react(), babel({})],
     base: "/maps",
     build: {
       sourcemap: true,
@@ -25,6 +25,15 @@ export default defineConfig(() => {
         include: ["src/**/*.{ts,tsx}"],
         exclude: ["src/**/*.spec.{ts,tsx}", "src/test/**", "**/*.d.ts"],
       },
+    },
+    resolve: {
+      tsconfigPaths: true,
+      alias: {
+        "@": "/src",
+      },
+    },
+    optimizeDeps: {
+      include: ["maplibre-gl", "@maplibre/maplibre-gl-leaflet"],
     },
   };
 });
