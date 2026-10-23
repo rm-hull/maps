@@ -23,7 +23,12 @@ export const fetchGpsRoutes = async (bounds: LatLngBounds, truncateText: boolean
   }
 
   const payload: SearchRequest = {
-    boundingBox: [bounds.getWest(), bounds.getSouth(), bounds.getEast(), bounds.getNorth()],
+    boundingBox: {
+      minLng: bounds.getWest(),
+      minLat: bounds.getSouth(),
+      maxLng: bounds.getEast(),
+      maxLat: bounds.getNorth(),
+    },
     query: "",
     offset: 0,
     limit: 100,
