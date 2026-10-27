@@ -1,6 +1,6 @@
 import { Heading, VStack, Link, Image, Table, Tabs, Text, Badge } from "@chakra-ui/react";
 import { LatLngBounds, PathOptions } from "leaflet";
-import { Popup } from "react-leaflet";
+import { Popup } from "../../Popup";
 import { formatDate } from "@/utils/dates";
 import { useCachedQuery } from "../../../../hooks/useCachedQuery";
 import { useErrorToast } from "../../../../hooks/useErrorToast";

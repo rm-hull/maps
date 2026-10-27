@@ -1,6 +1,7 @@
 import { Badge, Box, Card, Heading, HStack, Spinner, Table, Text, VStack } from "@chakra-ui/react";
 import { LatLngBounds } from "leaflet";
-import { Marker, Popup } from "react-leaflet";
+import { Marker } from "react-leaflet";
+import { Popup } from "../../Popup";
 import MarkerClusterGroup from "react-leaflet-cluster";
 import TimeAgo from "react-time-ago";
 import { useNextDepartures } from "@/hooks/useNextDestination";
