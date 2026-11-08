@@ -168,7 +168,15 @@ type LayersProps = {
 function createLayer(tile: Tile): L.Layer {
   return tile.type === "raster"
     ? L.tileLayer(tile.url, tile.options)
-    : L.maplibreGL({ style: tile.url, minZoom: tile.options?.minZoom, maxZoom: tile.options?.maxZoom });
+    : L.maplibreGL({
+        style: tile.url,
+        minZoom: tile.options?.minZoom,
+        maxZoom: tile.options?.maxZoom,
+        transformRequest: (url) => ({
+          url,
+          referrerPolicy: "no-referrer",
+        }),
+      });
 }
 
 export function Layers({ defaultLayer }: LayersProps) {
