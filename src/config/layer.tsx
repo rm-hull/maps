@@ -92,9 +92,9 @@ function createVectorLayer(name: string, provider: string, url: string): LayerOp
 }
 
 const BASE_LAYERS: LayerOption[] = [
-  createRasterLayer("Positron", "Carto", `https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png?key=${CARTO_API_KEY}`),
-  createRasterLayer("Dark Matter", "Carto", `https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png?key=${CARTO_API_KEY}`),
-  createRasterLayer("Voyager", "Carto", `https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png?key=${CARTO_API_KEY}`),
+  createVectorLayer("Positron", "Carto", `https://basemaps.cartocdn.com/gl/positron-gl-style/style.json?key=${CARTO_API_KEY}`),
+  createVectorLayer("Dark Matter", "Carto", `https://basemaps.cartocdn.com/gl/dark-matter-gl-style/style.json?key=${CARTO_API_KEY}`),
+  createVectorLayer("Voyager", "Carto", `https://basemaps.cartocdn.com/gl/voyager-gl-style/style.json?key=${CARTO_API_KEY}`),
 
   createRasterLayer(
     "World TopoMap",
@@ -271,7 +271,7 @@ export const OVERLAYS: Record<string, Overlay> = {
     minZoom: 6,
     component: () => (
       <TileLayer
-        url="https://{s}.basemaps.cartocdn.com/light_only_labels/{z}/{x}/{y}{r}.png"
+        url={`https://{s}.basemaps.cartocdn.com/light_only_labels/{z}/{x}/{y}{r}.png?key=${CARTO_API_KEY}`}
         pane="overlayPane"
         zIndex={655}
       />
@@ -282,7 +282,7 @@ export const OVERLAYS: Record<string, Overlay> = {
     minZoom: 6,
     component: () => (
       <TileLayer
-        url="https://{s}.basemaps.cartocdn.com/dark_only_labels/{z}/{x}/{y}{r}.png"
+        url={`https://{s}.basemaps.cartocdn.com/dark_only_labels/{z}/{x}/{y}{r}.png?key=${CARTO_API_KEY}`}
         pane="overlayPane"
         zIndex={655}
       />
@@ -296,6 +296,7 @@ export const OVERLAYS: Record<string, Overlay> = {
         url="https://tiles-eu.stadiamaps.com/tiles/stamen_toner_lines/{z}/{x}/{y}{r}.png"
         pane="overlayPane"
         zIndex={650}
+        referrerPolicy="origin-when-cross-origin"
       />
     ),
   },
@@ -307,6 +308,7 @@ export const OVERLAYS: Record<string, Overlay> = {
         url="https://tiles-eu.stadiamaps.com/tiles/stamen_toner_labels/{z}/{x}/{y}{r}.png"
         pane="overlayPane"
         zIndex={655}
+        referrerPolicy="origin-when-cross-origin"
       />
     ),
   },
@@ -343,6 +345,7 @@ export const OVERLAYS: Record<string, Overlay> = {
         url={`https://api.tomtom.com/traffic/map/4/tile/flow/relative/{z}/{x}/{y}.png?key=${TOMTOM_API_KEY}&tileSize=512&thickness=5`}
         pane="overlayPane"
         zIndex={650}
+        referrerPolicy="origin-when-cross-origin"
       />
     ),
   },
