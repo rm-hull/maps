@@ -6,7 +6,9 @@ import { OSMap } from "./OSMap";
 describe("OSMap", () => {
   it("should render the map container", () => {
     vi.spyOn(GeneralSettingsHook, "useGeneralSettings").mockReturnValue({
-      settings: {},
+      settings: {
+        mapStyle: "Open Street Map / OpenStreetMap",
+      },
       updateSettings: vi.fn(),
       isLoading: false,
     });
