@@ -116,7 +116,12 @@ const BASE_LAYERS: LayerOption[] = [
   createVectorLayer("Bright", "Open Free Map", "https://tiles.openfreemap.org/styles/bright"),
   createVectorLayer("Liberty", "Open Free Map", "https://tiles.openfreemap.org/styles/liberty"),
   createVectorLayer("Positron", "Open Free Map", "https://tiles.openfreemap.org/styles/positron"),
-  createRasterLayer("OpenStreetMap", "Open Street Map", "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"),
+  createRasterLayer(
+    "OpenStreetMap",
+    "Open Street Map",
+    "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+    { referrerPolicy: "origin-when-cross-origin" }
+  ),
   createRasterLayer("OpenTopoMap", "Open Street Map", "https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png", {
     maxZoom: 15,
     maxNativeZoom: 15,

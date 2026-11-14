@@ -20,13 +20,20 @@ export type GeoLoc = {
   lng: number;
 };
 
+export type BoundingBox = {
+  minLat: number;
+  minLng: number;
+  maxLat: number;
+  maxLng: number;
+};
+
 export type Summary = {
   objectID: string;
   ref: string;
   title: string;
   description: string;
   headline_image_url?: string;
-  distance_km: number;
+  distance_km?: number;
   _geoloc: GeoLoc;
 };
 
@@ -44,13 +51,20 @@ export interface Result extends Summary {
   nearby?: Nearby[];
   images?: Image[];
   details?: Detail[];
+  estimated_duration?: string;
+  difficulty?: string;
+  terrain?: string[];
+  points_of_interest?: string[];
+  facilities?: string[];
+  route_type?: string;
+  activities?: string[];
 }
 
 export type SearchRequest = {
   query: string;
   offset: number;
   limit: number;
-  boundingBox?: number[];
+  boundingBox?: BoundingBox;
   nearby?: {
     place?: string;
     center?: GeoLoc;
@@ -64,5 +78,11 @@ export type SearchRequest = {
 export type SearchResponse = {
   hits: Summary[];
   total: number;
+  boundingBox?: BoundingBox;
   facets?: Record<string, Record<string, number>>;
+  attribution?: string[];
+  offset: number;
+  limit: number;
+  hasMore: boolean;
+  nextOffset?: number;
 };
