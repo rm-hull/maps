@@ -14,7 +14,7 @@
     "@tanstack/react-query": "^5.107.1",
     "@tanstack/react-query-devtools": "^5.107.1",
     "@terraformer/wkt": "^2.2.2",
-    "@tmcw/togeojson": "^7.1.3",
+    "@tmcw/togeojson": "^7.1.4",
     "axios": "^1.21.1",
     "change-case": "^5.4.4",
     "framer-motion": "^14.14.0",
