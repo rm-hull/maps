@@ -12,8 +12,8 @@ vi.mock("../FadeInImage", () => ({
   ),
 }));
 
-// Mock react-leaflet Popup
-vi.mock("react-leaflet", () => ({
+// Mock the map wrapper so these tests focus on the popup content.
+vi.mock("./Popup", () => ({
   Popup: ({ children }: { children: React.ReactNode }) => <div data-testid="popup">{children}</div>,
 }));
 
