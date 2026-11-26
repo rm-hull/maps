@@ -3,7 +3,7 @@ import { act, render, screen } from "../../../test/utils";
 import { ZoomLevel } from "./ZoomLevel";
 
 type LeafletEvents = {
-  zoomend?: () => void;
+  zoom?: () => void;
 };
 
 // Mock hooks
@@ -91,7 +91,34 @@ describe("ZoomLevel", () => {
     expect(screen.getByText("15")).toBeInTheDocument();
   });
 
-  it("should register zoomend event listener", () => {
+  it("should display .00 for whole-number zoom levels", () => {
+    mockUseGeneralSettings.mockReturnValue({
+      settings: { showZoomLevel: true },
+    });
+
+    render(<ZoomLevel />);
+
+    expect(screen.getByText("10")).toBeInTheDocument();
+    expect(screen.getByText(".00")).toBeInTheDocument();
+    expect(screen.getByRole("img", { name: "Zoom level 10.00" })).toBeInTheDocument();
+  });
+
+  it("should split fractional zoom levels into integer and decimal parts", () => {
+    mockUseMap.mockReturnValue({
+      getZoom: () => 13.31,
+    });
+    mockUseGeneralSettings.mockReturnValue({
+      settings: { showZoomLevel: true },
+    });
+
+    render(<ZoomLevel />);
+
+    expect(screen.getByText("13")).toBeInTheDocument();
+    expect(screen.getByText(".31")).toBeInTheDocument();
+    expect(screen.getByRole("img", { name: "Zoom level 13.31" })).toBeInTheDocument();
+  });
+
+  it("should register zoom event listener", () => {
     mockUseGeneralSettings.mockReturnValue({
       settings: { showZoomLevel: true },
     });
@@ -100,13 +127,15 @@ describe("ZoomLevel", () => {
 
     expect(mockUseMapEvents).toHaveBeenCalledWith(
       expect.objectContaining({
-        zoomend: expect.any(Function) as () => void,
+        zoom: expect.any(Function) as () => void,
       })
     );
   });
 
-  it("should update zoom level on zoomend event", () => {
+  it("should update zoom level during zoom", () => {
+    let zoom = 10;
     let capturedEvents: LeafletEvents | undefined;
+    mockUseMap.mockReturnValue({ getZoom: () => zoom });
     mockUseMapEvents.mockImplementation((events: LeafletEvents) => {
       capturedEvents = events;
     });
@@ -117,14 +146,14 @@ describe("ZoomLevel", () => {
 
     render(<ZoomLevel />);
 
-    // Simulate zoom change
-    mockUseMap.mockReturnValue({ getZoom: () => 12 });
-    if (capturedEvents?.zoomend) {
+    zoom = 12.5;
+    if (capturedEvents?.zoom) {
       act(() => {
-        capturedEvents!.zoomend!();
+        capturedEvents!.zoom!();
       });
     }
 
-    expect(mockUseMap).toHaveBeenCalled();
+    expect(screen.getByText("12")).toBeInTheDocument();
+    expect(screen.getByText(".50")).toBeInTheDocument();
   });
 });

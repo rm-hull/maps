@@ -14,15 +14,19 @@ export function ZoomLevel() {
   const map = useMap();
   const [zoom, setZoom] = useState(map.getZoom());
   useMapEvents({
-    zoomend() {
+    zoom() {
       setZoom(map.getZoom());
     },
   });
+  const [integerPart, decimalPart] = zoom.toFixed(2).split(".");
+  const formattedZoom = `${integerPart}.${decimalPart}`;
 
   return (
     <Control position="topleft">
       {settings?.showZoomLevel && (
         <Box
+          role="img"
+          aria-label={`Zoom level ${formattedZoom}`}
           color={fgColor}
           background={bgColor}
           padding={0}
@@ -35,9 +39,16 @@ export function ZoomLevel() {
           height="35px"
           justifyContent="center"
           alignItems="center"
+          flexDirection="column"
+          lineHeight="1"
           display="flex"
         >
-          {zoom}
+          <Box as="span" fontSize="1.2rem">
+            {integerPart}
+          </Box>
+          <Box as="span" fontSize="0.6rem" fontWeight="normal">
+            .{decimalPart}
+          </Box>
         </Box>
       )}
     </Control>
