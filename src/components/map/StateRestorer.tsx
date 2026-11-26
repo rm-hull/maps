@@ -16,19 +16,10 @@ export function StateRestorer() {
     const state = decodeState(sharedStateEncoded);
     if (!state) return;
 
-    if (state.center && state.zoom) {
-      map.setView(state.center, state.zoom);
-    }
+    map.setView(state.center, state.zoom);
 
-    const newSettings = { ...settings };
-    if (state.popup) {
-      newSettings.activePopupLocation = state.popup;
-    }
     if (state.settings) {
-      Object.assign(newSettings, state.settings);
-    }
-    if (state.popup || state.settings) {
-      updateSettings(newSettings);
+      updateSettings({ ...settings, ...state.settings });
     }
   }, [map, sharedStateEncoded]);
 

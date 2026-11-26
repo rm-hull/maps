@@ -17,7 +17,6 @@ export interface GeneralSettings {
   overlays?: Record<string, boolean>;
   maxSearchResults?: number;
   gpsActiveDuration?: number;
-  activePopupLocation?: LatLngTuple;
 }
 
 export const DEFAULT_ZOOM_LEVEL = 13;

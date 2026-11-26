@@ -13,7 +13,7 @@ interface ShareProps {
 
 export function Share({ mapStyle }: ShareProps) {
   const map = useMap();
-  const { settings, updateSettings } = useGeneralSettings();
+  const { settings } = useGeneralSettings();
 
   const handleShare = async () => {
     const center = map.getCenter();
@@ -27,10 +27,6 @@ export function Share({ mapStyle }: ShareProps) {
       },
       popup: popupLatLng ? ([popupLatLng.lat, popupLatLng.lng] as LatLngTuple) : undefined,
     };
-    if (popupLatLng) {
-      await updateSettings({ ...settings, activePopupLocation: [popupLatLng.lat, popupLatLng.lng] });
-    }
-
     const encoded = encodeState(state);
     const url = new URL(window.location.href);
     url.searchParams.set("s", encoded);
