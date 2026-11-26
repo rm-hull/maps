@@ -1,3 +1,4 @@
+import "./SmoothWheelZoom";
 import "proj4leaflet";
 import * as L from "leaflet";
 import { useMemo, useState, useEffect } from "react";
@@ -66,7 +67,9 @@ export function OSMap({ center }: OSMapProps) {
       maxZoom={18}
       center={customLocation ?? center ?? defaultCenter}
       maxBounds={maxBounds}
-      scrollWheelZoom={true}
+      scrollWheelZoom={false}
+      smoothWheelZoom={true}
+      zoomSnap={0}
       style={{ width: "100vw", height: "100vh" }}
       attributionControl={false}
     >
