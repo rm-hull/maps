@@ -7,6 +7,7 @@ import { baseLayers } from "../../config/layer";
 import { DEFAULT_ZOOM_LEVEL, useGeneralSettings } from "../../hooks/useGeneralSettings";
 import { toLatLng } from "../../services/osdatahub/helpers";
 import { Loader } from "../Loader";
+import { Coordinates } from "./controls/Coordinates";
 import { CurrentLocation } from "./controls/CurrentLocation";
 import { Layers } from "./controls/Layers";
 import { Ruler } from "./controls/Ruler";
@@ -62,6 +63,7 @@ export function OSMap({ center }: OSMapProps) {
       <Layers defaultLayer={initialMapStyle ?? baseLayers.at(0)!} />
       <CustomOverlays />
       <ZoomLevel />
+      <Coordinates position="bottomright" />
       <ScaleControl position="bottomright" />
       <Ruler />
     </MapContainer>

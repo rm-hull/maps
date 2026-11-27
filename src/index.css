@@ -74,6 +74,23 @@
   text-shadow: 1px 1px #000;
 }
 
+.leaflet-control.coordinate-control {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  padding: 2px 4px;
+  color: #1a202c;
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 1.2;
+  pointer-events: none;
+}
+
+.coordinate-control > div {
+  -webkit-text-stroke: 4px #f4f4f5;
+  paint-order: stroke fill;
+}
+
 @keyframes pulse {
   0% {
     transform: scale(1);
