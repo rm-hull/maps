@@ -1,4 +1,6 @@
+import { LatLng as LeafletLatLng } from "leaflet";
 import { act, render, screen } from "../../../test/utils";
+import { toBNG } from "../../../services/osdatahub/helpers";
 import { Coordinates } from "./Coordinates";
 
 type LatLng = { lat: number; lng: number };
@@ -15,15 +17,7 @@ vi.mock("react-leaflet", () => ({
 }));
 
 vi.mock("../Control", () => ({
-  Control: ({
-    children,
-    position,
-    prepend,
-  }: {
-    children: React.ReactNode;
-    position: string;
-    prepend: boolean;
-  }) => (
+  Control: ({ children, position, prepend }: { children: React.ReactNode; position: string; prepend: boolean }) => (
     <div data-testid="control" data-position={position} data-prepend={prepend}>
       {children}
     </div>
@@ -45,10 +39,19 @@ describe("Coordinates", () => {
   });
 
   it("shows degrees and decimal minutes when requested", () => {
-    render(<Coordinates format="minutes" position="bottomright" />);
+    render(<Coordinates format="latlng-minutes" position="bottomright" />);
 
     expect(screen.getByText("Lat: 51° 30.000′ N")).toBeInTheDocument();
     expect(screen.getByText("Lng: 0° 7.500′ W")).toBeInTheDocument();
+  });
+
+  it("shows eastings and northings when British National Grid is requested", () => {
+    const [easting, northing] = toBNG(new LeafletLatLng(51.5, -0.125));
+
+    render(<Coordinates format="bng" position="bottomright" />);
+
+    expect(screen.getByText(`Easting: ${easting}`)).toBeInTheDocument();
+    expect(screen.getByText(`Northing: ${northing}`)).toBeInTheDocument();
   });
 
   it("updates coordinates when the pointer moves over the map", () => {

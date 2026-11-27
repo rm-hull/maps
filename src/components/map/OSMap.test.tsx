@@ -9,7 +9,7 @@ describe("OSMap", () => {
     vi.spyOn(GeneralSettingsHook, "useGeneralSettings").mockReturnValue({
       settings: {
         mapStyle: "Open Street Map / OpenStreetMap",
-        coordinateDisplay: "minutes",
+        coordinateDisplay: "latlng-minutes",
       },
       updateSettings: vi.fn(),
       isLoading: false,
@@ -27,7 +27,7 @@ describe("OSMap", () => {
     vi.spyOn(GeneralSettingsHook, "useGeneralSettings").mockReturnValue({
       settings: {
         mapStyle: "Open Street Map / OpenStreetMap",
-        coordinateDisplay: "decimal",
+        coordinateDisplay: "latlng-decimal",
       },
       updateSettings: vi.fn(),
       isLoading: false,
@@ -38,6 +38,23 @@ describe("OSMap", () => {
     });
 
     expect(document.querySelector(".coordinate-control")).toHaveTextContent(/\d+\.\d{5}° [NS]/);
+  });
+
+  it("shows eastings and northings when British National Grid is selected", async () => {
+    vi.spyOn(GeneralSettingsHook, "useGeneralSettings").mockReturnValue({
+      settings: {
+        mapStyle: "Open Street Map / OpenStreetMap",
+        coordinateDisplay: "bng",
+      },
+      updateSettings: vi.fn(),
+      isLoading: false,
+    });
+
+    await act(async () => {
+      render(<OSMap />);
+    });
+
+    expect(document.querySelector(".coordinate-control")).toHaveTextContent(/Easting: \d+Northing: \d+/);
   });
 
   it("does not render coordinates when the setting is none", async () => {

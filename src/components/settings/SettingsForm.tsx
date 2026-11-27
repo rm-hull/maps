@@ -18,8 +18,8 @@ import { useCallback } from "react";
 import { BsBadgeHd } from "react-icons/bs";
 import { baseLayers, isHighDefinitionTileSet } from "../../config/layer";
 import {
-  DEFAULT_GPS_ACTIVE_DURATION,
   DEFAULT_COORDINATE_DISPLAY,
+  DEFAULT_GPS_ACTIVE_DURATION,
   DEFAULT_ZOOM_LEVEL,
   type CoordinateDisplay,
   type InitialLocation,
@@ -165,9 +165,7 @@ export function SettingsForm() {
 
         <Field.Root flex="1" minWidth="0">
           <HStack alignItems="start" width="full" pt={2}>
-            <Field.Label width="100px" >
-              Co-ordinates:
-            </Field.Label>
+            <Field.Label width="100px">Co-ordinates:</Field.Label>
             <RadioGroup.Root
               onValueChange={handleUpdateCoordinateDisplay}
               value={settings?.coordinateDisplay ?? DEFAULT_COORDINATE_DISPLAY}
@@ -178,15 +176,20 @@ export function SettingsForm() {
                   <RadioGroup.ItemIndicator />
                   <RadioGroup.ItemText>None</RadioGroup.ItemText>
                 </RadioGroup.Item>
-                <RadioGroup.Item value="decimal">
+                <RadioGroup.Item value="latlng-decimal">
                   <RadioGroup.ItemHiddenInput />
                   <RadioGroup.ItemIndicator />
                   <RadioGroup.ItemText>Lat/Lng (decimal)</RadioGroup.ItemText>
                 </RadioGroup.Item>
-                <RadioGroup.Item value="minutes">
+                <RadioGroup.Item value="latlng-minutes">
                   <RadioGroup.ItemHiddenInput />
                   <RadioGroup.ItemIndicator />
                   <RadioGroup.ItemText>Lat/Lng (minutes)</RadioGroup.ItemText>
+                </RadioGroup.Item>
+                <RadioGroup.Item value="bng">
+                  <RadioGroup.ItemHiddenInput />
+                  <RadioGroup.ItemIndicator />
+                  <RadioGroup.ItemText>British National Grid</RadioGroup.ItemText>
                 </RadioGroup.Item>
               </VStack>
             </RadioGroup.Root>

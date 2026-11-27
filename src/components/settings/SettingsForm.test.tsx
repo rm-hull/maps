@@ -21,6 +21,7 @@ describe("SettingsForm coordinate display", () => {
     expect(screen.getByRole("radio", { name: "None" })).toBeInTheDocument();
     expect(screen.getByRole("radio", { name: "Lat/Lng (decimal)" })).toBeInTheDocument();
     expect(screen.getByRole("radio", { name: "Lat/Lng (minutes)" })).toBeChecked();
+    expect(screen.getByRole("radio", { name: "British National Grid" })).toBeInTheDocument();
   });
 
   it("saves the selected coordinate display setting", async () => {
@@ -30,7 +31,16 @@ describe("SettingsForm coordinate display", () => {
     await user.click(screen.getByRole("radio", { name: "Lat/Lng (decimal)" }));
 
     await waitFor(() =>
-      expect(updateSettings).toHaveBeenCalledWith({ mapStyle: "Leisure", coordinateDisplay: "decimal" })
+      expect(updateSettings).toHaveBeenCalledWith({ mapStyle: "Leisure", coordinateDisplay: "latlng-decimal" })
     );
+  });
+
+  it("saves British National Grid as the coordinate display setting", async () => {
+    const user = userEvent.setup();
+    render(<SettingsForm />);
+
+    await user.click(screen.getByRole("radio", { name: "British National Grid" }));
+
+    await waitFor(() => expect(updateSettings).toHaveBeenCalledWith({ mapStyle: "Leisure", coordinateDisplay: "bng" }));
   });
 });
