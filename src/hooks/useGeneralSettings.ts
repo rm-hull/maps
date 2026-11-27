@@ -2,6 +2,7 @@ import { useLocalStorage } from "@rm-hull/use-local-storage";
 import { type LatLngTuple } from "leaflet";
 
 export type InitialLocation = "default" | "current" | "custom";
+export type CoordinateDisplay = "none" | "decimal" | "minutes";
 
 export interface CustomLocation {
   searchTerm: string;
@@ -14,6 +15,7 @@ export interface GeneralSettings {
   customLocation?: CustomLocation;
   initialZoomLevel?: number;
   showZoomLevel?: boolean;
+  coordinateDisplay?: CoordinateDisplay;
   overlays?: Record<string, boolean>;
   maxSearchResults?: number;
   gpsActiveDuration?: number;
@@ -21,6 +23,7 @@ export interface GeneralSettings {
 
 export const DEFAULT_ZOOM_LEVEL = 13;
 export const DEFAULT_GPS_ACTIVE_DURATION = 180_000; // 3 minutes
+export const DEFAULT_COORDINATE_DISPLAY: CoordinateDisplay = "decimal";
 
 type UseGeneralSettingsReturnType = {
   settings: GeneralSettings | undefined;

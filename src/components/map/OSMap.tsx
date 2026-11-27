@@ -4,7 +4,7 @@ import * as L from "leaflet";
 import { useMemo } from "react";
 import { MapContainer, ScaleControl } from "react-leaflet";
 import { baseLayers } from "../../config/layer";
-import { DEFAULT_ZOOM_LEVEL, useGeneralSettings } from "../../hooks/useGeneralSettings";
+import { DEFAULT_COORDINATE_DISPLAY, DEFAULT_ZOOM_LEVEL, useGeneralSettings } from "../../hooks/useGeneralSettings";
 import { toLatLng } from "../../services/osdatahub/helpers";
 import { Loader } from "../Loader";
 import { Coordinates } from "./controls/Coordinates";
@@ -37,6 +37,7 @@ export function OSMap({ center }: OSMapProps) {
   );
 
   const initialMapStyle = useMemo(() => baseLayers.find(settings?.mapStyle), [settings?.mapStyle]);
+  const coordinateDisplay = settings?.coordinateDisplay ?? DEFAULT_COORDINATE_DISPLAY;
 
   if (isLoading) {
     return <Loader />;
@@ -63,7 +64,7 @@ export function OSMap({ center }: OSMapProps) {
       <Layers defaultLayer={initialMapStyle ?? baseLayers.at(0)!} />
       <CustomOverlays />
       <ZoomLevel />
-      <Coordinates position="bottomright" />
+      {coordinateDisplay !== "none" && <Coordinates format={coordinateDisplay} position="bottomright" />}
       <ScaleControl position="bottomright" />
       <Ruler />
     </MapContainer>

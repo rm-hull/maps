@@ -19,7 +19,9 @@ import { BsBadgeHd } from "react-icons/bs";
 import { baseLayers, isHighDefinitionTileSet } from "../../config/layer";
 import {
   DEFAULT_GPS_ACTIVE_DURATION,
+  DEFAULT_COORDINATE_DISPLAY,
   DEFAULT_ZOOM_LEVEL,
+  type CoordinateDisplay,
   type InitialLocation,
   useGeneralSettings,
 } from "../../hooks/useGeneralSettings";
@@ -38,6 +40,13 @@ export function SettingsForm() {
   const handleUpdateMapStyle = useCallback(
     (details: ListboxValueChangeDetails): void => {
       void updateSettings({ ...settings, mapStyle: details.value[0] });
+    },
+    [settings, updateSettings]
+  );
+
+  const handleUpdateCoordinateDisplay = useCallback(
+    (details: RadioGroupValueChangeDetails): void => {
+      void updateSettings({ ...settings, coordinateDisplay: details.value as CoordinateDisplay });
     },
     [settings, updateSettings]
   );
@@ -116,41 +125,74 @@ export function SettingsForm() {
         </HStack>
       </Field.Root>
 
-      <Field.Root>
-        <HStack alignItems="start" width="full">
-          <Field.Label width="120px" mt={2}>
-            Map style:
-          </Field.Label>
-          <Listbox.Root
-            collection={baseLayers}
-            value={[settings?.mapStyle ?? "Leisure"]}
-            onValueChange={handleUpdateMapStyle}
-          >
-            <Listbox.Content maxHeight={140} divideY="1px">
-              {baseLayers.group().map(([provider, layers]) => (
-                <Listbox.ItemGroup key={provider}>
-                  <Listbox.ItemGroupLabel fontWeight="bold">{provider}</Listbox.ItemGroupLabel>
-                  {layers.map((item) => (
-                    <Listbox.Item key={item.name} item={item}>
-                      <Listbox.ItemText>
-                        <HStack gap={1}>
-                          {item.name}
-                          {item.tiles.some(isHighDefinitionTileSet) && (
-                            <Box color="fg.subtle">
-                              <BsBadgeHd />
-                            </Box>
-                          )}
-                        </HStack>
-                      </Listbox.ItemText>
-                      <Listbox.ItemIndicator />
-                    </Listbox.Item>
-                  ))}
-                </Listbox.ItemGroup>
-              ))}
-            </Listbox.Content>
-          </Listbox.Root>
-        </HStack>
-      </Field.Root>
+      <HStack alignItems="start" width="full" gap={4}>
+        <Field.Root flex="1" minWidth="0">
+          <HStack alignItems="start" width="full">
+            <Field.Label width="100px" mt={2}>
+              Map style:
+            </Field.Label>
+            <Listbox.Root
+              flex="1"
+              collection={baseLayers}
+              value={[settings?.mapStyle ?? "Leisure"]}
+              onValueChange={handleUpdateMapStyle}
+            >
+              <Listbox.Content maxHeight={140} divideY="1px">
+                {baseLayers.group().map(([provider, layers]) => (
+                  <Listbox.ItemGroup key={provider}>
+                    <Listbox.ItemGroupLabel fontWeight="bold">{provider}</Listbox.ItemGroupLabel>
+                    {layers.map((item) => (
+                      <Listbox.Item key={item.name} item={item}>
+                        <Listbox.ItemText>
+                          <HStack gap={1}>
+                            {item.name}
+                            {item.tiles.some(isHighDefinitionTileSet) && (
+                              <Box color="fg.subtle">
+                                <BsBadgeHd />
+                              </Box>
+                            )}
+                          </HStack>
+                        </Listbox.ItemText>
+                        <Listbox.ItemIndicator />
+                      </Listbox.Item>
+                    ))}
+                  </Listbox.ItemGroup>
+                ))}
+              </Listbox.Content>
+            </Listbox.Root>
+          </HStack>
+        </Field.Root>
+
+        <Field.Root flex="1" minWidth="0">
+          <HStack alignItems="start" width="full" pt={2}>
+            <Field.Label width="100px" >
+              Co-ordinates:
+            </Field.Label>
+            <RadioGroup.Root
+              onValueChange={handleUpdateCoordinateDisplay}
+              value={settings?.coordinateDisplay ?? DEFAULT_COORDINATE_DISPLAY}
+            >
+              <VStack align="left">
+                <RadioGroup.Item value="none">
+                  <RadioGroup.ItemHiddenInput />
+                  <RadioGroup.ItemIndicator />
+                  <RadioGroup.ItemText>None</RadioGroup.ItemText>
+                </RadioGroup.Item>
+                <RadioGroup.Item value="decimal">
+                  <RadioGroup.ItemHiddenInput />
+                  <RadioGroup.ItemIndicator />
+                  <RadioGroup.ItemText>Lat/Lng (decimal)</RadioGroup.ItemText>
+                </RadioGroup.Item>
+                <RadioGroup.Item value="minutes">
+                  <RadioGroup.ItemHiddenInput />
+                  <RadioGroup.ItemIndicator />
+                  <RadioGroup.ItemText>Lat/Lng (minutes)</RadioGroup.ItemText>
+                </RadioGroup.Item>
+              </VStack>
+            </RadioGroup.Root>
+          </HStack>
+        </Field.Root>
+      </HStack>
 
       <Field.Root>
         <Slider.Root defaultValue={[zoomLevel]} min={7} max={18} width="full" onValueChange={handleUpdateZoomLevel}>
