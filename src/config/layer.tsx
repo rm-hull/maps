@@ -92,9 +92,21 @@ function createVectorLayer(name: string, provider: string, url: string): LayerOp
 }
 
 const BASE_LAYERS: LayerOption[] = [
-  createVectorLayer("Positron", "Carto", `https://basemaps.cartocdn.com/gl/positron-gl-style/style.json?key=${CARTO_API_KEY}`),
-  createVectorLayer("Dark Matter", "Carto", `https://basemaps.cartocdn.com/gl/dark-matter-gl-style/style.json?key=${CARTO_API_KEY}`),
-  createVectorLayer("Voyager", "Carto", `https://basemaps.cartocdn.com/gl/voyager-gl-style/style.json?key=${CARTO_API_KEY}`),
+  createVectorLayer(
+    "Positron",
+    "Carto",
+    `https://basemaps.cartocdn.com/gl/positron-gl-style/style.json?key=${CARTO_API_KEY}`
+  ),
+  createVectorLayer(
+    "Dark Matter",
+    "Carto",
+    `https://basemaps.cartocdn.com/gl/dark-matter-gl-style/style.json?key=${CARTO_API_KEY}`
+  ),
+  createVectorLayer(
+    "Voyager",
+    "Carto",
+    `https://basemaps.cartocdn.com/gl/voyager-gl-style/style.json?key=${CARTO_API_KEY}`
+  ),
 
   createRasterLayer(
     "World TopoMap",
@@ -116,12 +128,9 @@ const BASE_LAYERS: LayerOption[] = [
   createVectorLayer("Bright", "Open Free Map", "https://tiles.openfreemap.org/styles/bright"),
   createVectorLayer("Liberty", "Open Free Map", "https://tiles.openfreemap.org/styles/liberty"),
   createVectorLayer("Positron", "Open Free Map", "https://tiles.openfreemap.org/styles/positron"),
-  createRasterLayer(
-    "OpenStreetMap",
-    "Open Street Map",
-    "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
-    { referrerPolicy: "origin-when-cross-origin" }
-  ),
+  createRasterLayer("OpenStreetMap", "Open Street Map", "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+    referrerPolicy: "origin-when-cross-origin",
+  }),
   createRasterLayer("OpenTopoMap", "Open Street Map", "https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png", {
     maxZoom: 15,
     maxNativeZoom: 15,
